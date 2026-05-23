@@ -1,0 +1,120 @@
+:root {
+  --bg: #0b0d12;
+  --card: #11141b;
+  --border: #232838;
+  --border-strong: #2f364a;
+  --text: #e7e9ee;
+  --text-dim: #a4abbb;
+  --text-mute: #6b7387;
+  --google: #fff;
+  --google-text: #1f1f1f;
+  --kakao: #fee500;
+  --kakao-text: #191919;
+  --accent: #3ecf8e; /* Supabase green */
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0; min-height: 100vh;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Noto Sans KR',
+    system-ui, 'Segoe UI', Roboto, sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(900px 500px at 80% -10%, rgba(62,207,142,.16), transparent 60%),
+    radial-gradient(900px 500px at 10% 10%, rgba(99,102,241,.14), transparent 60%),
+    var(--bg);
+  display: grid; place-items: center;
+  padding: 24px;
+}
+
+.auth { width: 100%; max-width: 440px; }
+
+.card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 16px; padding: 28px;
+  box-shadow: 0 10px 40px rgba(0,0,0,.4);
+}
+.card__head {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 24px;
+}
+.brand {
+  display: flex; align-items: center; gap: 10px;
+  font-weight: 700; letter-spacing: -.01em;
+}
+.brand__mark {
+  width: 14px; height: 14px; border-radius: 4px;
+  background: linear-gradient(135deg, var(--accent), #6366f1);
+}
+
+.status {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--text-mute);
+}
+.status--ok { background: var(--accent); box-shadow: 0 0 0 4px rgba(62,207,142,.18); }
+.status--warn { background: #f59e0b; box-shadow: 0 0 0 4px rgba(245,158,11,.18); }
+.status--err { background: #ef4444; box-shadow: 0 0 0 4px rgba(239,68,68,.18); }
+
+h1 { margin: 0 0 8px; font-size: 1.5rem; letter-spacing: -.01em; }
+.lead { color: var(--text-dim); margin: 0 0 24px; }
+
+.btn {
+  display: flex; align-items: center; justify-content: center;
+  gap: 10px; width: 100%; height: 48px; padding: 0 16px;
+  border-radius: 10px; border: 1px solid transparent;
+  font-weight: 600; font-size: .95rem; font-family: inherit;
+  cursor: pointer; transition: transform .1s ease, filter .15s ease;
+}
+.btn:hover { filter: brightness(1.05); }
+.btn:active { transform: translateY(1px); }
+.btn + .btn { margin-top: 10px; }
+
+.btn--google { background: var(--google); color: var(--google-text); border-color: #e5e7eb; }
+.btn--kakao  { background: var(--kakao); color: var(--kakao-text); }
+.btn--ghost  { background: transparent; color: var(--text); border-color: var(--border-strong); }
+.btn--ghost:hover { background: rgba(255,255,255,.04); }
+.btn--config { margin-top: 18px; height: 40px; font-size: .85rem; }
+
+.hint {
+  margin: 14px 0 0; padding: 10px 12px;
+  background: rgba(245,158,11,.08); border: 1px solid rgba(245,158,11,.25);
+  border-radius: 8px; font-size: .85rem; color: #fcd34d;
+}
+.hint:empty { display: none; }
+
+/* Profile */
+.profile { display: flex; align-items: center; gap: 14px; margin-bottom: 22px; }
+.profile__avatar {
+  width: 56px; height: 56px; border-radius: 50%; background: var(--border);
+  object-fit: cover;
+}
+.profile div { display: flex; flex-direction: column; gap: 2px; }
+.profile strong { font-size: 1.05rem; }
+.profile span { color: var(--text-dim); font-size: .9rem; }
+
+.meta {
+  display: grid; gap: 8px;
+  background: rgba(255,255,255,.03);
+  border: 1px solid var(--border);
+  border-radius: 10px; padding: 14px;
+  margin-bottom: 16px;
+}
+.meta > div { display: flex; justify-content: space-between; gap: 12px; font-size: .9rem; }
+.meta span { color: var(--text-mute); }
+.meta strong { color: var(--text); font-weight: 500; text-align: right; }
+.mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .8rem; }
+
+.setup {
+  margin-top: 24px; padding: 14px;
+  background: rgba(255,255,255,.02); border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.setup summary {
+  cursor: pointer; font-weight: 600; font-size: .9rem;
+  color: var(--text-dim); user-select: none;
+}
+.setup summary:hover { color: var(--text); }
+.setup ol { padding-left: 18px; margin: 14px 0 8px; }
+.setup li { margin: 6px 0; color: var(--text-dim); font-size: .9rem; }
+.setup a { color: var(--accent); }
+.setup p { margin: 8px 0 0; color: var(--text-mute); font-size: .8rem; }

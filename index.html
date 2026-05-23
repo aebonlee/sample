@@ -6,8 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="웹사이트 디자인 샘플 갤러리 — 개인 포트폴리오, 회사 홈페이지, 학습 사이트, 블로그 등 다양한 프로젝트 타입의 샘플과 소스코드를 제공합니다." />
     <title>Sample Gallery — 웹사이트 디자인 샘플 모음</title>
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Sample Gallery" />
+    <meta property="og:title" content="Sample Gallery — 웹사이트 디자인 샘플 모음" />
+    <meta property="og:description" content="개인 · 회사 · 학습 · 블로그 — 그대로 가져다 쓰는 정적 사이트와 소스코드를 제공합니다." />
+    <meta property="og:url" content="https://sample.dreamitbiz.com/" />
+    <meta property="og:image" content="https://sample.dreamitbiz.com/og/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
   </head>
   <body>
+    <script>
+      // FOUC 방지: React 마운트 전에 저장된 테마 적용
+      (function () {
+        try {
+          var saved = localStorage.getItem('sample-gallery-theme');
+          var theme = saved === 'light' || saved === 'dark'
+            ? saved
+            : (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          document.documentElement.setAttribute('data-theme', theme);
+        } catch (e) {}
+      })();
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

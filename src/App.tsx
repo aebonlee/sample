@@ -1,4 +1,5 @@
 import { Link, NavLink, Outlet } from 'react-router-dom';
+import ThemeToggle from './components/ThemeToggle';
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
             <a href="https://github.com/aebonlee/sample" target="_blank" rel="noreferrer">
               GitHub
             </a>
+            <ThemeToggle />
           </nav>
         </div>
       </header>

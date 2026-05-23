@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Studio HALO — Works</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="hdr">
+    <div class="container hdr__inner">
+      <a class="brand" href="#"><span></span>Studio HALO</a>
+      <nav>
+        <a href="#works" class="is-active">Works</a>
+        <a href="#about">Studio</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <a href="#contact" class="btn">Start a project</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="intro">
+      <div class="container">
+        <p class="kicker">Independent design studio · Seoul</p>
+        <h1>브랜드와 디지털을 함께 만드는<br/>작은 스튜디오.</h1>
+        <p class="sub">2018년부터 50개 이상의 브랜드와 함께 그래픽, 웹, 영상 작업을 진행해 왔습니다.</p>
+      </div>
+    </section>
+
+    <section id="works" class="works">
+      <div class="container works__filter">
+        <button class="chip is-on" data-filter="all">All</button>
+        <button class="chip" data-filter="branding">Branding</button>
+        <button class="chip" data-filter="web">Web</button>
+        <button class="chip" data-filter="editorial">Editorial</button>
+        <button class="chip" data-filter="motion">Motion</button>
+      </div>
+
+      <div class="grid">
+        <a class="card" href="#" data-cat="branding">
+          <div class="art" style="background: linear-gradient(135deg,#0f172a,#475569)"><span>HALO ID</span></div>
+          <h3>HALO Identity System</h3>
+          <p>Branding · 2026</p>
+        </a>
+        <a class="card card--wide" href="#" data-cat="web">
+          <div class="art" style="background: linear-gradient(135deg,#6366f1,#22d3ee)"><span>Northpeak</span></div>
+          <h3>Northpeak Coffee — D2C 커머스</h3>
+          <p>Web · 2026</p>
+        </a>
+        <a class="card" href="#" data-cat="editorial">
+          <div class="art" style="background: linear-gradient(135deg,#fb7185,#f59e0b)"><span>Atlas</span></div>
+          <h3>Atlas Quarterly Vol.4</h3>
+          <p>Editorial · 2025</p>
+        </a>
+        <a class="card" href="#" data-cat="motion">
+          <div class="art" style="background: linear-gradient(135deg,#10b981,#3b82f6)"><span>Lumen</span></div>
+          <h3>Lumen Health 인트로 모션</h3>
+          <p>Motion · 2025</p>
+        </a>
+        <a class="card card--wide" href="#" data-cat="branding">
+          <div class="art" style="background: linear-gradient(135deg,#ec4899,#8b5cf6)"><span>SOHO Books</span></div>
+          <h3>SOHO Books 브랜드 리뉴얼</h3>
+          <p>Branding · 2025</p>
+        </a>
+        <a class="card" href="#" data-cat="web">
+          <div class="art" style="background: linear-gradient(135deg,#0ea5e9,#6366f1)"><span>Forest</span></div>
+          <h3>Forest Library Platform</h3>
+          <p>Web · 2025</p>
+        </a>
+      </div>
+    </section>
+
+    <section id="about" class="about">
+      <div class="container about__inner">
+        <div>
+          <p class="kicker">About</p>
+          <h2>적은 사람과 충분한 시간으로<br/>오래 남는 작업을 만듭니다.</h2>
+        </div>
+        <div class="about__text">
+          <p>네 명의 디자이너와 두 명의 개발자가 함께 일합니다. 한 번에 두세 개의 프로젝트만 진행해 모두에게 깊이 집중합니다.</p>
+          <p>매년 두 권의 자체 발행물과, 한 번의 자체 전시를 통해 우리만의 시선을 정리합니다.</p>
+          <ul class="awards">
+            <li>Red Dot Design Award · 2024, 2025</li>
+            <li>Brand New Awards · Best of Year · 2024</li>
+            <li>Awwwards Site of the Day · 3회</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="contact">
+      <div class="container">
+        <h2>새 프로젝트 이야기를 듣고 싶습니다.</h2>
+        <a href="mailto:hello@halo.studio" class="mail">hello@halo.studio →</a>
+        <div class="contact__meta">
+          <span>서울특별시 성수동 · 평일 10:00–18:00</span>
+          <span>Instagram · @studio.halo</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="ftr">© <span id="year"></span> Studio HALO</footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    const chips = document.querySelectorAll('.chip');
+    const cards = document.querySelectorAll('.card');
+    chips.forEach(c => c.addEventListener('click', () => {
+      chips.forEach(x => x.classList.remove('is-on'));
+      c.classList.add('is-on');
+      const f = c.dataset.filter;
+      cards.forEach(card => {
+        card.style.display = (f === 'all' || card.dataset.cat === f) ? '' : 'none';
+      });
+    }));
+  </script>
+</body>
+</html>

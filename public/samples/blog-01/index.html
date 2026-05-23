@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Quiet Pages — 개발과 일상에 대한 블로그</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site">
+    <div class="container site__inner">
+      <a href="#" class="site__title">Quiet Pages</a>
+      <p class="site__tagline">개발과 일상에 대한 짧은 기록</p>
+      <nav class="site__nav">
+        <a href="#" class="is-active">전체</a>
+        <a href="#">개발</a>
+        <a href="#">디자인</a>
+        <a href="#">에세이</a>
+        <a href="#">서평</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="container layout">
+    <main class="posts">
+      <article class="featured">
+        <a class="featured__thumb" href="#" style="background: linear-gradient(135deg,#6366f1,#22d3ee)"></a>
+        <div>
+          <span class="cat">개발</span>
+          <h2><a href="#">React 컴포넌트 설계, 결국 가장 중요한 건 “경계”다</a></h2>
+          <p>책임의 경계가 명확한 컴포넌트는 테스트하기 쉽고 오래 살아남는다. 5년간 디자인 시스템을 운영하며 배운 것들.</p>
+          <div class="byline">
+            <div class="avatar">JL</div>
+            <span>이지수 · 2026.05.20 · 8분 읽기</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="post">
+        <a class="post__thumb" href="#" style="background: linear-gradient(135deg,#f59e0b,#ef4444)"></a>
+        <div>
+          <span class="cat">에세이</span>
+          <h3><a href="#">조용한 도시의 카페에서 코드를 쓰는 일</a></h3>
+          <p>창문 너머로 천천히 흐르는 풍경을 보며 깊은 작업을 한다. 어쩌면 이게 내가 매일 출근하는 이유.</p>
+          <div class="byline">
+            <div class="avatar">JL</div>
+            <span>이지수 · 2026.05.16 · 4분 읽기</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="post">
+        <a class="post__thumb" href="#" style="background: linear-gradient(135deg,#10b981,#3b82f6)"></a>
+        <div>
+          <span class="cat">디자인</span>
+          <h3><a href="#">디자인 시스템을 살아 있게 만드는 다섯 가지 습관</a></h3>
+          <p>토큰을 만들고, 컴포넌트를 만들고, 끝. 가 아니라 매주 챙겨야 할 작은 의식에 대한 이야기.</p>
+          <div class="byline">
+            <div class="avatar">MK</div>
+            <span>김민준 · 2026.05.12 · 6분 읽기</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="post">
+        <a class="post__thumb" href="#" style="background: linear-gradient(135deg,#ec4899,#8b5cf6)"></a>
+        <div>
+          <span class="cat">서평</span>
+          <h3><a href="#">『Tidy First?』 — 더 쉬운 변화를 위한 작은 정리</a></h3>
+          <p>리팩토링이 아니라 “정리”라고 부르는 작은 행동들이 코드베이스를 바꾸는 방식.</p>
+          <div class="byline">
+            <div class="avatar">YH</div>
+            <span>한유진 · 2026.05.08 · 5분 읽기</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="post">
+        <a class="post__thumb" href="#" style="background: linear-gradient(135deg,#06b6d4,#10b981)"></a>
+        <div>
+          <span class="cat">개발</span>
+          <h3><a href="#">CSS 변수만으로 다크 모드 만들기 — 그리고 자주 빠지는 함정</a></h3>
+          <p>색만 바꾸면 되는 게 아니라는 걸 깨닫기까지 두 번의 리디자인이 필요했다.</p>
+          <div class="byline">
+            <div class="avatar">SP</div>
+            <span>박서연 · 2026.05.03 · 7분 읽기</span>
+          </div>
+        </div>
+      </article>
+
+      <nav class="pager">
+        <a class="pager__btn is-disabled">←</a>
+        <span class="pager__num is-active">1</span>
+        <a class="pager__num" href="#">2</a>
+        <a class="pager__num" href="#">3</a>
+        <a class="pager__num" href="#">4</a>
+        <a class="pager__btn" href="#">→</a>
+      </nav>
+    </main>
+
+    <aside class="side">
+      <section class="widget">
+        <h4>소개</h4>
+        <p>네 명의 메이커가 함께 운영하는 작은 블로그입니다. 코드, 디자인, 그리고 그 사이의 이야기.</p>
+      </section>
+
+      <section class="widget">
+        <h4>인기 글</h4>
+        <ol class="rank">
+          <li><a href="#">React 컴포넌트 설계, 결국 가장 중요한 건 “경계”다</a></li>
+          <li><a href="#">디자인 시스템을 살아 있게 만드는 다섯 가지 습관</a></li>
+          <li><a href="#">CSS 변수만으로 다크 모드 만들기</a></li>
+          <li><a href="#">조용한 도시의 카페에서 코드를 쓰는 일</a></li>
+        </ol>
+      </section>
+
+      <section class="widget">
+        <h4>태그</h4>
+        <div class="tags">
+          <a href="#" class="tag">#react</a>
+          <a href="#" class="tag">#typescript</a>
+          <a href="#" class="tag">#css</a>
+          <a href="#" class="tag">#design-system</a>
+          <a href="#" class="tag">#essay</a>
+          <a href="#" class="tag">#review</a>
+        </div>
+      </section>
+
+      <section class="widget widget--cta">
+        <h4>매주 한 통의 편지</h4>
+        <p>새 글이 발행될 때 메일로 받아보세요.</p>
+        <form onsubmit="event.preventDefault(); alert('샘플 폼입니다.')">
+          <input type="email" placeholder="you@example.com" />
+          <button type="submit">구독</button>
+        </form>
+      </section>
+    </aside>
+  </div>
+
+  <footer class="footer">
+    <p>© <span id="year"></span> Quiet Pages · Sample by Sample Gallery</p>
+  </footer>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>
