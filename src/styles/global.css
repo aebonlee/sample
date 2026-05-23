@@ -640,17 +640,27 @@ code {
 .source-viewer__actions a:hover { background: #404040; color: #fff; }
 .source-viewer__pre {
   margin: 0; padding: 14px 0;
-  font-size: .85rem; line-height: 1.6;
+  font-size: .85rem; line-height: 1.5;
   overflow-x: auto;
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   max-height: 640px;
+  tab-size: 2;
 }
-.source-viewer__line { display: flex; padding: 0 16px; }
+.source-viewer__line {
+  display: block; position: relative;
+  padding: 0 16px 0 60px;
+  white-space: pre;
+  min-height: 1.5em;
+}
 .source-viewer__lineno {
-  user-select: none; opacity: .4; min-width: 2.5em;
-  text-align: right; padding-right: 14px;
+  position: absolute; left: 0; top: 0;
+  width: 44px; padding-right: 10px;
+  text-align: right;
+  user-select: none; opacity: .4;
+  font-variant-numeric: tabular-nums;
 }
-.source-viewer__lineContent { flex: 1; white-space: pre; }
+.source-viewer__lineContent { display: inline; }
+.source-viewer__lineContent:empty::before { content: ''; }
 
 /* About */
 .about { padding: 40px 0 60px; max-width: 820px; }
