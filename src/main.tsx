@@ -7,10 +7,15 @@ import SampleDetail from './pages/SampleDetail';
 import About from './pages/About';
 import PlatformPage from './pages/PlatformPage';
 import Community from './pages/Community';
+import Preview from './pages/Preview';
 import { AuthProvider } from './contexts/AuthContext';
 import './styles/global.css';
 
 const router = createHashRouter([
+  {
+    path: '/preview/:id',
+    element: <Preview />,
+  },
   {
     path: '/',
     element: <App />,

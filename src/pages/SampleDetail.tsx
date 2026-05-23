@@ -50,7 +50,12 @@ export default function SampleDetail() {
           </div>
         </div>
         <div className="detail__actions">
-          <a className="btn btn--primary" href={previewUrl} target="_blank" rel="noreferrer">
+          <a
+            className="btn btn--primary"
+            href={`${import.meta.env.BASE_URL}#/preview/${sample.id}`}
+            target="_blank"
+            rel="noreferrer"
+          >
             새 탭에서 열기 ↗
           </a>
         </div>
