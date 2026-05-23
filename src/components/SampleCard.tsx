@@ -8,15 +8,17 @@ const difficultyLabel: Record<Sample['difficulty'], string> = {
 };
 
 export default function SampleCard({ sample }: { sample: Sample }) {
-  const previewUrl = `${import.meta.env.BASE_URL}samples/${sample.id}/index.html`;
+  const previewImg = `${import.meta.env.BASE_URL}samples/${sample.id}/preview.png`;
   return (
     <Link to={`/samples/${sample.id}`} className="sample-card">
       <div className="sample-card__thumb">
-        <iframe
-          src={previewUrl}
-          title={sample.title}
+        <img
+          src={previewImg}
+          alt={`${sample.title} 데스크탑 미리보기`}
           loading="lazy"
-          sandbox="allow-scripts allow-same-origin"
+          decoding="async"
+          width={1440}
+          height={900}
         />
         <div className="sample-card__thumb-overlay" />
       </div>

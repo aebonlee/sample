@@ -231,16 +231,16 @@ code {
 }
 .sample-card__thumb {
   position: relative; aspect-ratio: 1440 / 900;
-  background: #fff; overflow: hidden;
-  container-type: inline-size;
+  background: var(--bg-elev); overflow: hidden;
 }
-.sample-card__thumb iframe {
-  width: 1440px; height: 900px;
-  border: 0;
-  transform: scale(calc(100cqi / 1440px));
-  transform-origin: top left;
-  pointer-events: none;
+.sample-card__thumb img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  transition: transform .3s ease;
 }
+.sample-card:hover .sample-card__thumb img { transform: scale(1.03); }
 .sample-card__thumb-overlay {
   position: absolute; inset: 0;
   background: linear-gradient(180deg, transparent 70%, rgba(0,0,0,.25));
