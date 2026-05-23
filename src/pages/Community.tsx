@@ -29,11 +29,14 @@ export default function Community() {
           )}
         </p>
         <div className="community__links">
-          <a href="https://github.com/aebonlee/sample/issues" target="_blank" rel="noreferrer" className="btn btn--primary">
-            GitHub Issues로 의견 보내기
+          <a
+            href="mailto:aebon@kyonggi.ac.kr?subject=%5BSample%20Gallery%5D%20%EC%9D%98%EA%B2%AC"
+            className="btn btn--primary"
+          >
+            이메일로 의견 보내기
           </a>
-          <a href="https://github.com/aebonlee/sample" target="_blank" rel="noreferrer" className="btn btn--ghost">
-            GitHub 저장소
+          <a href="https://dreamitbiz.com" target="_blank" rel="noreferrer" className="btn btn--ghost">
+            DreamIT Biz
           </a>
         </div>
       </div>

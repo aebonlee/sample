@@ -36,7 +36,7 @@ export default function About() {
       <ol className="about__steps">
         <li><code>public/samples/&lt;id&gt;/</code> 폴더를 만들고 <code>index.html</code>을 포함해 필요한 파일을 넣습니다.</li>
         <li><code>src/data/samples.ts</code>의 <code>samples</code> 배열에 메타데이터를 추가합니다.</li>
-        <li><code>npm run dev</code>로 로컬에서 확인 후 커밋·푸시하면 GitHub Actions가 자동 배포합니다.</li>
+        <li><code>npm run dev</code>로 로컬에서 확인 후 커밋·푸시하면 자동 배포됩니다.</li>
       </ol>
     </section>
   );
