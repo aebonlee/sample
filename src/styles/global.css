@@ -640,27 +640,36 @@ code {
 .source-viewer__actions a:hover { background: #404040; color: #fff; }
 .source-viewer__pre {
   margin: 0; padding: 14px 0;
-  font-size: .85rem; line-height: 1.5;
+  font: 13px/20px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   overflow-x: auto;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   max-height: 640px;
   tab-size: 2;
 }
+/* prism-react-renderer 내부의 <code> 래퍼와 글로벌 code 규칙 충돌 차단 */
+.source-viewer__code {
+  display: block;
+  background: none;
+  padding: 0;
+  border-radius: 0;
+  font: inherit;
+}
 .source-viewer__line {
   display: block; position: relative;
-  padding: 0 16px 0 60px;
+  padding: 0 16px 0 56px;
   white-space: pre;
-  min-height: 1.5em;
+  min-height: 20px;
+  line-height: 20px;
+}
+.source-viewer__line > span:not(.source-viewer__lineno) {
+  background: none; padding: 0; border-radius: 0; font-size: inherit;
 }
 .source-viewer__lineno {
   position: absolute; left: 0; top: 0;
-  width: 44px; padding-right: 10px;
+  width: 44px; height: 20px; padding-right: 12px;
   text-align: right;
   user-select: none; opacity: .4;
   font-variant-numeric: tabular-nums;
 }
-.source-viewer__lineContent { display: inline; }
-.source-viewer__lineContent:empty::before { content: ''; }
 
 /* About */
 .about { padding: 40px 0 60px; max-width: 820px; }

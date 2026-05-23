@@ -95,23 +95,20 @@ export default function SourceViewer({ sampleId, filename }: Props) {
           </a>
         </div>
       </div>
-      <Highlight code={code} language={languageFor(filename)} theme={themes.vsDark}>
-        {({ className, style, tokens, getLineProps, getTokenProps }) => (
+      <Highlight code={code.replace(/\n+$/, '')} language={languageFor(filename)} theme={themes.vsDark}>
+        {({ className, style, tokens, getTokenProps }) => (
           <pre className={`source-viewer__pre ${className}`} style={style}>
-            {tokens.map((line, i) => {
-              const { key: _lk, ...lineProps } = getLineProps({ line });
-              return (
-                <div key={i} {...lineProps} className="source-viewer__line">
+            <code className="source-viewer__code">
+              {tokens.map((line, i) => (
+                <div key={i} className="source-viewer__line">
                   <span className="source-viewer__lineno">{i + 1}</span>
-                  <span className="source-viewer__lineContent">
-                    {line.map((token, j) => {
-                      const { key: _tk, ...tokenProps } = getTokenProps({ token });
-                      return <span key={j} {...tokenProps} />;
-                    })}
-                  </span>
+                  {line.map((token, j) => {
+                    const { key: _tk, ...tokenProps } = getTokenProps({ token });
+                    return <span key={j} {...tokenProps} />;
+                  })}
                 </div>
-              );
-            })}
+              ))}
+            </code>
           </pre>
         )}
       </Highlight>
