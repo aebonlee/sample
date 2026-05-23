@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>이름 — 프론트엔드 개발자 포트폴리오</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="nav">
+    <div class="nav__inner">
+      <a href="#top" class="nav__brand">홍길동<span>.dev</span></a>
+      <nav>
+        <a href="#about">소개</a>
+        <a href="#projects">프로젝트</a>
+        <a href="#contact">연락처</a>
+      </nav>
+      <button id="themeToggle" class="theme-toggle" aria-label="테마 전환">🌙</button>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero__inner">
+        <p class="hero__greet">안녕하세요, 저는</p>
+        <h1 class="hero__name">홍길동</h1>
+        <p class="hero__role">프론트엔드 개발자 · UI 디자이너</p>
+        <p class="hero__desc">
+          사용자 경험을 깊게 고민하며, 깔끔하고 빠른 웹 인터페이스를 만듭니다.
+          React, TypeScript, 그리고 디자인 시스템을 좋아합니다.
+        </p>
+        <div class="hero__cta">
+          <a href="#projects" class="btn btn--primary">프로젝트 보기</a>
+          <a href="#contact" class="btn btn--ghost">연락하기</a>
+        </div>
+      </div>
+      <div class="hero__decor" aria-hidden="true"></div>
+    </section>
+
+    <section id="about" class="section reveal">
+      <h2 class="section__title">소개</h2>
+      <div class="about__grid">
+        <div class="about__text">
+          <p>
+            5년차 프론트엔드 개발자입니다. 스타트업에서 0→1 제품을 두 번 만들었고,
+            현재는 대규모 사용자 대시보드를 운영하고 있습니다.
+          </p>
+          <p>
+            성능, 접근성, 그리고 디자인 디테일을 모두 중요하게 생각합니다.
+            팀과 함께 일할 때 가장 큰 임팩트를 낸다고 믿습니다.
+          </p>
+        </div>
+        <ul class="about__stack">
+          <li><strong>언어</strong><span>TypeScript · JavaScript · Python</span></li>
+          <li><strong>프레임워크</strong><span>React · Next.js · Vite</span></li>
+          <li><strong>스타일링</strong><span>CSS · Tailwind · Figma</span></li>
+          <li><strong>도구</strong><span>Git · Vercel · GitHub Actions</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="projects" class="section reveal">
+      <h2 class="section__title">프로젝트</h2>
+      <div class="projects">
+        <article class="project">
+          <div class="project__thumb" style="background: linear-gradient(135deg, #6366f1, #ec4899);">P1</div>
+          <h3>대시보드 리디자인</h3>
+          <p>월 50만 사용자 대시보드의 정보 구조와 시각 디자인을 처음부터 다시 설계했습니다.</p>
+          <div class="project__tags"><span>React</span><span>TypeScript</span><span>D3</span></div>
+        </article>
+        <article class="project">
+          <div class="project__thumb" style="background: linear-gradient(135deg, #06b6d4, #3b82f6);">P2</div>
+          <h3>디자인 시스템</h3>
+          <p>10여 개 제품에서 공통으로 쓰는 컴포넌트 라이브러리를 구축하고 운영합니다.</p>
+          <div class="project__tags"><span>Storybook</span><span>CSS</span><span>Figma</span></div>
+        </article>
+        <article class="project">
+          <div class="project__thumb" style="background: linear-gradient(135deg, #f59e0b, #ef4444);">P3</div>
+          <h3>마케팅 사이트</h3>
+          <p>LCP 1.2초, 100점 라이트하우스 점수를 달성한 정적 마케팅 사이트입니다.</p>
+          <div class="project__tags"><span>Next.js</span><span>Vercel</span><span>SEO</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section id="contact" class="section reveal">
+      <h2 class="section__title">연락처</h2>
+      <p class="contact__lead">새 기회나 협업 제안은 언제든 환영합니다.</p>
+      <div class="contact__links">
+        <a href="mailto:hello@example.com" class="btn btn--primary">이메일 보내기</a>
+        <a href="https://github.com" target="_blank" rel="noreferrer" class="btn btn--ghost">GitHub</a>
+        <a href="https://linkedin.com" target="_blank" rel="noreferrer" class="btn btn--ghost">LinkedIn</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© <span id="year"></span> 홍길동 · Sample Gallery</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
