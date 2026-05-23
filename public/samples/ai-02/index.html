@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mirage — AI 이미지 생성</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="top">
+    <div class="brand"><span class="brand__mark">M</span> Mirage</div>
+    <nav class="tabs">
+      <button class="tab is-on" data-tab="my">내 작품</button>
+      <button class="tab" data-tab="explore">탐색</button>
+      <button class="tab" data-tab="liked">좋아요</button>
+    </nav>
+    <button class="me">JL</button>
+  </header>
+
+  <main class="main">
+    <section class="composer">
+      <div class="composer__inner">
+        <h1>오늘은 무엇을 그려볼까요?</h1>
+        <p>프롬프트를 입력하면 4장의 이미지를 생성합니다.</p>
+        <form id="genForm" class="prompt">
+          <input
+            type="text" id="prompt" maxlength="200"
+            placeholder="예) 노을 지는 한강, 인상주의 유화 스타일"
+            autocomplete="off" required
+          />
+          <div class="prompt__opts">
+            <select id="style">
+              <option>사실적</option><option>유화</option><option>일러스트</option>
+              <option>3D 렌더</option><option>픽셀아트</option>
+            </select>
+            <select id="ratio">
+              <option>1:1</option><option>16:9</option><option>9:16</option><option>3:4</option>
+            </select>
+            <button type="submit" class="gen-btn" id="genBtn">✨ 생성</button>
+          </div>
+        </form>
+        <div class="suggests">
+          <button data-p="달 표면에서 차를 마시는 우주비행사, 시네마틱 라이팅">달 표면 우주비행사</button>
+          <button data-p="네온 빛이 흐르는 도쿄 골목, 사이버펑크">사이버펑크 도쿄</button>
+          <button data-p="유리병 안의 미니어처 정원, 마크로 사진">유리병 정원</button>
+          <button data-p="한복을 입은 소녀의 수채화 초상">한복 수채화</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="gallery" id="gallery">
+      <!-- 동적 -->
+    </section>
+  </main>
+
+  <!-- 생성 중 모달 -->
+  <div class="modal" id="genModal" hidden>
+    <div class="modal__bg"></div>
+    <div class="modal__panel">
+      <div class="loader">
+        <span></span><span></span><span></span><span></span>
+      </div>
+      <h3>이미지 생성 중...</h3>
+      <p id="genProgress">0%</p>
+    </div>
+  </div>
+
+  <!-- 상세 모달 -->
+  <div class="modal modal--detail" id="detailModal" hidden>
+    <div class="modal__bg"></div>
+    <div class="modal__panel modal__panel--wide">
+      <button class="modal__close" id="closeDetail">×</button>
+      <div class="detail">
+        <div class="detail__img" id="detailImg"></div>
+        <div class="detail__info">
+          <p class="detail__prompt" id="detailPrompt"></p>
+          <div class="detail__meta">
+            <span>스타일: <strong id="detailStyle">사실적</strong></span>
+            <span>비율: <strong id="detailRatio">1:1</strong></span>
+            <span>생성일: <strong id="detailDate"></strong></span>
+          </div>
+          <div class="detail__actions">
+            <button class="ghost-btn">↓ 다운로드</button>
+            <button class="ghost-btn">🔄 변형</button>
+            <button class="ghost-btn">♡ 좋아요</button>
+            <button class="ghost-btn">⤴ 공유</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

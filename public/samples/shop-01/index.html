@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Northpeak — 핸드드립 원두 250g</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="nav">
+    <div class="container nav__inner">
+      <a class="brand" href="#"><span></span>Northpeak</a>
+      <nav>
+        <a href="#">신상</a>
+        <a href="#">원두</a>
+        <a href="#">드립백</a>
+        <a href="#">굿즈</a>
+      </nav>
+      <div class="nav__right">
+        <button aria-label="검색">🔍</button>
+        <button aria-label="장바구니" id="cartBtn">🛒 <span class="cart-count" id="cartCount">0</span></button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container product">
+    <nav class="crumb"><a href="#">홈</a> › <a href="#">원두</a> › <span>에티오피아 예가체프</span></nav>
+
+    <section class="gallery">
+      <div class="gallery__main" id="mainImg" style="background: linear-gradient(135deg,#92400e,#451a03)">
+        <span>BEAN</span>
+      </div>
+      <div class="gallery__thumbs">
+        <button data-bg="linear-gradient(135deg,#92400e,#451a03)" class="is-on"><span>1</span></button>
+        <button data-bg="linear-gradient(135deg,#78350f,#fbbf24)"><span>2</span></button>
+        <button data-bg="linear-gradient(135deg,#3f3f46,#71717a)"><span>3</span></button>
+        <button data-bg="linear-gradient(135deg,#1f2937,#92400e)"><span>4</span></button>
+      </div>
+    </section>
+
+    <section class="detail">
+      <p class="brand-tag">Northpeak Origin · 2026 Spring</p>
+      <h1>에티오피아 예가체프<br/><span>Konga 마이크로 랏</span></h1>
+      <div class="rating">
+        <span>★★★★★</span>
+        <em>4.9</em>
+        <small>(리뷰 218)</small>
+      </div>
+
+      <div class="price">
+        <strong>₩24,500</strong>
+        <del>₩29,000</del>
+        <span class="off">-15%</span>
+      </div>
+
+      <p class="lead">
+        블루베리 잼처럼 진한 산미와 자스민 같은 플로럴 노트가 특징인 워시드 가공 원두.
+        핸드드립과 푸어오버에 가장 잘 어울립니다.
+      </p>
+
+      <div class="opt">
+        <div class="opt__row">
+          <label>분쇄도</label>
+          <div class="chips" data-group="grind">
+            <button class="is-on">홀빈</button>
+            <button>드립</button>
+            <button>에스프레소</button>
+            <button>프렌치프레스</button>
+          </div>
+        </div>
+        <div class="opt__row">
+          <label>중량</label>
+          <div class="chips" data-group="size">
+            <button>100g</button>
+            <button class="is-on">250g</button>
+            <button>500g</button>
+            <button>1kg</button>
+          </div>
+        </div>
+        <div class="opt__row">
+          <label>수량</label>
+          <div class="qty">
+            <button id="minus">−</button>
+            <input type="text" value="1" id="qty" readonly />
+            <button id="plus">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn--ghost" id="wishBtn">♡ 찜</button>
+        <button class="btn btn--primary" id="addCart">장바구니 담기</button>
+      </div>
+
+      <ul class="meta">
+        <li>🚚 50,000원 이상 무료배송 (오늘 주문 시 내일 도착)</li>
+        <li>📦 주문 후 24시간 내 로스팅</li>
+        <li>🔁 7일 내 100% 환불 보증</li>
+      </ul>
+    </section>
+  </main>
+
+  <section class="container reviews">
+    <h2>리뷰 <small>4.9 / 5.0 · 218개</small></h2>
+    <div class="rv">
+      <div class="rv__head">
+        <strong>김ㅇ수</strong><span>★★★★★</span><time>2일 전</time>
+      </div>
+      <p>산미가 너무 좋아요. 케냐랑 비교했을 때 이게 더 부드럽고 마시기 편합니다. 재구매 의사 100%.</p>
+    </div>
+    <div class="rv">
+      <div class="rv__head">
+        <strong>이ㅇ민</strong><span>★★★★☆</span><time>5일 전</time>
+      </div>
+      <p>플로럴 노트가 정말 좋네요. 분쇄도를 좀 곱게 해서 V60에 내리니 단맛이 살아납니다.</p>
+    </div>
+  </section>
+
+  <!-- 장바구니 토스트 -->
+  <div class="toast" id="toast" hidden>장바구니에 담았어요 ✓</div>
+
+  <script src="script.js"></script>
+</body>
+</html>

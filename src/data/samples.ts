@@ -7,7 +7,11 @@ export type SampleCategory =
   | 'blog'
   | 'landing'
   | 'portfolio'
-  | 'auth';
+  | 'auth'
+  | 'shop'
+  | 'media'
+  | 'utility'
+  | 'game';
 
 export const platformLabels: Record<Platform, string> = {
   web: '웹개발',
@@ -33,6 +37,10 @@ export const categoryLabels: Record<SampleCategory, string> = {
   landing: '랜딩 페이지',
   portfolio: '포트폴리오',
   auth: '인증 / 운영',
+  shop: '쇼핑몰',
+  media: '미디어 / 이미지',
+  utility: '유틸리티',
+  game: '게임',
 };
 
 export interface Sample {
@@ -160,6 +168,76 @@ export const samples: Sample[] = [
     files: ['index.html', 'style.css', 'script.js'],
     guide:
       '대시보드의 정보 위계(KPI → 추세 → 분해 → 상세)를 정직하게 따른 레이아웃입니다. Chart.js는 CDN으로 로드해 빌드 도구 없이 동작합니다. 색 토큰을 CSS 변수와 JS 상수에서 일치시켜 일관된 팔레트를 유지합니다.',
+  },
+  {
+    id: 'shop-01',
+    title: '이커머스 제품 상세 페이지',
+    description:
+      '제품 갤러리 + 옵션 칩 + 수량 + 장바구니 + 리뷰. 토스트 알림과 localStorage 장바구니 카운트 포함.',
+    platform: 'web',
+    category: 'shop',
+    tags: ['커머스', '갤러리', '옵션', '장바구니'],
+    stack: ['HTML', 'CSS', 'JavaScript'],
+    difficulty: 'intermediate',
+    files: ['index.html', 'style.css', 'script.js'],
+    guide:
+      '제품 상세 페이지의 표준 구조(브레드크럼 → 갤러리/디테일 → 리뷰)를 따릅니다. 옵션 칩은 단일 선택 그룹으로 동작하고, 장바구니 카운트는 localStorage에 저장됩니다. 가격 표시(₩, 할인 %)를 한국 커머스에 맞춰 정렬했습니다.',
+  },
+  {
+    id: 'app-02',
+    title: '날씨 앱 (Climate)',
+    description:
+      '폰 프레임 안의 날씨 앱. 5개 도시 전환, 시간별/주간 예보, 상세 지표 + 날씨에 따라 배경 그라데이션 변경.',
+    platform: 'app',
+    category: 'utility',
+    tags: ['날씨', '폰프레임', '그라데이션', '드롭다운'],
+    stack: ['HTML', 'CSS', 'JavaScript'],
+    difficulty: 'intermediate',
+    files: ['index.html', 'style.css', 'script.js'],
+    guide:
+      '5개 도시(서울·부산·제주·도쿄·하노이)의 가짜 날씨 데이터를 JS 객체로 관리합니다. 날씨 상태(맑음/구름/비/눈)에 따라 phone 클래스가 바뀌며 배경 그라데이션이 부드럽게 전환됩니다. 실제 API 연동은 fetch로 OpenWeatherMap 호출 한 줄이면 됩니다.',
+  },
+  {
+    id: 'ai-02',
+    title: 'AI 이미지 생성 갤러리 (Mirage)',
+    description:
+      '프롬프트 입력 → 4장 이미지 생성(가짜) → 마사니식 갤러리. 진행률 모달과 상세 모달 포함.',
+    platform: 'ai',
+    category: 'media',
+    tags: ['이미지생성', '마사니', '모달', '프롬프트'],
+    stack: ['HTML', 'CSS', 'JavaScript'],
+    difficulty: 'intermediate',
+    files: ['index.html', 'style.css', 'script.js'],
+    guide:
+      'Midjourney/DALL·E 류 이미지 생성 UI의 표준 흐름입니다. 실제 이미지는 그라데이션으로 대체하고 가짜 진행률(0→100%)을 보여줍니다. CSS column-count로 마사니식 그리드를 단순하게 구현했고, 비율(1:1, 16:9, 9:16, 3:4)에 따라 타일 높이가 달라집니다.',
+  },
+  {
+    id: 'data-02',
+    title: '실시간 모니터링 (Sentry)',
+    description:
+      'CPU/메모리/네트워크 KPI + 스파크 차트 + RPS 라인 차트 + 서버 상태 + 실시간 로그. 1초마다 업데이트.',
+    platform: 'data',
+    category: 'learning',
+    tags: ['실시간', 'Chart.js', '스파크', '로그'],
+    stack: ['HTML', 'CSS', 'JavaScript', 'Chart.js'],
+    difficulty: 'advanced',
+    files: ['index.html', 'style.css', 'script.js'],
+    guide:
+      '서버/인프라 모니터링 대시보드의 전형적인 레이아웃입니다. setInterval로 1초마다 데이터 시프트 + KPI 갱신을 처리하고, 로그는 prepend로 최신순 누적합니다. 일시정지 버튼은 폴링을 멈춥니다. 실제 환경에서는 WebSocket이나 Server-Sent Events로 교체하세요.',
+  },
+  {
+    id: 'game-02',
+    title: '2048 슬라이드 퍼즐',
+    description:
+      '같은 숫자를 합쳐 2048을 만드는 클래식 퍼즐. 방향키 + 터치 스와이프, 점수/최고기록, 되돌리기 8회.',
+    platform: 'game',
+    category: 'game',
+    tags: ['퍼즐', '키보드', '스와이프', 'undo'],
+    stack: ['HTML', 'CSS', 'JavaScript'],
+    difficulty: 'advanced',
+    files: ['index.html', 'style.css', 'script.js'],
+    guide:
+      '2048 퍼즐의 핵심 로직을 ~150줄로 구현했습니다. 4×4 그리드는 ID 기반 매핑으로 타일 애니메이션(이동/병합/생성)을 자연스럽게 처리합니다. 되돌리기는 최근 8개 스냅샷을 JSON으로 저장합니다.',
   },
   {
     id: 'game-01',

@@ -1,0 +1,124 @@
+:root {
+  --text: #f1f5f9; --text-dim: #cbd5e1; --text-mute: #94a3b8;
+  --card: rgba(255,255,255,.1); --border: rgba(255,255,255,.15);
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0; min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Pretendard', system-ui, sans-serif;
+  background: #020617;
+  display: grid; place-items: center; padding: 32px 16px;
+  color: var(--text);
+}
+
+.phone {
+  width: 100%; max-width: 380px; min-height: 720px;
+  background:
+    radial-gradient(800px 600px at 50% -10%, rgba(251,191,36,.3), transparent 60%),
+    linear-gradient(180deg, #0c4a6e 0%, #1e3a8a 50%, #312e81 100%);
+  border-radius: 36px; overflow: hidden;
+  box-shadow: 0 30px 80px rgba(0,0,0,.55), 0 0 0 12px #1e293b, 0 0 0 13px #475569;
+  position: relative;
+  transition: background .5s ease;
+}
+.phone.cloudy {
+  background:
+    radial-gradient(600px 500px at 30% -10%, rgba(148,163,184,.4), transparent 60%),
+    linear-gradient(180deg, #475569 0%, #334155 60%, #1e293b 100%);
+}
+.phone.rainy {
+  background:
+    radial-gradient(600px 500px at 30% -10%, rgba(56,189,248,.3), transparent 60%),
+    linear-gradient(180deg, #1e293b 0%, #1e3a8a 100%);
+}
+.phone.snowy {
+  background: linear-gradient(180deg, #e2e8f0 0%, #94a3b8 60%, #475569 100%);
+  color: #1e293b;
+}
+
+.screen { padding: 56px 22px 28px; }
+
+/* Top */
+.top {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 28px;
+}
+.top__btn {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--card); border: 1px solid var(--border);
+  color: inherit; cursor: pointer; font-size: .95rem;
+}
+.top__location { flex: 1; text-align: center; }
+.top__location select {
+  background: transparent; border: 0; color: inherit;
+  font-family: inherit; font-size: 1.1rem; font-weight: 700;
+  text-align: center; outline: none;
+}
+.top__location select option { color: #1e293b; }
+.top__location span {
+  display: block; font-size: .72rem; opacity: .7; margin-top: 2px;
+}
+
+/* Now */
+.now { text-align: center; margin: 0 0 30px; }
+.now__icon { font-size: 5.5rem; margin-bottom: 8px; line-height: 1; animation: float 4s ease-in-out infinite; }
+@keyframes float { 0%, 100% { transform: translateY(0) } 50% { transform: translateY(-8px) } }
+.now__temp { font-size: 5.5rem; font-weight: 200; line-height: 1; letter-spacing: -.04em; }
+.now__temp sup { font-size: 2rem; font-weight: 300; vertical-align: top; margin-left: 4px; }
+.now__cond { font-size: 1.1rem; opacity: .9; margin-top: 4px; }
+.now__range { font-size: .85rem; opacity: .8; margin-top: 6px; }
+
+/* Card */
+.card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 16px; padding: 14px 16px;
+  margin-bottom: 12px; backdrop-filter: blur(10px);
+}
+.card h3 {
+  margin: 0 0 12px; font-size: .72rem; opacity: .7;
+  text-transform: uppercase; letter-spacing: .08em; font-weight: 600;
+}
+
+/* Hours */
+.hours {
+  display: flex; gap: 12px; overflow-x: auto;
+  scrollbar-width: none; padding-bottom: 4px;
+}
+.hours::-webkit-scrollbar { display: none; }
+.hour {
+  display: flex; flex-direction: column; align-items: center;
+  min-width: 48px; padding: 6px 0; gap: 6px;
+  font-size: .82rem;
+}
+.hour span { opacity: .7; font-size: .75rem; }
+.hour em { font-style: normal; font-size: 1.2rem; }
+.hour.is-now { background: var(--card); border-radius: 12px; padding: 8px 4px; }
+
+/* Week */
+.week { display: flex; flex-direction: column; gap: 4px; }
+.week__row {
+  display: grid; grid-template-columns: 36px 30px 1fr 36px 36px;
+  gap: 8px; align-items: center; padding: 8px 0;
+  font-size: .88rem;
+}
+.week__row span:first-child { opacity: .85; }
+.week__row em { font-style: normal; font-size: 1.1rem; }
+.week__bar {
+  height: 4px; border-radius: 2px;
+  background: linear-gradient(90deg, #38bdf8 var(--from), #fbbf24 var(--to));
+  opacity: .8;
+}
+.week__row strong:last-child { opacity: .65; font-weight: 400; text-align: right; }
+
+/* Grid */
+.grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+}
+.tile {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 14px; padding: 12px 14px;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.tile span { font-size: .72rem; opacity: .7; text-transform: uppercase; letter-spacing: .04em; }
+.tile strong { font-size: 1.15rem; letter-spacing: -.01em; }

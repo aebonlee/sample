@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sentry — 실시간 모니터링</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="bar">
+    <div class="brand"><span class="dot dot--live"></span> Sentry</div>
+    <div class="bar__right">
+      <span class="status" id="status"><span class="dot dot--live"></span> 라이브 · <span id="now">--:--:--</span></span>
+      <button class="bar__btn" id="pauseBtn">⏸ 일시정지</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="kpis">
+      <article class="kpi kpi--ok">
+        <span>CPU</span>
+        <strong><span id="kpiCpu">0</span><em>%</em></strong>
+        <div class="spark"><canvas id="sparkCpu"></canvas></div>
+      </article>
+      <article class="kpi kpi--ok">
+        <span>메모리</span>
+        <strong><span id="kpiMem">0</span><em>%</em></strong>
+        <div class="spark"><canvas id="sparkMem"></canvas></div>
+      </article>
+      <article class="kpi kpi--warn">
+        <span>네트워크 in</span>
+        <strong><span id="kpiNet">0</span><em>MB/s</em></strong>
+        <div class="spark"><canvas id="sparkNet"></canvas></div>
+      </article>
+      <article class="kpi kpi--ok">
+        <span>응답 시간</span>
+        <strong><span id="kpiRes">0</span><em>ms</em></strong>
+        <div class="spark"><canvas id="sparkRes"></canvas></div>
+      </article>
+    </section>
+
+    <section class="main-chart">
+      <header class="card__head">
+        <h2>요청 처리량 (RPS)</h2>
+        <div class="range">
+          <button class="is-on">1분</button><button>5분</button><button>30분</button>
+        </div>
+      </header>
+      <div class="chart"><canvas id="lineChart"></canvas></div>
+    </section>
+
+    <section class="side">
+      <div class="card">
+        <header class="card__head"><h3>서버 상태</h3><span class="sub">8 / 8 정상</span></header>
+        <ul class="servers" id="servers"></ul>
+      </div>
+
+      <div class="card">
+        <header class="card__head"><h3>실시간 로그</h3><span class="sub" id="logCount">0</span></header>
+        <ul class="logs" id="logs"></ul>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

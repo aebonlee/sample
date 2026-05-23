@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Climate — 날씨 앱</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="phone">
+    <main class="screen" id="screen">
+      <header class="top">
+        <button class="top__btn" aria-label="장소">📍</button>
+        <div class="top__location">
+          <select id="city">
+            <option value="seoul">서울</option>
+            <option value="busan">부산</option>
+            <option value="jeju">제주</option>
+            <option value="tokyo">도쿄</option>
+            <option value="hanoi">하노이</option>
+          </select>
+          <span id="updatedAt">방금 업데이트</span>
+        </div>
+        <button class="top__btn" aria-label="검색">🔍</button>
+      </header>
+
+      <section class="now">
+        <div class="now__icon" id="nowIcon">☀️</div>
+        <div class="now__temp"><span id="nowTemp">24</span><sup>°</sup></div>
+        <div class="now__cond" id="nowCond">맑음</div>
+        <div class="now__range">
+          최고 <span id="nowHi">28°</span> · 최저 <span id="nowLo">17°</span>
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>오늘 시간별</h3>
+        <div class="hours" id="hours"></div>
+      </section>
+
+      <section class="card">
+        <h3>주간 예보</h3>
+        <div class="week" id="week"></div>
+      </section>
+
+      <section class="grid">
+        <div class="tile">
+          <span>체감 온도</span>
+          <strong id="feels">26°</strong>
+        </div>
+        <div class="tile">
+          <span>강수 확률</span>
+          <strong id="rain">10%</strong>
+        </div>
+        <div class="tile">
+          <span>습도</span>
+          <strong id="humid">55%</strong>
+        </div>
+        <div class="tile">
+          <span>바람</span>
+          <strong id="wind">2.4 m/s</strong>
+        </div>
+        <div class="tile">
+          <span>자외선</span>
+          <strong id="uv">보통 5</strong>
+        </div>
+        <div class="tile">
+          <span>미세먼지</span>
+          <strong id="dust">좋음</strong>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
