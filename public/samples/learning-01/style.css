@@ -130,9 +130,19 @@ a { color: inherit; text-decoration: none; }
 }
 .course:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
 .course__thumb {
-  height: 130px; display: grid; place-items: center;
+  height: 130px; display: grid; place-items: center; position: relative;
   color: #fff; font-weight: 800; font-size: 1.8rem; letter-spacing: .05em;
 }
+.bookmark {
+  position: absolute; top: 8px; right: 8px;
+  width: 32px; height: 32px; border-radius: 50%;
+  background: rgba(0,0,0,.4); color: #fff; border: 0;
+  font-size: 1.1rem; cursor: pointer;
+  transition: background .15s ease, transform .15s ease;
+}
+.bookmark:hover { background: rgba(0,0,0,.55); transform: scale(1.1); }
+.bookmark.is-on { background: #fbbf24; color: #1f1f1f; }
+.cat.is-active-cat { background: rgba(99,102,241,.1); color: var(--accent); }
 .course__body { padding: 16px; }
 .badge {
   display: inline-block; padding: 3px 8px;

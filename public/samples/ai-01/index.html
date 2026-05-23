@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nova — AI Assistant</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="side">
+      <header class="side__head">
+        <div class="brand">
+          <span class="brand__mark">N</span> Nova
+        </div>
+        <button type="button" class="new-btn" id="newChat">+ 새 대화</button>
+      </header>
+      <nav class="threads" id="threads">
+        <!-- 동적 -->
+      </nav>
+      <footer class="side__foot">
+        <div class="me">
+          <div class="me__avatar">JL</div>
+          <div>
+            <strong>이지수</strong>
+            <span>Pro 플랜</span>
+          </div>
+        </div>
+      </footer>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <h1 id="threadTitle">새 대화</h1>
+        <div class="topbar__chips">
+          <span class="chip">GPT-4o</span>
+          <span class="chip chip--ok">● 연결됨</span>
+        </div>
+      </header>
+
+      <div class="chat" id="chat">
+        <div class="welcome">
+          <div class="welcome__logo">✦</div>
+          <h2>오늘은 무엇을 도와드릴까요?</h2>
+          <div class="prompts">
+            <button type="button" data-prompt="React 컴포넌트 설계의 핵심 원칙 3가지를 알려줘.">
+              React 컴포넌트 설계 원칙
+            </button>
+            <button type="button" data-prompt="이메일 마케팅 카피를 친근하게 다듬어줘.">
+              마케팅 카피 다듬기
+            </button>
+            <button type="button" data-prompt="이번 주말 서울 근교 당일치기 코스 추천해줘.">
+              주말 여행 추천
+            </button>
+            <button type="button" data-prompt="대시보드 디자인에서 정보 위계 잡는 방법은?">
+              UI 디자인 조언
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <form class="composer" id="composer">
+        <button type="button" class="composer__btn" title="첨부">📎</button>
+        <textarea
+          id="input"
+          rows="1"
+          placeholder="Nova에게 메시지를 보내세요…"
+          maxlength="2000"
+        ></textarea>
+        <button type="submit" class="composer__send" id="sendBtn" title="보내기">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/>
+          </svg>
+        </button>
+      </form>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

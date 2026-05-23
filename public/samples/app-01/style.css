@@ -1,0 +1,190 @@
+:root {
+  --bg: #0f172a;
+  --surface: #1e293b;
+  --elev: #334155;
+  --text: #f1f5f9;
+  --text-dim: #94a3b8;
+  --accent: #6366f1;
+  --accent-2: #ec4899;
+  --success: #22c55e;
+  --danger: #ef4444;
+  --warn: #f59e0b;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0; min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Pretendard', 'Noto Sans KR', system-ui, sans-serif;
+  background:
+    radial-gradient(800px 500px at 50% -10%, rgba(99,102,241,.25), transparent 60%),
+    #020617;
+  display: grid; place-items: center; padding: 32px 16px;
+  color: var(--text);
+}
+
+/* 폰 프레임 */
+.phone {
+  width: 100%; max-width: 380px; min-height: 720px;
+  background: var(--bg); border-radius: 36px;
+  box-shadow: 0 30px 80px rgba(0,0,0,.55), 0 0 0 12px #1e293b, 0 0 0 13px #475569;
+  overflow: hidden; position: relative;
+  display: grid; grid-template-rows: 1fr auto;
+}
+
+.screen {
+  padding: 22px 20px 100px;
+  overflow-y: auto;
+  position: relative;
+}
+
+/* Top */
+.top {
+  display: flex; justify-content: space-between; align-items: center;
+  margin: 22px 0 24px;
+}
+.top__date { margin: 0 0 4px; color: var(--text-dim); font-size: .82rem; }
+.top__title { margin: 0; font-size: 1.6rem; letter-spacing: -.02em; }
+.top__avatar {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  display: grid; place-items: center; font-weight: 700;
+}
+
+/* Progress */
+.progress {
+  background: var(--surface); border: 1px solid var(--elev);
+  border-radius: 16px; padding: 18px;
+  margin-bottom: 20px;
+}
+.progress__head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: 10px;
+}
+.progress__head span { color: var(--text-dim); font-size: .85rem; }
+.progress__head strong { font-size: 1.2rem; letter-spacing: -.01em; }
+.bar { height: 8px; background: var(--elev); border-radius: 4px; overflow: hidden; }
+.bar__fill {
+  height: 100%; width: 0;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  transition: width .6s cubic-bezier(.22,1,.36,1);
+}
+.progress__meta {
+  margin: 10px 0 0; font-size: .8rem; color: var(--text-dim);
+}
+
+/* List */
+.list { display: flex; flex-direction: column; gap: 8px; }
+.todo {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 16px;
+  background: var(--surface); border: 1px solid var(--elev);
+  border-radius: 14px;
+  transition: background .15s ease, transform .15s ease;
+}
+.todo.is-done { opacity: .5; }
+.todo.is-done .todo__title { text-decoration: line-through; }
+
+.todo__check {
+  width: 22px; height: 22px; border-radius: 50%;
+  border: 2px solid var(--elev); background: transparent;
+  cursor: pointer; flex-shrink: 0;
+  display: grid; place-items: center; font-size: 12px;
+  transition: all .15s ease;
+}
+.todo.is-done .todo__check {
+  background: var(--success); border-color: var(--success);
+  color: #fff;
+}
+
+.todo__title { flex: 1; font-size: .92rem; }
+.todo__prio { font-size: .9rem; }
+.todo__del {
+  background: transparent; border: 0; color: var(--text-dim);
+  cursor: pointer; opacity: 0; transition: opacity .15s ease;
+  padding: 4px;
+}
+.todo:hover .todo__del { opacity: 1; }
+
+.empty {
+  text-align: center; padding: 60px 20px;
+  color: var(--text-dim); font-size: .9rem;
+}
+.empty .emoji { font-size: 2.5rem; display: block; margin-bottom: 12px; }
+
+/* FAB */
+.fab {
+  position: absolute; bottom: 96px; right: 20px;
+  width: 56px; height: 56px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: #fff; font-size: 1.6rem; font-weight: 400;
+  border: 0; cursor: pointer;
+  box-shadow: 0 8px 20px rgba(99,102,241,.5);
+  transition: transform .15s ease;
+}
+.fab:hover { transform: scale(1.08); }
+.fab:active { transform: scale(.95); }
+
+/* Tabbar */
+.tabbar {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  background: var(--bg);
+  border-top: 1px solid var(--elev);
+  padding: 12px 8px 18px;
+}
+.tab {
+  background: transparent; border: 0; color: var(--text-dim);
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  font-size: .68rem; cursor: pointer; padding: 6px 4px;
+  font-family: inherit;
+  transition: color .15s ease;
+}
+.tab span { font-size: 1.2rem; }
+.tab.is-active { color: var(--accent); }
+
+/* Modal */
+.modal {
+  position: fixed; inset: 0; z-index: 200;
+  display: grid; place-items: center; padding: 16px;
+}
+.modal[hidden] { display: none; }
+.modal__bg { position: absolute; inset: 0; background: rgba(0,0,0,.6); backdrop-filter: blur(4px); }
+.modal__panel {
+  position: relative; width: 100%; max-width: 340px;
+  background: var(--surface); border: 1px solid var(--elev);
+  border-radius: 18px; padding: 24px;
+  animation: pop .15s ease;
+}
+@keyframes pop { from { opacity: 0; transform: scale(.95) } to { opacity: 1; transform: scale(1) } }
+.modal__panel h3 { margin: 0 0 16px; font-size: 1.1rem; }
+.modal__panel input[type="text"] {
+  width: 100%; padding: 12px 14px; border-radius: 10px;
+  background: var(--bg); border: 1px solid var(--elev);
+  color: var(--text); font-family: inherit; font-size: .95rem;
+  outline: none;
+}
+.modal__panel input[type="text"]:focus { border-color: var(--accent); }
+.modal__row {
+  display: flex; gap: 8px; margin: 14px 0 20px; flex-wrap: wrap;
+}
+.modal__row label {
+  flex: 1; padding: 8px 10px; border: 1px solid var(--elev);
+  border-radius: 8px; font-size: .8rem; cursor: pointer; text-align: center;
+}
+.modal__row label:has(input:checked) {
+  background: rgba(99,102,241,.18); border-color: var(--accent);
+}
+.modal__row input { display: none; }
+.modal__actions { display: flex; gap: 8px; }
+.btn {
+  flex: 1; padding: 11px 14px; border-radius: 10px;
+  border: 0; font-family: inherit; font-weight: 600; cursor: pointer;
+  font-size: .9rem;
+}
+.btn--primary {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: #fff;
+}
+.btn--ghost {
+  background: transparent; color: var(--text-dim);
+  border: 1px solid var(--elev);
+}

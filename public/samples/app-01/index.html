@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta name="theme-color" content="#0f172a" />
+  <title>Today — 할 일 앱</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="phone">
+    <main class="screen">
+      <header class="top">
+        <div>
+          <p class="top__date" id="today">오늘</p>
+          <h1 class="top__title">할 일</h1>
+        </div>
+        <div class="top__avatar">JL</div>
+      </header>
+
+      <section class="progress">
+        <div class="progress__head">
+          <span>오늘 진행률</span>
+          <strong><span id="pct">0</span>%</strong>
+        </div>
+        <div class="bar"><div class="bar__fill" id="bar"></div></div>
+        <p class="progress__meta">
+          <span id="done">0</span>개 완료 / 총 <span id="total">0</span>개
+        </p>
+      </section>
+
+      <section class="list" id="list">
+        <!-- 동적 렌더 -->
+      </section>
+
+      <button type="button" class="fab" id="addBtn" aria-label="할 일 추가">+</button>
+    </main>
+
+    <nav class="tabbar">
+      <button type="button" class="tab is-active" data-tab="today">
+        <span>📋</span>오늘
+      </button>
+      <button type="button" class="tab" data-tab="done">
+        <span>✓</span>완료
+      </button>
+      <button type="button" class="tab" data-tab="stat">
+        <span>📊</span>통계
+      </button>
+      <button type="button" class="tab" data-tab="me">
+        <span>👤</span>나
+      </button>
+    </nav>
+  </div>
+
+  <!-- 추가 모달 -->
+  <div class="modal" id="modal" hidden>
+    <div class="modal__bg"></div>
+    <div class="modal__panel">
+      <h3>새 할 일</h3>
+      <input type="text" id="newTitle" placeholder="무엇을 해야 하나요?" maxlength="60" />
+      <div class="modal__row">
+        <label><input type="radio" name="prio" value="high" /> 🔴 높음</label>
+        <label><input type="radio" name="prio" value="mid" checked /> 🟡 보통</label>
+        <label><input type="radio" name="prio" value="low" /> 🟢 낮음</label>
+      </div>
+      <div class="modal__actions">
+        <button type="button" class="btn btn--ghost" id="cancelBtn">취소</button>
+        <button type="button" class="btn btn--primary" id="saveBtn">추가</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

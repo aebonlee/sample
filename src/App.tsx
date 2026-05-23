@@ -43,6 +43,7 @@ export default function App() {
                 {platformLabels[p]} 샘플
               </NavLink>
             ))}
+            <NavLink to="/projects" onClick={() => setMobileNavOpen(false)}>프로젝트 샘플</NavLink>
             <NavLink to="/community" onClick={() => setMobileNavOpen(false)}>커뮤니티</NavLink>
           </nav>
 
@@ -111,6 +112,7 @@ export default function App() {
               <li><Link to="/platform/ai">AI 샘플</Link></li>
               <li><Link to="/platform/data">데이터 샘플</Link></li>
               <li><Link to="/platform/game">게임 샘플</Link></li>
+              <li><Link to="/projects">프로젝트 샘플</Link></li>
               <li><Link to="/community">커뮤니티</Link></li>
             </ul>
           </div>
