@@ -1,3 +1,5 @@
+export type Platform = 'web' | 'app' | 'ai' | 'data' | 'game';
+
 export type SampleCategory =
   | 'personal'
   | 'company'
@@ -6,6 +8,22 @@ export type SampleCategory =
   | 'landing'
   | 'portfolio'
   | 'auth';
+
+export const platformLabels: Record<Platform, string> = {
+  web: '웹개발',
+  app: '앱개발',
+  ai: 'AI',
+  data: '데이터',
+  game: '게임',
+};
+
+export const platformDescriptions: Record<Platform, string> = {
+  web: '브라우저에서 그대로 동작하는 웹사이트 디자인 샘플들입니다. 개인 포트폴리오부터 SaaS 랜딩까지 다양한 스타일을 다룹니다.',
+  app: '모바일 앱(React Native, Flutter, 네이티브) UI/구조 샘플들입니다. 곧 추가될 예정입니다.',
+  ai: 'LLM 기반 챗봇, 이미지 생성, 음성 인식 등 AI 기능이 포함된 샘플들입니다. 곧 추가될 예정입니다.',
+  data: '대시보드, 차트, 데이터 시각화 중심 샘플들입니다. 곧 추가될 예정입니다.',
+  game: '브라우저 게임, 인터랙티브 비주얼 샘플들입니다. 곧 추가될 예정입니다.',
+};
 
 export const categoryLabels: Record<SampleCategory, string> = {
   personal: '개인 소개',
@@ -21,6 +39,7 @@ export interface Sample {
   id: string;
   title: string;
   description: string;
+  platform: Platform;
   category: SampleCategory;
   tags: string[];
   stack: string[];
@@ -35,6 +54,7 @@ export const samples: Sample[] = [
     title: '미니멀 개인 포트폴리오',
     description:
       '한 페이지 스크롤형 개인 소개 사이트. 히어로 · 소개 · 프로젝트 · 연락처 섹션으로 구성되어 있습니다.',
+    platform: 'web',
     category: 'personal',
     tags: ['반응형', '다크모드', '스크롤'],
     stack: ['HTML', 'CSS', 'JavaScript'],
@@ -48,6 +68,7 @@ export const samples: Sample[] = [
     title: '디지털 스튜디오 회사 소개',
     description:
       '서비스 · 사례 · 팀 · 연락처가 한 페이지에 정리된 회사 소개 사이트. 상단 sticky 내비게이션과 그라데이션 히어로가 특징입니다.',
+    platform: 'web',
     category: 'company',
     tags: ['반응형', 'sticky-nav', 'CTA-form'],
     stack: ['HTML', 'CSS', 'JavaScript'],
@@ -61,6 +82,7 @@ export const samples: Sample[] = [
     title: '강좌 카탈로그 대시보드',
     description:
       '좌측 사이드바 + 상단 검색바 + 강좌 카드 그리드. 학습 플랫폼의 대시보드 패턴을 보여 줍니다.',
+    platform: 'web',
     category: 'learning',
     tags: ['대시보드', '사이드바', '카드그리드'],
     stack: ['HTML', 'CSS'],
@@ -74,6 +96,7 @@ export const samples: Sample[] = [
     title: '잡지풍 블로그',
     description:
       '세리프 타이포 + 우측 사이드바 위젯 + 페이지네이션. 글이 주인공이 되는 차분한 톤의 블로그 템플릿.',
+    platform: 'web',
     category: 'blog',
     tags: ['세리프', '사이드바', '에디토리얼'],
     stack: ['HTML', 'CSS'],
@@ -87,6 +110,7 @@ export const samples: Sample[] = [
     title: 'SaaS 마케팅 랜딩',
     description:
       '히어로 + 로고 라인 + 기능 그리드 + 가격 + CTA 밴드. SaaS 제품 출시용 단일 페이지 랜딩.',
+    platform: 'web',
     category: 'landing',
     tags: ['마케팅', '가격표', 'CTA'],
     stack: ['HTML', 'CSS'],
@@ -100,6 +124,7 @@ export const samples: Sample[] = [
     title: '스튜디오 작업물 포트폴리오',
     description:
       '어두운 배경에 큰 작업물 그리드 + 카테고리 필터. 디자인/제작 스튜디오의 자기 PR 사이트.',
+    platform: 'web',
     category: 'portfolio',
     tags: ['다크', '그리드', '필터'],
     stack: ['HTML', 'CSS', 'JavaScript'],
@@ -113,6 +138,7 @@ export const samples: Sample[] = [
     title: 'Supabase OAuth 로그인 (Google + Kakao)',
     description:
       '빌드 도구 없이 정적 HTML에서 Supabase JS 클라이언트로 Google · Kakao 소셜 로그인을 구현한 데모.',
+    platform: 'web',
     category: 'auth',
     tags: ['Supabase', 'OAuth', 'Google', 'Kakao'],
     stack: ['HTML', 'CSS', 'JavaScript', 'Supabase'],
@@ -125,4 +151,8 @@ export const samples: Sample[] = [
 
 export function getSample(id: string): Sample | undefined {
   return samples.find((s) => s.id === id);
+}
+
+export function samplesByPlatform(p: Platform): Sample[] {
+  return samples.filter((s) => s.platform === p);
 }

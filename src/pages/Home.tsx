@@ -1,38 +1,16 @@
-import { useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
 import SampleCard from '../components/SampleCard';
-import { categoryLabels, samples, type SampleCategory } from '../data/samples';
+import {
+  platformDescriptions,
+  platformLabels,
+  samples,
+  samplesByPlatform,
+  type Platform,
+} from '../data/samples';
 
-type Filter = 'all' | SampleCategory;
-
-const filters: { value: Filter; label: string }[] = [
-  { value: 'all', label: '전체' },
-  ...(Object.entries(categoryLabels) as [SampleCategory, string][]).map(([value, label]) => ({
-    value,
-    label,
-  })),
-];
+const platformOrder: Platform[] = ['web', 'app', 'ai', 'data', 'game'];
 
 export default function Home() {
-  const [filter, setFilter] = useState<Filter>('all');
-  const [query, setQuery] = useState('');
-
-  const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    return samples.filter((s) => {
-      if (filter !== 'all' && s.category !== filter) return false;
-      if (!q) return true;
-      return (
-        s.title.toLowerCase().includes(q) ||
-        s.description.toLowerCase().includes(q) ||
-        s.stack.some((x) => x.toLowerCase().includes(q)) ||
-        s.tags.some((x) => x.toLowerCase().includes(q))
-      );
-    });
-  }, [filter, query]);
-
-  const availableCount = (cat: Filter) =>
-    cat === 'all' ? samples.length : samples.filter((s) => s.category === cat).length;
-
   return (
     <>
       <section className="hero">
@@ -46,61 +24,38 @@ export default function Home() {
             보고 직접 만들어 보세요.
           </p>
           <div className="hero__cta">
-            <a className="btn btn--primary" href="#gallery">
-              샘플 둘러보기
-            </a>
-            <a className="btn btn--ghost" href="#/about">
-              제작 방법 보기
-            </a>
+            <Link className="btn btn--primary" to="/platform/web">웹개발 샘플 보기</Link>
+            <Link className="btn btn--ghost" to="/about">About 보기</Link>
           </div>
         </div>
       </section>
 
-      <section id="gallery" className="container gallery">
-        <div className="gallery__controls">
-          <div className="gallery__filters" role="tablist" aria-label="카테고리 필터">
-            {filters.map((f) => {
-              const count = availableCount(f.value);
-              const disabled = count === 0;
-              return (
-                <button
-                  key={f.value}
-                  role="tab"
-                  aria-selected={filter === f.value}
-                  disabled={disabled}
-                  onClick={() => setFilter(f.value)}
-                  className={`filter-chip ${filter === f.value ? 'is-active' : ''}`}
-                >
-                  {f.label}
-                  <span className="filter-chip__count">{count}</span>
-                </button>
-              );
-            })}
-          </div>
-          <input
-            className="gallery__search"
-            type="search"
-            placeholder="제목, 태그, 기술 스택 검색…"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-          />
+      <section className="container platforms">
+        <h2 className="section-title">샘플 플랫폼</h2>
+        <div className="platforms__grid">
+          {platformOrder.map((p) => {
+            const count = samplesByPlatform(p).length;
+            return (
+              <Link key={p} to={`/platform/${p}`} className="platform-card">
+                <div className="platform-card__head">
+                  <span className="platform-card__label">{platformLabels[p]}</span>
+                  <span className="platform-card__count">{count}</span>
+                </div>
+                <p className="platform-card__desc">{platformDescriptions[p]}</p>
+                <span className="platform-card__cta">살펴보기 →</span>
+              </Link>
+            );
+          })}
         </div>
+      </section>
 
-        {filtered.length === 0 ? (
-          <div className="empty-state">
-            <h3>아직 등록된 샘플이 없습니다</h3>
-            <p>
-              곧 다양한 프로젝트 타입의 샘플이 추가될 예정입니다. 카테고리를 바꿔보거나 검색어를
-              지워보세요.
-            </p>
-          </div>
-        ) : (
-          <div className="gallery__grid">
-            {filtered.map((s) => (
-              <SampleCard key={s.id} sample={s} />
-            ))}
-          </div>
-        )}
+      <section id="all" className="container gallery">
+        <h2 className="section-title">전체 샘플 ({samples.length})</h2>
+        <div className="gallery__grid">
+          {samples.map((s) => (
+            <SampleCard key={s.id} sample={s} />
+          ))}
+        </div>
       </section>
     </>
   );

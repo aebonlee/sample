@@ -44,6 +44,7 @@ npm run typecheck    # 타입 체크만 실행
      id: 'company-01',
      title: '미니멀 회사 소개',
      description: '...',
+     platform: 'web',        // web | app | ai | data | game
      category: 'company',
      tags: ['반응형'],
      stack: ['HTML', 'CSS'],
@@ -52,7 +53,19 @@ npm run typecheck    # 타입 체크만 실행
      guide: '제작 방법 설명...',
    }
    ```
-3. `npm run dev`로 확인 후 커밋·푸시하면 GitHub Actions가 자동 배포합니다.
+3. `npm run previews` 로 카드 썸네일(`preview.png`)을 재생성합니다.
+4. `npm run dev`로 확인 후 커밋·푸시하면 GitHub Actions가 자동 배포합니다.
+
+## 로그인 (Supabase)
+
+`.env.example`을 복사해 `.env.local` 생성 후 Supabase 자격증명을 채우면 우측 상단 "로그인" 버튼이 활성화됩니다 (Google + Kakao OAuth).
+
+```bash
+cp .env.example .env.local
+# 편집해서 VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY 설정
+```
+
+배포 환경(GitHub Pages)에서 로그인을 사용하려면 GitHub 저장소 **Settings → Secrets and variables → Actions**에 `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`를 등록하고 워크플로우에 노출해야 합니다.
 
 ## 배포
 
@@ -64,4 +77,7 @@ GitHub 저장소 설정에서 **Settings → Pages → Build and deployment → 
 - React 18 + TypeScript
 - Vite 6
 - React Router (Hash 라우터로 GitHub Pages 직접 링크 지원)
+- @supabase/supabase-js (소셜 로그인)
 - prism-react-renderer (소스 코드 하이라이팅)
+- puppeteer (스크린샷 생성, devDep)
+- sharp (OG 이미지 생성, devDep)

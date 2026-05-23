@@ -5,6 +5,9 @@ import App from './App';
 import Home from './pages/Home';
 import SampleDetail from './pages/SampleDetail';
 import About from './pages/About';
+import PlatformPage from './pages/PlatformPage';
+import Community from './pages/Community';
+import { AuthProvider } from './contexts/AuthContext';
 import './styles/global.css';
 
 const router = createHashRouter([
@@ -13,14 +16,18 @@ const router = createHashRouter([
     element: <App />,
     children: [
       { index: true, element: <Home /> },
-      { path: 'samples/:id', element: <SampleDetail /> },
       { path: 'about', element: <About /> },
+      { path: 'platform/:platform', element: <PlatformPage /> },
+      { path: 'community', element: <Community /> },
+      { path: 'samples/:id', element: <SampleDetail /> },
     ],
   },
 ]);
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </StrictMode>,
 );
