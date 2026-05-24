@@ -6,16 +6,32 @@ export interface MockupPage {
   status: 'done' | 'wip' | 'planned';
 }
 
+export interface SharedFile {
+  filename: string;       // 'style.css' | 'schema.sql' | 'App.tsx'
+  label: string;
+  lang: 'css' | 'sql' | 'tsx' | 'js' | 'markup';
+  desc?: string;
+}
+
 export interface ProjectMockup {
   projectId: number;
-  baseDir: string;  // public path (e.g., '/projects/p1')
+  baseDir: string;        // public path (e.g., '/projects/p1')
+  shared: SharedFile[];   // 프로젝트 공통 파일 (CSS / SQL / React)
   pages: MockupPage[];
 }
+
+// 모든 프로젝트에 동일하게 존재하는 공통 파일 묶음
+const COMMON_SHARED: SharedFile[] = [
+  { filename: 'style.css',  label: 'style.css',  lang: 'css', desc: '공통 디자인 토큰·레이아웃' },
+  { filename: 'schema.sql', label: 'schema.sql', lang: 'sql', desc: 'Supabase/PostgreSQL 스키마' },
+  { filename: 'App.tsx',    label: 'App.tsx',    lang: 'tsx', desc: 'React 19 + Supabase 예제' },
+];
 
 export const PROJECT_MOCKUPS: ProjectMockup[] = [
   {
     projectId: 1,
     baseDir: '/projects/p1',
+    shared: COMMON_SHARED,
     pages: [
       { id: 'home',       title: '홈',           desc: '소개 & 시작 · 추천 동화', status: 'done' },
       { id: 'create',     title: '동화 만들기',  desc: '나이·소재·가치 입력 폼',  status: 'done' },
@@ -28,6 +44,7 @@ export const PROJECT_MOCKUPS: ProjectMockup[] = [
   {
     projectId: 2,
     baseDir: '/projects/p2',
+    shared: COMMON_SHARED,
     pages: [
       { id: 'home',    title: '홈 · 문화재 검색', desc: '검색 + 추천 문화재 카드',         status: 'done' },
       { id: 'detail',  title: '문화재 상세',      desc: '수준별 해설 4단계 토글 + 키워드',  status: 'done' },
@@ -40,6 +57,7 @@ export const PROJECT_MOCKUPS: ProjectMockup[] = [
   {
     projectId: 3,
     baseDir: '/projects/p3',
+    shared: COMMON_SHARED,
     pages: [
       { id: 'home',   title: '시대 타임라인',     desc: '10대 시대 + 진도 + 통계',         status: 'done' },
       { id: 'study',  title: '시대별 학습',       desc: '사이드바 + 수준 토글 + 연표/인물', status: 'done' },
@@ -52,6 +70,7 @@ export const PROJECT_MOCKUPS: ProjectMockup[] = [
   {
     projectId: 4,
     baseDir: '/projects/p4',
+    shared: COMMON_SHARED,
     pages: [
       { id: 'home',     title: '자격증 선택',           desc: '카테고리·진도·합격률',                status: 'done' },
       { id: 'diagnose', title: '진단 평가',             desc: '시작 안내 + 3초 카운트다운',          status: 'done' },
@@ -64,6 +83,7 @@ export const PROJECT_MOCKUPS: ProjectMockup[] = [
   {
     projectId: 5,
     baseDir: '/projects/p5',
+    shared: COMMON_SHARED,
     pages: [
       { id: 'home',     title: '챗봇 메인',     desc: '대화형 + 정책 카드 + 사이드바',  status: 'done' },
       { id: 'search',   title: '정책 검색',     desc: '키워드 + 카테고리 + 마감 뱃지',  status: 'done' },
@@ -76,6 +96,7 @@ export const PROJECT_MOCKUPS: ProjectMockup[] = [
   {
     projectId: 6,
     baseDir: '/projects/p6',
+    shared: COMMON_SHARED,
     pages: [
       { id: 'home',     title: '경험 입력',         desc: '5단계 스텝퍼 + 자유 기술',         status: 'done' },
       { id: 'star',     title: 'STAR 구조화 결과',  desc: 'S/T/A/R 4단 분해 + 역량 자동 추출', status: 'done' },
@@ -88,6 +109,7 @@ export const PROJECT_MOCKUPS: ProjectMockup[] = [
   {
     projectId: 7,
     baseDir: '/projects/p7',
+    shared: COMMON_SHARED,
     pages: [
       { id: 'home',    title: '오늘의 체크인',     desc: '감정 + 루틴 + 회복 그래프',         status: 'done' },
       { id: 'routine', title: '오늘의 루틴 추천',  desc: 'AI 추천 + 카테고리 필터 + 추가',    status: 'done' },

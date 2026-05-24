@@ -600,6 +600,26 @@ code {
   background: var(--bg-elev); border: 1px solid var(--border);
   color: var(--text-mute);
 }
+.pb-side__lang {
+  font-size: .62rem; font-weight: 800; line-height: 1;
+  letter-spacing: .04em;
+  padding: 4px 6px; border-radius: 6px;
+  background: var(--bg-elev); color: var(--text-mute);
+  border: 1px solid var(--border);
+  flex-shrink: 0; min-width: 36px; text-align: center;
+}
+.pb-side__lang--css { background: rgba(59,130,246,.12); color: #3b82f6; border-color: transparent; }
+.pb-side__lang--sql { background: rgba(245,158,11,.12); color: #f59e0b; border-color: transparent; }
+.pb-side__lang--tsx { background: rgba(167,139,250,.16); color: #a78bfa; border-color: transparent; }
+.pb-side__lang--js  { background: rgba(234,179,8,.16);  color: #ca8a04; border-color: transparent; }
+.pb-side__lang--markup { background: rgba(236,72,153,.12); color: #ec4899; border-color: transparent; }
+
+.pb-tabs__label {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 7px 0; color: var(--text); font-weight: 600; font-size: .9rem;
+  font-family: ui-monospace, monospace;
+}
+
 .pb-side__item--done .pb-side__badge { background: rgba(34,197,94,.15); color: #22c55e; border-color: transparent; }
 .pb-side__item--wip .pb-side__badge { background: rgba(245,158,11,.15); color: #f59e0b; border-color: transparent; }
 .pb-side__item--planned { opacity: .8; }
