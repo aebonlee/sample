@@ -89,9 +89,11 @@ function buildShared(projectId: number): SharedFile[] {
     { filename: 'schema.sql',      label: 'schema.sql',      lang: 'sql', desc: 'Supabase/PostgreSQL 스키마' },
     { filename: 'react/README.md', label: 'react/README.md', lang: 'md',  desc: '설치·실행·폴더 구조 가이드' },
     // React 인프라
-    { filename: 'react/App.tsx',     label: 'react/App.tsx',     lang: 'tsx', desc: '라우터 (6개 페이지 등록)' },
-    { filename: 'react/supabase.ts', label: 'react/supabase.ts', lang: 'ts',  desc: 'Supabase 클라이언트 + API 헬퍼' },
-    { filename: 'react/types.ts',    label: 'react/types.ts',    lang: 'ts',  desc: '도메인 타입 정의' },
+    { filename: 'react/App.tsx',                label: 'react/App.tsx',                lang: 'tsx', desc: '라우터 (6개 페이지 등록)' },
+    { filename: 'react/supabase.ts',            label: 'react/supabase.ts',            lang: 'ts',  desc: 'Supabase 클라이언트 + API 헬퍼' },
+    { filename: 'react/types.ts',               label: 'react/types.ts',               lang: 'ts',  desc: '도메인 타입 정의' },
+    { filename: 'react/hooks.ts',               label: 'react/hooks.ts',               lang: 'ts',  desc: '공통 hooks (useAsync, useDebounce, useSession 등)' },
+    { filename: 'react/components/Common.tsx',  label: 'react/components/Common.tsx',  lang: 'tsx', desc: '공통 UI (Spinner, ErrorBox, EmptyState)' },
     // 페이지 컴포넌트들
     ...pages.map((p) => ({
       filename: `react/pages/${p.name}.tsx`,
