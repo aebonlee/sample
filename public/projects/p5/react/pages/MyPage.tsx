@@ -1,34 +1,65 @@
 /**
  * MyPage — 내 맞춤 정책
+ * ────────────────────────────────────────────────────────────
+ * 핵심:
+ *   - 프로필 + 맞춤 정책(matchPolicies RPC) + 진행 중 신청 병렬 로드
+ *   - 매칭률 ≥90% → 마감 임박, 70-89% → 추천
+ *   - 신청 진행률 (preparing/submitted/reviewing)
  *
- * 프로필 + 맞춤 정책(매칭률 ≥ 70%) + 진행 중 신청 + 추천.
+ * 패턴:
+ *   - useAsync 로 병렬 로드
+ *   - 예상 총 혜택 합산 계산
  */
 
-import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase, fetchProfile, matchPolicies } from '../supabase';
+import { useAsync } from '../hooks';
+import { Spinner, ErrorBox, EmptyState } from '../components/Common';
 import type { Profile, Policy, Application } from '../types';
 
 export default function MyPage() {
-  const [profile, setProfile]       = useState<Profile | null>(null);
-  const [matched, setMatched]       = useState<Array<Policy & { score: number }>>([]);
-  const [applications, setApplications] = useState<Array<Application & { policy: Policy }>>([]);
-
-  useEffect(() => {
-    fetchProfile().then(setProfile);
-    matchPolicies().then(setMatched);
-
-    // 진행 중 신청
-    supabase
-      .from('applications')
-      .select('*, policy:policies(*)')
-      .neq('status', 'approved')
-      .neq('status', 'rejected')
-      .then(({ data }) => setApplications((data ?? []) as any));
+  // ─── 프로필 + 매칭 + 신청 병렬 로드 ────────────────
+  const state = useAsync(async () => {
+    const [profile, matched, { data: apps }] = await Promise.all([
+      fetchProfile(),
+      matchPolicies(),
+      supabase
+        .from('applications')
+        .select('*, policy:policies(*)')
+        .neq('status', 'approved')
+        .neq('status', 'rejected'),
+    ]);
+    return {
+      profile,
+      matched,
+      applications: (apps ?? []) as Array<Application & { policy: Policy }>,
+    };
   }, []);
 
-  const urgent = matched.filter((m) => m.score >= 0.9).slice(0, 3);
+  if (state.status === 'loading') return <><Nav /><Spinner /></>;
+  if (state.status === 'error')   return <><Nav /><ErrorBox error={state.error} /></>;
+  if (state.status !== 'success') return null;
+
+  const { profile, matched, applications } = state.data;
+  const urgent      = matched.filter((m) => m.score >= 0.9).slice(0, 3);
   const recommended = matched.filter((m) => m.score >= 0.7 && m.score < 0.9).slice(0, 3);
+  const expectedBenefit = matched.reduce((s, m) => s + (m.amount_total ?? 0), 0);
+
+  if (!profile) {
+    return (
+      <>
+        <Nav />
+        <EmptyState
+          emoji="👋"
+          title="먼저 프로필을 설정해주세요"
+          desc="연령·지역·소득 정보를 입력하면 맞춤 정책이 자동으로 매칭됩니다."
+        />
+        <div style={{ textAlign: 'center', marginTop: 16 }}>
+          <Link to="/profile/edit" className="btn btn--primary">프로필 만들기</Link>
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
@@ -39,28 +70,28 @@ export default function MyPage() {
       </div>
 
       {/* 프로필 카드 */}
-      {profile && (
-        <div className="profile">
-          <article className="card profile__inner">
-            <div className="profile__av">{profile.name?.[0] ?? 'U'}</div>
-            <div>
-              <div className="profile__name">{profile.name} ({new Date().getFullYear() - profile.birth_year}세)</div>
-              <div className="profile__meta">{profile.region} · {profile.employment}</div>
+      <div className="profile">
+        <article className="card profile__inner">
+          <div className="profile__av">{profile.name?.[0] ?? 'U'}</div>
+          <div>
+            <div className="profile__name">
+              {profile.name} ({new Date().getFullYear() - profile.birth_year}세)
             </div>
-            <div className="profile__tags">
-              {profile.custom_tags?.map((t) => <span key={t} className="profile__tag">{t}</span>)}
-            </div>
-            <Link to="/profile/edit" className="profile__edit">✏️ 프로필 수정</Link>
-          </article>
-        </div>
-      )}
+            <div className="profile__meta">{profile.region} · {profile.employment}</div>
+          </div>
+          <div className="profile__tags">
+            {profile.custom_tags?.map((t) => <span key={t} className="profile__tag">{t}</span>)}
+          </div>
+          <Link to="/profile/edit" className="profile__edit">✏️ 프로필 수정</Link>
+        </article>
+      </div>
 
       {/* KPI */}
       <div className="stats">
-        <Stat label="맞춤 정책" value={matched.length} suffix="개" />
-        <Stat label="신청 진행" value={applications.length} suffix="건" />
-        <Stat label="지원 수령" value={1} suffix="건" />
-        <Stat label="예상 총 혜택" value="₩780" suffix="만" />
+        <Stat label="맞춤 정책"      value={matched.length}      suffix="개" />
+        <Stat label="신청 진행"      value={applications.length} suffix="건" />
+        <Stat label="긴급 (마감≤7일)" value={urgent.length}      suffix="건" />
+        <Stat label="예상 총 혜택"   value={`₩${(expectedBenefit / 10000).toFixed(0)}`} suffix="만" />
       </div>
 
       <main className="sections">
@@ -76,10 +107,16 @@ export default function MyPage() {
           </Section>
         )}
 
-        {recommended.length > 0 && (
+        {recommended.length > 0 ? (
           <Section title="🎯 추천 정책" count={recommended.length}>
             {recommended.map((p) => <MatchedCard key={p.id} policy={p} />)}
           </Section>
+        ) : matched.length === 0 && (
+          <EmptyState
+            emoji="🔍"
+            title="아직 매칭된 정책이 없어요"
+            desc="프로필 정보를 더 자세히 입력하면 매칭률이 올라가요."
+          />
         )}
       </main>
     </>
@@ -116,16 +153,21 @@ function MatchedCard({ policy, highMatch }: { policy: Policy & { score: number }
 function ApplicationCard({ app }: { app: Application & { policy: Policy } }) {
   const stepMap = { preparing: 25, submitted: 50, reviewing: 75 } as const;
   const pct = stepMap[app.status as keyof typeof stepMap] ?? 100;
+  const labelMap = { preparing: '준비 중', submitted: '제출 완료', reviewing: '심사 중' } as const;
   return (
     <article className="card item item--applied">
       <div className="item__head">
         <span className="item__cat">{app.policy.category}</span>
-        <span className="item__match item__match--high">{app.status}</span>
+        <span className="item__match item__match--high">
+          {labelMap[app.status as keyof typeof labelMap] ?? app.status}
+        </span>
       </div>
       <h3>{app.policy.title}</h3>
       <p className="item__org">{app.policy.organization}</p>
       <div className="item__progress">
-        <div className="item__progress-bar"><div className="item__progress-fill" style={{ width: `${pct}%` }} /></div>
+        <div className="item__progress-bar">
+          <div className="item__progress-fill" style={{ width: `${pct}%` }} />
+        </div>
         <div className="item__progress-label">
           <span>접수 → 심사 → 발표</span>
           <span>{pct}%</span>

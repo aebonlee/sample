@@ -1,13 +1,22 @@
 /**
- * ChecklistPage — 신청 체크리스트
+ * ChecklistPage — 신청 체크리스트 (5단계)
+ * ────────────────────────────────────────────────────────────
+ * 핵심:
+ *   - 5단계 진행률 + 단계별 세부 체크
+ *   - URL ?policy=<id> → 해당 정책의 application 로드
+ *   - applications.checklist (jsonb) 에 토글 상태 저장 (자동 저장)
  *
- * 5단계 진행률 + 단계별 세부 체크.
- * applications.checklist (jsonb) 에 토글 상태 저장.
+ * 패턴:
+ *   - useAsync 로 application 로드
+ *   - useDebounce 로 토글 변경 시 500ms 후 자동 저장
+ *   - useMemo 로 진행률 계산
  */
 
 import { useEffect, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { supabase } from '../supabase';
+import { useAsync, useDebounce, useSession } from '../hooks';
+import { Spinner, ErrorBox } from '../components/Common';
 
 interface ChecklistStep {
   id: string;
@@ -50,14 +59,68 @@ const STEPS: ChecklistStep[] = [
 ];
 
 export default function ChecklistPage() {
+  const [params] = useSearchParams();
+  const policyId = params.get('policy');
+  const user = useSession();
   const [checked, setChecked] = useState<Record<string, boolean>>({});
+  const [savedAt, setSavedAt] = useState<Date | null>(null);
 
-  // 진행률 계산
+  // ─── application + policy 로드 ───────────────────
+  const state = useAsync(async () => {
+    if (!policyId || !user) return null;
+    const [{ data: app }, { data: pol }] = await Promise.all([
+      supabase.from('applications')
+        .select('id, checklist')
+        .eq('user_id', user.id)
+        .eq('policy_id', policyId)
+        .maybeSingle(),
+      supabase.from('policies')
+        .select('title, amount_summary, apply_deadline, category')
+        .eq('id', policyId)
+        .single(),
+    ]);
+    return { app, policy: pol };
+  }, [policyId, user?.id]);
+
+  // 로드된 checklist 를 state 에 반영 (1회)
+  useEffect(() => {
+    if (state.status === 'success' && state.data?.app?.checklist) {
+      setChecked(state.data.app.checklist as Record<string, boolean>);
+    }
+  }, [state.status]);
+
+  // ─── 자동 저장 (500ms debounce) ───────────────────
+  const debouncedChecked = useDebounce(checked, 500);
+  useEffect(() => {
+    if (!user || !policyId || state.status !== 'success') return;
+    if (Object.keys(debouncedChecked).length === 0) return;
+
+    (async () => {
+      try {
+        const appId = state.data?.app?.id;
+        if (appId) {
+          await supabase.from('applications').update({ checklist: debouncedChecked })
+            .eq('id', appId);
+        } else {
+          await supabase.from('applications').insert({
+            user_id: user.id,
+            policy_id: policyId,
+            status: 'preparing',
+            checklist: debouncedChecked,
+          });
+        }
+        setSavedAt(new Date());
+      } catch {
+        // 저장 실패는 조용히 무시 (다음 토글 때 재시도)
+      }
+    })();
+  }, [debouncedChecked]);
+
+  // ─── 진행률 계산 ─────────────────────────────────
   const { totalItems, checkedItems, pct, currentStep } = useMemo(() => {
     const allItems = STEPS.flatMap((s) => s.items.map((i) => `${s.id}:${i}`));
     const total = allItems.length;
     const done = allItems.filter((k) => checked[k]).length;
-    // 현재 단계: 모든 항목이 체크된 첫 단계의 다음
     let cur = 0;
     for (let i = 0; i < STEPS.length; i++) {
       const stepDone = STEPS[i].items.every((it) => checked[`${STEPS[i].id}:${it}`]);
@@ -76,12 +139,26 @@ export default function ChecklistPage() {
     setChecked((prev) => ({ ...prev, [key]: !prev[key] }));
   }
 
+  if (state.status === 'loading') return <><Nav /><Spinner /></>;
+  if (state.status === 'error')   return <><Nav /><ErrorBox error={state.error} /></>;
+
+  const policy = state.status === 'success' ? state.data?.policy : null;
+  const dday = policy?.apply_deadline
+    ? Math.max(0, Math.ceil((new Date(policy.apply_deadline).getTime() - Date.now()) / 86400000))
+    : null;
+
   return (
     <>
       <Nav />
       <div className="page-head">
         <h1>✓ 신청 체크리스트</h1>
-        <p>한 단계씩 따라하시면 누락 없이 신청할 수 있습니다.</p>
+        <p>한 단계씩 따라하시면 누락 없이 신청할 수 있습니다.
+          {savedAt && (
+            <small style={{ marginLeft: 12, color: 'var(--accent)' }}>
+              💾 {savedAt.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', second: '2-digit' })} 자동 저장됨
+            </small>
+          )}
+        </p>
       </div>
 
       {/* 대상 정책 */}
@@ -89,13 +166,15 @@ export default function ChecklistPage() {
         <div className="target__inner">
           <div className="target__ico">🏠</div>
           <div>
-            <h2>청년 월세 한시 특별지원</h2>
-            <p>매월 20만 원 × 12개월 = 총 240만 원</p>
+            <h2>{policy?.title ?? '청년 월세 한시 특별지원'}</h2>
+            <p>{policy?.amount_summary ?? '매월 20만 원 × 12개월 = 총 240만 원'}</p>
           </div>
-          <div className="target__d">
-            <span style={{ opacity: .85, fontSize: '.8rem' }}>신청 마감</span>
-            <strong>D-37</strong>
-          </div>
+          {dday !== null && (
+            <div className="target__d">
+              <span style={{ opacity: .85, fontSize: '.8rem' }}>신청 마감</span>
+              <strong>D-{dday}</strong>
+            </div>
+          )}
         </div>
       </div>
 

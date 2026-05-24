@@ -1,12 +1,23 @@
 /**
  * RoutinePage — 오늘의 루틴 추천
+ * ────────────────────────────────────────────────────────────
+ * 핵심:
+ *   - 루틴 카탈로그 + 내 활성 루틴 + AI 추천 병렬 로드
+ *   - 카테고리 필터 (마음/몸/수면/기록/관계)
+ *   - 추가/해제 옵티미스틱 토글
+ *   - "추천 모두 추가" 버튼
  *
- * AI 추천 + 카테고리 필터로 루틴 탐색 + 내 루틴에 추가.
+ * 패턴:
+ *   - useAsync 로 병렬 로드
+ *   - useState + Set 으로 추가된 ID 추적
+ *   - useLocalStorage 로 마지막 카테고리 영속화
  */
 
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '../supabase';
+import { useAsync, useLocalStorage } from '../hooks';
+import { Spinner, ErrorBox, EmptyState } from '../components/Common';
 import type { Routine, RoutineCategory } from '../types';
 
 const CATS: { value: RoutineCategory | 'all'; emoji: string; label: string }[] = [
@@ -18,51 +29,86 @@ const CATS: { value: RoutineCategory | 'all'; emoji: string; label: string }[] =
   { value: 'relation', emoji: '🤝',  label: '관계' },
 ];
 
+interface AiData { recommendation: string; suggestedIds: string[]; }
+
 export default function RoutinePage() {
-  const [routines, setRoutines]   = useState<Routine[]>([]);
-  const [myIds, setMyIds]         = useState<Set<string>>(new Set());
-  const [cat, setCat]             = useState<RoutineCategory | 'all'>('all');
-  const [aiRec, setAiRec]         = useState<string>('');
+  const [cat, setCat] = useLocalStorage<RoutineCategory | 'all'>('p7:routine:cat', 'all');
+  const [myIds, setMyIds] = useState<Set<string>>(new Set());
 
-  // ─── 루틴 카탈로그 + 내 구독 ──────────────────────────
-  useEffect(() => {
-    (async () => {
-      const [{ data: all }, { data: mine }] = await Promise.all([
-        supabase.from('routines').select('*').order('category'),
-        supabase.from('user_routines').select('routine_id').eq('is_active', true),
-      ]);
-      setRoutines((all ?? []) as Routine[]);
-      setMyIds(new Set((mine ?? []).map((m: any) => m.routine_id)));
-    })();
-
-    // AI 추천 메시지 (Edge Function)
-    supabase.functions.invoke('routine', { body: { user_id: 'me' } })
-      .then(({ data }) => setAiRec(data?.recommendation ?? '오후 산책과 호흡 명상을 추천드려요.'));
+  // ─── 루틴 + 내 구독 + AI 추천 병렬 로드 ──────────
+  const state = useAsync(async () => {
+    const [{ data: all }, { data: mine }, ai] = await Promise.all([
+      supabase.from('routines').select('*').order('category'),
+      supabase.from('user_routines').select('routine_id').eq('is_active', true),
+      supabase.functions.invoke('routine', { body: { user_id: 'me' } })
+        .then(({ data }) => ({
+          recommendation: data?.recommendation ?? '오후 산책과 호흡 명상을 추천드려요.',
+          suggestedIds: data?.suggested_ids ?? [],
+        } as AiData))
+        .catch(() => ({ recommendation: '오후 산책과 호흡 명상을 추천드려요.', suggestedIds: [] })),
+    ]);
+    return {
+      routines: (all ?? []) as Routine[],
+      mineIds: new Set((mine ?? []).map((m: any) => m.routine_id)),
+      ai,
+    };
   }, []);
 
-  // ─── 추가 / 해제 ──────────────────────────────────────
+  // 로드 완료 시 myIds 초기화
+  useEffect(() => {
+    if (state.status === 'success') setMyIds(new Set(state.data.mineIds));
+  }, [state.status]);
+
+  // ─── 추가/해제 (옵티미스틱) ────────────────────────
   async function toggleAdd(routineId: string) {
-    if (myIds.has(routineId)) {
-      await supabase.from('user_routines').delete()
-        .eq('routine_id', routineId);
-    } else {
-      await supabase.from('user_routines').insert({ routine_id: routineId, is_active: true });
+    const wasAdded = myIds.has(routineId);
+    const next = new Set(myIds);
+    if (wasAdded) next.delete(routineId);
+    else next.add(routineId);
+    setMyIds(next); // 즉시 반영
+
+    try {
+      if (wasAdded) {
+        await supabase.from('user_routines').delete().eq('routine_id', routineId);
+      } else {
+        await supabase.from('user_routines').upsert({ routine_id: routineId, is_active: true });
+      }
+    } catch {
+      // 롤백
+      setMyIds(myIds);
     }
-    setMyIds((prev) => {
-      const next = new Set(prev);
-      if (next.has(routineId)) next.delete(routineId);
-      else next.add(routineId);
-      return next;
-    });
   }
 
-  // 카테고리 그룹
+  // ─── 추천 모두 추가 ───────────────────────────────
+  async function addAllSuggested() {
+    if (state.status !== 'success') return;
+    const ids = state.data.ai.suggestedIds.filter((id) => !myIds.has(id));
+    if (ids.length === 0) return;
+    const next = new Set(myIds);
+    ids.forEach((id) => next.add(id));
+    setMyIds(next);
+    try {
+      await supabase.from('user_routines')
+        .upsert(ids.map((id) => ({ routine_id: id, is_active: true })));
+    } catch {
+      setMyIds(myIds);
+    }
+  }
+
+  // ─── 카테고리 그룹 ────────────────────────────────
   const grouped = useMemo(() => {
-    const filtered = cat === 'all' ? routines : routines.filter((r) => r.category === cat);
+    if (state.status !== 'success') return {};
+    const filtered = cat === 'all'
+      ? state.data.routines
+      : state.data.routines.filter((r) => r.category === cat);
     const map: Record<string, Routine[]> = {};
     filtered.forEach((r) => { (map[r.category] ??= []).push(r); });
     return map;
-  }, [routines, cat]);
+  }, [state, cat]);
+
+  if (state.status === 'loading') return <div className="phone"><Spinner /></div>;
+  if (state.status === 'error')   return <div className="phone"><ErrorBox error={state.error} /></div>;
+  if (state.status !== 'success') return null;
 
   return (
     <div className="phone">
@@ -74,8 +120,12 @@ export default function RoutinePage() {
       <article className="ai-recommend">
         <div className="ai-recommend__ico">✨</div>
         <h3 className="ai-recommend__title">최근 체크인 패턴 기반 추천</h3>
-        <p className="ai-recommend__msg">{aiRec}</p>
-        <button className="ai-recommend__btn">✓ 추천 모두 추가</button>
+        <p className="ai-recommend__msg">{state.data.ai.recommendation}</p>
+        {state.data.ai.suggestedIds.length > 0 && (
+          <button className="ai-recommend__btn" onClick={addAllSuggested}>
+            ✓ 추천 {state.data.ai.suggestedIds.length}개 모두 추가
+          </button>
+        )}
       </article>
 
       <section className="section">
@@ -93,22 +143,30 @@ export default function RoutinePage() {
       </section>
 
       <section className="section">
-        {Object.entries(grouped).map(([catKey, list]) => {
-          const meta = CATS.find((c) => c.value === catKey);
-          return (
-            <div key={catKey} className="category">
-              <p className="cat-title">{meta?.emoji} {meta?.label} ({list.length})</p>
-              {list.map((r) => (
-                <RoutineCard
-                  key={r.id}
-                  routine={r}
-                  isAdded={myIds.has(r.id)}
-                  onToggle={() => toggleAdd(r.id)}
-                />
-              ))}
-            </div>
-          );
-        })}
+        {Object.keys(grouped).length === 0 ? (
+          <EmptyState
+            emoji="🌿"
+            title="이 카테고리에 루틴이 없어요"
+            desc="다른 카테고리를 선택해보세요."
+          />
+        ) : (
+          Object.entries(grouped).map(([catKey, list]) => {
+            const meta = CATS.find((c) => c.value === catKey);
+            return (
+              <div key={catKey} className="category">
+                <p className="cat-title">{meta?.emoji} {meta?.label} ({list.length})</p>
+                {list.map((r) => (
+                  <RoutineCard
+                    key={r.id}
+                    routine={r}
+                    isAdded={myIds.has(r.id)}
+                    onToggle={() => toggleAdd(r.id)}
+                  />
+                ))}
+              </div>
+            );
+          })
+        )}
       </section>
 
       <TabBar active="routine" />
@@ -127,7 +185,7 @@ function RoutineCard({ routine, isAdded, onToggle }: {
         <p className="rec-card__meta">{routine.description}</p>
       </div>
       <button className="rec-card__add" onClick={onToggle}>
-        {isAdded ? '✓' : '+ 추가'}
+        {isAdded ? '✓ 추가됨' : '+ 추가'}
       </button>
     </article>
   );

@@ -1,54 +1,116 @@
 /**
  * MissionPage — 탐방 미션 (지도 + 미션 카드)
  * ────────────────────────────────────────────────────────────
- * 실제 구현 시 카카오/네이버 지도 SDK 사용 권장.
- * 이 예시는 SVG/CSS 로 시뮬레이션.
+ * 핵심:
+ *   - missions JOIN heritages + mission_progress 로 사용자별 진행 상황
+ *   - 가짜 지도 + 핀 위치 (실제로는 Kakao Map SDK)
+ *   - "인증하기" → mission_progress INSERT (포인트 자동 적립)
+ *   - 잠금 미션: 이전 N개 완료 시 자동 해제
  *
- * 데이터:
- *   - missions 테이블 (그룹별 미션 목록)
- *   - mission_progress 테이블 (사용자의 방문 기록)
+ * 통계:
+ *   - 방문 완료 / 획득 포인트 / 다음 보상까지 / 뱃지 자동 계산
+ *
+ * 패턴:
+ *   - useAsync 로 미션 목록 + 진행 상태 병렬 로드
+ *   - useMemo 로 통계 캐싱
  */
 
-import { useEffect, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '../supabase';
+import { useAsync, useSession } from '../hooks';
+import { Spinner, ErrorBox, EmptyState } from '../components/Common';
 import type { Mission, Heritage } from '../types';
 
-interface MissionWithStatus extends Mission {
+interface MissionRow extends Mission {
   heritage: Heritage;
   visited_at?: string;
   is_done: boolean;
+  is_locked: boolean;
 }
 
-export default function MissionPage() {
-  const [missions, setMissions] = useState<MissionWithStatus[]>([]);
+const REWARDS = [
+  { points: 500,  badge: '🏅 첫 탐방' },
+  { points: 1000, badge: '🥈 탐방 마스터' },
+  { points: 2000, badge: '🏆 문화재 박사' },
+];
 
-  useEffect(() => {
-    (async () => {
-      // missions + heritages 조인 + mission_progress
-      const { data } = await supabase
+export default function MissionPage() {
+  const user = useSession();
+  const [actingId, setActingId] = useState<string | null>(null);
+
+  // ─── 미션 + 진행 + 좌표 병렬 로드 ───────────────────
+  const state = useAsync(async () => {
+    if (!user) return [] as MissionRow[];
+    const [{ data: missions, error: mErr }, { data: progress }] = await Promise.all([
+      supabase
         .from('missions')
         .select('*, heritage:heritages(*)')
-        .eq('group_name', '서울 궁궐 5대 탐방');
-
-      const { data: progress } = await supabase
+        .eq('group_name', '서울 궁궐 5대 탐방')
+        .order('unlock_after', { ascending: true }),
+      supabase
         .from('mission_progress')
-        .select('mission_id, visited_at');
+        .select('mission_id, visited_at')
+        .eq('user_id', user.id),
+    ]);
+    if (mErr) throw mErr;
 
-      const progressMap = new Map((progress ?? []).map((p: any) => [p.mission_id, p.visited_at]));
+    const progressMap = new Map((progress ?? []).map((p: any) => [p.mission_id, p.visited_at]));
+    const completedCount = progressMap.size;
 
-      const merged: MissionWithStatus[] = (data ?? []).map((m: any) => ({
-        ...m,
-        visited_at: progressMap.get(m.id),
-        is_done: progressMap.has(m.id),
-      }));
+    return (missions ?? []).map((m: any): MissionRow => ({
+      ...m,
+      heritage: m.heritage as Heritage,
+      visited_at: progressMap.get(m.id) as string | undefined,
+      is_done: progressMap.has(m.id),
+      is_locked: m.unlock_after > 0 && completedCount < m.unlock_after,
+    }));
+  }, [user?.id]);
 
-      setMissions(merged);
-    })();
-  }, []);
+  const summary = useMemo(() => {
+    if (state.status !== 'success') return { done: 0, total: 0, points: 0, nextReward: 500 };
+    const done = state.data.filter((m) => m.is_done).length;
+    const points = state.data.filter((m) => m.is_done).reduce((s, m) => s + m.points, 0);
+    const nextReward = REWARDS.find((r) => points < r.points)?.points ?? 0;
+    return { done, total: state.data.length, points, nextReward };
+  }, [state]);
 
-  const doneCount = missions.filter((m) => m.is_done).length;
-  const totalPoints = missions.filter((m) => m.is_done).reduce((s, m) => s + m.points, 0);
+  // ─── 인증 (optimistic) ───────────────────────────────
+  async function verify(mission: MissionRow) {
+    if (mission.is_done || mission.is_locked || !user) return;
+    setActingId(mission.id);
+
+    // 실제로는 사진 업로드 등 거치지만 여기선 단순화
+    try {
+      await supabase.from('mission_progress').insert({
+        mission_id: mission.id,
+        visited_at: new Date().toISOString(),
+      });
+      alert('🎉 미션 인증 완료!');
+      location.reload();
+    } catch (err) {
+      alert(`인증 실패: ${(err as Error).message}`);
+    } finally {
+      setActingId(null);
+    }
+  }
+
+  if (state.status === 'loading') return <><Nav /><Spinner /></>;
+  if (state.status === 'error')   return <><Nav /><ErrorBox error={state.error} /></>;
+  if (state.status !== 'success') return null;
+
+  if (state.data.length === 0) {
+    return (
+      <>
+        <Nav />
+        <EmptyState
+          emoji="🗺"
+          title="현재 진행 중인 탐방 미션이 없어요"
+          desc="새로운 미션이 곧 추가될 예정입니다."
+        />
+      </>
+    );
+  }
 
   return (
     <>
@@ -60,34 +122,42 @@ export default function MissionPage() {
 
       {/* ─── 통계 ─── */}
       <div className="stats">
-        <Stat label="방문 완료" value={`${doneCount} / ${missions.length}`} />
-        <Stat label="획득 포인트" value={`${totalPoints} pts`} />
-        <Stat label="다음 보상까지" value={`${Math.max(0, 500 - totalPoints)} pts`} />
-        <Stat label="획득 뱃지" value="🏅 3개" />
+        <Stat label="방문 완료"      value={`${summary.done} / ${summary.total}`} />
+        <Stat label="획득 포인트"    value={`${summary.points} pts`} />
+        <Stat label="다음 보상까지"  value={summary.nextReward > 0 ? `${summary.nextReward - summary.points} pts` : '🏆 만점'} />
+        <Stat label="획득 뱃지"      value={`🏅 ${REWARDS.filter((r) => summary.points >= r.points).length}개`} />
       </div>
 
       <main className="layout">
-        {/* ─── 가짜 지도 (실제로는 Kakao Map) ─── */}
+        {/* 가짜 지도 */}
         <div className="card" style={{ padding: 14 }}>
           <div className="map">
-            {missions.map((m, i) => (
+            {state.data.map((m, i) => (
               <Pin
                 key={m.id}
                 left={`${20 + (i * 12) % 50}%`}
                 top={`${35 + (i * 8) % 30}%`}
                 emoji={m.heritage.emoji}
                 label={m.heritage.name}
-                status={m.is_done ? 'done' : 'planned'}
+                status={m.is_locked ? 'locked' : m.is_done ? 'done' : 'planned'}
               />
             ))}
           </div>
+          <p style={{ color: 'var(--text-mute)', fontSize: '.78rem', marginTop: 10, textAlign: 'center' }}>
+            실제 구현 시 Kakao Map SDK 로 교체. <code>schema.sql</code> 에 lat/lng 컬럼 사용.
+          </p>
         </div>
 
-        {/* ─── 미션 카드 목록 ─── */}
+        {/* 미션 카드 목록 */}
         <aside className="missions">
           <h3>미션 목록</h3>
-          {missions.map((m) => (
-            <MissionCard key={m.id} mission={m} />
+          {state.data.map((m) => (
+            <MissionCard
+              key={m.id}
+              mission={m}
+              isActing={actingId === m.id}
+              onVerify={() => verify(m)}
+            />
           ))}
         </aside>
       </main>
@@ -95,19 +165,15 @@ export default function MissionPage() {
   );
 }
 
-// ─── 보조 컴포넌트 ─────────────────────────────────────────
+// ─── 보조 ─────────────────────────────────────────
 
 function Stat({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="stat">
-      <span>{label}</span>
-      <strong>{value}</strong>
-    </div>
-  );
+  return <div className="stat"><span>{label}</span><strong>{value}</strong></div>;
 }
 
 function Pin({ left, top, emoji, label, status }: {
-  left: string; top: string; emoji: string; label: string; status: 'done' | 'planned' | 'locked';
+  left: string; top: string; emoji: string; label: string;
+  status: 'done' | 'planned' | 'locked';
 }) {
   return (
     <div className={`pin pin--${status}`} style={{ left, top }}>
@@ -117,9 +183,12 @@ function Pin({ left, top, emoji, label, status }: {
   );
 }
 
-function MissionCard({ mission }: { mission: MissionWithStatus }) {
+function MissionCard({ mission, isActing, onVerify }: {
+  mission: MissionRow; isActing: boolean; onVerify: () => void;
+}) {
+  const cls = mission.is_done ? 'done' : mission.is_locked ? 'locked' : '';
   return (
-    <article className={`mission card ${mission.is_done ? 'done' : ''}`}>
+    <article className={`mission card ${cls}`}>
       <div className="mission__head">
         <h4 className="mission__title">{mission.heritage.emoji} {mission.heritage.name}</h4>
         <span className="mission__pts">+{mission.points}</span>
@@ -128,8 +197,14 @@ function MissionCard({ mission }: { mission: MissionWithStatus }) {
         📍 {mission.heritage.location_address}
         {mission.visited_at && ` · ${new Date(mission.visited_at).toLocaleDateString('ko-KR')} 방문`}
       </p>
-      <button className="mission__btn">
-        {mission.is_done ? '📜 인증 사진 보기' : '📷 인증하기'}
+      <button
+        className="mission__btn"
+        disabled={mission.is_locked || isActing}
+        onClick={onVerify}>
+        {isActing ? '저장 중...'
+          : mission.is_done ? '📜 인증 사진 보기'
+          : mission.is_locked ? `🔒 ${mission.unlock_after}곳 완료 시 해제`
+          : '📷 인증하기'}
       </button>
     </article>
   );

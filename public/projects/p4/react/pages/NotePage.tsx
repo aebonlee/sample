@@ -1,13 +1,23 @@
 /**
  * NotePage — 자격증 오답 노트 (코드 포함)
+ * ────────────────────────────────────────────────────────────
+ * 핵심:
+ *   - attempts 중 is_correct=false 50건 → 같은 문제 묶기
+ *   - 과목별 필터 + "2회 이상 오답" 필터
+ *   - 코드 스니펫 있는 경우 별도 렌더
  *
- * 자격증 문제는 코드 스니펫이 있는 경우가 많아 별도 표시.
- * attempts 집계 → 정답률 < 80% 인 문제만 노출.
+ * 패턴:
+ *   - useAsync 로 attempts 로드
+ *   - useMemo 로 필터 적용
+ *   - useLocalStorage 로 필터 상태 영속화
+ *   - "다시 풀기" → /quiz?id=<question.id>
  */
 
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useMemo } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../supabase';
+import { useAsync, useLocalStorage } from '../hooks';
+import { Spinner, ErrorBox, EmptyState } from '../components/Common';
 import type { Question } from '../types';
 
 interface WrongItem {
@@ -17,35 +27,53 @@ interface WrongItem {
   attempted_at: string;
 }
 
+const FILTERS = ['전체', '설계', '개발', 'DB', '언어', '시스템', '🔴 2회+'];
+
 export default function NotePage() {
-  const [items, setItems] = useState<WrongItem[]>([]);
-  const [filter, setFilter] = useState<string>('전체');
+  const nav = useNavigate();
+  const [filter, setFilter] = useLocalStorage<string>('p4:note:filter', '전체');
 
-  useEffect(() => {
-    (async () => {
-      const { data } = await supabase
-        .from('attempts')
-        .select('picked_index, attempted_at, question:questions(*)')
-        .eq('is_correct', false)
-        .order('attempted_at', { ascending: false })
-        .limit(50);
+  // ─── 오답 로드 + 묶기 ────────────────────────────
+  const state = useAsync(async () => {
+    const { data, error } = await supabase
+      .from('attempts')
+      .select('picked_index, attempted_at, question:questions(*)')
+      .eq('is_correct', false)
+      .order('attempted_at', { ascending: false })
+      .limit(50);
+    if (error) throw error;
 
-      // 같은 문제 묶기 (wrong_count 집계)
-      const map = new Map<string, WrongItem>();
-      (data ?? []).forEach((a: any) => {
-        const q = a.question as Question;
-        const existing = map.get(q.id);
-        if (existing) existing.wrong_count++;
-        else map.set(q.id, {
-          question: q,
-          picked_index: a.picked_index,
-          wrong_count: 1,
-          attempted_at: a.attempted_at,
-        });
+    const map = new Map<string, WrongItem>();
+    (data ?? []).forEach((a: any) => {
+      const q = a.question as Question;
+      if (!q) return;
+      const existing = map.get(q.id);
+      if (existing) existing.wrong_count++;
+      else map.set(q.id, {
+        question: q,
+        picked_index: a.picked_index,
+        wrong_count: 1,
+        attempted_at: a.attempted_at,
       });
-      setItems(Array.from(map.values()));
-    })();
+    });
+    return Array.from(map.values());
   }, []);
+
+  // ─── 필터 적용 ───────────────────────────────────
+  const filtered = useMemo(() => {
+    if (state.status !== 'success') return [];
+    const items = state.data;
+    if (filter === '전체') return items;
+    if (filter === '🔴 2회+') return items.filter((i) => i.wrong_count >= 2);
+    return items.filter((i) => (i.question as any).subject_name?.includes(filter));
+  }, [state, filter]);
+
+  if (state.status === 'loading') return <><Nav /><Spinner /></>;
+  if (state.status === 'error')   return <><Nav /><ErrorBox error={state.error} /></>;
+  if (state.status !== 'success') return null;
+
+  const items = state.data;
+  const repeatCount = items.filter((i) => i.wrong_count >= 2).length;
 
   return (
     <>
@@ -56,14 +84,14 @@ export default function NotePage() {
       </div>
 
       <div className="summary">
-        <Sum label="전체 오답" value={`${items.length}문제`} />
-        <Sum label="가장 약한 과목" value="DB 구축" />
-        <Sum label="이번 주 복습" value={`${Math.min(items.length, 22)}회`} />
-        <Sum label="완전 정복" value="18문제" />
+        <Sum label="전체 오답"      value={`${items.length}문제`} />
+        <Sum label="2회 이상 오답"  value={`${repeatCount}문제`} />
+        <Sum label="이번 주 복습"   value={`${Math.min(items.length, 22)}회`} />
+        <Sum label="필터 결과"      value={`${filtered.length}문제`} />
       </div>
 
       <div className="filters">
-        {['전체', '설계', '개발', 'DB', '언어', '시스템', '🔴 2회+'].map((f) => (
+        {FILTERS.map((f) => (
           <span
             key={f}
             className={`chip ${filter === f ? 'on' : ''}`}
@@ -73,18 +101,33 @@ export default function NotePage() {
       </div>
 
       <main className="list">
-        {items.length === 0
-          ? <p style={{ padding: 40, textAlign: 'center', color: 'var(--text-mute)' }}>
-              🎉 오답이 없어요!
-            </p>
-          : items.map((item) => <NoteItem key={item.question.id} item={item} />)
-        }
+        {items.length === 0 ? (
+          <EmptyState
+            emoji="🎉"
+            title="오답이 없어요!"
+            desc="문제를 풀어보면 틀린 문제가 자동으로 모입니다."
+          />
+        ) : filtered.length === 0 ? (
+          <EmptyState
+            emoji="🔍"
+            title={`"${filter}" 에 해당하는 오답이 없어요`}
+            desc="다른 필터를 선택해보세요."
+          />
+        ) : (
+          filtered.map((item) => (
+            <NoteItem
+              key={item.question.id}
+              item={item}
+              onRetry={() => nav(`/quiz?id=${item.question.id}`)}
+            />
+          ))
+        )}
       </main>
     </>
   );
 }
 
-function NoteItem({ item }: { item: WrongItem }) {
+function NoteItem({ item, onRetry }: { item: WrongItem; onRetry: () => void }) {
   const q = item.question;
   return (
     <article className="card item">
@@ -100,9 +143,7 @@ function NoteItem({ item }: { item: WrongItem }) {
 
       <p className="item__q">{q.question}</p>
 
-      {q.code_snippet && (
-        <pre className="item__code">{q.code_snippet}</pre>
-      )}
+      {q.code_snippet && <pre className="item__code">{q.code_snippet}</pre>}
 
       <div className="answers">
         <div className="ans ans--my">
@@ -120,7 +161,7 @@ function NoteItem({ item }: { item: WrongItem }) {
       <div className="item__exp">💡 {q.explanation}</div>
 
       <div className="item__actions">
-        <button className="mini">🔁 다시 풀기</button>
+        <button className="mini" onClick={onRetry}>🔁 다시 풀기</button>
         <button className="mini">📌 즐겨찾기</button>
         <button className="mini">📚 관련 학습</button>
       </div>
@@ -138,6 +179,8 @@ function Nav() {
       <div className="brand">🎓 자격증 코치</div>
       <nav className="nav-links">
         <Link to="/">자격증 선택</Link>
+        <Link to="/weakness">취약점</Link>
+        <Link to="/plan">학습 계획</Link>
         <Link to="/note" className="on">오답 노트</Link>
       </nav>
     </header>

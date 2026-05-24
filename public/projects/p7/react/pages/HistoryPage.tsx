@@ -1,14 +1,23 @@
 /**
  * HistoryPage — 루틴 히스토리
+ * ────────────────────────────────────────────────────────────
+ * 핵심:
+ *   - 최근 7일 완료 기록 (시간순)
+ *   - 월간 활동 강도 캘린더 (4단계)
+ *   - 연속 일수 / 이번 달 총 루틴
  *
- * 월간 활동 강도 캘린더 + 일별 루틴 완료 기록.
- * 데이터: completions 테이블 + routines.
+ * 패턴:
+ *   - useAsync 로 두 쿼리(주간 + 월간) 병렬
+ *   - useMemo 로 그룹/달력 계산
+ *   - 빈 상태 처리
  */
 
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '../supabase';
-import type { Completion, Routine } from '../types';
+import { useAsync } from '../hooks';
+import { Spinner, ErrorBox, EmptyState } from '../components/Common';
+import type { Routine } from '../types';
 
 interface DayGroup {
   date: string;
@@ -16,54 +25,65 @@ interface DayGroup {
 }
 
 export default function HistoryPage() {
-  const [groups, setGroups]   = useState<DayGroup[]>([]);
-  const [streak, setStreak]   = useState(0);
-  const [monthly, setMonthly] = useState<Record<string, number>>({});
+  // ─── 주간 완료 + 월간 강도 병렬 로드 ───────────────
+  const state = useAsync(async () => {
+    const since = new Date(Date.now() - 7 * 86400_000).toISOString();
+    const monthStart = new Date();
+    monthStart.setDate(1); monthStart.setHours(0, 0, 0, 0);
 
-  useEffect(() => {
-    (async () => {
-      // 최근 7일 완료 + 루틴 정보
-      const since = new Date(Date.now() - 7 * 86400_000).toISOString();
-      const { data: comps } = await supabase
-        .from('completions')
-        .select('*, routine:routines(*)')
+    const [{ data: comps }, { data: monthly }] = await Promise.all([
+      supabase.from('completions')
+        .select('completed_at, routine:routines(*)')
         .gte('completed_at', since)
-        .order('completed_at', { ascending: false });
-
-      // 날짜별 그룹화
-      const groupMap: Record<string, DayGroup> = {};
-      (comps ?? []).forEach((c: any) => {
-        const date = c.completed_at.split('T')[0];
-        groupMap[date] ??= { date, items: [] };
-        groupMap[date].items.push({
-          routine: c.routine,
-          completedAt: c.completed_at,
-        });
-      });
-      setGroups(Object.values(groupMap));
-
-      // 월간 강도 (이번 달)
-      const monthStart = new Date();
-      monthStart.setDate(1); monthStart.setHours(0, 0, 0, 0);
-      const { data: monthly } = await supabase
-        .from('completions')
+        .order('completed_at', { ascending: false }),
+      supabase.from('completions')
         .select('completed_at')
-        .gte('completed_at', monthStart.toISOString());
+        .gte('completed_at', monthStart.toISOString()),
+    ]);
 
-      const monthlyMap: Record<string, number> = {};
-      (monthly ?? []).forEach((c: any) => {
-        const day = c.completed_at.split('T')[0];
-        monthlyMap[day] = (monthlyMap[day] ?? 0) + 1;
-      });
-      setMonthly(monthlyMap);
-
-      // 연속 일수 계산
-      const sortedDays = Object.keys(monthlyMap).sort().reverse();
-      setStreak(calcStreak(sortedDays));
-    })();
+    return {
+      weekly: (comps ?? []) as Array<{ completed_at: string; routine: Routine }>,
+      monthly: (monthly ?? []) as Array<{ completed_at: string }>,
+    };
   }, []);
 
-  const calendarCells = useMemo(() => buildCalendar(monthly), [monthly]);
+  // ─── 일별 그룹 + 월간 강도 + 연속 일수 ────────────
+  const derived = useMemo(() => {
+    if (state.status !== 'success') return null;
+
+    const groupMap: Record<string, DayGroup> = {};
+    state.data.weekly.forEach((c) => {
+      const date = c.completed_at.split('T')[0];
+      groupMap[date] ??= { date, items: [] };
+      groupMap[date].items.push({
+        routine: c.routine,
+        completedAt: c.completed_at,
+      });
+    });
+
+    const monthlyMap: Record<string, number> = {};
+    state.data.monthly.forEach((c) => {
+      const day = c.completed_at.split('T')[0];
+      monthlyMap[day] = (monthlyMap[day] ?? 0) + 1;
+    });
+
+    const sortedDays = Object.keys(monthlyMap).sort().reverse();
+    return {
+      groups: Object.values(groupMap),
+      monthlyMap,
+      streak: calcStreak(sortedDays),
+      monthlyTotal: state.data.monthly.length,
+    };
+  }, [state]);
+
+  const calendarCells = useMemo(
+    () => buildCalendar(derived?.monthlyMap ?? {}),
+    [derived?.monthlyMap]
+  );
+
+  if (state.status === 'loading') return <div className="phone"><Spinner /></div>;
+  if (state.status === 'error')   return <div className="phone"><ErrorBox error={state.error} /></div>;
+  if (!derived) return null;
 
   return (
     <div className="phone">
@@ -75,11 +95,11 @@ export default function HistoryPage() {
       {/* 요약 통계 */}
       <div className="summary">
         <div className="summary__item">
-          <div className="summary__num">{streak}일</div>
+          <div className="summary__num">{derived.streak}일</div>
           <div className="summary__lab">🔥 연속 체크인</div>
         </div>
         <div className="summary__item">
-          <div className="summary__num">{Object.values(monthly).reduce((s, n) => s + n, 0)}</div>
+          <div className="summary__num">{derived.monthlyTotal}</div>
           <div className="summary__lab">이번 달 루틴</div>
         </div>
       </div>
@@ -89,7 +109,9 @@ export default function HistoryPage() {
         <h3>📅 이번 달 활동 강도</h3>
         <div className="cal-grid">
           {calendarCells.map((c, i) => (
-            <div key={i} className={dayClass(c)}>{c.day || ''}</div>
+            <div key={i} className={dayClass(c)} title={c.count > 0 ? `${c.count}회` : ''}>
+              {c.day || ''}
+            </div>
           ))}
         </div>
         <div className="legend">
@@ -101,9 +123,15 @@ export default function HistoryPage() {
       </article>
 
       {/* 일별 그룹 */}
-      {groups.map((g) => (
-        <DayGroupSection key={g.date} group={g} />
-      ))}
+      {derived.groups.length === 0 ? (
+        <EmptyState
+          emoji="📓"
+          title="아직 완료한 루틴이 없어요"
+          desc="홈에서 루틴을 추가하고 체크해보세요."
+        />
+      ) : (
+        derived.groups.map((g) => <DayGroupSection key={g.date} group={g} />)
+      )}
 
       <TabBar active="history" />
     </div>
@@ -151,8 +179,8 @@ function buildCalendar(monthly: Record<string, number>) {
   return cells;
 }
 
-function dayClass(c: any) {
-  if (c.empty) return 'cal-day';
+function dayClass(c: { empty?: boolean; count: number; isToday: boolean }) {
+  if (c.empty) return 'cal-day empty';
   const lvl = c.count >= 5 ? 'l3' : c.count >= 3 ? 'l2' : c.count >= 1 ? 'l1' : '';
   return `cal-day ${lvl} ${c.isToday ? 'today' : ''}`;
 }

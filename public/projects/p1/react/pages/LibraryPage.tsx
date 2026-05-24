@@ -1,21 +1,29 @@
 /**
  * LibraryPage — 내 동화 목록
  * ────────────────────────────────────────────────────────────
- * 사용자가 만든 모든 동화를 목록으로 보여줍니다.
+ * 핵심:
+ *   - 사용자가 만든 동화 전체 (status='done')
+ *   - 나이대 / 즐겨찾기 필터
+ *   - 제목 검색 (useDebounce)
+ *   - 즐겨찾기 토글 (optimistic update)
+ *   - 정렬 (최근/제목/즐겨찾기)
  *
- * 기능:
- *   - 나이대별 / 즐겨찾기 필터
- *   - 제목 검색
- *   - 카드 클릭 → /reader/:id
- *   - ★ 버튼 클릭 → is_favorite 토글 (optimistic update)
+ * 패턴:
+ *   - useAsync 로 목록 로드
+ *   - useLocalStorage 로 필터/정렬 영속화
+ *   - useDebounce 로 검색어 지연
+ *   - useMemo 로 필터링 캐싱
  */
 
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '../supabase';
+import { useAsync, useDebounce, useLocalStorage, useSession } from '../hooks';
+import { Spinner, ErrorBox, EmptyState } from '../components/Common';
 import type { Story, AgeRange } from '../types';
 
 type Filter = 'all' | AgeRange | 'fav';
+type Sort = 'recent' | 'title' | 'fav';
 
 const FILTERS: { value: Filter; label: string }[] = [
   { value: 'all',   label: '전체' },
@@ -26,43 +34,64 @@ const FILTERS: { value: Filter; label: string }[] = [
 ];
 
 export default function LibraryPage() {
+  const user = useSession();
+  const [filter, setFilter] = useLocalStorage<Filter>('p1:lib:filter', 'all');
+  const [sort, setSort]     = useLocalStorage<Sort>('p1:lib:sort', 'recent');
+  const [rawQuery, setRawQuery] = useState('');
+  const query = useDebounce(rawQuery, 300);
   const [stories, setStories] = useState<Story[]>([]);
-  const [filter, setFilter]   = useState<Filter>('all');
-  const [query, setQuery]     = useState('');
-  const [loading, setLoading] = useState(true);
 
-  // ─── 초기 로드 ──────────────────────────────────────────
-  useEffect(() => {
-    (async () => {
-      const { data } = await supabase
-        .from('stories')
-        .select('*')
-        .eq('status', 'done')
-        .order('created_at', { ascending: false });
-      setStories((data ?? []) as Story[]);
-      setLoading(false);
-    })();
-  }, []);
+  // ─── 동화 목록 로드 ─────────────────────────────────
+  const state = useAsync(async () => {
+    if (!user) return [] as Story[];
+    const { data, error } = await supabase
+      .from('stories').select('*')
+      .eq('status', 'done')
+      .order('created_at', { ascending: false });
+    if (error) throw error;
+    return (data ?? []) as Story[];
+  }, [user?.id]);
 
-  // ─── 클라이언트 필터링 ──────────────────────────────────
+  // 첫 로드 동기화
+  if (state.status === 'success' && stories.length === 0 && state.data.length > 0) {
+    setStories(state.data);
+  }
+
+  // ─── 필터링 + 정렬 ────────────────────────────────
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return stories.filter((s) => {
+    let list = stories.filter((s) => {
       if (filter === 'fav' && !s.is_favorite) return false;
       if (filter !== 'all' && filter !== 'fav' && s.age_range !== filter) return false;
       if (q && !s.title.toLowerCase().includes(q)) return false;
       return true;
     });
-  }, [stories, filter, query]);
 
-  // ─── 즐겨찾기 토글 (optimistic) ─────────────────────────
+    switch (sort) {
+      case 'title': list.sort((a, b) => a.title.localeCompare(b.title)); break;
+      case 'fav':   list.sort((a, b) => Number(b.is_favorite) - Number(a.is_favorite)); break;
+      case 'recent':
+      default: /* 이미 created_at desc */ break;
+    }
+    return list;
+  }, [stories, filter, sort, query]);
+
+  // ─── 즐겨찾기 토글 (optimistic) ─────────────────────
   async function toggleFav(id: string) {
-    setStories((prev) => prev.map((s) =>
-      s.id === id ? { ...s, is_favorite: !s.is_favorite } : s,
-    ));
     const target = stories.find((s) => s.id === id);
-    if (target) {
-      await supabase.from('stories').update({ is_favorite: !target.is_favorite }).eq('id', id);
+    if (!target) return;
+    const next = !target.is_favorite;
+    setStories((prev) => prev.map((s) =>
+      s.id === id ? { ...s, is_favorite: next } : s,
+    ));
+    try {
+      await supabase.from('stories').update({ is_favorite: next }).eq('id', id);
+    } catch {
+      // 롤백
+      setStories((prev) => prev.map((s) =>
+        s.id === id ? { ...s, is_favorite: !next } : s,
+      ));
+      alert('즐겨찾기 변경 실패');
     }
   }
 
@@ -71,43 +100,58 @@ export default function LibraryPage() {
       <Nav />
       <div className="page-head">
         <h1>📚 내가 만든 동화</h1>
-        <p>지금까지 만든 동화 <strong>{stories.length}</strong>권 — 즐겁게 읽고 활동까지 마치셨네요!</p>
+        <p>
+          {state.status === 'loading' ? '...' : `총 ${stories.length}권 만들었어요`}
+          {query && ` · "${query}" 결과 ${filtered.length}권`}
+        </p>
       </div>
 
-      {/* ─── 필터 + 검색 ─── */}
       <div className="filters">
         <input
-          className="search"
-          type="search"
+          className="search" type="search"
           placeholder="동화 제목 검색…"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          value={rawQuery}
+          onChange={(e) => setRawQuery(e.target.value)}
         />
         {FILTERS.map((f) => (
-          <button
-            key={f.value}
+          <button key={f.value}
             className={`chip ${filter === f.value ? 'is-on' : ''}`}
-            onClick={() => setFilter(f.value)}
-          >{f.label}</button>
+            onClick={() => setFilter(f.value)}>{f.label}</button>
         ))}
+        <select value={sort} onChange={(e) => setSort(e.target.value as Sort)}
+                style={{ marginLeft: 'auto', padding: '6px 10px', borderRadius: 8,
+                        border: '1px solid var(--border)' }}>
+          <option value="recent">최근 순</option>
+          <option value="title">제목 순</option>
+          <option value="fav">즐겨찾기 우선</option>
+        </select>
       </div>
 
-      {/* ─── 동화 그리드 ─── */}
       <div className="lib">
-        {loading
-          ? <p style={{ gridColumn: '1/-1', color: 'var(--text-mute)' }}>📖 불러오는 중...</p>
-          : filtered.length === 0
-            ? <Empty />
-            : filtered.map((s) => (
-                <BookCard key={s.id} story={s} onToggleFav={toggleFav} />
-              ))
-        }
+        {state.status === 'loading' && <div style={{ gridColumn: '1/-1' }}><Spinner label="📖 동화를 불러오는 중..." /></div>}
+        {state.status === 'error'   && <div style={{ gridColumn: '1/-1' }}><ErrorBox error={state.error} /></div>}
+        {state.status === 'success' && (
+          filtered.length === 0 ? (
+            <div style={{ gridColumn: '1/-1' }}>
+              <EmptyState
+                emoji="📖"
+                title={query ? '검색 결과가 없어요' : '아직 동화가 없어요'}
+                desc={query ? '다른 검색어를 시도해 보세요' : '첫 동화를 만들어 보세요!'}
+                action={!query && (
+                  <Link to="/create" className="btn btn--primary">✨ 새 동화 만들기</Link>
+                )}
+              />
+            </div>
+          ) : (
+            filtered.map((s) => <BookCard key={s.id} story={s} onToggleFav={toggleFav} />)
+          )
+        )}
       </div>
     </>
   );
 }
 
-// ─── 보조 컴포넌트 ─────────────────────────────────────────
+// ─── 보조 ─────────────────────────────────────────
 
 function BookCard({ story, onToggleFav }: { story: Story; onToggleFav: (id: string) => void }) {
   return (
@@ -117,6 +161,7 @@ function BookCard({ story, onToggleFav }: { story: Story; onToggleFav: (id: stri
         <span className="book__age">{story.age_range}세</span>
         <button
           className={`book__fav ${story.is_favorite ? 'is-on' : ''}`}
+          aria-label={story.is_favorite ? '즐겨찾기 해제' : '즐겨찾기'}
           onClick={(e) => { e.preventDefault(); onToggleFav(story.id); }}
         >
           {story.is_favorite ? '★' : '☆'}
@@ -129,19 +174,6 @@ function BookCard({ story, onToggleFav }: { story: Story; onToggleFav: (id: stri
         </p>
       </div>
     </Link>
-  );
-}
-
-function Empty() {
-  return (
-    <div className="empty" style={{ gridColumn: '1/-1' }}>
-      <span>📖</span>
-      조건에 맞는 동화가 없어요.
-      <br/>
-      <Link to="/create" className="btn btn--primary" style={{ marginTop: 12, display: 'inline-block' }}>
-        ✨ 새 동화 만들기
-      </Link>
-    </div>
   );
 }
 
