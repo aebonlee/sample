@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>회복 그래프 — 회복탄력성</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body { background: radial-gradient(800px 400px at 50% 0%, rgba(234,88,12,.08), transparent 60%), var(--bg); min-height: 100vh; }
+
+    .range-tabs {
+      display: flex; gap: 4px; padding: 4px;
+      background: var(--soft); border-radius: 10px;
+      margin-bottom: 16px;
+    }
+    .range-tabs button {
+      flex: 1; padding: 7px; border: 0; background: transparent;
+      border-radius: 7px; cursor: pointer; font-family: inherit;
+      color: var(--text-dim); font-size: .85rem; font-weight: 600;
+    }
+    .range-tabs button.on { background: #fff; color: var(--accent); box-shadow: 0 1px 3px rgba(0,0,0,.06); }
+
+    .hero {
+      padding: 20px; margin-bottom: 14px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #fff; border-radius: 16px;
+      text-align: center;
+    }
+    .hero__num { font-size: 3rem; font-weight: 800; line-height: 1; }
+    .hero__delta { display: inline-block; margin-top: 6px; padding: 3px 10px; background: rgba(255,255,255,.2); border-radius: 999px; font-size: .82rem; }
+    .hero__lab { margin: 6px 0 0; font-size: .82rem; opacity: .9; }
+
+    .chart {
+      padding: 18px;
+    }
+    .chart h3 { margin: 0 0 14px; font-size: .95rem; }
+    .chart-bars { display: flex; align-items: end; gap: 6px; height: 140px; padding-bottom: 18px; position: relative; }
+    .chart-bar { flex: 1; background: linear-gradient(180deg, var(--accent), var(--accent-2)); border-radius: 4px 4px 0 0; position: relative; transition: opacity .15s ease; }
+    .chart-bar:hover { opacity: .8; }
+    .chart-bar__num { position: absolute; top: -18px; left: 50%; transform: translateX(-50%); font-size: .68rem; color: var(--text-dim); font-weight: 700; }
+    .chart-bar__day { position: absolute; bottom: -16px; left: 50%; transform: translateX(-50%); font-size: .68rem; color: var(--text-mute); }
+    .chart-bar.today { background: linear-gradient(180deg, #fbbf24, var(--accent)); }
+
+    .mood-chart { margin-top: 12px; }
+    .mood-row {
+      display: grid; grid-template-columns: 60px 1fr; gap: 10px;
+      align-items: center; padding: 6px 0;
+    }
+    .mood-row__day { color: var(--text-mute); font-size: .76rem; }
+    .mood-bar { height: 8px; background: var(--soft); border-radius: 4px; overflow: hidden; position: relative; }
+    .mood-bar__fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-2)); }
+
+    .insight {
+      padding: 16px; background: var(--soft); border-left: 4px solid var(--accent);
+      border-radius: 0 12px 12px 0; margin-top: 14px;
+      font-size: .88rem; line-height: 1.7;
+    }
+    .insight strong { color: var(--accent); }
+
+    .stats {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+      margin-top: 14px;
+    }
+    .stat { padding: 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; }
+    .stat span { color: var(--text-mute); font-size: .72rem; }
+    .stat strong { display: block; font-size: 1.1rem; }
+  </style>
+</head>
+<body>
+  <div class="phone">
+    <header class="greet">
+      <p>📊 회복력 통계</p>
+      <h1>지난 7일 회복 점수</h1>
+    </header>
+
+    <div class="range-tabs">
+      <button class="on">7일</button>
+      <button>30일</button>
+      <button>90일</button>
+      <button>전체</button>
+    </div>
+
+    <article class="hero">
+      <div class="hero__num">72</div>
+      <span class="hero__delta">▲ +18% vs 지난주</span>
+      <p class="hero__lab">평균 회복력 점수 (100점 만점)</p>
+    </article>
+
+    <article class="card chart">
+      <h3>📈 일별 회복 점수</h3>
+      <div class="chart-bars">
+        <div class="chart-bar" style="height: 40%;"><span class="chart-bar__num">52</span><span class="chart-bar__day">월</span></div>
+        <div class="chart-bar" style="height: 55%;"><span class="chart-bar__num">61</span><span class="chart-bar__day">화</span></div>
+        <div class="chart-bar" style="height: 35%;"><span class="chart-bar__num">48</span><span class="chart-bar__day">수</span></div>
+        <div class="chart-bar" style="height: 70%;"><span class="chart-bar__num">74</span><span class="chart-bar__day">목</span></div>
+        <div class="chart-bar" style="height: 80%;"><span class="chart-bar__num">82</span><span class="chart-bar__day">금</span></div>
+        <div class="chart-bar" style="height: 65%;"><span class="chart-bar__num">70</span><span class="chart-bar__day">토</span></div>
+        <div class="chart-bar today" style="height: 78%;"><span class="chart-bar__num">79</span><span class="chart-bar__day">일</span></div>
+      </div>
+    </article>
+
+    <article class="card chart" style="margin-top: 12px;">
+      <h3>😊 일별 감정 (10단계)</h3>
+      <div class="mood-chart">
+        <div class="mood-row"><span class="mood-row__day">월 😟</span><div class="mood-bar"><div class="mood-bar__fill" style="width: 40%"></div></div></div>
+        <div class="mood-row"><span class="mood-row__day">화 😌</span><div class="mood-bar"><div class="mood-bar__fill" style="width: 55%"></div></div></div>
+        <div class="mood-row"><span class="mood-row__day">수 😢</span><div class="mood-bar"><div class="mood-bar__fill" style="width: 30%"></div></div></div>
+        <div class="mood-row"><span class="mood-row__day">목 😊</span><div class="mood-bar"><div class="mood-bar__fill" style="width: 65%"></div></div></div>
+        <div class="mood-row"><span class="mood-row__day">금 😄</span><div class="mood-bar"><div class="mood-bar__fill" style="width: 80%"></div></div></div>
+        <div class="mood-row"><span class="mood-row__day">토 😌</span><div class="mood-bar"><div class="mood-bar__fill" style="width: 60%"></div></div></div>
+        <div class="mood-row"><span class="mood-row__day">일 😊</span><div class="mood-bar"><div class="mood-bar__fill" style="width: 70%"></div></div></div>
+      </div>
+
+      <div class="insight">
+        💡 <strong>이번 주의 패턴</strong>: 수요일이 가장 낮고, 금요일이 가장 높았어요. 수요일에는 잠을 적게 잔 날과 겹치네요. <strong>수면 시간</strong>이 회복력에 큰 영향을 주는 것 같아요.
+      </div>
+    </article>
+
+    <div class="stats">
+      <div class="stat"><span>연속 체크인</span><strong>14일 🔥</strong></div>
+      <div class="stat"><span>완료한 루틴</span><strong>26회</strong></div>
+      <div class="stat"><span>저널 작성</span><strong>9건</strong></div>
+      <div class="stat"><span>최고 점수</span><strong>82점 (금)</strong></div>
+    </div>
+
+    <article class="insight" style="margin-top: 14px;">
+      🎯 <strong>다음 주 추천</strong>: 수요일에 호흡 명상 5분을 추가해보세요. 이번 주 패턴으로 보면 미드위크 회복에 도움이 될 거예요.
+    </article>
+  </div>
+
+  <nav class="tabbar">
+    <a href="home.html" class="tab"><span>🏠</span>홈</a>
+    <a href="routine.html" class="tab"><span>🌿</span>루틴</a>
+    <a href="journal.html" class="tab"><span>📓</span>저널</a>
+    <a href="chart.html" class="tab on"><span>📊</span>그래프</a>
+    <a href="setting.html" class="tab"><span>⚙</span>설정</a>
+  </nav>
+</body>
+</html>

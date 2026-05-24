@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>채점 결과 — 자격증 코치</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .hero {
+      max-width: 1100px; margin: 24px auto; padding: 32px;
+      background: linear-gradient(135deg, var(--accent), var(--sky));
+      color: #fff; border-radius: 16px;
+      display: grid; grid-template-columns: 220px 1fr; gap: 28px; align-items: center;
+    }
+    .score-circle {
+      width: 200px; height: 200px; border-radius: 50%;
+      background: conic-gradient(#fff 0% 68%, rgba(255,255,255,.2) 68% 100%);
+      display: grid; place-items: center; margin: auto;
+      position: relative;
+    }
+    .score-circle::before {
+      content: ''; position: absolute; width: 150px; height: 150px;
+      background: var(--accent); border-radius: 50%;
+    }
+    .score-circle__text { position: relative; text-align: center; }
+    .score-circle__num { font-size: 3rem; font-weight: 800; line-height: 1; }
+    .score-circle__lab { display: block; font-size: .75rem; opacity: .9; margin-top: 4px; }
+    .hero__info h1 { margin: 0 0 6px; font-size: 1.6rem; }
+    .hero__sub { margin: 0 0 16px; opacity: .9; font-size: .92rem; }
+    .hero__stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .hero__stat { background: rgba(255,255,255,.12); padding: 12px; border-radius: 10px; }
+    .hero__stat span { display: block; font-size: .72rem; opacity: .85; }
+    .hero__stat strong { font-size: 1.3rem; }
+
+    .layout {
+      max-width: 1100px; margin: 0 auto; padding: 0 24px 80px;
+      display: grid; grid-template-columns: 1.4fr 1fr; gap: 16px;
+    }
+
+    .subjects-result h3 { margin: 0 0 14px; font-size: 1rem; }
+    .sj { display: grid; grid-template-columns: 1fr auto auto; gap: 10px; align-items: center; padding: 12px; border-radius: 10px; }
+    .sj + .sj { border-top: 1px solid var(--border); }
+    .sj__name { font-size: .9rem; font-weight: 600; }
+    .sj__bar { width: 120px; height: 6px; background: var(--bg); border-radius: 3px; overflow: hidden; }
+    .sj__fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--sky)); }
+    .sj__pct { font-weight: 700; min-width: 50px; text-align: right; font-size: .9rem; }
+    .sj.weak .sj__pct { color: var(--danger); }
+    .sj.good .sj__pct { color: var(--ok); }
+
+    .verdict { padding: 22px; }
+    .verdict__grade {
+      text-align: center;
+      padding: 18px; margin-bottom: 14px;
+      background: rgba(245,158,11,.1); border: 2px dashed var(--warn);
+      border-radius: 12px;
+    }
+    .verdict__grade strong { display: block; font-size: 2rem; color: var(--warn); }
+    .verdict__msg { color: var(--text-dim); font-size: .9rem; line-height: 1.7; margin: 0 0 14px; }
+    .verdict__actions { display: flex; flex-direction: column; gap: 8px; }
+    .verdict__actions .btn { width: 100%; justify-content: center; }
+
+    @media (max-width: 880px) {
+      .hero { grid-template-columns: 1fr; }
+      .layout { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="brand">🎓 자격증 코치</div>
+    <nav class="nav-links">
+      <a href="home.html">자격증 선택</a>
+      <a href="diagnose.html">진단</a>
+      <a href="weakness.html">취약점</a>
+      <a href="plan.html">학습 계획</a>
+      <a href="note.html">오답 노트</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="score-circle">
+      <div class="score-circle__text">
+        <span class="score-circle__num">68</span>
+        <span class="score-circle__lab">100점 만점</span>
+      </div>
+    </div>
+    <div class="hero__info">
+      <h1>🎯 진단 평가 결과</h1>
+      <p class="hero__sub">정보처리기사 · 2026.05.24 응시 · 28분 14초 소요</p>
+      <div class="hero__stats">
+        <div class="hero__stat"><span>정답</span><strong>17 / 25</strong></div>
+        <div class="hero__stat"><span>예상 합격률</span><strong>72%</strong></div>
+        <div class="hero__stat"><span>예상 학습</span><strong>4주</strong></div>
+      </div>
+    </div>
+  </section>
+
+  <main class="layout">
+    <article class="card subjects-result">
+      <h3>📊 과목별 정답률</h3>
+      <div class="sj good">
+        <span class="sj__name">소프트웨어 설계</span>
+        <div class="sj__bar"><div class="sj__fill" style="width: 80%"></div></div>
+        <span class="sj__pct">80% · 4/5</span>
+      </div>
+      <div class="sj">
+        <span class="sj__name">소프트웨어 개발</span>
+        <div class="sj__bar"><div class="sj__fill" style="width: 60%"></div></div>
+        <span class="sj__pct">60% · 3/5</span>
+      </div>
+      <div class="sj weak">
+        <span class="sj__name">데이터베이스 구축</span>
+        <div class="sj__bar"><div class="sj__fill" style="width: 40%"></div></div>
+        <span class="sj__pct">40% · 2/5</span>
+      </div>
+      <div class="sj good">
+        <span class="sj__name">프로그래밍 언어 활용</span>
+        <div class="sj__bar"><div class="sj__fill" style="width: 80%"></div></div>
+        <span class="sj__pct">80% · 4/5</span>
+      </div>
+      <div class="sj weak">
+        <span class="sj__name">정보시스템 구축 관리</span>
+        <div class="sj__bar"><div class="sj__fill" style="width: 40%"></div></div>
+        <span class="sj__pct">40% · 2/5</span>
+      </div>
+    </article>
+
+    <article class="verdict card">
+      <div class="verdict__grade">
+        <span style="color: var(--text-dim); font-size: .82rem;">예상 등급</span>
+        <strong>B</strong>
+        <span style="color: var(--text-mute); font-size: .8rem;">합격 가능권 (커트라인 +8점)</span>
+      </div>
+      <p class="verdict__msg">
+        합격에 매우 가까운 점수입니다! <strong>데이터베이스 구축</strong>과 <strong>정보시스템 구축 관리</strong> 2개 과목만 집중하면 다음 시험 합격이 충분히 가능합니다.
+      </p>
+      <div class="verdict__actions">
+        <a href="weakness.html" class="btn btn--primary">🎯 취약점 자세히 보기</a>
+        <a href="plan.html" class="btn btn--ghost">📅 학습 계획 만들기</a>
+        <a href="diagnose.html" class="btn btn--ghost">🔄 다시 응시</a>
+      </div>
+    </article>
+  </main>
+</body>
+</html>

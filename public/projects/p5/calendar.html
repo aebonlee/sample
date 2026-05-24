@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>정책 캘린더 — 청년톡톡</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .page-head { max-width: 1200px; margin: 0 auto; padding: 24px 24px 12px; display: flex; justify-content: space-between; align-items: end; flex-wrap: wrap; gap: 14px; }
+    .page-head h1 { margin: 0 0 6px; font-size: 1.5rem; }
+    .page-head p { color: var(--text-dim); margin: 0; }
+
+    .top-bar { display: flex; gap: 8px; }
+    .top-bar button { padding: 8px 14px; border-radius: 8px; background: var(--surface); border: 1px solid var(--border); cursor: pointer; font-family: inherit; font-size: .85rem; }
+    .top-bar button.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    .layout {
+      max-width: 1200px; margin: 14px auto; padding: 0 24px 80px;
+      display: grid; grid-template-columns: 1fr 320px; gap: 18px;
+    }
+
+    .cal-wrap { padding: 22px; }
+    .cal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+    .cal-head h2 { margin: 0; font-size: 1.1rem; }
+    .cal-head__nav { display: flex; gap: 4px; }
+    .cal-head__nav button { width: 32px; height: 32px; border-radius: 8px; background: var(--bg); border: 1px solid var(--border); cursor: pointer; font-family: inherit; }
+    .cal-head__today { padding: 6px 14px; border-radius: 8px; background: var(--accent); color: #fff; border: 0; cursor: pointer; font-family: inherit; font-size: .82rem; }
+
+    .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+    .wk { text-align: center; padding: 6px 0; font-size: .72rem; color: var(--text-mute); font-weight: 700; }
+    .wk:first-child { color: var(--danger); }
+    .day {
+      min-height: 96px; padding: 8px; border-radius: 8px;
+      background: var(--bg); border: 1px solid transparent;
+      display: flex; flex-direction: column; gap: 4px;
+      cursor: pointer; position: relative;
+    }
+    .day:hover { border-color: var(--accent); }
+    .day.empty { background: transparent; cursor: default; }
+    .day.empty:hover { border-color: transparent; }
+    .day.today { background: var(--surface); border-color: var(--accent); box-shadow: 0 0 0 2px rgba(22,163,74,.2); }
+    .day__num { font-weight: 700; font-size: .82rem; }
+    .day.empty .day__num { color: var(--text-mute); }
+    .day__ev {
+      padding: 3px 6px; border-radius: 4px;
+      font-size: .68rem; font-weight: 600; white-space: nowrap;
+      overflow: hidden; text-overflow: ellipsis;
+    }
+    .day__ev--start { background: rgba(22,163,74,.15); color: var(--accent); }
+    .day__ev--end { background: rgba(220,38,38,.15); color: var(--danger); }
+    .day__ev--info { background: rgba(2,132,199,.15); color: #0284c7; }
+    .day__ev--rev { background: rgba(245,158,11,.15); color: var(--warn); }
+
+    .legend { margin-top: 12px; display: flex; gap: 16px; flex-wrap: wrap; font-size: .8rem; color: var(--text-dim); }
+    .legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 4px; vertical-align: middle; }
+
+    .side { display: flex; flex-direction: column; gap: 14px; }
+    .side h3 { margin: 0 0 12px; font-size: .95rem; }
+    .upcoming-item {
+      padding: 12px 14px; background: var(--bg); border-radius: 10px;
+      margin-bottom: 8px; position: relative; cursor: pointer;
+      border-left: 4px solid var(--accent);
+    }
+    .upcoming-item--soft { border-left-color: var(--warn); }
+    .upcoming-item--end { border-left-color: var(--danger); }
+    .upcoming-item__title { font-size: .9rem; font-weight: 600; margin: 0 0 4px; }
+    .upcoming-item__date { color: var(--text-mute); font-size: .78rem; margin: 0; }
+    .upcoming-item__d { position: absolute; top: 10px; right: 12px; font-weight: 700; color: var(--accent); font-size: .85rem; }
+    .upcoming-item--end .upcoming-item__d { color: var(--danger); }
+
+    @media (max-width: 880px) {
+      .layout { grid-template-columns: 1fr; }
+      .day { min-height: 60px; }
+      .day__ev { display: none; }
+      .day.has-ev::after { content: '•'; color: var(--accent); position: absolute; bottom: 4px; left: 50%; transform: translateX(-50%); }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="brand">💬 청년톡톡</div>
+    <nav class="nav-links">
+      <a href="home.html">챗봇</a>
+      <a href="search.html">검색</a>
+      <a href="my.html">맞춤 정책</a>
+      <a href="checklist.html">체크리스트</a>
+      <a href="calendar.html" class="on">캘린더</a>
+    </nav>
+  </header>
+
+  <div class="page-head">
+    <div>
+      <h1>📅 정책 캘린더</h1>
+      <p>마감일·발표일·예정일을 한눈에. 알림 등록도 가능합니다.</p>
+    </div>
+    <div class="top-bar">
+      <button class="on">📅 월</button>
+      <button>📆 주</button>
+      <button>📋 리스트</button>
+    </div>
+  </div>
+
+  <main class="layout">
+    <section class="card cal-wrap">
+      <div class="cal-head">
+        <h2>2026년 6월</h2>
+        <div class="cal-head__nav">
+          <button>‹</button>
+          <button class="cal-head__today">오늘</button>
+          <button>›</button>
+        </div>
+      </div>
+      <div class="cal-grid">
+        <div class="wk">일</div><div class="wk">월</div><div class="wk">화</div><div class="wk">수</div><div class="wk">목</div><div class="wk">금</div><div class="wk">토</div>
+
+        <div class="day empty"><span class="day__num">31</span></div>
+        <div class="day"><span class="day__num">1</span><span class="day__ev day__ev--start">📌 청년 구직활동 지원금 시작</span></div>
+        <div class="day"><span class="day__num">2</span></div>
+        <div class="day"><span class="day__num">3</span></div>
+        <div class="day"><span class="day__num">4</span><span class="day__ev day__ev--info">ℹ 청년기본소득 안내</span></div>
+        <div class="day"><span class="day__num">5</span></div>
+        <div class="day"><span class="day__num">6</span></div>
+
+        <div class="day"><span class="day__num">7</span></div>
+        <div class="day"><span class="day__num">8</span><span class="day__ev day__ev--rev">📤 K-디지털 결과 발표</span></div>
+        <div class="day"><span class="day__num">9</span></div>
+        <div class="day"><span class="day__num">10</span><span class="day__ev day__ev--end">⚠ 청년도약계좌 D-Day</span></div>
+        <div class="day"><span class="day__num">11</span></div>
+        <div class="day"><span class="day__num">12</span><span class="day__ev day__ev--end">⚠ 내일채움공제 D-Day</span></div>
+        <div class="day"><span class="day__num">13</span></div>
+
+        <div class="day"><span class="day__num">14</span></div>
+        <div class="day"><span class="day__num">15</span><span class="day__ev day__ev--rev">📅 경기 주거 1차 발표</span></div>
+        <div class="day"><span class="day__num">16</span></div>
+        <div class="day"><span class="day__num">17</span></div>
+        <div class="day"><span class="day__num">18</span></div>
+        <div class="day"><span class="day__num">19</span></div>
+        <div class="day"><span class="day__num">20</span></div>
+
+        <div class="day"><span class="day__num">21</span></div>
+        <div class="day"><span class="day__num">22</span><span class="day__ev day__ev--start">📌 청년 통장 신청 시작</span></div>
+        <div class="day"><span class="day__num">23</span></div>
+        <div class="day today"><span class="day__num">24</span><span class="day__ev day__ev--info">ℹ 신청 중 (3건)</span></div>
+        <div class="day"><span class="day__num">25</span><span class="day__ev day__ev--info">💰 월세 지원 입금일</span></div>
+        <div class="day"><span class="day__num">26</span></div>
+        <div class="day"><span class="day__num">27</span></div>
+
+        <div class="day"><span class="day__num">28</span></div>
+        <div class="day"><span class="day__num">29</span></div>
+        <div class="day"><span class="day__num">30</span><span class="day__ev day__ev--end">⚠ 월세 지원 마감</span></div>
+        <div class="day empty"></div><div class="day empty"></div><div class="day empty"></div><div class="day empty"></div>
+      </div>
+
+      <div class="legend">
+        <span><i style="background: rgba(22,163,74,.5)"></i>신청 시작</span>
+        <span><i style="background: rgba(220,38,38,.5)"></i>마감 임박</span>
+        <span><i style="background: rgba(245,158,11,.5)"></i>결과 발표</span>
+        <span><i style="background: rgba(2,132,199,.5)"></i>안내·기타</span>
+      </div>
+    </section>
+
+    <aside class="side">
+      <div class="card">
+        <h3>🔔 곧 다가오는 일정</h3>
+        <article class="upcoming-item upcoming-item--end">
+          <p class="upcoming-item__title">청년도약계좌 마감</p>
+          <p class="upcoming-item__date">2026.06.10 (월)</p>
+          <span class="upcoming-item__d">D-17</span>
+        </article>
+        <article class="upcoming-item upcoming-item--end">
+          <p class="upcoming-item__title">내일채움공제 마감</p>
+          <p class="upcoming-item__date">2026.06.12 (수)</p>
+          <span class="upcoming-item__d">D-19</span>
+        </article>
+        <article class="upcoming-item upcoming-item--soft">
+          <p class="upcoming-item__title">K-디지털 결과 발표</p>
+          <p class="upcoming-item__date">2026.06.08 (일)</p>
+          <span class="upcoming-item__d" style="color: var(--warn);">D-15</span>
+        </article>
+        <article class="upcoming-item">
+          <p class="upcoming-item__title">월세 지원 입금</p>
+          <p class="upcoming-item__date">2026.06.25 (목) · 매월 정기</p>
+          <span class="upcoming-item__d">D-32</span>
+        </article>
+      </div>
+
+      <div class="card">
+        <h3>⚙ 알림 설정</h3>
+        <p style="margin: 0 0 12px; color: var(--text-dim); font-size: .85rem;">관심 정책에 대해 알림을 받으세요.</p>
+        <label style="display: flex; align-items: center; gap: 10px; padding: 8px 0; cursor: pointer;">
+          <input type="checkbox" checked style="accent-color: var(--accent);" />
+          <span style="font-size: .9rem;">마감 7일 전 알림</span>
+        </label>
+        <label style="display: flex; align-items: center; gap: 10px; padding: 8px 0; cursor: pointer;">
+          <input type="checkbox" checked style="accent-color: var(--accent);" />
+          <span style="font-size: .9rem;">결과 발표일 알림</span>
+        </label>
+        <label style="display: flex; align-items: center; gap: 10px; padding: 8px 0; cursor: pointer;">
+          <input type="checkbox" style="accent-color: var(--accent);" />
+          <span style="font-size: .9rem;">신규 맞춤 정책 추천</span>
+        </label>
+      </div>
+    </aside>
+  </main>
+</body>
+</html>

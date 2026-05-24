@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>맞춤 정책 — 청년톡톡</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .page-head { max-width: 1100px; margin: 0 auto; padding: 24px 24px 12px; }
+    .page-head h1 { margin: 0 0 6px; font-size: 1.5rem; }
+    .page-head p { color: var(--text-dim); margin: 0; }
+
+    .profile {
+      max-width: 1100px; margin: 14px auto; padding: 0 24px;
+    }
+    .profile__inner {
+      padding: 20px 22px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+    }
+    .profile__av {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: var(--accent); color: #fff;
+      display: grid; place-items: center; font-weight: 700; font-size: 1.2rem;
+    }
+    .profile__name { font-weight: 700; font-size: 1.05rem; }
+    .profile__meta { color: var(--text-dim); font-size: .85rem; }
+    .profile__tags { display: flex; flex-wrap: wrap; gap: 6px; margin-left: auto; }
+    .profile__tag { padding: 4px 10px; background: var(--bg); border-radius: 999px; font-size: .78rem; }
+    .profile__edit { padding: 6px 14px; border-radius: 8px; background: transparent; border: 1px solid var(--border); cursor: pointer; font-family: inherit; font-size: .82rem; }
+
+    .stats {
+      max-width: 1100px; margin: 14px auto; padding: 0 24px;
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+    }
+    .stat { padding: 14px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+    .stat span { color: var(--text-mute); font-size: .76rem; display: block; }
+    .stat strong { font-size: 1.4rem; }
+    .stat strong em { font-style: normal; font-size: .82rem; color: var(--text-mute); margin-left: 4px; }
+
+    .sections {
+      max-width: 1100px; margin: 18px auto; padding: 0 24px 80px;
+    }
+    .section { margin-bottom: 28px; }
+    .section__head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 12px; }
+    .section__head h2 { margin: 0; font-size: 1.1rem; }
+    .section__head span { color: var(--text-mute); font-size: .85rem; }
+
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 12px; }
+    .item {
+      padding: 18px; position: relative; cursor: pointer;
+      transition: transform .15s ease;
+    }
+    .item:hover { transform: translateY(-2px); }
+    .item__head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+    .item__cat { padding: 2px 9px; border-radius: 999px; background: rgba(22,163,74,.12); color: var(--accent); font-size: .7rem; font-weight: 700; }
+    .item__match { background: rgba(245,158,11,.12); color: var(--warn); padding: 2px 9px; border-radius: 999px; font-size: .7rem; font-weight: 700; }
+    .item__match--high { background: rgba(22,163,74,.18); color: var(--accent); }
+    .item h3 { margin: 0 0 4px; font-size: 1rem; }
+    .item__org { color: var(--text-mute); font-size: .78rem; margin: 0 0 10px; }
+    .item__amt { padding: 8px 12px; background: var(--bg); border-radius: 8px; font-size: .85rem; }
+    .item__amt strong { color: var(--accent); }
+    .item__progress { margin-top: 12px; }
+    .item__progress-bar { height: 5px; background: var(--bg); border-radius: 3px; overflow: hidden; }
+    .item__progress-fill { height: 100%; background: var(--accent); }
+    .item__progress-label { display: flex; justify-content: space-between; margin-top: 4px; font-size: .75rem; color: var(--text-mute); }
+
+    .item--applied { border-left: 4px solid var(--accent); }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="brand">💬 청년톡톡</div>
+    <nav class="nav-links">
+      <a href="home.html">챗봇</a>
+      <a href="search.html">검색</a>
+      <a href="my.html" class="on">맞춤 정책</a>
+      <a href="checklist.html">체크리스트</a>
+      <a href="calendar.html">캘린더</a>
+    </nav>
+  </header>
+
+  <div class="page-head">
+    <h1>📋 나의 맞춤 정책</h1>
+    <p>등록된 프로필 기준 자동 매칭된 정책입니다.</p>
+  </div>
+
+  <div class="profile">
+    <article class="card profile__inner">
+      <div class="profile__av">JL</div>
+      <div>
+        <div class="profile__name">이지수 (27세)</div>
+        <div class="profile__meta">경기 성남시 · 직장인 · 중기 재직 2년</div>
+      </div>
+      <div class="profile__tags">
+        <span class="profile__tag">청년</span>
+        <span class="profile__tag">무주택</span>
+        <span class="profile__tag">월세 거주</span>
+        <span class="profile__tag">미혼</span>
+        <span class="profile__tag">중기 재직자</span>
+      </div>
+      <button class="profile__edit">✏️ 프로필 수정</button>
+    </article>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><span>맞춤 정책</span><strong>12<em>개</em></strong></div>
+    <div class="stat"><span>신청 진행</span><strong>3<em>건</em></strong></div>
+    <div class="stat"><span>지원 수령</span><strong>1<em>건</em></strong></div>
+    <div class="stat"><span>예상 총 혜택</span><strong>₩780<em>만</em></strong></div>
+  </div>
+
+  <main class="sections">
+    <section class="section">
+      <div class="section__head"><h2>🔥 마감 임박 — 지금 신청하세요</h2><span>3건</span></div>
+      <div class="grid">
+        <article class="card item">
+          <div class="item__head">
+            <span class="item__cat">🏠 주거</span>
+            <span class="item__match item__match--high">매칭률 98%</span>
+          </div>
+          <h3>청년 월세 한시 특별지원</h3>
+          <p class="item__org">국토교통부 · D-37</p>
+          <div class="item__amt">월 <strong>20만 원</strong> × 12개월</div>
+        </article>
+        <article class="card item">
+          <div class="item__head">
+            <span class="item__cat">💰 금융</span>
+            <span class="item__match item__match--high">매칭률 95%</span>
+          </div>
+          <h3>청년도약계좌</h3>
+          <p class="item__org">서민금융진흥원 · D-21</p>
+          <div class="item__amt">5년 만기 <strong>최대 5,000만 원</strong></div>
+        </article>
+        <article class="card item">
+          <div class="item__head">
+            <span class="item__cat">💼 취업</span>
+            <span class="item__match">매칭률 78%</span>
+          </div>
+          <h3>청년 내일채움공제</h3>
+          <p class="item__org">고용노동부 · D-12</p>
+          <div class="item__amt">2년 만기 <strong>1,200만 원</strong></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section__head"><h2>📤 신청 진행 중</h2><span>3건</span></div>
+      <div class="grid">
+        <article class="card item item--applied">
+          <div class="item__head">
+            <span class="item__cat">🏠 주거</span>
+            <span class="item__match item__match--high">접수 완료</span>
+          </div>
+          <h3>경기도 청년 기본주택</h3>
+          <p class="item__org">경기도 · 심사 중</p>
+          <div class="item__progress">
+            <div class="item__progress-bar"><div class="item__progress-fill" style="width: 60%"></div></div>
+            <div class="item__progress-label"><span>접수 → 심사 → 발표</span><span>3/5단계</span></div>
+          </div>
+        </article>
+        <article class="card item item--applied">
+          <div class="item__head">
+            <span class="item__cat">📚 교육</span>
+            <span class="item__match item__match--high">서류 검토 중</span>
+          </div>
+          <h3>K-디지털 트레이닝 무료 교육</h3>
+          <p class="item__org">고용노동부 · 7일 후 결과</p>
+          <div class="item__progress">
+            <div class="item__progress-bar"><div class="item__progress-fill" style="width: 40%"></div></div>
+            <div class="item__progress-label"><span>접수 → 심사 → 선정</span><span>2/5단계</span></div>
+          </div>
+        </article>
+        <article class="card item item--applied">
+          <div class="item__head">
+            <span class="item__cat">🏥 건강</span>
+            <span class="item__match item__match--high">서류 보완 필요</span>
+          </div>
+          <h3>국가건강검진 (청년형)</h3>
+          <p class="item__org">국민건강보험공단</p>
+          <div class="item__progress">
+            <div class="item__progress-bar"><div class="item__progress-fill" style="width: 25%"></div></div>
+            <div class="item__progress-label"><span>건강검진 신청서 누락</span><span>1/4단계</span></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section__head"><h2>🎯 추천 정책</h2><span>6건</span></div>
+      <div class="grid">
+        <article class="card item">
+          <div class="item__head">
+            <span class="item__cat">💼 취업</span>
+            <span class="item__match">매칭률 72%</span>
+          </div>
+          <h3>청년 구직활동 지원금</h3>
+          <p class="item__org">고용노동부 · 상시</p>
+          <div class="item__amt">월 <strong>50만 원</strong> × 6개월</div>
+        </article>
+        <article class="card item">
+          <div class="item__head">
+            <span class="item__cat">📚 교육</span>
+            <span class="item__match">매칭률 65%</span>
+          </div>
+          <h3>국가기술자격 응시료 지원</h3>
+          <p class="item__org">한국산업인력공단</p>
+          <div class="item__amt">최대 <strong>5만 원</strong> × 2회</div>
+        </article>
+        <article class="card item">
+          <div class="item__head">
+            <span class="item__cat">💰 금융</span>
+            <span class="item__match">매칭률 60%</span>
+          </div>
+          <h3>경기 청년기본소득</h3>
+          <p class="item__org">경기도 · 분기별</p>
+          <div class="item__amt">분기당 <strong>25만 원</strong> 지역화폐</div>
+        </article>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

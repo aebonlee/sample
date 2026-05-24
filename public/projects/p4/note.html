@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>오답 노트 — 자격증 코치</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .page-head { max-width: 1100px; margin: 0 auto; padding: 24px 24px 12px; }
+    .page-head h1 { margin: 0 0 6px; font-size: 1.5rem; }
+    .page-head p { color: var(--text-dim); margin: 0; }
+
+    .summary { max-width: 1100px; margin: 14px auto; padding: 0 24px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .sum { padding: 14px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+    .sum span { color: var(--text-mute); font-size: .76rem; display: block; }
+    .sum strong { font-size: 1.3rem; }
+
+    .filters {
+      max-width: 1100px; margin: 14px auto; padding: 0 24px;
+      display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+    }
+    .chip { padding: 7px 14px; border-radius: 999px; background: var(--surface); border: 1px solid var(--border); cursor: pointer; font-size: .82rem; font-family: inherit; }
+    .chip.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .sort { margin-left: auto; padding: 8px 12px; border: 1px solid var(--border); background: var(--surface); border-radius: 8px; font-family: inherit; font-size: .85rem; }
+
+    .list {
+      max-width: 1100px; margin: 0 auto; padding: 14px 24px 80px;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .item { padding: 20px 22px; }
+    .item__top {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 10px; flex-wrap: wrap; gap: 6px;
+    }
+    .item__tags { display: flex; gap: 6px; flex-wrap: wrap; }
+    .item__tag { padding: 2px 9px; border-radius: 999px; font-size: .7rem; font-weight: 700; }
+    .item__tag--sub { background: rgba(2,132,199,.12); color: var(--accent); }
+    .item__tag--cnt { background: rgba(220,38,38,.12); color: var(--danger); }
+    .item__date { color: var(--text-mute); font-size: .78rem; }
+
+    .item__q { margin: 0 0 10px; font-size: .95rem; font-weight: 600; line-height: 1.6; }
+    .item__code {
+      background: #1e1e2e; color: #e0e0e0; padding: 12px 14px; border-radius: 8px;
+      font-family: ui-monospace, 'Consolas', monospace; font-size: .82rem;
+      margin: 0 0 12px; white-space: pre-wrap; overflow-x: auto;
+    }
+    .answers {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;
+    }
+    .ans { padding: 10px 14px; border-radius: 10px; font-size: .88rem; }
+    .ans label { color: var(--text-mute); font-size: .72rem; font-weight: 700; display: block; margin-bottom: 4px; text-transform: uppercase; }
+    .ans--my { background: rgba(220,38,38,.06); border: 1px solid rgba(220,38,38,.2); }
+    .ans--my label { color: var(--danger); }
+    .ans--ok { background: rgba(22,163,74,.06); border: 1px solid rgba(22,163,74,.2); }
+    .ans--ok label { color: var(--ok); }
+
+    .item__exp {
+      background: var(--bg); padding: 12px 14px; border-radius: 10px;
+      font-size: .88rem; line-height: 1.7; color: var(--text-dim);
+    }
+    .item__exp strong { color: var(--accent); }
+
+    .item__actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 12px; }
+    .mini { padding: 6px 12px; border-radius: 7px; font-size: .78rem; background: var(--bg); border: 1px solid var(--border); cursor: pointer; font-family: inherit; color: var(--text-dim); }
+    .mini:hover { color: var(--text); border-color: var(--accent); }
+
+    @media (max-width: 720px) {
+      .summary { grid-template-columns: 1fr 1fr; }
+      .answers { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="brand">🎓 자격증 코치</div>
+    <nav class="nav-links">
+      <a href="home.html">자격증 선택</a>
+      <a href="diagnose.html">진단</a>
+      <a href="weakness.html">취약점</a>
+      <a href="plan.html">학습 계획</a>
+      <a href="note.html" class="on">오답 노트</a>
+    </nav>
+  </header>
+
+  <div class="page-head">
+    <h1>📕 오답 노트</h1>
+    <p>틀린 문제는 정답률 80%가 될 때까지 자동으로 복습 큐에 들어갑니다.</p>
+  </div>
+
+  <div class="summary">
+    <div class="sum"><span>전체 오답</span><strong>54문제</strong></div>
+    <div class="sum"><span>가장 약한 과목</span><strong>DB 구축</strong></div>
+    <div class="sum"><span>이번 주 복습</span><strong>22회</strong></div>
+    <div class="sum"><span>완전 정복</span><strong>18문제</strong></div>
+  </div>
+
+  <div class="filters">
+    <span class="chip on">전체</span>
+    <span class="chip">설계</span>
+    <span class="chip">개발</span>
+    <span class="chip">DB</span>
+    <span class="chip">언어</span>
+    <span class="chip">시스템</span>
+    <span class="chip">🔴 2회+</span>
+    <select class="sort"><option>최근 순</option><option>오답 빈도</option><option>과목 순</option></select>
+  </div>
+
+  <main class="list">
+    <article class="card item">
+      <div class="item__top">
+        <div class="item__tags">
+          <span class="item__tag item__tag--sub">DB 구축</span>
+          <span class="item__tag item__tag--cnt">3회 오답</span>
+        </div>
+        <span class="item__date">2026.05.23</span>
+      </div>
+      <p class="item__q">다음 릴레이션이 BCNF를 만족하지 않는 이유로 가장 적절한 것은?</p>
+      <pre class="item__code">R(학번, 과목번호, 강사번호)
+함수 종속:
+  - {학번, 과목번호} → 강사번호
+  - 강사번호 → 과목번호</pre>
+      <div class="answers">
+        <div class="ans ans--my"><label>내 답</label>① 모든 속성이 원자값이 아니어서</div>
+        <div class="ans ans--ok"><label>정답</label>③ 결정자가 후보키가 아닌 함수 종속이 존재</div>
+      </div>
+      <div class="item__exp">
+        💡 <strong>BCNF</strong>는 "모든 결정자가 후보키여야 한다"는 조건. 위에서 <code style="background: rgba(0,0,0,.05); padding: 1px 5px; border-radius: 3px;">강사번호 → 과목번호</code>는 결정자(강사번호)가 후보키가 아니므로 BCNF를 위반.
+      </div>
+      <div class="item__actions"><button class="mini">🔁 다시 풀기</button><button class="mini">📌 즐겨찾기</button><button class="mini">📚 관련 학습</button></div>
+    </article>
+
+    <article class="card item">
+      <div class="item__top">
+        <div class="item__tags">
+          <span class="item__tag item__tag--sub">언어 활용</span>
+          <span class="item__tag item__tag--cnt">2회 오답</span>
+        </div>
+        <span class="item__date">2026.05.21</span>
+      </div>
+      <p class="item__q">다음 C 코드의 출력 결과는?</p>
+      <pre class="item__code">int arr[] = {1, 2, 3, 4, 5};
+int *p = arr;
+printf("%d", *(p+2) + *(p+3));</pre>
+      <div class="answers">
+        <div class="ans ans--my"><label>내 답</label>① 5</div>
+        <div class="ans ans--ok"><label>정답</label>③ 7</div>
+      </div>
+      <div class="item__exp">
+        💡 포인터 산술: <code style="background: rgba(0,0,0,.05); padding: 1px 5px; border-radius: 3px;">*(p+2)</code> = arr[2] = 3, <code style="background: rgba(0,0,0,.05); padding: 1px 5px; border-radius: 3px;">*(p+3)</code> = arr[3] = 4. 따라서 3 + 4 = <strong>7</strong>.
+      </div>
+      <div class="item__actions"><button class="mini">🔁 다시 풀기</button><button class="mini">📌 즐겨찾기</button><button class="mini">📚 관련 학습</button></div>
+    </article>
+
+    <article class="card item">
+      <div class="item__top">
+        <div class="item__tags">
+          <span class="item__tag item__tag--sub">시스템</span>
+          <span class="item__tag item__tag--cnt">2회 오답</span>
+        </div>
+        <span class="item__date">2026.05.19</span>
+      </div>
+      <p class="item__q">OSI 7계층에서 데이터 단위가 ‘프레임(Frame)’인 계층은?</p>
+      <div class="answers">
+        <div class="ans ans--my"><label>내 답</label>③ 네트워크 계층</div>
+        <div class="ans ans--ok"><label>정답</label>② 데이터 링크 계층</div>
+      </div>
+      <div class="item__exp">
+        💡 OSI 계층별 PDU: <strong>물리</strong>=비트, <strong>데이터링크</strong>=프레임, <strong>네트워크</strong>=패킷, <strong>전송</strong>=세그먼트, <strong>세션·표현·응용</strong>=메시지/데이터.
+      </div>
+      <div class="item__actions"><button class="mini">🔁 다시 풀기</button><button class="mini">📌 즐겨찾기</button><button class="mini">📚 관련 학습</button></div>
+    </article>
+  </main>
+</body>
+</html>

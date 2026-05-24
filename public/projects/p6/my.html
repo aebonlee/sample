@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>내 자소서 관리 — 자소서 코치</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .page-head { max-width: 1100px; margin: 0 auto; padding: 24px 24px 12px; display: flex; justify-content: space-between; align-items: end; flex-wrap: wrap; gap: 14px; }
+    .page-head h1 { margin: 0 0 6px; font-size: 1.5rem; }
+    .page-head p { color: var(--text-dim); margin: 0; }
+
+    .stats { max-width: 1100px; margin: 14px auto; padding: 0 24px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .stat { padding: 14px 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+    .stat span { color: var(--text-mute); font-size: .76rem; display: block; }
+    .stat strong { font-size: 1.3rem; }
+
+    .filters { max-width: 1100px; margin: 14px auto; padding: 0 24px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .chip { padding: 7px 14px; border-radius: 999px; background: var(--surface); border: 1px solid var(--border); cursor: pointer; font-size: .82rem; font-family: inherit; }
+    .chip.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .sort { margin-left: auto; padding: 8px 12px; border: 1px solid var(--border); background: var(--surface); border-radius: 8px; font-family: inherit; font-size: .85rem; }
+
+    .list {
+      max-width: 1100px; margin: 0 auto; padding: 14px 24px 80px;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 14px;
+    }
+
+    .doc-item {
+      padding: 22px; cursor: pointer;
+      transition: transform .15s ease, box-shadow .15s ease;
+      position: relative;
+    }
+    .doc-item:hover { transform: translateY(-3px); box-shadow: 0 12px 24px rgba(124,58,237,.08); }
+    .doc-item__star { position: absolute; top: 14px; right: 14px; background: transparent; border: 0; cursor: pointer; font-size: 1.1rem; color: var(--text-mute); }
+    .doc-item__star.on { color: #fbbf24; }
+
+    .doc-item__company {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
+    }
+    .doc-item__logo {
+      width: 36px; height: 36px; border-radius: 10px;
+      display: grid; place-items: center; font-weight: 800; color: #fff; font-size: .9rem;
+    }
+    .doc-item__company-name { font-weight: 700; font-size: .9rem; }
+    .doc-item__role { color: var(--text-mute); font-size: .78rem; }
+
+    .doc-item__title { margin: 0 0 6px; font-size: 1.05rem; line-height: 1.4; }
+    .doc-item__meta { display: flex; gap: 12px; color: var(--text-mute); font-size: .78rem; margin-bottom: 12px; flex-wrap: wrap; }
+    .doc-item__meta span::before { content: '• '; }
+    .doc-item__meta span:first-child::before { content: ''; }
+
+    .doc-item__score {
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 12px; background: var(--bg); border-radius: 8px;
+      margin-bottom: 12px;
+    }
+    .doc-item__score-num {
+      font-size: 1.4rem; font-weight: 800; color: var(--accent);
+    }
+    .doc-item__score-bar { flex: 1; height: 5px; background: var(--surface); border-radius: 3px; overflow: hidden; }
+    .doc-item__score-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-2)); }
+    .doc-item__score-label { color: var(--text-mute); font-size: .72rem; }
+
+    .doc-item__status {
+      display: inline-block; padding: 3px 10px; border-radius: 999px;
+      font-size: .72rem; font-weight: 700; margin-bottom: 8px;
+    }
+    .status--draft { background: rgba(124,58,237,.12); color: var(--accent); }
+    .status--review { background: rgba(245,158,11,.12); color: var(--warn); }
+    .status--submitted { background: rgba(22,163,74,.12); color: var(--ok); }
+    .status--rejected { background: rgba(220,38,38,.12); color: var(--danger); }
+    .status--pass { background: rgba(124,58,237,.15); color: var(--accent); }
+
+    .doc-item__actions { display: flex; gap: 6px; }
+    .doc-item__btn { flex: 1; padding: 7px; border-radius: 7px; background: var(--bg); border: 1px solid var(--border); cursor: pointer; font-family: inherit; font-size: .76rem; color: var(--text-dim); }
+    .doc-item__btn:hover { color: var(--text); border-color: var(--accent); }
+
+    .new-doc {
+      display: grid; place-items: center; min-height: 240px;
+      padding: 22px; border: 2px dashed var(--border);
+      background: transparent; cursor: pointer;
+      transition: border-color .15s ease, background .15s ease;
+      text-align: center;
+    }
+    .new-doc:hover { border-color: var(--accent); background: rgba(124,58,237,.04); }
+    .new-doc__plus { font-size: 2rem; color: var(--accent); margin-bottom: 6px; }
+    .new-doc__title { font-weight: 700; }
+    .new-doc__sub { color: var(--text-mute); font-size: .82rem; margin-top: 4px; }
+
+    @media (max-width: 720px) { .stats { grid-template-columns: 1fr 1fr; } }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="brand">📝 자소서 코치</div>
+    <nav class="nav-links">
+      <a href="home.html">경험</a>
+      <a href="star.html">STAR</a>
+      <a href="write.html">작성</a>
+      <a href="feedback.html">피드백</a>
+      <a href="interview.html">면접</a>
+      <a href="my.html" class="on">내 자소서</a>
+    </nav>
+  </header>
+
+  <div class="page-head">
+    <div>
+      <h1>📂 내 자소서 관리</h1>
+      <p>지원처별로 자소서를 모아서 관리하고 합격률을 추적해보세요.</p>
+    </div>
+    <a href="home.html" class="btn btn--primary">+ 새 자소서</a>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><span>총 자소서</span><strong>8개</strong></div>
+    <div class="stat"><span>제출 완료</span><strong>3건</strong></div>
+    <div class="stat"><span>서류 합격</span><strong>2건</strong></div>
+    <div class="stat"><span>평균 점수</span><strong>82.4</strong></div>
+  </div>
+
+  <div class="filters">
+    <span class="chip on">전체 (8)</span>
+    <span class="chip">📝 작성 중</span>
+    <span class="chip">🔍 검토 중</span>
+    <span class="chip">📤 제출 완료</span>
+    <span class="chip">✅ 합격</span>
+    <span class="chip">⭐ 즐겨찾기</span>
+    <select class="sort"><option>최근 수정순</option><option>점수순</option><option>회사명순</option></select>
+  </div>
+
+  <main class="list">
+    <article class="card doc-item">
+      <button class="doc-item__star on">★</button>
+      <div class="doc-item__company">
+        <div class="doc-item__logo" style="background: linear-gradient(135deg,#fbbf24,#f59e0b);">K</div>
+        <div>
+          <div class="doc-item__company-name">카카오</div>
+          <div class="doc-item__role">백엔드 개발자</div>
+        </div>
+      </div>
+      <span class="doc-item__status status--review">🔍 피드백 검토 중</span>
+      <h3 class="doc-item__title">2026 신입 공채 — 카카오 백엔드</h3>
+      <div class="doc-item__meta">
+        <span>4문항</span><span>2026.05.24 수정</span><span>마감 D-37</span>
+      </div>
+      <div class="doc-item__score">
+        <div class="doc-item__score-num">86</div>
+        <div style="flex: 1;">
+          <div class="doc-item__score-bar"><div class="doc-item__score-fill" style="width: 86%"></div></div>
+          <div class="doc-item__score-label">상위 15% · 4문항 중 3문항 검토 완료</div>
+        </div>
+      </div>
+      <div class="doc-item__actions">
+        <a href="write.html" class="doc-item__btn">✏ 편집</a>
+        <a href="feedback.html" class="doc-item__btn">📊 피드백</a>
+        <a href="interview.html" class="doc-item__btn">🎤 면접</a>
+      </div>
+    </article>
+
+    <article class="card doc-item">
+      <button class="doc-item__star on">★</button>
+      <div class="doc-item__company">
+        <div class="doc-item__logo" style="background: linear-gradient(135deg,#16a34a,#22c55e);">N</div>
+        <div>
+          <div class="doc-item__company-name">네이버</div>
+          <div class="doc-item__role">서비스 기획자</div>
+        </div>
+      </div>
+      <span class="doc-item__status status--submitted">📤 제출 완료</span>
+      <h3 class="doc-item__title">2026 상반기 신입 — 네이버 기획</h3>
+      <div class="doc-item__meta">
+        <span>5문항</span><span>2026.05.10 제출</span><span>결과 발표 6/15</span>
+      </div>
+      <div class="doc-item__score">
+        <div class="doc-item__score-num">91</div>
+        <div style="flex: 1;">
+          <div class="doc-item__score-bar"><div class="doc-item__score-fill" style="width: 91%"></div></div>
+          <div class="doc-item__score-label">상위 8% · 모든 문항 검토 완료</div>
+        </div>
+      </div>
+      <div class="doc-item__actions">
+        <a href="#" class="doc-item__btn">👁 보기</a>
+        <a href="#" class="doc-item__btn">📋 복제</a>
+        <a href="interview.html" class="doc-item__btn">🎤 면접 준비</a>
+      </div>
+    </article>
+
+    <article class="card doc-item">
+      <button class="doc-item__star">☆</button>
+      <div class="doc-item__company">
+        <div class="doc-item__logo" style="background: linear-gradient(135deg,#0ea5e9,#3b82f6);">L</div>
+        <div>
+          <div class="doc-item__company-name">라인</div>
+          <div class="doc-item__role">프론트엔드 개발자</div>
+        </div>
+      </div>
+      <span class="doc-item__status status--pass">✅ 서류 합격 · 1차 면접</span>
+      <h3 class="doc-item__title">2026 라인 신입 — 프론트엔드</h3>
+      <div class="doc-item__meta">
+        <span>3문항</span><span>2026.04.28 제출</span><span>면접 6/5</span>
+      </div>
+      <div class="doc-item__score">
+        <div class="doc-item__score-num">88</div>
+        <div style="flex: 1;">
+          <div class="doc-item__score-bar"><div class="doc-item__score-fill" style="width: 88%"></div></div>
+          <div class="doc-item__score-label">상위 12%</div>
+        </div>
+      </div>
+      <div class="doc-item__actions">
+        <a href="#" class="doc-item__btn">👁 보기</a>
+        <a href="interview.html" class="doc-item__btn doc-item__btn--primary" style="background: var(--accent); color: #fff;">🎤 면접 D-12</a>
+      </div>
+    </article>
+
+    <article class="card doc-item">
+      <button class="doc-item__star">☆</button>
+      <div class="doc-item__company">
+        <div class="doc-item__logo" style="background: linear-gradient(135deg,#7c3aed,#a78bfa);">T</div>
+        <div>
+          <div class="doc-item__company-name">토스</div>
+          <div class="doc-item__role">백엔드 엔지니어</div>
+        </div>
+      </div>
+      <span class="doc-item__status status--draft">📝 작성 중 · 2/4문항</span>
+      <h3 class="doc-item__title">토스 NEXT — 신입 백엔드</h3>
+      <div class="doc-item__meta">
+        <span>4문항</span><span>2026.05.22 수정</span>
+      </div>
+      <div class="doc-item__score">
+        <div class="doc-item__score-num">72</div>
+        <div style="flex: 1;">
+          <div class="doc-item__score-bar"><div class="doc-item__score-fill" style="width: 72%"></div></div>
+          <div class="doc-item__score-label">평균권 · 마감 D-58</div>
+        </div>
+      </div>
+      <div class="doc-item__actions">
+        <a href="write.html" class="doc-item__btn">✏ 이어 쓰기</a>
+        <a href="#" class="doc-item__btn">📋 복제</a>
+        <a href="#" class="doc-item__btn">🗑 삭제</a>
+      </div>
+    </article>
+
+    <a href="home.html" class="new-doc card">
+      <div>
+        <div class="new-doc__plus">＋</div>
+        <div class="new-doc__title">새 자소서 시작</div>
+        <div class="new-doc__sub">경험 입력부터 5단계로 진행</div>
+      </div>
+    </a>
+  </main>
+</body>
+</html>

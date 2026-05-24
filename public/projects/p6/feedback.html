@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>피드백 & 수정 제안 — 자소서 코치</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .scores-bar {
+      max-width: 1100px; margin: 14px auto; padding: 0 24px;
+      display: grid; grid-template-columns: 200px 1fr; gap: 18px;
+    }
+    .overall {
+      padding: 22px; text-align: center;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #fff; border-radius: 14px;
+    }
+    .overall__num { font-size: 3rem; font-weight: 800; line-height: 1; }
+    .overall__lab { font-size: .85rem; opacity: .9; margin: 4px 0 0; }
+    .overall__grade { display: inline-block; padding: 3px 12px; background: rgba(255,255,255,.2); border-radius: 999px; margin-top: 10px; font-size: .78rem; font-weight: 700; }
+
+    .scores { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .score {
+      padding: 14px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    }
+    .score__head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+    .score__head h3 { margin: 0; font-size: .82rem; }
+    .score__head strong { color: var(--accent); font-size: 1.2rem; }
+    .score__bar { height: 5px; background: var(--bg); border-radius: 3px; overflow: hidden; }
+    .score__fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-2)); }
+    .score p { margin: 6px 0 0; font-size: .76rem; color: var(--text-dim); }
+
+    .layout {
+      max-width: 1100px; margin: 18px auto; padding: 0 24px 80px;
+      display: grid; grid-template-columns: 1.4fr 1fr; gap: 18px;
+    }
+
+    .doc {
+      padding: 26px; font-size: .92rem; line-height: 1.9;
+    }
+    .doc__q {
+      padding: 12px 14px; background: rgba(124,58,237,.06);
+      border-left: 4px solid var(--accent); border-radius: 0 10px 10px 0;
+      margin-bottom: 18px; font-size: .85rem;
+    }
+    .doc p { margin: 0 0 14px; }
+    .hl {
+      background: rgba(245,158,11,.15); padding: 1px 4px; border-radius: 3px;
+      border-bottom: 2px solid var(--warn); cursor: help;
+    }
+    .hl--good { background: rgba(22,163,74,.15); border-bottom-color: var(--ok); }
+    .hl--bad { background: rgba(220,38,38,.12); border-bottom-color: var(--danger); }
+
+    .fbs { display: flex; flex-direction: column; gap: 10px; }
+    .fb {
+      padding: 14px 16px; border-left: 4px solid var(--accent);
+    }
+    .fb--good { border-left-color: var(--ok); }
+    .fb--bad { border-left-color: var(--danger); }
+    .fb__type {
+      display: inline-block; padding: 2px 9px; border-radius: 999px;
+      font-size: .7rem; font-weight: 700; margin-bottom: 8px;
+    }
+    .fb--good .fb__type { background: rgba(22,163,74,.12); color: var(--ok); }
+    .fb__type { background: rgba(245,158,11,.12); color: var(--warn); }
+    .fb--bad .fb__type { background: rgba(220,38,38,.12); color: var(--danger); }
+    .fb h4 { margin: 0 0 6px; font-size: .95rem; }
+    .fb__quote { background: var(--bg); padding: 8px 12px; border-radius: 6px; font-size: .85rem; color: var(--text-dim); margin: 6px 0; }
+    .fb__msg { margin: 6px 0 0; font-size: .88rem; line-height: 1.6; color: var(--text-dim); }
+    .fb__msg strong { color: var(--accent); }
+
+    .actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 18px; flex-wrap: wrap; }
+
+    @media (max-width: 880px) {
+      .scores-bar { grid-template-columns: 1fr; }
+      .scores { grid-template-columns: 1fr 1fr; }
+      .layout { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="brand">📝 자소서 코치</div>
+    <nav class="nav-links">
+      <a href="home.html">경험</a>
+      <a href="star.html">STAR</a>
+      <a href="write.html">작성</a>
+      <a href="feedback.html" class="on">피드백</a>
+      <a href="interview.html">면접</a>
+      <a href="my.html">내 자소서</a>
+    </nav>
+  </header>
+
+  <div class="stepper">
+    <span class="step-dot done">1</span><span class="step-label">경험</span>
+    <span class="step-line done"></span>
+    <span class="step-dot done">2</span><span class="step-label">STAR</span>
+    <span class="step-line done"></span>
+    <span class="step-dot done">3</span><span class="step-label">작성</span>
+    <span class="step-line done"></span>
+    <span class="step-dot on">4</span><span class="step-label">피드백</span>
+    <span class="step-line"></span>
+    <span class="step-dot">5</span><span class="step-label">면접</span>
+  </div>
+
+  <div class="scores-bar">
+    <div class="overall">
+      <div class="overall__num">86</div>
+      <div class="overall__lab">종합 점수</div>
+      <div class="overall__grade">상위 15%</div>
+    </div>
+    <div class="scores">
+      <div class="score">
+        <div class="score__head"><h3>구체성</h3><strong>92</strong></div>
+        <div class="score__bar"><div class="score__fill" style="width: 92%"></div></div>
+        <p>숫자와 구체 사례가 충분합니다.</p>
+      </div>
+      <div class="score">
+        <div class="score__head"><h3>STAR 구조</h3><strong>88</strong></div>
+        <div class="score__bar"><div class="score__fill" style="width: 88%"></div></div>
+        <p>S→T→A→R 흐름이 명확.</p>
+      </div>
+      <div class="score">
+        <div class="score__head"><h3>차별성</h3><strong>78</strong></div>
+        <div class="score__bar"><div class="score__fill" style="width: 78%"></div></div>
+        <p>강점 정의는 좋지만 사례 1개라 약함.</p>
+      </div>
+      <div class="score">
+        <div class="score__head"><h3>지원처 연결</h3><strong>64</strong></div>
+        <div class="score__bar"><div class="score__fill" style="width: 64%"></div></div>
+        <p>마지막 문단이 추상적이에요.</p>
+      </div>
+    </div>
+  </div>
+
+  <main class="layout">
+    <section class="card doc">
+      <div class="doc__q">
+        <strong>문항 2</strong>: 본인이 가진 가장 큰 강점은 무엇이며, 그 강점을 보여주는 구체적인 경험을 기술해 주세요. (1,000자 이내)
+      </div>
+
+      <p><span class="hl hl--good">저의 가장 큰 강점은 흩어진 의견을 모아 결정으로 만드는 의사결정 설계 능력입니다.</span></p>
+
+      <p>대학교 4학년 캡스톤 디자인 프로젝트에서 <span class="hl hl--good">5명으로 구성된 팀의 팀장을 맡았습니다.</span> 처음 4주간 진척이 거의 없었는데, <span class="hl">단순히 회의를 더 자주 하는 것으로는 해결되지 않을 것이라 판단했습니다.</span> 의사결정 구조 자체를 바꿔야 했습니다.</p>
+
+      <p>먼저 노션에 의사결정 보드를 만들어 누가 어떤 의견을 냈는지 가시화했습니다. 둘째, <span class="hl hl--good">매주 화요일 저녁을 "결정의 시간"으로 고정</span>하고 이날은 반드시 다음 주 액션 아이템을 확정하는 규칙을 세웠습니다. 셋째, 회의 전 각자 본인 의견을 사전 정리해 오도록 해 <span class="hl hl--good">회의 시간을 절반으로 줄였습니다.</span></p>
+
+      <p>그 결과 이후 <span class="hl hl--good">8주 만에 동작하는 시제품을 완성</span>했고 학과 발표회에서 <span class="hl hl--good">우수상을 수상</span>했습니다. 교수님께서도 "팀워크가 가장 좋았다"고 평가해 주셨습니다.</p>
+
+      <p>이 경험을 통해 의사결정 구조의 설계가 팀 생산성의 핵심임을 배웠습니다. <span class="hl hl--bad">카카오에서도 다양한 백그라운드의 동료들과 일하게 될 것이라 생각하며, 이 강점이 팀이 빠르게 전진하는 데 기여할 것이라 믿습니다.</span></p>
+
+      <div class="actions">
+        <a href="write.html" class="btn btn--ghost">✏ 수정하기</a>
+        <a href="interview.html" class="btn btn--primary">🎤 면접 준비 →</a>
+      </div>
+    </section>
+
+    <aside class="fbs">
+      <article class="card fb fb--good">
+        <span class="fb__type">잘한 점</span>
+        <h4>강점을 첫 문장에 명확히 선언</h4>
+        <p class="fb__msg">두루뭉술하지 않고 "의사결정 설계 능력"이라는 구체적 단어로 강점을 정의한 것이 매우 좋습니다.</p>
+      </article>
+
+      <article class="card fb fb--good">
+        <span class="fb__type">잘한 점</span>
+        <h4>정량적 성과 + 외부 인정</h4>
+        <p class="fb__msg">8주 / 우수상 같은 숫자와, 교수님 평가라는 외부 검증이 함께 있어 신뢰감이 높습니다.</p>
+      </article>
+
+      <article class="card fb">
+        <span class="fb__type">개선 권장</span>
+        <h4>'회의를 더 자주' 표현 다듬기</h4>
+        <div class="fb__quote">"단순히 회의를 더 자주 하는 것으로는..."</div>
+        <p class="fb__msg">→ <strong>"단순히 회의 횟수를 늘리는 것"</strong>이 더 깔끔합니다.</p>
+      </article>
+
+      <article class="card fb fb--bad">
+        <span class="fb__type">반드시 수정</span>
+        <h4>마지막 문단의 지원처 연결이 약함</h4>
+        <div class="fb__quote">"카카오에서도 다양한 백그라운드의 동료들과 일하게 될 것..."</div>
+        <p class="fb__msg">→ 카카오의 <strong>실제 제품·문화·일하는 방식</strong>을 한 가지라도 언급하고 본인 경험과 연결하세요. 예) "카카오톡 채널의 의사결정 속도", "agile-flex 문화" 등.</p>
+      </article>
+
+      <article class="card fb">
+        <span class="fb__type">사례 추가 권장</span>
+        <h4>경험 1개로는 차별성 부족</h4>
+        <p class="fb__msg">동일 강점을 보여주는 <strong>다른 맥락의 짧은 사례</strong>를 한두 문장 추가하면 우연이 아닌 패턴임을 증명할 수 있습니다. (예: 동아리, 인턴십)</p>
+      </article>
+    </aside>
+  </main>
+</body>
+</html>

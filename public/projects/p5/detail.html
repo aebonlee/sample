@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>청년 월세 한시 특별지원 — 청년톡톡</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .hero {
+      max-width: 1100px; margin: 16px auto; padding: 28px 32px;
+      background: linear-gradient(135deg, var(--accent), var(--leaf));
+      color: #fff; border-radius: 16px;
+    }
+    .hero__cat { display: inline-block; padding: 4px 12px; background: rgba(255,255,255,.2); border-radius: 999px; font-size: .78rem; margin-bottom: 12px; }
+    .hero h1 { margin: 0 0 6px; font-size: 1.7rem; letter-spacing: -.01em; }
+    .hero__org { opacity: .9; margin: 0 0 18px; font-size: .92rem; }
+    .hero__amount {
+      display: flex; gap: 24px; padding: 16px 22px;
+      background: rgba(255,255,255,.15); border-radius: 12px;
+      flex-wrap: wrap;
+    }
+    .hero__amount div span { display: block; font-size: .75rem; opacity: .85; }
+    .hero__amount div strong { font-size: 1.4rem; }
+    .hero__actions { display: flex; gap: 8px; margin-top: 18px; flex-wrap: wrap; }
+    .hero .btn { background: #fff; color: var(--accent); border-color: transparent; }
+    .hero .btn--ghost { background: transparent; color: #fff; border-color: rgba(255,255,255,.4); }
+
+    .layout {
+      max-width: 1100px; margin: 14px auto; padding: 0 24px 80px;
+      display: grid; grid-template-columns: 1fr 320px; gap: 18px;
+    }
+
+    .section + .section { margin-top: 14px; }
+    .section { padding: 24px; }
+    .section h2 { margin: 0 0 14px; font-size: 1.1rem; color: var(--accent); padding-bottom: 8px; border-bottom: 2px solid var(--border); }
+
+    .req-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .req { padding: 14px; background: var(--bg); border-radius: 10px; }
+    .req__label { color: var(--text-mute); font-size: .76rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; margin-bottom: 4px; }
+    .req__value { font-size: .95rem; }
+    .req__check { color: var(--ok); font-weight: 700; font-size: .82rem; margin-top: 4px; display: inline-block; }
+    .req__check--no { color: var(--danger); }
+
+    .benefits { list-style: none; padding: 0; margin: 0; }
+    .benefits li {
+      padding: 10px 0; padding-left: 30px; position: relative;
+      border-bottom: 1px solid var(--border); font-size: .92rem;
+    }
+    .benefits li:last-child { border-bottom: 0; }
+    .benefits li::before {
+      content: '✓'; position: absolute; left: 0; top: 10px;
+      width: 22px; height: 22px; border-radius: 50%;
+      background: var(--accent); color: #fff;
+      display: grid; place-items: center; font-size: .78rem; font-weight: 700;
+    }
+
+    .steps {
+      counter-reset: step;
+    }
+    .step {
+      padding-left: 40px; padding-top: 8px; padding-bottom: 14px;
+      position: relative; counter-increment: step;
+    }
+    .step::before {
+      content: counter(step); position: absolute; left: 0; top: 8px;
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--accent); color: #fff;
+      display: grid; place-items: center; font-weight: 700; font-size: .85rem;
+    }
+    .step__title { font-weight: 600; margin: 0 0 4px; font-size: .95rem; }
+    .step__body { color: var(--text-dim); font-size: .85rem; margin: 0; line-height: 1.6; }
+
+    /* Side */
+    .side { display: flex; flex-direction: column; gap: 14px; }
+    .side .card { padding: 18px; }
+    .side h4 { margin: 0 0 10px; font-size: .8rem; color: var(--text-mute); text-transform: uppercase; letter-spacing: .06em; }
+    .docs { display: flex; flex-direction: column; gap: 6px; }
+    .doc { padding: 8px 12px; background: var(--bg); border-radius: 8px; font-size: .85rem; display: flex; gap: 8px; align-items: center; }
+    .deadline-card {
+      background: linear-gradient(135deg, #dc2626, #f87171); color: #fff;
+      padding: 18px; border-radius: 14px; text-align: center;
+    }
+    .deadline-card__title { font-size: .82rem; opacity: .9; margin: 0 0 4px; }
+    .deadline-card__d { font-size: 2rem; font-weight: 800; margin: 0; line-height: 1; }
+    .deadline-card__date { font-size: .82rem; opacity: .9; margin: 4px 0 0; }
+
+    @media (max-width: 880px) {
+      .layout { grid-template-columns: 1fr; }
+      .req-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="brand">💬 청년톡톡</div>
+    <nav class="nav-links">
+      <a href="home.html">챗봇</a>
+      <a href="search.html">검색</a>
+      <a href="my.html">맞춤 정책</a>
+      <a href="checklist.html">체크리스트</a>
+      <a href="calendar.html">캘린더</a>
+    </nav>
+  </header>
+
+  <p class="crumb" style="max-width: 1100px; margin: 18px auto 0; padding: 0 24px;">
+    <a href="search.html">검색</a> › <a href="#">주거</a> › 청년 월세 한시 특별지원
+  </p>
+
+  <section class="hero">
+    <span class="hero__cat">🏠 주거</span>
+    <h1>청년 월세 한시 특별지원</h1>
+    <p class="hero__org">국토교통부 · 시·도 보조 · 전국 대상</p>
+    <div class="hero__amount">
+      <div><span>지원 금액</span><strong>월 20만 원</strong></div>
+      <div><span>지원 기간</span><strong>최대 12개월</strong></div>
+      <div><span>총 지원액</span><strong>최대 240만 원</strong></div>
+      <div><span>신청 마감</span><strong>2026.06.30</strong></div>
+    </div>
+    <div class="hero__actions">
+      <a href="checklist.html" class="btn">✓ 신청 체크리스트</a>
+      <button class="btn btn--ghost" type="button">⭐ 즐겨찾기</button>
+      <button class="btn btn--ghost" type="button">📤 공유</button>
+    </div>
+  </section>
+
+  <main class="layout">
+    <div>
+      <section class="card section">
+        <h2>📋 자격 조건 — 모두 충족해야 합니다</h2>
+        <div class="req-grid">
+          <div class="req">
+            <p class="req__label">연령</p>
+            <p class="req__value">만 19세 ~ 34세</p>
+            <span class="req__check">✓ 충족 (27세)</span>
+          </div>
+          <div class="req">
+            <p class="req__label">소득</p>
+            <p class="req__value">중위소득 100% 이하 (1인 가구 222만 원/월)</p>
+            <span class="req__check">✓ 충족</span>
+          </div>
+          <div class="req">
+            <p class="req__label">주택 소유</p>
+            <p class="req__value">무주택 (본인 + 부모)</p>
+            <span class="req__check">✓ 충족</span>
+          </div>
+          <div class="req">
+            <p class="req__label">월세 보증금</p>
+            <p class="req__value">보증금 5,000만 원 이하, 월세 60만 원 이하</p>
+            <span class="req__check">✓ 충족 (보증금 1천 / 월세 45)</span>
+          </div>
+          <div class="req">
+            <p class="req__label">독립 거주</p>
+            <p class="req__value">부모와 별도 거주 (주민등록 분리)</p>
+            <span class="req__check">✓ 충족</span>
+          </div>
+          <div class="req">
+            <p class="req__label">중복 지원</p>
+            <p class="req__value">유사 월세 지원 미수령</p>
+            <span class="req__check">✓ 충족</span>
+          </div>
+        </div>
+        <div style="margin-top: 16px; padding: 14px 16px; background: rgba(22,163,74,.08); border-left: 4px solid var(--accent); border-radius: 0 10px 10px 0;">
+          🎉 <strong>모든 조건 충족!</strong> 바로 신청하실 수 있어요.
+        </div>
+      </section>
+
+      <section class="card section">
+        <h2>💰 지원 혜택</h2>
+        <ul class="benefits">
+          <li>월 20만 원의 월세를 현금으로 지원 (계좌 입금)</li>
+          <li>최대 12개월간 연속 지원 (총 240만 원)</li>
+          <li>다른 청년 정책과 중복 신청 가능 (취업 지원금, 청년도약계좌 등)</li>
+          <li>지급 종료 후에도 사후 보고 의무 없음</li>
+        </ul>
+      </section>
+
+      <section class="card section">
+        <h2>📝 신청 절차</h2>
+        <div class="steps">
+          <div class="step">
+            <p class="step__title">복지로 또는 마이홈 포털에서 신청</p>
+            <p class="step__body">온라인 신청 권장. 오프라인은 거주지 주민센터 방문 가능.</p>
+          </div>
+          <div class="step">
+            <p class="step__title">필수 서류 업로드</p>
+            <p class="step__body">임대차계약서, 통장 사본, 가족관계증명서, 소득 확인 동의서.</p>
+          </div>
+          <div class="step">
+            <p class="step__title">자격 심사 (약 14일)</p>
+            <p class="step__body">국토부 → 시·도 → 주민센터 순으로 검토. 결과는 문자로 안내.</p>
+          </div>
+          <div class="step">
+            <p class="step__title">매월 25일 계좌 입금</p>
+            <p class="step__body">선정된 달의 다음 달부터 매월 20만 원 자동 입금.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <aside class="side">
+      <div class="deadline-card">
+        <p class="deadline-card__title">신청 마감까지</p>
+        <p class="deadline-card__d">D-37</p>
+        <p class="deadline-card__date">2026년 6월 30일</p>
+      </div>
+
+      <div class="card">
+        <h4>📎 필요 서류</h4>
+        <div class="docs">
+          <div class="doc">📄 임대차계약서 사본</div>
+          <div class="doc">🏦 본인 명의 통장 사본</div>
+          <div class="doc">👪 가족관계증명서</div>
+          <div class="doc">✔ 소득 확인 동의서</div>
+          <div class="doc">🆔 신분증 사본</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h4>🔗 공식 안내</h4>
+        <p style="margin: 0; font-size: .85rem; color: var(--text-dim);">
+          📞 마이홈 콜센터: 1600-1004<br/>
+          🌐 복지로: bokjiro.go.kr<br/>
+          🌐 마이홈: myhome.go.kr
+        </p>
+      </div>
+    </aside>
+  </main>
+</body>
+</html>

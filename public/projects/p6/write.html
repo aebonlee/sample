@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>자소서 작성 — 자소서 코치</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .layout {
+      max-width: 1200px; margin: 14px auto; padding: 0 24px 80px;
+      display: grid; grid-template-columns: 220px 1fr 280px; gap: 18px;
+    }
+
+    .side { display: flex; flex-direction: column; gap: 10px; position: sticky; top: 84px; align-self: start; }
+    .side h4 { margin: 0 0 10px; font-size: .78rem; color: var(--text-mute); text-transform: uppercase; letter-spacing: .06em; }
+    .side__item {
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 12px; border-radius: 8px;
+      background: var(--surface); border: 1px solid var(--border);
+      cursor: pointer; font-size: .85rem;
+    }
+    .side__item.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .side__item__no { width: 22px; height: 22px; border-radius: 50%; background: var(--bg); display: grid; place-items: center; font-weight: 700; font-size: .72rem; color: var(--text-mute); flex-shrink: 0; }
+    .side__item.on .side__item__no { background: rgba(255,255,255,.25); color: #fff; }
+    .side__item.done .side__item__no { background: var(--accent-2); color: #fff; }
+
+    .editor { padding: 26px; }
+    .editor__head { margin-bottom: 16px; }
+    .editor__q { padding: 14px 18px; background: linear-gradient(135deg, rgba(124,58,237,.06), rgba(167,139,250,.04)); border-left: 4px solid var(--accent); border-radius: 0 10px 10px 0; }
+    .editor__q__label { color: var(--accent); font-size: .76rem; font-weight: 700; margin-bottom: 4px; }
+    .editor__q__text { margin: 0; font-weight: 600; color: var(--text); }
+
+    .toolbar { display: flex; gap: 6px; padding: 8px 0; border-bottom: 1px solid var(--border); margin-bottom: 12px; flex-wrap: wrap; }
+    .toolbar button { padding: 5px 10px; border: 0; background: transparent; cursor: pointer; font-family: inherit; font-size: .8rem; color: var(--text-dim); border-radius: 6px; }
+    .toolbar button:hover { background: var(--bg); }
+
+    .editor__area {
+      width: 100%; min-height: 380px; padding: 14px;
+      border: 1px solid var(--border); border-radius: 10px;
+      background: var(--bg); font-family: inherit; font-size: .95rem;
+      line-height: 1.9; resize: vertical; outline: none; color: var(--text);
+    }
+    .editor__area:focus { border-color: var(--accent); }
+
+    .editor__foot { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; flex-wrap: wrap; gap: 12px; }
+    .count { color: var(--text-dim); font-size: .85rem; }
+    .count strong { color: var(--accent); font-weight: 700; }
+    .actions { display: flex; gap: 8px; }
+
+    .ai-side { display: flex; flex-direction: column; gap: 12px; position: sticky; top: 84px; align-self: start; }
+    .ai-card { padding: 16px; }
+    .ai-card h4 { margin: 0 0 8px; font-size: .85rem; color: var(--accent); display: flex; align-items: center; gap: 6px; }
+    .ai-card p { margin: 0 0 8px; font-size: .84rem; line-height: 1.6; color: var(--text-dim); }
+    .ai-card__action { padding: 6px 12px; border-radius: 7px; background: var(--accent); color: #fff; border: 0; font-family: inherit; font-size: .78rem; cursor: pointer; }
+
+    .suggest { padding: 12px 14px; background: rgba(124,58,237,.05); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; font-size: .82rem; }
+    .suggest del { color: var(--danger); }
+    .suggest ins { color: var(--ok); text-decoration: none; background: rgba(22,163,74,.08); padding: 0 2px; }
+
+    @media (max-width: 1080px) {
+      .layout { grid-template-columns: 1fr; }
+      .side, .ai-side { position: static; }
+      .side { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="brand">📝 자소서 코치</div>
+    <nav class="nav-links">
+      <a href="home.html">경험</a>
+      <a href="star.html">STAR</a>
+      <a href="write.html" class="on">작성</a>
+      <a href="feedback.html">피드백</a>
+      <a href="interview.html">면접</a>
+      <a href="my.html">내 자소서</a>
+    </nav>
+  </header>
+
+  <div class="stepper">
+    <span class="step-dot done">1</span><span class="step-label">경험</span>
+    <span class="step-line done"></span>
+    <span class="step-dot done">2</span><span class="step-label">STAR</span>
+    <span class="step-line done"></span>
+    <span class="step-dot on">3</span><span class="step-label">작성</span>
+    <span class="step-line"></span>
+    <span class="step-dot">4</span><span class="step-label">피드백</span>
+    <span class="step-line"></span>
+    <span class="step-dot">5</span><span class="step-label">면접</span>
+  </div>
+
+  <main class="layout">
+    <aside class="side">
+      <h4>📋 카카오 백엔드 자소서</h4>
+      <div class="side__item done"><span class="side__item__no">1</span> 지원동기</div>
+      <div class="side__item on"><span class="side__item__no">2</span> 성장과정·역량</div>
+      <div class="side__item"><span class="side__item__no">3</span> 협업 경험</div>
+      <div class="side__item"><span class="side__item__no">4</span> 직무 강점</div>
+      <div class="side__item"><span class="side__item__no">+</span> 문항 추가</div>
+    </aside>
+
+    <section class="card editor">
+      <div class="editor__head">
+        <div class="editor__q">
+          <p class="editor__q__label">문항 2 · 1,000자 이내</p>
+          <p class="editor__q__text">본인이 가진 가장 큰 강점은 무엇이며, 그 강점을 보여주는 구체적인 경험을 기술해 주세요.</p>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <button>B 굵게</button><button>I 기울임</button><button>U 밑줄</button>
+        <button>📋 STAR 적용</button>
+        <button>✨ AI 다듬기</button>
+        <button>🔄 톤 변경</button>
+      </div>
+
+      <textarea class="editor__area">저의 가장 큰 강점은 흩어진 의견을 모아 결정으로 만드는 의사결정 설계 능력입니다.
+
+대학교 4학년 캡스톤 디자인 프로젝트에서 5명으로 구성된 팀의 팀장을 맡았습니다. 처음 4주간 진척이 거의 없었는데, 단순히 회의를 더 자주 하는 것으로는 해결되지 않을 것이라 판단했습니다. 의사결정 구조 자체를 바꿔야 했습니다.
+
+먼저 노션에 의사결정 보드를 만들어 누가 어떤 의견을 냈는지 가시화했습니다. 둘째, 매주 화요일 저녁을 "결정의 시간"으로 고정하고 이날은 반드시 다음 주 액션 아이템을 확정하는 규칙을 세웠습니다. 셋째, 회의 전 각자 본인 의견을 사전 정리해 오도록 해 회의 시간을 절반으로 줄였습니다.
+
+그 결과 이후 8주 만에 동작하는 시제품을 완성했고 학과 발표회에서 우수상을 수상했습니다. 교수님께서도 "팀워크가 가장 좋았다"고 평가해 주셨습니다.
+
+이 경험을 통해 의사결정 구조의 설계가 팀 생산성의 핵심임을 배웠습니다. 카카오에서도 다양한 백그라운드의 동료들과 일하게 될 것이라 생각하며, 이 강점이 팀이 빠르게 전진하는 데 기여할 것이라 믿습니다.</textarea>
+
+      <div class="editor__foot">
+        <span class="count"><strong>657</strong> / 1,000자 · 공백 제외 528자</span>
+        <div class="actions">
+          <button class="btn btn--ghost">💾 임시저장</button>
+          <a href="feedback.html" class="btn btn--primary">✓ 작성 완료</a>
+        </div>
+      </div>
+    </section>
+
+    <aside class="ai-side">
+      <div class="card ai-card">
+        <h4>🤖 AI 실시간 코칭</h4>
+        <p>한 줄로 강점을 명확히 선언한 첫 문장이 강력합니다. 마지막 문단의 카카오 연결이 다소 추상적이에요.</p>
+        <button class="ai-card__action">✨ 마지막 문단 다듬기</button>
+      </div>
+
+      <div class="card ai-card">
+        <h4>📝 수정 제안</h4>
+        <div class="suggest">
+          <strong>3문단</strong>: "회의를 더 자주 하는 것으로는" →<br/>
+          <del>회의를 더 자주 하는 것</del><br/>
+          <ins>회의 횟수를 늘리는 것</ins>
+        </div>
+      </div>
+
+      <div class="card ai-card">
+        <h4>📊 글 분석</h4>
+        <p>
+          가독성: <strong style="color: var(--ok);">상</strong><br/>
+          문장 평균: <strong>42자</strong><br/>
+          STAR 점수: <strong>4.6/5</strong><br/>
+          중복 표현: <strong>0건</strong>
+        </p>
+      </div>
+    </aside>
+  </main>
+</body>
+</html>

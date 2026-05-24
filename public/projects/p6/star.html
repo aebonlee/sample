@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>STAR 구조화 결과 — 자소서 코치</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .page-head { max-width: 900px; margin: 14px auto; padding: 0 24px; }
+    .page-head h1 { margin: 0 0 6px; font-size: 1.5rem; }
+    .page-head p { color: var(--text-dim); margin: 0; }
+
+    .body { max-width: 900px; margin: 18px auto; padding: 0 24px 80px; }
+
+    .original {
+      padding: 18px 22px; margin-bottom: 18px;
+      background: var(--surface); border: 1px dashed var(--border);
+      border-radius: 12px;
+    }
+    .original__head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+    .original__head h3 { margin: 0; font-size: .85rem; color: var(--text-mute); text-transform: uppercase; letter-spacing: .06em; }
+    .original__head small { color: var(--text-mute); font-size: .8rem; }
+    .original__text { color: var(--text-dim); font-size: .92rem; line-height: 1.8; margin: 0; }
+
+    .stars { display: flex; flex-direction: column; gap: 12px; margin-bottom: 22px; }
+    .star {
+      padding: 22px; border-left: 5px solid var(--accent);
+      position: relative;
+    }
+    .star__head { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+    .star__letter {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #fff; display: grid; place-items: center;
+      font-weight: 800; font-size: 1.2rem;
+    }
+    .star__title { margin: 0; font-size: 1.05rem; }
+    .star__sub { color: var(--text-mute); font-size: .8rem; }
+    .star__body { color: var(--text); font-size: .92rem; line-height: 1.8; margin: 0; }
+    .star__quote {
+      margin: 12px 0 0; padding: 10px 14px;
+      background: rgba(124,58,237,.06); border-radius: 8px;
+      font-size: .85rem; color: var(--text-dim);
+    }
+    .star__quote em { color: var(--accent); font-style: normal; font-weight: 600; }
+
+    .competencies {
+      padding: 22px; margin-bottom: 18px;
+    }
+    .competencies h3 { margin: 0 0 14px; font-size: 1rem; }
+    .comp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .comp {
+      padding: 14px; background: var(--bg); border-radius: 10px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .comp__score { font-size: 1.3rem; font-weight: 800; color: var(--accent); }
+    .comp__name { font-weight: 600; font-size: .9rem; flex: 1; }
+    .comp__bar { width: 60px; height: 5px; background: var(--surface); border-radius: 3px; overflow: hidden; }
+    .comp__fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-2)); }
+
+    .actions { display: flex; justify-content: space-between; gap: 10px; margin-top: 22px; flex-wrap: wrap; }
+
+    @media (max-width: 720px) {
+      .comp-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="brand">📝 자소서 코치</div>
+    <nav class="nav-links">
+      <a href="home.html">경험 입력</a>
+      <a href="star.html" class="on">STAR 결과</a>
+      <a href="write.html">자소서 작성</a>
+      <a href="feedback.html">피드백</a>
+      <a href="interview.html">면접 준비</a>
+      <a href="my.html">내 자소서</a>
+    </nav>
+  </header>
+
+  <div class="stepper">
+    <span class="step-dot done">1</span><span class="step-label">경험</span>
+    <span class="step-line done"></span>
+    <span class="step-dot on">2</span><span class="step-label">STAR</span>
+    <span class="step-line"></span>
+    <span class="step-dot">3</span><span class="step-label">작성</span>
+    <span class="step-line"></span>
+    <span class="step-dot">4</span><span class="step-label">피드백</span>
+    <span class="step-line"></span>
+    <span class="step-dot">5</span><span class="step-label">면접</span>
+  </div>
+
+  <div class="page-head">
+    <h1>⭐ STAR로 정리했어요</h1>
+    <p>입력하신 경험을 면접·자소서에 바로 쓸 수 있는 4가지 구조로 분해했습니다.</p>
+  </div>
+
+  <main class="body">
+    <article class="original">
+      <div class="original__head">
+        <h3>📝 입력 원문</h3>
+        <small>2026.05.24 작성 · 412자</small>
+      </div>
+      <p class="original__text">
+        대학교 4학년 때 캡스톤 디자인 프로젝트의 팀장을 맡았다. 처음에는 5명 모두 의견이 달라 진행이 어려웠다. 매주 회의를 했는데 결정이 안 나서 4주가 지나도록 진도가 0이었다. 그래서 내가 노션에 의사결정 보드를 만들고, 각자 다음 주까지 본인 의견을 정리해 오게 했다. 또 매주 화요일 저녁을 '결정의 시간'으로 정해 그날은 무조건 결론을 내기로 했다. 그 결과 8주 만에 시제품을 완성했고, 학과 발표회에서 우수상을 받았다. 교수님도 팀워크가 가장 좋았다고 평가해 주셨다.
+      </p>
+    </article>
+
+    <div class="stars">
+      <article class="card star">
+        <div class="star__head">
+          <div class="star__letter">S</div>
+          <div>
+            <h3 class="star__title">Situation — 상황</h3>
+            <span class="star__sub">언제, 어디서, 어떤 환경이었나</span>
+          </div>
+        </div>
+        <p class="star__body">
+          대학교 4학년, 캡스톤 디자인 프로젝트에서 5명으로 구성된 팀의 팀장을 맡았습니다. 한 학기 안에 시제품을 완성해야 하는 일정이었지만, 팀원들 사이에 의견 차이가 컸고 주제도 명확히 정해지지 않은 상태였습니다.
+        </p>
+        <p class="star__quote">💡 <em>구체성 점수: 4/5</em> — "5명", "한 학기" 같은 숫자가 들어가 있어 좋습니다.</p>
+      </article>
+
+      <article class="card star">
+        <div class="star__head">
+          <div class="star__letter">T</div>
+          <div>
+            <h3 class="star__title">Task — 과제</h3>
+            <span class="star__sub">내가 해결해야 했던 핵심 과제</span>
+          </div>
+        </div>
+        <p class="star__body">
+          4주 동안 진척이 거의 없는 상황을 빠르게 정상화하고, 학기 안에 동작하는 시제품을 완성하는 것이 핵심 과제였습니다. 단순한 일정 관리보다 <strong>의사결정 구조 자체를 개선</strong>해야 한다고 판단했습니다.
+        </p>
+        <p class="star__quote">💡 <em>구체성 점수: 5/5</em> — 과제를 "의사결정 구조 개선"으로 명확히 정의했습니다.</p>
+      </article>
+
+      <article class="card star">
+        <div class="star__head">
+          <div class="star__letter">A</div>
+          <div>
+            <h3 class="star__title">Action — 행동</h3>
+            <span class="star__sub">구체적으로 무엇을 했나 (가장 중요!)</span>
+          </div>
+        </div>
+        <p class="star__body">
+          첫째, 노션에 <strong>의사결정 보드</strong>를 만들어 누가 어떤 의견을 냈는지 가시화했습니다.<br/>
+          둘째, 매주 화요일 저녁을 <strong>"결정의 시간"</strong>으로 고정하고, 이날은 무조건 다음 주 액션 아이템을 확정하는 규칙을 세웠습니다.<br/>
+          셋째, 회의 전에 각자 본인 의견을 사전 정리해 오도록 요청해 회의 시간을 절반으로 줄였습니다.
+        </p>
+        <p class="star__quote">💡 <em>구체성 점수: 5/5</em> — 첫째·둘째·셋째 구조로 가장 강한 부분입니다.</p>
+      </article>
+
+      <article class="card star">
+        <div class="star__head">
+          <div class="star__letter">R</div>
+          <div>
+            <h3 class="star__title">Result — 결과</h3>
+            <span class="star__sub">정량적 성과 + 정성적 인정</span>
+          </div>
+        </div>
+        <p class="star__body">
+          이후 <strong>8주 만에 시제품 완성</strong>에 성공했고, 학과 발표회에서 <strong>우수상</strong>을 받았습니다. 교수님으로부터 "팀워크가 가장 좋았다"는 평가를 받았으며, 이 경험을 통해 <strong>의사결정 구조의 설계가 팀 생산성의 핵심</strong>이라는 교훈을 얻었습니다.
+        </p>
+        <p class="star__quote">💡 <em>구체성 점수: 4/5</em> — "수상" 같은 정량 결과 + 교훈까지 있어 좋습니다.</p>
+      </article>
+    </div>
+
+    <article class="card competencies">
+      <h3>🎯 자동 추출된 역량</h3>
+      <div class="comp-grid">
+        <div class="comp"><span class="comp__score">94</span><span class="comp__name">리더십</span><div class="comp__bar"><div class="comp__fill" style="width: 94%"></div></div></div>
+        <div class="comp"><span class="comp__score">88</span><span class="comp__name">문제해결</span><div class="comp__bar"><div class="comp__fill" style="width: 88%"></div></div></div>
+        <div class="comp"><span class="comp__score">82</span><span class="comp__name">협업</span><div class="comp__bar"><div class="comp__fill" style="width: 82%"></div></div></div>
+        <div class="comp"><span class="comp__score">76</span><span class="comp__name">기획력</span><div class="comp__bar"><div class="comp__fill" style="width: 76%"></div></div></div>
+        <div class="comp"><span class="comp__score">68</span><span class="comp__name">실행력</span><div class="comp__bar"><div class="comp__fill" style="width: 68%"></div></div></div>
+        <div class="comp"><span class="comp__score">54</span><span class="comp__name">기술 활용</span><div class="comp__bar"><div class="comp__fill" style="width: 54%"></div></div></div>
+      </div>
+    </article>
+
+    <div class="actions">
+      <a href="home.html" class="btn btn--ghost">← 경험 다시 입력</a>
+      <a href="write.html" class="btn btn--primary">✍ 자소서 작성하기 →</a>
+    </div>
+  </main>
+</body>
+</html>

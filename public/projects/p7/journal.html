@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>격려 & 성찰 — 회복탄력성</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body { background: radial-gradient(800px 400px at 50% 0%, rgba(234,88,12,.08), transparent 60%), var(--bg); min-height: 100vh; }
+
+    .quote-card {
+      padding: 22px; margin-bottom: 18px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #fff; border-radius: 16px;
+      position: relative;
+    }
+    .quote-card::before {
+      content: '"'; position: absolute; top: 8px; left: 16px;
+      font-size: 4rem; font-family: serif; opacity: .3;
+    }
+    .quote-card__text { margin: 12px 0 8px; font-size: 1rem; line-height: 1.7; font-weight: 500; }
+    .quote-card__author { font-size: .82rem; opacity: .85; }
+    .quote-card__actions { display: flex; gap: 6px; margin-top: 14px; }
+    .quote-card__btn { padding: 5px 10px; background: rgba(255,255,255,.18); border: 0; border-radius: 6px; color: #fff; font-family: inherit; font-size: .76rem; cursor: pointer; }
+
+    .prompt {
+      padding: 16px 18px; margin-bottom: 12px;
+      background: var(--soft); border-radius: 12px;
+    }
+    .prompt h4 { margin: 0 0 6px; font-size: .85rem; color: var(--accent); display: flex; gap: 6px; align-items: center; }
+    .prompt p { margin: 0; font-size: .92rem; line-height: 1.6; }
+
+    .entry-form { margin-bottom: 18px; }
+    .entry-form__head { display: flex; justify-content: space-between; margin-bottom: 8px; align-items: baseline; }
+    .entry-form__head h3 { margin: 0; font-size: .9rem; }
+    .entry-form__head span { color: var(--text-mute); font-size: .76rem; }
+    .entry-form textarea {
+      width: 100%; min-height: 140px; padding: 12px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+      font-family: inherit; font-size: .92rem; line-height: 1.7;
+      color: var(--text); outline: none; resize: vertical;
+    }
+    .entry-form textarea:focus { border-color: var(--accent); }
+    .entry-form__foot { display: flex; justify-content: space-between; margin-top: 8px; align-items: center; }
+    .entry-form__count { color: var(--text-mute); font-size: .76rem; }
+    .entry-form__save { padding: 7px 14px; border: 0; border-radius: 8px; background: var(--accent); color: #fff; font-family: inherit; font-weight: 700; cursor: pointer; font-size: .82rem; }
+
+    .past h3 { margin: 18px 0 12px; font-size: .82rem; color: var(--text-mute); text-transform: uppercase; letter-spacing: .04em; }
+    .entry {
+      padding: 14px 16px; background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; margin-bottom: 8px;
+    }
+    .entry__head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px; }
+    .entry__date { font-weight: 700; font-size: .85rem; }
+    .entry__mood { font-size: 1rem; }
+    .entry__text { color: var(--text-dim); font-size: .88rem; line-height: 1.65; margin: 0; }
+    .entry__tags { display: flex; gap: 4px; margin-top: 8px; }
+    .entry__tag { padding: 2px 8px; background: var(--soft); border-radius: 999px; font-size: .68rem; color: var(--accent); }
+  </style>
+</head>
+<body>
+  <div class="phone">
+    <header class="greet">
+      <p>2026년 5월 24일</p>
+      <h1>📓 오늘 잠깐 멈춰서 적어볼까요?</h1>
+    </header>
+
+    <article class="quote-card">
+      <p class="quote-card__text">한 걸음씩 천천히, 그래도 매일 — 그게 가장 빠른 길이에요.</p>
+      <p class="quote-card__author">— 오늘의 격려</p>
+      <div class="quote-card__actions">
+        <button class="quote-card__btn">♥ 저장</button>
+        <button class="quote-card__btn">↻ 다른 격려</button>
+        <button class="quote-card__btn">📤 공유</button>
+      </div>
+    </article>
+
+    <article class="prompt">
+      <h4>💭 오늘의 성찰 질문</h4>
+      <p>오늘 하루 중에서 작지만 <strong>고마웠던 순간</strong>은 무엇이었나요? 그 순간의 감각(보였던 것·들렸던 것·느낌)을 한 줄로 기록해보세요.</p>
+    </article>
+
+    <section class="entry-form">
+      <div class="entry-form__head">
+        <h3>오늘의 한 줄</h3>
+        <span>비공개 · 본인만 열람 가능</span>
+      </div>
+      <textarea placeholder="자유롭게 적어보세요. 정해진 형식 없이, 떠오르는 대로 괜찮아요."></textarea>
+      <div class="entry-form__foot">
+        <span class="entry-form__count">0 / 1000자</span>
+        <button class="entry-form__save">📝 저장</button>
+      </div>
+    </section>
+
+    <section class="past">
+      <h3>📅 지난 기록</h3>
+
+      <article class="entry">
+        <div class="entry__head">
+          <span class="entry__date">5월 23일 (금)</span>
+          <span class="entry__mood">😊</span>
+        </div>
+        <p class="entry__text">팀 회의에서 내 의견이 채택됐다. 며칠 동안 준비한 게 보람 있었다. 동료가 "정리가 깔끔하네요"라고 한 한 마디가 오래 남는다.</p>
+        <div class="entry__tags">
+          <span class="entry__tag">#성취</span><span class="entry__tag">#일</span>
+        </div>
+      </article>
+
+      <article class="entry">
+        <div class="entry__head">
+          <span class="entry__date">5월 22일 (목)</span>
+          <span class="entry__mood">😌</span>
+        </div>
+        <p class="entry__text">아침에 잠깐 햇볕 쬔 게 좋았다. 점심에 동료랑 같이 산책. 별일 없는 평범한 하루였지만 그게 좋다.</p>
+        <div class="entry__tags">
+          <span class="entry__tag">#평온</span><span class="entry__tag">#관계</span>
+        </div>
+      </article>
+
+      <article class="entry">
+        <div class="entry__head">
+          <span class="entry__date">5월 21일 (수)</span>
+          <span class="entry__mood">😟</span>
+        </div>
+        <p class="entry__text">하루 종일 마음이 무거웠다. 큰 일은 없었는데 그냥. 자기 전에 호흡 명상 5분 했더니 조금 가라앉았다.</p>
+        <div class="entry__tags">
+          <span class="entry__tag">#불안</span><span class="entry__tag">#회복</span>
+        </div>
+      </article>
+    </section>
+  </div>
+
+  <nav class="tabbar">
+    <a href="home.html" class="tab"><span>🏠</span>홈</a>
+    <a href="routine.html" class="tab"><span>🌿</span>루틴</a>
+    <a href="journal.html" class="tab on"><span>📓</span>저널</a>
+    <a href="chart.html" class="tab"><span>📊</span>그래프</a>
+    <a href="setting.html" class="tab"><span>⚙</span>설정</a>
+  </nav>
+</body>
+</html>

@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>신청 체크리스트 — 청년톡톡</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .page-head { max-width: 800px; margin: 0 auto; padding: 24px 24px 12px; }
+    .page-head h1 { margin: 0 0 6px; font-size: 1.5rem; }
+    .page-head p { color: var(--text-dim); margin: 0; font-size: .92rem; }
+
+    .target {
+      max-width: 800px; margin: 14px auto; padding: 0 24px;
+    }
+    .target__inner {
+      padding: 20px; display: flex; gap: 14px; align-items: center;
+      background: linear-gradient(135deg, var(--accent), var(--leaf));
+      color: #fff; border-radius: 14px;
+    }
+    .target__ico { width: 48px; height: 48px; border-radius: 12px; background: rgba(255,255,255,.18); display: grid; place-items: center; font-size: 1.4rem; flex-shrink: 0; }
+    .target h2 { margin: 0 0 2px; font-size: 1.1rem; }
+    .target p { margin: 0; opacity: .9; font-size: .85rem; }
+    .target__d { margin-left: auto; text-align: right; }
+    .target__d strong { display: block; font-size: 1.4rem; }
+
+    .progress {
+      max-width: 800px; margin: 14px auto; padding: 0 24px;
+    }
+    .progress__inner {
+      padding: 16px 20px;
+      display: flex; align-items: center; gap: 14px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    }
+    .progress__txt { font-size: .85rem; color: var(--text-dim); }
+    .progress__bar { flex: 1; height: 8px; background: var(--bg); border-radius: 4px; overflow: hidden; }
+    .progress__fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--leaf)); }
+    .progress__pct { font-weight: 700; color: var(--accent); }
+
+    .list {
+      max-width: 800px; margin: 14px auto; padding: 0 24px 80px;
+    }
+    .step {
+      padding: 18px 22px; margin-bottom: 10px;
+      position: relative; padding-left: 70px;
+    }
+    .step__num {
+      position: absolute; left: 22px; top: 18px;
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--bg); border: 2px solid var(--border);
+      display: grid; place-items: center; font-weight: 700; font-size: .85rem;
+      color: var(--text-mute);
+    }
+    .step.done .step__num { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .step.done { background: rgba(22,163,74,.04); }
+    .step.now .step__num { border-color: var(--accent); color: var(--accent); }
+
+    .step__title { margin: 0 0 6px; font-size: 1rem; font-weight: 600; }
+    .step__desc { margin: 0 0 12px; color: var(--text-dim); font-size: .88rem; }
+
+    .checks { display: flex; flex-direction: column; gap: 6px; margin: 0 0 12px; }
+    .check {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 12px; background: var(--bg); border-radius: 8px;
+      font-size: .9rem; cursor: pointer;
+    }
+    .check input { accent-color: var(--accent); width: 16px; height: 16px; }
+    .check.done { text-decoration: line-through; color: var(--text-mute); }
+
+    .step__actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .step__btn { padding: 6px 14px; border-radius: 8px; background: var(--bg); border: 1px solid var(--border); cursor: pointer; font-family: inherit; font-size: .82rem; color: var(--text-dim); }
+    .step__btn:hover { color: var(--text); border-color: var(--accent); }
+    .step__btn--primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="brand">💬 청년톡톡</div>
+    <nav class="nav-links">
+      <a href="home.html">챗봇</a>
+      <a href="search.html">검색</a>
+      <a href="my.html">맞춤 정책</a>
+      <a href="checklist.html" class="on">체크리스트</a>
+      <a href="calendar.html">캘린더</a>
+    </nav>
+  </header>
+
+  <div class="page-head">
+    <h1>✓ 신청 체크리스트</h1>
+    <p>한 단계씩 따라하시면 누락 없이 신청할 수 있습니다.</p>
+  </div>
+
+  <div class="target">
+    <div class="target__inner">
+      <div class="target__ico">🏠</div>
+      <div>
+        <h2>청년 월세 한시 특별지원</h2>
+        <p>매월 20만 원 × 12개월 = 총 240만 원</p>
+      </div>
+      <div class="target__d">
+        <span style="opacity: .85; font-size: .8rem;">신청 마감</span>
+        <strong>D-37</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="progress">
+    <div class="progress__inner">
+      <span class="progress__txt">진행률</span>
+      <div class="progress__bar"><div class="progress__fill" style="width: 60%"></div></div>
+      <span class="progress__pct">60% (3/5)</span>
+    </div>
+  </div>
+
+  <main class="list">
+    <article class="card step done">
+      <span class="step__num">1</span>
+      <h3 class="step__title">자격 확인</h3>
+      <p class="step__desc">연령·소득·주택 소유 등 기본 조건을 충족하는지 자가 진단합니다.</p>
+      <div class="checks">
+        <label class="check done"><input type="checkbox" checked /> 만 19~34세인가요?</label>
+        <label class="check done"><input type="checkbox" checked /> 무주택 (본인+부모)인가요?</label>
+        <label class="check done"><input type="checkbox" checked /> 중위소득 100% 이하인가요?</label>
+      </div>
+    </article>
+
+    <article class="card step done">
+      <span class="step__num">2</span>
+      <h3 class="step__title">필수 서류 준비</h3>
+      <p class="step__desc">아래 서류를 모두 PDF로 준비하세요. 분량은 합쳐서 10MB 이내.</p>
+      <div class="checks">
+        <label class="check done"><input type="checkbox" checked /> 임대차계약서 사본 (확정일자 도장 포함)</label>
+        <label class="check done"><input type="checkbox" checked /> 본인 명의 통장 사본</label>
+        <label class="check done"><input type="checkbox" checked /> 가족관계증명서 (3개월 이내)</label>
+        <label class="check done"><input type="checkbox" checked /> 소득 확인 동의서 서명본</label>
+        <label class="check done"><input type="checkbox" checked /> 신분증 사본 (앞면)</label>
+      </div>
+    </article>
+
+    <article class="card step done">
+      <span class="step__num">3</span>
+      <h3 class="step__title">복지로 회원가입 + 본인 인증</h3>
+      <p class="step__desc">공동인증서 또는 간편인증(카카오·네이버·PASS)으로 본인 인증을 마칩니다.</p>
+      <div class="checks">
+        <label class="check done"><input type="checkbox" checked /> bokjiro.go.kr 가입 완료</label>
+        <label class="check done"><input type="checkbox" checked /> 간편인증 로그인 성공</label>
+      </div>
+    </article>
+
+    <article class="card step now">
+      <span class="step__num">4</span>
+      <h3 class="step__title">신청서 작성 및 제출</h3>
+      <p class="step__desc">복지로 → 청년 월세 한시 특별지원 메뉴에서 온라인 신청.</p>
+      <div class="checks">
+        <label class="check"><input type="checkbox" /> 신청서 기본 정보 입력</label>
+        <label class="check"><input type="checkbox" /> 임대차 정보 입력 (보증금/월세)</label>
+        <label class="check"><input type="checkbox" /> 서류 5종 모두 업로드</label>
+        <label class="check"><input type="checkbox" /> 개인정보 활용 동의</label>
+        <label class="check"><input type="checkbox" /> 최종 제출 버튼 클릭</label>
+      </div>
+      <div class="step__actions">
+        <a href="https://www.bokjiro.go.kr" class="step__btn step__btn--primary">🌐 복지로 신청 페이지 열기</a>
+        <button class="step__btn">📞 도움 받기</button>
+      </div>
+    </article>
+
+    <article class="card step">
+      <span class="step__num">5</span>
+      <h3 class="step__title">심사 결과 확인 & 입금 확인</h3>
+      <p class="step__desc">평균 14일 이내 결과 통보. 매월 25일 계좌 입금 시작.</p>
+      <div class="checks">
+        <label class="check"><input type="checkbox" /> 심사 결과 문자 수신</label>
+        <label class="check"><input type="checkbox" /> 첫 달 입금 확인</label>
+      </div>
+    </article>
+  </main>
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>오늘의 루틴 — 회복탄력성</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      background:
+        radial-gradient(800px 400px at 50% 0%, rgba(234,88,12,.08), transparent 60%),
+        var(--bg);
+      min-height: 100vh;
+    }
+    .ai-recommend {
+      padding: 18px 20px; margin-bottom: 16px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #fff; border-radius: 16px;
+    }
+    .ai-recommend__ico { font-size: 1.6rem; margin-bottom: 6px; }
+    .ai-recommend__title { font-size: 1rem; font-weight: 700; margin: 0 0 4px; }
+    .ai-recommend__msg { margin: 0 0 12px; font-size: .85rem; opacity: .92; line-height: 1.6; }
+    .ai-recommend__btn { padding: 7px 14px; border: 0; border-radius: 8px; background: #fff; color: var(--accent); font-family: inherit; font-weight: 700; font-size: .82rem; cursor: pointer; }
+
+    .section { margin-bottom: 20px; }
+    .section__head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
+    .section__title { margin: 0; font-size: .9rem; color: var(--text-dim); }
+    .section__more { color: var(--accent); font-size: .78rem; font-weight: 600; }
+
+    .rec-card {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px; background: var(--soft); border-radius: 14px;
+      margin-bottom: 8px; cursor: pointer;
+      transition: transform .1s ease;
+    }
+    .rec-card:hover { transform: translateY(-2px); }
+    .rec-card__ico { width: 44px; height: 44px; border-radius: 12px; background: #fff; display: grid; place-items: center; font-size: 1.3rem; flex-shrink: 0; }
+    .rec-card__body { flex: 1; }
+    .rec-card__title { font-weight: 700; margin: 0 0 2px; font-size: .92rem; }
+    .rec-card__meta { color: var(--text-dim); font-size: .76rem; }
+    .rec-card__time { color: var(--text-mute); font-size: .76rem; }
+    .rec-card__add { padding: 6px 10px; border: 0; border-radius: 8px; background: var(--accent); color: #fff; cursor: pointer; font-family: inherit; font-size: .76rem; font-weight: 700; }
+    .rec-card.added .rec-card__add { background: var(--ok); }
+
+    .filters { display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
+    .chip { padding: 5px 12px; border-radius: 999px; background: var(--surface); border: 1px solid var(--border); cursor: pointer; font-size: .76rem; font-family: inherit; }
+    .chip.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    .category { margin-bottom: 16px; }
+    .cat-title { margin: 0 0 8px; font-size: .82rem; color: var(--text-mute); display: flex; align-items: center; gap: 4px; }
+  </style>
+</head>
+<body>
+  <div class="phone">
+    <header class="greet">
+      <p>2026년 5월 24일 · 오후 2:14</p>
+      <h1>🌿 오늘 어떤 루틴을 해볼까요?</h1>
+    </header>
+
+    <article class="ai-recommend">
+      <div class="ai-recommend__ico">✨</div>
+      <h3 class="ai-recommend__title">최근 체크인 패턴 기반 추천</h3>
+      <p class="ai-recommend__msg">
+        이번 주 오후에 에너지가 떨어지는 패턴이 보여요. <strong>10분 산책</strong>과 <strong>3분 호흡 명상</strong>을 오늘 추가해보면 좋겠어요.
+      </p>
+      <button class="ai-recommend__btn">✓ 추천 모두 추가</button>
+    </article>
+
+    <section class="section">
+      <div class="section__head">
+        <h2 class="section__title">🎯 카테고리</h2>
+      </div>
+      <div class="filters">
+        <span class="chip on">전체</span>
+        <span class="chip">🧘 마음</span>
+        <span class="chip">🏃 몸</span>
+        <span class="chip">💤 수면</span>
+        <span class="chip">📓 기록</span>
+        <span class="chip">🤝 관계</span>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="category">
+        <p class="cat-title">🧘 마음 챙김 (3)</p>
+        <article class="rec-card added">
+          <div class="rec-card__ico">🧘</div>
+          <div class="rec-card__body">
+            <p class="rec-card__title">호흡 명상 3분</p>
+            <p class="rec-card__meta">4-7-8 호흡법 · 초보자 추천</p>
+          </div>
+          <button class="rec-card__add">✓</button>
+        </article>
+        <article class="rec-card">
+          <div class="rec-card__ico">📿</div>
+          <div class="rec-card__body">
+            <p class="rec-card__title">바디 스캔 명상 10분</p>
+            <p class="rec-card__meta">발끝부터 정수리까지 의식 이동</p>
+          </div>
+          <button class="rec-card__add">+ 추가</button>
+        </article>
+        <article class="rec-card">
+          <div class="rec-card__ico">🌅</div>
+          <div class="rec-card__body">
+            <p class="rec-card__title">아침 5분 햇볕</p>
+            <p class="rec-card__meta">세로토닌 분비 · 생체리듬 안정</p>
+          </div>
+          <button class="rec-card__add">+ 추가</button>
+        </article>
+      </div>
+
+      <div class="category">
+        <p class="cat-title">🏃 몸 움직임 (2)</p>
+        <article class="rec-card added">
+          <div class="rec-card__ico">🚶</div>
+          <div class="rec-card__body">
+            <p class="rec-card__title">10분 산책</p>
+            <p class="rec-card__meta">근처 공원 또는 동네 한 바퀴</p>
+          </div>
+          <button class="rec-card__add">✓</button>
+        </article>
+        <article class="rec-card">
+          <div class="rec-card__ico">🤸</div>
+          <div class="rec-card__body">
+            <p class="rec-card__title">스트레칭 5분</p>
+            <p class="rec-card__meta">목·어깨·허리 집중</p>
+          </div>
+          <button class="rec-card__add">+ 추가</button>
+        </article>
+      </div>
+
+      <div class="category">
+        <p class="cat-title">📓 기록 (2)</p>
+        <article class="rec-card added">
+          <div class="rec-card__ico">📓</div>
+          <div class="rec-card__body">
+            <p class="rec-card__title">감사 일기 1줄</p>
+            <p class="rec-card__meta">오늘 감사한 작은 일 하나</p>
+          </div>
+          <button class="rec-card__add">✓</button>
+        </article>
+        <article class="rec-card">
+          <div class="rec-card__ico">🌙</div>
+          <div class="rec-card__body">
+            <p class="rec-card__title">하루 마무리 3줄 일기</p>
+            <p class="rec-card__meta">잘한 일 · 배운 점 · 내일 한 가지</p>
+          </div>
+          <button class="rec-card__add">+ 추가</button>
+        </article>
+      </div>
+
+      <div class="category">
+        <p class="cat-title">🤝 관계 (1)</p>
+        <article class="rec-card">
+          <div class="rec-card__ico">💌</div>
+          <div class="rec-card__body">
+            <p class="rec-card__title">고마운 사람에게 한 마디</p>
+            <p class="rec-card__meta">짧은 메시지로 충분</p>
+          </div>
+          <button class="rec-card__add">+ 추가</button>
+        </article>
+      </div>
+    </section>
+  </div>
+
+  <nav class="tabbar">
+    <a href="home.html" class="tab"><span>🏠</span>홈</a>
+    <a href="routine.html" class="tab on"><span>🌿</span>루틴</a>
+    <a href="journal.html" class="tab"><span>📓</span>저널</a>
+    <a href="chart.html" class="tab"><span>📊</span>그래프</a>
+    <a href="setting.html" class="tab"><span>⚙</span>설정</a>
+  </nav>
+</body>
+</html>

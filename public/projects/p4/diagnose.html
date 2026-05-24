@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>진단 평가 — 자격증 코치</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .page-head { max-width: 760px; margin: 0 auto; padding: 24px 24px 12px; text-align: center; }
+    .page-head h1 { margin: 6px 0; font-size: 1.6rem; }
+    .page-head p { color: var(--text-dim); margin: 0; }
+    .badge { display: inline-block; padding: 4px 12px; border-radius: 999px; background: rgba(2,132,199,.12); color: var(--accent); font-size: .8rem; font-weight: 700; }
+
+    .intro { max-width: 760px; margin: 24px auto; padding: 0 24px; }
+    .info { padding: 26px; }
+    .info__head { display: flex; gap: 16px; align-items: center; margin-bottom: 16px; }
+    .info__ico { width: 56px; height: 56px; border-radius: 14px; background: linear-gradient(135deg, var(--accent), var(--sky)); color: #fff; display: grid; place-items: center; font-size: 1.6rem; flex-shrink: 0; }
+    .info__title { font-size: 1.2rem; margin: 0; }
+    .info__sub { color: var(--text-dim); font-size: .88rem; margin: 2px 0 0; }
+    .info__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 14px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin: 14px 0 18px; }
+    .info__grid div { text-align: center; }
+    .info__grid span { color: var(--text-mute); font-size: .75rem; display: block; }
+    .info__grid strong { font-size: 1.1rem; }
+
+    .subjects { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+    .subj { display: flex; align-items: center; gap: 12px; padding: 10px 14px; background: var(--bg); border-radius: 10px; }
+    .subj__no { width: 26px; height: 26px; border-radius: 50%; background: var(--accent); color: #fff; display: grid; place-items: center; font-weight: 700; font-size: .82rem; flex-shrink: 0; }
+    .subj__name { flex: 1; font-size: .92rem; font-weight: 600; }
+    .subj__cnt { color: var(--text-mute); font-size: .82rem; }
+
+    .start { padding: 22px; text-align: center; }
+    .start__big { font-size: 1.1rem; font-weight: 600; margin-bottom: 4px; }
+    .start__sub { color: var(--text-dim); font-size: .9rem; margin-bottom: 18px; }
+    .start .btn { padding: 14px 32px; font-size: 1rem; }
+
+    .timer-modal { position: fixed; inset: 0; background: rgba(12,74,110,.85); backdrop-filter: blur(8px); display: grid; place-items: center; z-index: 100; }
+    .timer-modal[hidden] { display: none; }
+    .timer-modal__panel {
+      background: var(--surface); padding: 40px 50px; border-radius: 20px;
+      text-align: center; max-width: 320px;
+    }
+    .timer-modal__count {
+      font-size: 5rem; font-weight: 800; line-height: 1;
+      background: linear-gradient(135deg, var(--accent), var(--sky));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="brand">🎓 자격증 코치</div>
+    <nav class="nav-links">
+      <a href="home.html">자격증 선택</a>
+      <a href="diagnose.html" class="on">진단</a>
+      <a href="weakness.html">취약점</a>
+      <a href="plan.html">학습 계획</a>
+      <a href="note.html">오답 노트</a>
+    </nav>
+  </header>
+
+  <div class="page-head">
+    <span class="badge">정보처리기사</span>
+    <h1>🩺 진단 평가</h1>
+    <p>현재 실력을 정확히 파악한 후 맞춤 학습 계획을 만들어드립니다.</p>
+  </div>
+
+  <main class="intro">
+    <article class="info card">
+      <div class="info__head">
+        <div class="info__ico">💻</div>
+        <div>
+          <h2 class="info__title">정보처리기사 — 종합 진단</h2>
+          <p class="info__sub">5개 과목 · 25문항 · 약 30분 소요</p>
+        </div>
+      </div>
+      <div class="info__grid">
+        <div><span>총 문항</span><strong>25문제</strong></div>
+        <div><span>제한 시간</span><strong>30분</strong></div>
+        <div><span>난이도</span><strong>★★★☆☆</strong></div>
+      </div>
+
+      <h3 style="margin: 0 0 10px; font-size: .92rem; color: var(--text-mute);">📚 평가 과목</h3>
+      <div class="subjects">
+        <div class="subj"><span class="subj__no">1</span><span class="subj__name">소프트웨어 설계</span><span class="subj__cnt">5문항</span></div>
+        <div class="subj"><span class="subj__no">2</span><span class="subj__name">소프트웨어 개발</span><span class="subj__cnt">5문항</span></div>
+        <div class="subj"><span class="subj__no">3</span><span class="subj__name">데이터베이스 구축</span><span class="subj__cnt">5문항</span></div>
+        <div class="subj"><span class="subj__no">4</span><span class="subj__name">프로그래밍 언어 활용</span><span class="subj__cnt">5문항</span></div>
+        <div class="subj"><span class="subj__no">5</span><span class="subj__name">정보시스템 구축 관리</span><span class="subj__cnt">5문항</span></div>
+      </div>
+
+      <div style="background: rgba(245,158,11,.08); border-left: 3px solid var(--warn); padding: 12px 14px; border-radius: 0 10px 10px 0; font-size: .85rem; color: var(--text-dim);">
+        💡 <strong>안내</strong>: 진단 평가는 횟수 제한 없이 다시 볼 수 있어요. 한 번 풀면 결과가 자동 저장됩니다.
+      </div>
+    </article>
+
+    <div class="card start" style="margin-top: 16px;">
+      <p class="start__big">준비되셨나요?</p>
+      <p class="start__sub">진단을 시작하면 30분 타이머가 자동으로 작동합니다.</p>
+      <button class="btn btn--primary" id="startBtn">🩺 진단 시작 →</button>
+    </div>
+  </main>
+
+  <div class="timer-modal" id="modal" hidden>
+    <div class="timer-modal__panel">
+      <div class="timer-modal__count" id="cnt">3</div>
+      <p style="margin: 0; color: var(--text-dim);">곧 시작됩니다…</p>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('startBtn').addEventListener('click', () => {
+      const $modal = document.getElementById('modal');
+      const $cnt = document.getElementById('cnt');
+      $modal.hidden = false;
+      let n = 3;
+      const id = setInterval(() => {
+        n--;
+        if (n > 0) $cnt.textContent = n;
+        else { clearInterval(id); window.location = 'result.html'; }
+      }, 800);
+    });
+  </script>
+</body>
+</html>

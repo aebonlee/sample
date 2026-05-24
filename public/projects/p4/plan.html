@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>학습 계획 — 자격증 코치</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .page-head { max-width: 1100px; margin: 0 auto; padding: 24px 24px 12px; display: flex; justify-content: space-between; align-items: end; flex-wrap: wrap; gap: 14px; }
+    .page-head h1 { margin: 0 0 6px; font-size: 1.5rem; }
+    .page-head p { color: var(--text-dim); margin: 0; }
+
+    .deadline {
+      padding: 10px 18px;
+      background: linear-gradient(135deg, var(--accent), var(--sky));
+      color: #fff; border-radius: 12px;
+      text-align: right; font-size: .85rem;
+    }
+    .deadline strong { display: block; font-size: 1.3rem; }
+
+    .progress-bar {
+      max-width: 1100px; margin: 14px auto 0; padding: 0 24px;
+    }
+    .progress-bar__inner {
+      display: flex; align-items: center; gap: 14px;
+      padding: 14px 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    }
+    .progress-bar__label { font-size: .85rem; color: var(--text-dim); }
+    .progress-bar__bar { flex: 1; height: 8px; background: var(--bg); border-radius: 4px; overflow: hidden; }
+    .progress-bar__fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--sky)); }
+    .progress-bar__pct { font-weight: 700; color: var(--accent); font-size: 1.05rem; }
+
+    .calendar {
+      max-width: 1100px; margin: 18px auto; padding: 0 24px;
+    }
+    .cal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+    .cal-head h2 { margin: 0; font-size: 1.05rem; }
+    .cal-head__nav { display: flex; gap: 4px; }
+    .cal-head__nav button { width: 32px; height: 32px; border-radius: 8px; background: var(--surface); border: 1px solid var(--border); cursor: pointer; font-family: inherit; }
+    .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+    .cal-wk {
+      text-align: center; padding: 6px 0;
+      font-size: .72rem; color: var(--text-mute); font-weight: 700;
+    }
+    .day {
+      min-height: 100px;
+      padding: 8px; border-radius: 10px;
+      background: var(--surface); border: 1px solid var(--border);
+      display: flex; flex-direction: column; gap: 4px;
+      font-size: .82rem;
+    }
+    .day.empty { background: transparent; border-color: transparent; }
+    .day.today { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(2,132,199,.2); }
+    .day__num { font-weight: 700; font-size: .8rem; color: var(--text-mute); }
+    .day.today .day__num { color: var(--accent); }
+    .day__tag {
+      padding: 3px 6px; border-radius: 5px;
+      font-size: .68rem; font-weight: 600;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .day__tag--db { background: rgba(220,38,38,.12); color: var(--danger); }
+    .day__tag--lang { background: rgba(16,185,129,.12); color: #10b981; }
+    .day__tag--design { background: rgba(2,132,199,.12); color: var(--accent); }
+    .day__tag--system { background: rgba(245,158,11,.12); color: var(--warn); }
+    .day__tag--review { background: rgba(124,58,237,.12); color: #7c3aed; }
+    .day.done { opacity: .6; }
+    .day.done::after { content: '✓'; position: absolute; top: 6px; right: 8px; color: var(--ok); font-weight: 700; }
+    .day { position: relative; }
+
+    .today-card {
+      max-width: 1100px; margin: 18px auto 80px; padding: 0 24px;
+    }
+    .today-card__inner { padding: 22px; display: grid; grid-template-columns: 1fr auto; gap: 18px; align-items: center; }
+    .today-card h3 { margin: 0 0 6px; color: var(--accent); font-size: .9rem; }
+    .today-card__title { margin: 0 0 6px; font-size: 1.2rem; }
+    .today-card__meta { color: var(--text-dim); font-size: .88rem; margin: 0; }
+    .today-card__tasks { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 0; }
+    .today-card__tasks span { padding: 4px 10px; background: var(--bg); border-radius: 999px; font-size: .8rem; color: var(--text-dim); }
+
+    @media (max-width: 720px) {
+      .day { min-height: 70px; }
+      .day__tag { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="brand">🎓 자격증 코치</div>
+    <nav class="nav-links">
+      <a href="home.html">자격증 선택</a>
+      <a href="diagnose.html">진단</a>
+      <a href="weakness.html">취약점</a>
+      <a href="plan.html" class="on">학습 계획</a>
+      <a href="note.html">오답 노트</a>
+    </nav>
+  </header>
+
+  <div class="page-head">
+    <div>
+      <h1>📅 4주 합격 학습 계획</h1>
+      <p>진단 결과 기반 · 정보처리기사 2026.07.18 응시 목표</p>
+    </div>
+    <div class="deadline">
+      D-<strong>55</strong>
+      <span style="display: block; opacity: .85;">2026.07.18 응시</span>
+    </div>
+  </div>
+
+  <div class="progress-bar">
+    <div class="progress-bar__inner">
+      <span class="progress-bar__label">전체 진도</span>
+      <div class="progress-bar__bar"><div class="progress-bar__fill" style="width: 28%"></div></div>
+      <span class="progress-bar__pct">28%</span>
+    </div>
+  </div>
+
+  <section class="calendar">
+    <div class="cal-head">
+      <h2>📅 2026년 5월 — 1주차 (취약점 집중)</h2>
+      <div class="cal-head__nav">
+        <button>‹</button><button>›</button>
+        <button>오늘</button>
+      </div>
+    </div>
+    <div class="cal-grid">
+      <div class="cal-wk">일</div><div class="cal-wk">월</div><div class="cal-wk">화</div><div class="cal-wk">수</div><div class="cal-wk">목</div><div class="cal-wk">금</div><div class="cal-wk">토</div>
+
+      <div class="day empty"></div>
+      <div class="day done"><span class="day__num">18</span><span class="day__tag day__tag--db">DB 정규화</span><span class="day__tag day__tag--review">복습</span></div>
+      <div class="day done"><span class="day__num">19</span><span class="day__tag day__tag--db">DB 정규화</span></div>
+      <div class="day done"><span class="day__num">20</span><span class="day__tag day__tag--db">트랜잭션</span></div>
+      <div class="day done"><span class="day__num">21</span><span class="day__tag day__tag--system">OSI 7계층</span></div>
+      <div class="day done"><span class="day__num">22</span><span class="day__tag day__tag--system">보안 암호화</span></div>
+      <div class="day done"><span class="day__num">23</span><span class="day__tag day__tag--review">주간 복습</span></div>
+
+      <div class="day today"><span class="day__num">24</span><span class="day__tag day__tag--db">DB 인덱스</span><span class="day__tag day__tag--review">모의고사</span></div>
+      <div class="day"><span class="day__num">25</span><span class="day__tag day__tag--design">UML</span></div>
+      <div class="day"><span class="day__num">26</span><span class="day__tag day__tag--design">디자인 패턴</span></div>
+      <div class="day"><span class="day__num">27</span><span class="day__tag day__tag--lang">자바 OOP</span></div>
+      <div class="day"><span class="day__num">28</span><span class="day__tag day__tag--lang">파이썬 기본</span></div>
+      <div class="day"><span class="day__num">29</span><span class="day__tag day__tag--lang">C 포인터</span></div>
+      <div class="day"><span class="day__num">30</span><span class="day__tag day__tag--review">주간 복습</span></div>
+
+      <div class="day"><span class="day__num">31</span><span class="day__tag day__tag--design">요구사항 분석</span></div>
+      <div class="day empty"></div><div class="day empty"></div><div class="day empty"></div><div class="day empty"></div><div class="day empty"></div><div class="day empty"></div>
+    </div>
+  </section>
+
+  <section class="today-card">
+    <article class="card today-card__inner">
+      <div>
+        <h3>📌 오늘 (5월 24일 토)의 학습</h3>
+        <p class="today-card__title">DB 인덱스 + 모의고사 1회</p>
+        <p class="today-card__meta">약 2시간 30분 예상 · 진단 결과 기준 가장 효과 큼</p>
+        <div class="today-card__tasks">
+          <span>📖 인덱스 자료구조 30분</span>
+          <span>📝 핵심 문제 15문 30분</span>
+          <span>📊 모의고사 50문 70분</span>
+          <span>🔁 오답 복습 20분</span>
+        </div>
+      </div>
+      <a href="diagnose.html" class="btn btn--primary">▶ 오늘 학습 시작</a>
+    </article>
+  </section>
+</body>
+</html>

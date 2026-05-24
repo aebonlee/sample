@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>설정 — 회복탄력성</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body { background: radial-gradient(800px 400px at 50% 0%, rgba(234,88,12,.08), transparent 60%), var(--bg); min-height: 100vh; }
+
+    .profile-card {
+      padding: 18px; margin-bottom: 18px;
+      display: flex; align-items: center; gap: 14px;
+    }
+    .profile-card__avatar {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #fff; display: grid; place-items: center; font-weight: 700; font-size: 1.2rem;
+    }
+    .profile-card__name { font-weight: 700; font-size: 1.05rem; }
+    .profile-card__meta { color: var(--text-mute); font-size: .8rem; }
+    .profile-card__edit { margin-left: auto; padding: 6px 12px; border-radius: 8px; background: var(--soft); border: 0; color: var(--accent); font-family: inherit; font-size: .8rem; cursor: pointer; font-weight: 600; }
+
+    .group { margin-bottom: 14px; }
+    .group__title { margin: 0 0 8px; font-size: .75rem; color: var(--text-mute); text-transform: uppercase; letter-spacing: .06em; padding: 0 4px; }
+    .group__inner { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+
+    .row {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .row:last-child { border-bottom: 0; }
+    .row__ico { width: 30px; height: 30px; border-radius: 8px; background: var(--soft); display: grid; place-items: center; font-size: .95rem; flex-shrink: 0; }
+    .row__body { flex: 1; min-width: 0; }
+    .row__title { font-size: .92rem; margin: 0; }
+    .row__desc { color: var(--text-mute); font-size: .76rem; margin: 0; }
+    .row__right { color: var(--text-mute); font-size: .82rem; }
+
+    /* Toggle switch */
+    .toggle {
+      width: 44px; height: 24px; border-radius: 12px;
+      background: var(--border); cursor: pointer; position: relative;
+      transition: background .15s ease;
+      flex-shrink: 0;
+    }
+    .toggle::after {
+      content: ''; position: absolute; top: 2px; left: 2px;
+      width: 20px; height: 20px; border-radius: 50%;
+      background: #fff; box-shadow: 0 2px 4px rgba(0,0,0,.2);
+      transition: left .15s ease;
+    }
+    .toggle.on { background: var(--accent); }
+    .toggle.on::after { left: 22px; }
+
+    /* Time chips */
+    .time-chips { display: flex; gap: 6px; flex-wrap: wrap; padding: 0 16px 14px; }
+    .time-chip {
+      padding: 6px 12px; background: var(--soft); border: 1px solid transparent;
+      border-radius: 999px; font-size: .82rem; cursor: pointer; font-family: inherit;
+      color: var(--text-dim);
+    }
+    .time-chip.on { background: var(--accent); color: #fff; }
+
+    .destructive {
+      width: 100%; padding: 12px; margin-top: 14px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; cursor: pointer; font-family: inherit;
+      color: var(--text-mute); font-size: .88rem;
+    }
+    .destructive:hover { color: #dc2626; border-color: #fca5a5; }
+
+    .app-info { text-align: center; color: var(--text-mute); font-size: .75rem; margin-top: 16px; }
+  </style>
+</head>
+<body>
+  <div class="phone">
+    <header class="greet">
+      <p>⚙ 설정</p>
+      <h1>나에게 맞게 조정해요</h1>
+    </header>
+
+    <article class="card profile-card">
+      <div class="profile-card__avatar">JL</div>
+      <div>
+        <div class="profile-card__name">이지수</div>
+        <div class="profile-card__meta">aebon@kyonggi.ac.kr</div>
+      </div>
+      <button class="profile-card__edit">✏ 편집</button>
+    </article>
+
+    <div class="group">
+      <p class="group__title">🔔 알림</p>
+      <div class="group__inner">
+        <div class="row">
+          <div class="row__ico">📲</div>
+          <div class="row__body">
+            <p class="row__title">전체 알림</p>
+            <p class="row__desc">모든 푸시 알림을 켜고 끕니다</p>
+          </div>
+          <div class="toggle on"></div>
+        </div>
+        <div class="row">
+          <div class="row__ico">☀️</div>
+          <div class="row__body">
+            <p class="row__title">아침 체크인 알림</p>
+            <p class="row__desc">감정 점수를 매일 기록하도록 도움</p>
+          </div>
+          <div class="toggle on"></div>
+        </div>
+      </div>
+      <div class="time-chips">
+        <span class="time-chip">06:00</span>
+        <span class="time-chip on">07:00</span>
+        <span class="time-chip">08:00</span>
+        <span class="time-chip">09:00</span>
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="group__inner">
+        <div class="row">
+          <div class="row__ico">🌙</div>
+          <div class="row__body">
+            <p class="row__title">취침 전 회고 알림</p>
+            <p class="row__desc">하루를 정리하는 한 줄 일기 안내</p>
+          </div>
+          <div class="toggle on"></div>
+        </div>
+        <div class="row">
+          <div class="row__ico">🌿</div>
+          <div class="row__body">
+            <p class="row__title">루틴 시간 알림</p>
+            <p class="row__desc">예정된 루틴 시작 5분 전 알림</p>
+          </div>
+          <div class="toggle on"></div>
+        </div>
+        <div class="row">
+          <div class="row__ico">🎯</div>
+          <div class="row__body">
+            <p class="row__title">주간 리포트</p>
+            <p class="row__desc">매주 일요일 저녁 회복 점수 요약</p>
+          </div>
+          <div class="toggle"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="group">
+      <p class="group__title">🎨 모양</p>
+      <div class="group__inner">
+        <div class="row">
+          <div class="row__ico">🌗</div>
+          <div class="row__body">
+            <p class="row__title">테마</p>
+          </div>
+          <div class="row__right">시스템 자동 →</div>
+        </div>
+        <div class="row">
+          <div class="row__ico">🔤</div>
+          <div class="row__body">
+            <p class="row__title">글자 크기</p>
+          </div>
+          <div class="row__right">중간 →</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="group">
+      <p class="group__title">🔒 개인정보</p>
+      <div class="group__inner">
+        <div class="row">
+          <div class="row__ico">🔐</div>
+          <div class="row__body">
+            <p class="row__title">앱 잠금</p>
+            <p class="row__desc">Face ID로 보호</p>
+          </div>
+          <div class="toggle on"></div>
+        </div>
+        <div class="row">
+          <div class="row__ico">📤</div>
+          <div class="row__body">
+            <p class="row__title">데이터 내보내기</p>
+            <p class="row__desc">CSV / PDF 형식</p>
+          </div>
+          <div class="row__right">→</div>
+        </div>
+        <div class="row">
+          <div class="row__ico">📋</div>
+          <div class="row__body">
+            <p class="row__title">개인정보처리방침</p>
+          </div>
+          <div class="row__right">→</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="group">
+      <p class="group__title">ℹ 정보</p>
+      <div class="group__inner">
+        <div class="row">
+          <div class="row__ico">💬</div>
+          <div class="row__body"><p class="row__title">의견 보내기</p></div>
+          <div class="row__right">→</div>
+        </div>
+        <div class="row">
+          <div class="row__ico">⭐</div>
+          <div class="row__body"><p class="row__title">앱 평가하기</p></div>
+          <div class="row__right">→</div>
+        </div>
+        <div class="row">
+          <div class="row__ico">📦</div>
+          <div class="row__body">
+            <p class="row__title">버전</p>
+          </div>
+          <div class="row__right">1.4.2 (최신)</div>
+        </div>
+      </div>
+    </div>
+
+    <button class="destructive">🚪 로그아웃</button>
+    <button class="destructive" style="margin-top: 8px;">🗑 계정 삭제</button>
+
+    <p class="app-info">© 2026 회복탄력성 코치 · 모든 데이터는 본인만 접근 가능합니다.</p>
+  </div>
+
+  <nav class="tabbar">
+    <a href="home.html" class="tab"><span>🏠</span>홈</a>
+    <a href="routine.html" class="tab"><span>🌿</span>루틴</a>
+    <a href="journal.html" class="tab"><span>📓</span>저널</a>
+    <a href="chart.html" class="tab"><span>📊</span>그래프</a>
+    <a href="setting.html" class="tab on"><span>⚙</span>설정</a>
+  </nav>
+
+  <script>
+    document.querySelectorAll('.toggle').forEach((t) => t.addEventListener('click', () => t.classList.toggle('on')));
+    document.querySelectorAll('.time-chip').forEach((c) => c.addEventListener('click', () => {
+      c.parentElement.querySelectorAll('.time-chip').forEach((x) => x.classList.remove('on'));
+      c.classList.add('on');
+    }));
+  </script>
+</body>
+</html>

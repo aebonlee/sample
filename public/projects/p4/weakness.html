@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>취약점 분석 — 자격증 코치</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .page-head { max-width: 1100px; margin: 0 auto; padding: 24px 24px 12px; }
+    .page-head h1 { margin: 0 0 6px; font-size: 1.5rem; }
+    .page-head p { color: var(--text-dim); margin: 0; }
+
+    .layout {
+      max-width: 1100px; margin: 14px auto; padding: 0 24px 80px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    }
+
+    /* 레이더 차트 (CSS only) */
+    .radar { padding: 22px; text-align: center; }
+    .radar h3 { margin: 0 0 14px; font-size: 1rem; text-align: left; }
+    .radar__svg { width: 100%; max-width: 360px; }
+
+    /* 약점 토픽 */
+    .topics { padding: 22px; }
+    .topics h3 { margin: 0 0 14px; font-size: 1rem; }
+    .topic { padding: 14px 16px; background: var(--bg); border-radius: 10px; margin-bottom: 8px; border-left: 4px solid var(--danger); }
+    .topic--mid { border-left-color: var(--warn); }
+    .topic__head { display: flex; justify-content: space-between; margin-bottom: 6px; }
+    .topic__name { font-weight: 700; font-size: .9rem; }
+    .topic__rate { font-weight: 700; color: var(--danger); font-size: .85rem; }
+    .topic--mid .topic__rate { color: var(--warn); }
+    .topic__meta { color: var(--text-mute); font-size: .8rem; margin-bottom: 8px; }
+    .topic__bar { height: 5px; background: var(--surface); border-radius: 3px; overflow: hidden; margin-bottom: 8px; }
+    .topic__fill { height: 100%; background: var(--danger); }
+    .topic--mid .topic__fill { background: var(--warn); }
+    .topic__btn { padding: 5px 12px; border-radius: 7px; background: var(--accent); color: #fff; border: 0; font-family: inherit; font-size: .78rem; cursor: pointer; }
+
+    .insights {
+      grid-column: 1 / -1;
+      padding: 24px;
+    }
+    .insights h3 { margin: 0 0 16px; font-size: 1.05rem; }
+    .insights__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .insight {
+      padding: 16px; background: var(--bg); border-radius: 12px;
+    }
+    .insight__ico { font-size: 1.8rem; margin-bottom: 8px; }
+    .insight__title { font-weight: 700; font-size: .92rem; margin: 0 0 4px; }
+    .insight__body { color: var(--text-dim); font-size: .82rem; margin: 0; line-height: 1.6; }
+    .insight__pin { display: inline-block; margin-top: 8px; padding: 2px 8px; border-radius: 999px; background: rgba(2,132,199,.12); color: var(--accent); font-size: .72rem; font-weight: 700; }
+
+    @media (max-width: 880px) {
+      .layout { grid-template-columns: 1fr; }
+      .insights__grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="brand">🎓 자격증 코치</div>
+    <nav class="nav-links">
+      <a href="home.html">자격증 선택</a>
+      <a href="diagnose.html">진단</a>
+      <a href="weakness.html" class="on">취약점</a>
+      <a href="plan.html">학습 계획</a>
+      <a href="note.html">오답 노트</a>
+    </nav>
+  </header>
+
+  <div class="page-head">
+    <h1>🎯 취약점 분석 대시보드</h1>
+    <p>정보처리기사 · 248문제 풀이 기반 · 마지막 업데이트 2시간 전</p>
+  </div>
+
+  <main class="layout">
+    <article class="card radar">
+      <h3>📡 과목별 균형도</h3>
+      <svg class="radar__svg" viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
+        <g transform="translate(160 160)">
+          <!-- 배경 오각형 4겹 -->
+          <g stroke="#bae6fd" stroke-width="1" fill="none">
+            <polygon points="0,-120 114,-37 70,97 -70,97 -114,-37"/>
+            <polygon points="0,-90 86,-28 53,73 -53,73 -86,-28"/>
+            <polygon points="0,-60 57,-19 35,49 -35,49 -57,-19"/>
+            <polygon points="0,-30 28,-9 17,24 -17,24 -28,-9"/>
+          </g>
+          <g stroke="#bae6fd" stroke-width="1">
+            <line x1="0" y1="0" x2="0" y2="-120"/>
+            <line x1="0" y1="0" x2="114" y2="-37"/>
+            <line x1="0" y1="0" x2="70" y2="97"/>
+            <line x1="0" y1="0" x2="-70" y2="97"/>
+            <line x1="0" y1="0" x2="-114" y2="-37"/>
+          </g>
+          <!-- 데이터 (80, 60, 40, 80, 40) -->
+          <polygon
+            points="0,-96 68,-22 28,39 -56,78 -46,-15"
+            fill="rgba(2,132,199,.25)" stroke="#0284c7" stroke-width="2"/>
+          <g fill="#0284c7">
+            <circle cx="0" cy="-96" r="4"/>
+            <circle cx="68" cy="-22" r="4"/>
+            <circle cx="28" cy="39" r="4"/>
+            <circle cx="-56" cy="78" r="4"/>
+            <circle cx="-46" cy="-15" r="4"/>
+          </g>
+          <!-- 라벨 -->
+          <g fill="#0c4a6e" font-size="11" text-anchor="middle" font-family="Pretendard, sans-serif" font-weight="600">
+            <text x="0" y="-135">설계</text>
+            <text x="130" y="-37">개발</text>
+            <text x="78" y="113">DB</text>
+            <text x="-78" y="113">언어</text>
+            <text x="-130" y="-37">시스템</text>
+          </g>
+        </g>
+      </svg>
+      <p style="color: var(--text-dim); font-size: .85rem; margin: 14px 0 0;">
+        균형이 좋을수록 오각형이 정 5각형에 가까워집니다.<br/>
+        지금은 <strong>DB·시스템</strong> 쪽이 안쪽으로 들어가 있어요.
+      </p>
+    </article>
+
+    <article class="card topics">
+      <h3>🔴 가장 약한 단원 TOP 5</h3>
+      <div class="topic">
+        <div class="topic__head">
+          <span class="topic__name">정규화 (DB)</span>
+          <span class="topic__rate">정답률 28%</span>
+        </div>
+        <p class="topic__meta">14문제 시도 · 평균 시도 1.8회</p>
+        <div class="topic__bar"><div class="topic__fill" style="width: 28%"></div></div>
+        <button class="topic__btn">집중 학습 시작 →</button>
+      </div>
+      <div class="topic">
+        <div class="topic__head">
+          <span class="topic__name">트랜잭션 격리 수준 (DB)</span>
+          <span class="topic__rate">정답률 33%</span>
+        </div>
+        <p class="topic__meta">9문제 시도</p>
+        <div class="topic__bar"><div class="topic__fill" style="width: 33%"></div></div>
+        <button class="topic__btn">집중 학습 시작 →</button>
+      </div>
+      <div class="topic topic--mid">
+        <div class="topic__head">
+          <span class="topic__name">네트워크 OSI 7계층 (시스템)</span>
+          <span class="topic__rate">정답률 50%</span>
+        </div>
+        <p class="topic__meta">12문제 시도</p>
+        <div class="topic__bar"><div class="topic__fill" style="width: 50%"></div></div>
+        <button class="topic__btn">집중 학습 시작 →</button>
+      </div>
+      <div class="topic topic--mid">
+        <div class="topic__head">
+          <span class="topic__name">보안 — 암호화 알고리즘</span>
+          <span class="topic__rate">정답률 55%</span>
+        </div>
+        <p class="topic__meta">11문제 시도</p>
+        <div class="topic__bar"><div class="topic__fill" style="width: 55%"></div></div>
+        <button class="topic__btn">집중 학습 시작 →</button>
+      </div>
+      <div class="topic topic--mid">
+        <div class="topic__head">
+          <span class="topic__name">화이트박스 테스트 (개발)</span>
+          <span class="topic__rate">정답률 60%</span>
+        </div>
+        <p class="topic__meta">8문제 시도</p>
+        <div class="topic__bar"><div class="topic__fill" style="width: 60%"></div></div>
+        <button class="topic__btn">집중 학습 시작 →</button>
+      </div>
+    </article>
+
+    <article class="card insights">
+      <h3>💡 AI 진단 인사이트</h3>
+      <div class="insights__grid">
+        <div class="insight">
+          <div class="insight__ico">🎯</div>
+          <h4 class="insight__title">3rd 정규화에서 헷갈려요</h4>
+          <p class="insight__body">14문제 중 10번이 BCNF/3NF 구분 문제. 함수 종속의 기본 정의부터 차근차근 다시 보세요.</p>
+          <span class="insight__pin">DB · 학습 추천</span>
+        </div>
+        <div class="insight">
+          <div class="insight__ico">⏱</div>
+          <h4 class="insight__title">DB 문제에 너무 오래 걸려요</h4>
+          <p class="insight__body">평균 풀이 시간이 다른 과목의 2배. 정답률뿐 아니라 시간 단축도 함께 연습하세요.</p>
+          <span class="insight__pin">시간 관리</span>
+        </div>
+        <div class="insight">
+          <div class="insight__ico">📈</div>
+          <h4 class="insight__title">최근 7일 +12% 향상!</h4>
+          <p class="insight__body">소프트웨어 설계 과목이 빠르게 좋아지고 있어요. 같은 페이스로 1주만 더 가면 합격권!</p>
+          <span class="insight__pin">긍정 신호</span>
+        </div>
+      </div>
+    </article>
+  </main>
+</body>
+</html>
