@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Blackjack — 21 카드 게임</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="stage">
+    <header class="top">
+      <h1>♠ BLACKJACK ♠</h1>
+      <div class="chips-bar">
+        <div class="chip-stack">
+          <span class="chip-ic">💰</span>
+          <div>
+            <span>보유 칩</span>
+            <b id="chips">1,000</b>
+          </div>
+        </div>
+        <div class="chip-stack">
+          <span class="chip-ic">🏆</span>
+          <div>
+            <span>최고 기록</span>
+            <b id="best">1,000</b>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="table">
+      <div class="hand dealer">
+        <header>
+          <h2>딜러 <span id="dealerScore">—</span></h2>
+        </header>
+        <div class="cards" id="dealerCards"></div>
+      </div>
+
+      <div class="result" id="result" hidden>
+        <h2 id="resultText">PLAYER WINS</h2>
+        <p id="resultSub">+₩200</p>
+      </div>
+
+      <div class="hand player">
+        <header>
+          <h2>플레이어 <span id="playerScore">—</span></h2>
+        </header>
+        <div class="cards" id="playerCards"></div>
+      </div>
+    </section>
+
+    <section class="controls" id="controls">
+      <div class="bet-area" id="betArea">
+        <h3>베팅 금액</h3>
+        <div class="bet-display">
+          <span class="cur">₩</span>
+          <b id="betAmount">100</b>
+        </div>
+        <div class="bet-chips">
+          <button class="bc bc-10" data-amt="10">10</button>
+          <button class="bc bc-50" data-amt="50">50</button>
+          <button class="bc bc-100" data-amt="100">100</button>
+          <button class="bc bc-500" data-amt="500">500</button>
+        </div>
+        <div class="bet-actions">
+          <button id="clearBetBtn" class="ghost">초기화</button>
+          <button id="dealBtn" class="primary">▶ 게임 시작</button>
+        </div>
+      </div>
+
+      <div class="game-area" id="gameArea" hidden>
+        <button id="hitBtn" class="action">💥 히트</button>
+        <button id="standBtn" class="action">✋ 스탠드</button>
+        <button id="doubleBtn" class="action">⏫ 더블다운</button>
+        <button id="newBtn" class="action primary" hidden>↻ 새 라운드</button>
+      </div>
+    </section>
+
+    <p class="rule">
+      🎯 카드 합 21에 가깝게 · A는 1 또는 11 · J·Q·K는 10 · 21 초과 시 버스트
+    </p>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
