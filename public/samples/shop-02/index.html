@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BLOOM — 패션 쇼핑몰</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="nav">
+    <div class="nav__inner">
+      <a class="brand">BLOOM</a>
+      <nav>
+        <a href="#" class="active">전체</a>
+        <a href="#">신상</a>
+        <a href="#">베스트</a>
+        <a href="#">아우터</a>
+        <a href="#">상의</a>
+        <a href="#">하의</a>
+      </nav>
+      <div class="util">
+        <button class="ico">🔍</button>
+        <button class="ico">♡</button>
+        <button class="ico">🛒 <span id="cart">0</span></button>
+      </div>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="filters">
+      <h2>필터</h2>
+
+      <div class="fgroup">
+        <h3>카테고리</h3>
+        <label><input type="checkbox" data-f="cat" value="아우터" /> 아우터</label>
+        <label><input type="checkbox" data-f="cat" value="상의" /> 상의</label>
+        <label><input type="checkbox" data-f="cat" value="하의" /> 하의</label>
+        <label><input type="checkbox" data-f="cat" value="원피스" /> 원피스</label>
+        <label><input type="checkbox" data-f="cat" value="액세서리" /> 액세서리</label>
+      </div>
+
+      <div class="fgroup">
+        <h3>가격</h3>
+        <label><input type="radio" name="price" value="all" checked /> 전체</label>
+        <label><input type="radio" name="price" value="0-50" /> ~ 50,000</label>
+        <label><input type="radio" name="price" value="50-100" /> 50,000 ~ 100,000</label>
+        <label><input type="radio" name="price" value="100-" /> 100,000 이상</label>
+      </div>
+
+      <div class="fgroup">
+        <h3>색상</h3>
+        <div class="colors">
+          <button class="color" data-c="#fff" style="background:#fff"></button>
+          <button class="color" data-c="#111" style="background:#111"></button>
+          <button class="color" data-c="#ccaa88" style="background:#ccaa88"></button>
+          <button class="color" data-c="#6b8e6b" style="background:#6b8e6b"></button>
+          <button class="color" data-c="#a05050" style="background:#a05050"></button>
+          <button class="color" data-c="#506a8e" style="background:#506a8e"></button>
+        </div>
+      </div>
+
+      <button id="resetBtn" class="reset">필터 초기화</button>
+    </aside>
+
+    <section class="products">
+      <header class="phead">
+        <div>
+          <h1>전체 상품</h1>
+          <p><span id="count">0</span>개 상품</p>
+        </div>
+        <select id="sort">
+          <option value="new">신상품순</option>
+          <option value="low">낮은 가격순</option>
+          <option value="high">높은 가격순</option>
+          <option value="like">인기순</option>
+        </select>
+      </header>
+
+      <div class="grid" id="grid"></div>
+      <p id="empty" class="empty" hidden>조건에 맞는 상품이 없습니다.</p>
+    </section>
+  </main>
+
+  <div id="toast" class="toast">장바구니에 담았어요</div>
+
+  <script src="script.js"></script>
+</body>
+</html>

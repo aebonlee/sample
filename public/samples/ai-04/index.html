@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Codex — AI 코드 어시스턴트</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="top">
+    <div class="brand">⌨ <b>Codex</b><span>AI Code Assistant</span></div>
+    <div class="proj">
+      <span>📁 my-react-app</span>
+      <em>/src/components/Header.tsx</em>
+    </div>
+    <button class="settings">⚙</button>
+  </header>
+
+  <main class="layout">
+    <aside class="files">
+      <div class="files__head">EXPLORER</div>
+      <ul>
+        <li class="folder">📂 src</li>
+        <li class="folder indent">📂 components</li>
+        <li class="file indent2 active">📄 Header.tsx</li>
+        <li class="file indent2">📄 Footer.tsx</li>
+        <li class="file indent2">📄 Sidebar.tsx</li>
+        <li class="folder indent">📂 hooks</li>
+        <li class="file indent2">📄 useAuth.ts</li>
+        <li class="file indent">📄 App.tsx</li>
+        <li class="file indent">📄 main.tsx</li>
+      </ul>
+    </aside>
+
+    <section class="editor">
+      <div class="tabs">
+        <div class="tab active">Header.tsx ×</div>
+      </div>
+      <div class="code" id="code">
+<pre><code><span class="ln">1</span>  <span class="kw">import</span> { useState } <span class="kw">from</span> <span class="str">'react'</span>;
+<span class="ln">2</span>
+<span class="ln">3</span>  <span class="kw">export function</span> <span class="fn">Header</span>() {
+<span class="ln">4</span>    <span class="kw">const</span> [open, setOpen] = <span class="fn">useState</span>(<span class="lit">false</span>);
+<span class="ln">5</span>
+<span class="ln">6</span>    <span class="kw">return</span> (
+<span class="ln">7</span>      &lt;<span class="tag">header</span> <span class="attr">className</span>=<span class="str">"nav"</span>&gt;
+<span class="ln">8</span>        &lt;<span class="tag">a</span> <span class="attr">href</span>=<span class="str">"/"</span>&gt;<span class="txt">로고</span>&lt;/<span class="tag">a</span>&gt;
+<span class="ln">9</span>        &lt;<span class="tag">button</span> <span class="attr">onClick</span>={() =&gt; <span class="fn">setOpen</span>(!open)}&gt;
+<span class="ln">10</span>         {open ? <span class="str">'닫기'</span> : <span class="str">'메뉴'</span>}
+<span class="ln">11</span>       &lt;/<span class="tag">button</span>&gt;
+<span class="ln">12</span>     &lt;/<span class="tag">header</span>&gt;
+<span class="ln">13</span>   );
+<span class="ln">14</span> }</code></pre>
+      </div>
+      <footer class="status">
+        <span>TypeScript · React</span>
+        <span>UTF-8</span>
+        <span>LF</span>
+        <span class="ok">⚡ Codex 활성</span>
+      </footer>
+    </section>
+
+    <aside class="chat">
+      <header>
+        <h2>🤖 Codex 어시스턴트</h2>
+        <button class="clear" id="clearBtn">↻</button>
+      </header>
+
+      <div class="log" id="log">
+        <div class="msg ai">
+          <p>안녕하세요! 👋 현재 <code>Header.tsx</code>를 열고 있어요.</p>
+          <p>코드 설명, 리팩토링, 버그 찾기, 테스트 생성 등을 도와드릴 수 있어요.</p>
+        </div>
+      </div>
+
+      <div class="suggest" id="suggest">
+        <button class="s">✨ 이 코드 설명해줘</button>
+        <button class="s">🔧 접근성 개선하기</button>
+        <button class="s">🐛 버그 찾기</button>
+        <button class="s">✅ 테스트 코드 작성</button>
+      </div>
+
+      <div class="composer">
+        <textarea id="input" placeholder="질문이나 명령을 입력하세요... (예: 이 컴포넌트를 함수형으로 리팩토링)" rows="2"></textarea>
+        <button id="sendBtn" class="send">↑</button>
+      </div>
+    </aside>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

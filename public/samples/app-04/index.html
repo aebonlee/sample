@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WAVE — 음악 플레이어 앱</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="stage">
+    <section class="phone" id="phone">
+      <header class="top">
+        <button class="back">⌃</button>
+        <p>지금 재생 중</p>
+        <button class="menu">⋯</button>
+      </header>
+
+      <div class="cover" id="cover">
+        <div class="vinyl"></div>
+        <div class="art" id="art"></div>
+      </div>
+
+      <div class="info">
+        <h1 id="title">Stay With Me</h1>
+        <p id="artist">Sam Smith · In the Lonely Hour</p>
+      </div>
+
+      <div class="track">
+        <input id="seek" type="range" min="0" max="100" value="0" step=".1" />
+        <div class="ts">
+          <span id="cur">0:00</span>
+          <span id="dur">3:48</span>
+        </div>
+      </div>
+
+      <nav class="ctrls">
+        <button class="c shuffle">🔀</button>
+        <button class="c" id="prev">⏮</button>
+        <button class="c play" id="playBtn">▶</button>
+        <button class="c" id="next">⏭</button>
+        <button class="c repeat">🔁</button>
+      </nav>
+
+      <div class="extra">
+        <button class="ex" id="likeBtn">♡</button>
+        <button class="ex">📤</button>
+        <button class="ex">📋</button>
+        <button class="ex">🔊</button>
+      </div>
+
+      <section class="up-next">
+        <header><h3>다음 재생</h3><a>전체</a></header>
+        <ul id="queue"></ul>
+      </section>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

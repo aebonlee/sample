@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Breakout — 벽돌 깨기</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="stage">
+    <header>
+      <h1>🧱 BREAKOUT</h1>
+      <p>← → 또는 마우스로 패들 조작</p>
+    </header>
+
+    <div class="hud">
+      <div class="stat"><span>점수</span><b id="score">0</b></div>
+      <div class="stat"><span>최고</span><b id="best">0</b></div>
+      <div class="stat"><span>레벨</span><b id="level">1</b></div>
+      <div class="stat"><span>생명</span><b id="lives">♥♥♥</b></div>
+    </div>
+
+    <div class="board-wrap">
+      <canvas id="board" width="500" height="600"></canvas>
+      <div id="overlay" class="overlay">
+        <h2 id="ovT">시작하기</h2>
+        <p id="ovP">스페이스를 눌러 게임을 시작하세요.</p>
+        <button id="startBtn">▶ 시작</button>
+      </div>
+    </div>
+
+    <p class="hint">스페이스: 일시정지 / 재시작</p>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

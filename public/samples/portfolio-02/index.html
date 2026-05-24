@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HYE — 사진작가 포트폴리오</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="nav">
+    <a class="brand">HYE.<em>photo</em></a>
+    <nav>
+      <a href="#work" class="active">Work</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>빛의 결을<br/>기록합니다.</h1>
+      <p>2018년부터 일상의 풍경, 인물, 도시를 사진으로 기록하고 있습니다.</p>
+    </section>
+
+    <section id="work" class="work">
+      <div class="filter">
+        <button class="f active" data-f="all">전체</button>
+        <button class="f" data-f="city">도시</button>
+        <button class="f" data-f="portrait">인물</button>
+        <button class="f" data-f="nature">자연</button>
+        <button class="f" data-f="travel">여행</button>
+      </div>
+
+      <div class="gallery" id="gallery"></div>
+    </section>
+
+    <section id="about" class="about">
+      <div class="about__img"></div>
+      <div class="about__text">
+        <p class="kicker">ABOUT</p>
+        <h2>이혜수 · 프리랜스 사진작가</h2>
+        <p>잡지 〈AROUND〉, 〈Magazine B〉와 협업했고, 2023년 첫 개인 사진집 「조용한 도시」를 출간했습니다.</p>
+        <ul>
+          <li>2024 — 그룹전 〈빛의 흔적〉 · 성수 D&amp;Department</li>
+          <li>2023 — 사진집 「조용한 도시」 출간</li>
+          <li>2022 — 잡지 AROUND 정기 기고</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="contact" class="contact">
+      <h2>함께 작업해요</h2>
+      <p>커미션, 잡지, 인터뷰 촬영 문의는 메일로 보내주세요.</p>
+      <a href="mailto:hello@hye.photo" class="mail">hello@hye.photo</a>
+    </section>
+  </main>
+
+  <div id="lightbox" class="lightbox" hidden>
+    <span class="close">×</span>
+    <div class="lb-inner" id="lbInner"></div>
+  </div>
+
+  <footer class="foot">© 2025 HYE.photo · all images by Lee Hye-soo</footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

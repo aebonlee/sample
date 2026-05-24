@@ -268,6 +268,286 @@ export const samples: Sample[] = [
       '작업물(works)이 가장 크게 보이도록 설계된 갤러리형 포트폴리오입니다. `card--wide` 클래스를 섞어 마사니식 리듬을 만들고, 상단 칩으로 카테고리 필터(자바스크립트 한 줄)로 동작합니다.',
   },
   {
+    id: 'personal-02',
+    title: '카드형 이력서 (Resume)',
+    description:
+      '한 페이지에 정리된 디자이너 이력서. 사이드바에 프로필·스킬·언어, 본문에 경력·프로젝트·학력이 타임라인으로 정리.',
+    platform: 'web',
+    category: 'personal',
+    tags: ['이력서', '인쇄', '타임라인', '프린트'],
+    stack: ['HTML', 'CSS', 'JavaScript'],
+    difficulty: 'beginner',
+    files: ['index.html', 'style.css', 'script.js'],
+    guide:
+      '취업·이직용 한 장 이력서 템플릿입니다. 사이드바는 어두운 톤으로 시각적 무게 중심을 잡고, 본문은 밝은 종이 배경에 타임라인으로 경력을 표현합니다. `@media print` 규칙 덕분에 "PDF로 저장" 버튼이나 Ctrl+P로 그대로 인쇄 가능합니다.',
+  },
+  {
+    id: 'company-02',
+    title: '로스터리 카페 브랜드 사이트',
+    description:
+      '카페·F&B 브랜드를 위한 따뜻한 톤의 회사 사이트. 메뉴 카드, 스토리, 매장 안내, 테이블 예약 폼 포함.',
+    platform: 'web',
+    category: 'company',
+    tags: ['브랜드', '카페', 'F&B', '예약폼'],
+    stack: ['HTML', 'CSS', 'JavaScript'],
+    difficulty: 'beginner',
+    files: ['index.html', 'style.css', 'script.js'],
+    guide:
+      '카페·로스터리·베이커리 등 오프라인 매장이 있는 브랜드를 위한 템플릿입니다. 색감은 베이지/브라운 톤으로 통일했고, 메뉴 카드의 이미지는 그라데이션으로 대체했습니다. 실제 사용 시에는 매장 사진으로 교체하고 예약 폼은 백엔드(Resend/Notion API 등)와 연결하세요.',
+  },
+  {
+    id: 'learning-02',
+    title: '비디오 강의 플레이어',
+    description:
+      '온라인 강의 사이트의 강의 페이지. 가짜 비디오 플레이어 + 커리큘럼 사이드바 + 학습 노트 + Q&A 탭.',
+    platform: 'web',
+    category: 'learning',
+    tags: ['LMS', '비디오', '진도', '노트'],
+    stack: ['HTML', 'CSS', 'JavaScript'],
+    difficulty: 'intermediate',
+    files: ['index.html', 'style.css', 'script.js'],
+    guide:
+      'Udemy/인프런 류 학습 플랫폼의 강의 상세 페이지입니다. 비디오는 가짜로 8분 24초를 시뮬레이션하며, 끝까지 보면 자동으로 해당 강의를 완료 처리합니다. 진도와 노트는 localStorage에 저장되어 새로고침에도 유지됩니다. 실제로는 video.js, hls.js, 또는 YouTube/Vimeo 임베드로 교체하세요.',
+  },
+  {
+    id: 'blog-02',
+    title: '개발자 기술 블로그',
+    description:
+      '그라데이션 커버 + 태그 필터 + 검색이 있는 모던 테크 블로그. 다크모드 토글 포함.',
+    platform: 'web',
+    category: 'blog',
+    tags: ['테크블로그', '태그', '다크모드', '검색'],
+    stack: ['HTML', 'CSS', 'JavaScript'],
+    difficulty: 'beginner',
+    files: ['index.html', 'style.css', 'script.js'],
+    guide:
+      '개인 기술 블로그의 카드형 홈입니다. 글 데이터는 JS 배열에 정의되어 있고, 태그 필터와 검색이 클라이언트 단에서 동작합니다. 실제 운영 시에는 마크다운 파일 → 정적 사이트 생성(예: Astro, Eleventy)으로 옮기거나, 헤드리스 CMS(Notion, Contentful)와 연결하면 좋습니다.',
+  },
+  {
+    id: 'landing-02',
+    title: '모바일 앱 랜딩 (Habit)',
+    description:
+      '습관 트래커 앱의 다크 톤 랜딩. 두 대의 폰 목업, 기능 그리드, 사용법 3단계, 후기, FAQ.',
+    platform: 'web',
+    category: 'landing',
+    tags: ['앱랜딩', '폰목업', '다크', '리뷰'],
+    stack: ['HTML', 'CSS', 'JavaScript'],
+    difficulty: 'intermediate',
+    files: ['index.html', 'style.css', 'script.js'],
+    guide:
+      'iOS/Android 앱 출시용 랜딩 페이지 템플릿입니다. 폰 목업 두 대를 겹쳐 배치해 입체감을 만들고, 그라데이션 텍스트로 핵심 메시지를 강조합니다. 다운로드 버튼은 실제 앱스토어/플레이스토어 URL로 교체하세요. FAQ는 `<details>` 태그라 JS 없이도 동작합니다.',
+  },
+  {
+    id: 'shop-02',
+    title: '패션 쇼핑몰 (제품 리스트)',
+    description:
+      '사이드 필터(카테고리·가격·색상) + 정렬 + 그리드 + 찜·장바구니. 패션 커머스의 표준 리스트 페이지.',
+    platform: 'web',
+    category: 'shop',
+    tags: ['커머스', '필터', '정렬', '찜'],
+    stack: ['HTML', 'CSS', 'JavaScript'],
+    difficulty: 'intermediate',
+    files: ['index.html', 'style.css', 'script.js'],
+    guide:
+      '29CM/W컨셉 류 패션 쇼핑몰의 제품 리스트 페이지입니다. 사이드 필터(카테고리·가격대·색상)와 정렬을 모두 클라이언트 단에서 처리합니다. 실제로는 서버 사이드 필터링(쿼리 파라미터 + 페이지네이션)으로 전환하는 것이 일반적이며, 색상 칩을 토큰화해 디자인 시스템과 연결할 수 있습니다.',
+  },
+  {
+    id: 'app-03',
+    title: '금융 지갑 앱 (Wallet)',
+    description:
+      '폰 프레임 안의 핀테크 앱. 그라데이션 카드 + 빠른 액션 + 지출 분석 바차트 + 거래 내역 + 바텀탭.',
+    platform: 'app',
+    category: 'utility',
+    tags: ['핀테크', '폰프레임', '카드', '바텀탭'],
+    stack: ['HTML', 'CSS', 'JavaScript'],
+    difficulty: 'intermediate',
+    files: ['index.html', 'style.css', 'script.js'],
+    guide:
+      '토스/카카오뱅크 류 금융 앱 홈 화면을 단일 폰 프레임 안에 구현했습니다. 총 자산은 카운트업, 지출 분석은 가로 바 애니메이션으로 등장합니다. 거래 내역의 이모지는 실제 앱에서 카드사·가맹점 로고로 대체하면 됩니다. 데이터는 JS 객체에 하드코딩되어 있어 백엔드 연동이 쉽습니다.',
+  },
+  {
+    id: 'ai-03',
+    title: 'AI 음성 받아쓰기 (Echo)',
+    description:
+      '녹음 → 실시간 받아쓰기 → AI 요약. 가짜 음성 파형 + 화자 분리 + 타이핑 애니메이션 + 요약 카드.',
+    platform: 'ai',
+    category: 'media',
+    tags: ['음성', '받아쓰기', '요약', '파형'],
+    stack: ['HTML', 'CSS', 'JavaScript'],
+    difficulty: 'intermediate',
+    files: ['index.html', 'style.css', 'script.js'],
+    guide:
+      'Otter/Krisp 류 회의록 자동 작성 서비스의 UI입니다. 녹음 버튼을 누르면 가짜 파형이 움직이고, "데모 재생"을 누르면 미리 정의된 회의 스크립트가 화자별로 타이핑되며 등장합니다. "요약" 버튼은 1.2초 딜레이 후 가짜 요약을 보여줍니다. 실제 연동 시 Whisper API 또는 Google Speech-to-Text → Claude/GPT 요약 파이프라인을 사용하세요.',
+  },
+  {
+    id: 'data-03',
+    title: '웹 트래픽 분석 (Beacon)',
+    description:
+      'GA/Plausible 류 트래픽 분석 대시보드. KPI + 추이 그래프 + 채널 도넛 + 디바이스/브라우저 + 인기 페이지 + 국가별 방문자.',
+    platform: 'data',
+    category: 'learning',
+    tags: ['분석', 'GA', 'Chart.js', 'KPI'],
+    stack: ['HTML', 'CSS', 'JavaScript', 'Chart.js'],
+    difficulty: 'intermediate',
+    files: ['index.html', 'style.css', 'script.js'],
+    guide:
+      'Google Analytics/Plausible 류 웹 트래픽 분석 도구의 대시보드 페이지입니다. KPI 카운트업, 추이 라인 차트, 채널 도넛 차트(Chart.js)와 함께 디바이스·브라우저·국가별 정보를 한 화면에 정리했습니다. 실제 데이터는 GA4 API, Plausible API, 또는 자체 추적 스크립트(beacon.js)에서 가져오면 됩니다.',
+  },
+  {
+    id: 'game-03',
+    title: '클래식 스네이크 게임',
+    description:
+      '20×20 격자 위의 뱀이 사과를 먹는 클래식 게임. 방향키/스와이프 조작, 난이도 3단계, 최고기록 저장.',
+    platform: 'game',
+    category: 'game',
+    tags: ['스네이크', '캔버스', '스와이프', '최고기록'],
+    stack: ['HTML', 'CSS', 'JavaScript', 'Canvas'],
+    difficulty: 'intermediate',
+    files: ['index.html', 'style.css', 'script.js'],
+    guide:
+      '노키아폰의 그 스네이크 게임을 HTML5 Canvas로 구현했습니다. 게임 루프는 setInterval(난이도별 70~160ms), 뱀은 좌표 배열로 관리하며 머리부터 unshift, 사과를 안 먹은 경우 꼬리를 pop 합니다. 모바일에서는 터치 스와이프와 D-Pad 둘 다 지원합니다. 최고기록은 localStorage에 저장됩니다.',
+  },
+  {
+    id: 'portfolio-02',
+    title: '사진작가 포트폴리오',
+    description:
+      '큰 그림이 주인공인 사진작가용 포트폴리오. 마사니식 컬럼 갤러리 + 카테고리 필터 + 라이트박스.',
+    platform: 'web',
+    category: 'portfolio',
+    tags: ['갤러리', '필터', '라이트박스', '사진'],
+    stack: ['HTML', 'CSS', 'JavaScript'],
+    difficulty: 'intermediate',
+    files: ['index.html', 'style.css', 'script.js'],
+    guide:
+      '사진/일러스트/그래픽 작가용 포트폴리오 템플릿입니다. CSS columns로 마사니식 그리드를 만들고, 이미지 자리는 그라데이션으로 대체했습니다. 실제로는 `aspect-ratio`를 유지한 채 `<img>` 태그로 교체하고, Next.js의 next/image 또는 Cloudinary 같은 이미지 CDN을 사용해 성능을 챙기세요.',
+  },
+  {
+    id: 'company-03',
+    title: 'IT 컨설팅 회사 (NEXUS)',
+    description:
+      '다크 톤 B2B 컨설팅 회사 사이트. 서비스 그리드 + 통계 카운트업 + 사례 + 팀 소개 + 상담 폼.',
+    platform: 'web',
+    category: 'company',
+    tags: ['B2B', '다크', '컨설팅', '폼'],
+    stack: ['HTML', 'CSS', 'JavaScript'],
+    difficulty: 'intermediate',
+    files: ['index.html', 'style.css', 'script.js'],
+    guide:
+      'SI·IT 컨설팅·솔루션 회사용 B2B 사이트입니다. 다크 톤 + 그라데이션 텍스트로 기술 회사 분위기를 강조하고, IntersectionObserver로 통계 카운트업 애니메이션을 처리합니다. 상담 폼은 데모용으로 alert만 띄우므로, 실제로는 Resend/Slack Webhook/Notion API 등으로 연동하세요.',
+  },
+  {
+    id: 'app-04',
+    title: '음악 플레이어 앱 (WAVE)',
+    description:
+      '폰 프레임 안의 음악 앱. LP 회전 애니메이션 + 다음 재생 큐 + 트랙별 동적 테마 + 재생/일시정지/시크.',
+    platform: 'app',
+    category: 'media',
+    tags: ['음악', '폰프레임', 'LP', '테마전환'],
+    stack: ['HTML', 'CSS', 'JavaScript'],
+    difficulty: 'intermediate',
+    files: ['index.html', 'style.css', 'script.js'],
+    guide:
+      '스포티파이/애플뮤직 류 음악 앱 UI입니다. 재생 중에는 LP(레코드판)가 천천히 회전하고, 트랙이 바뀌면 앨범 아트 그라데이션과 폰 배경이 부드럽게 전환됩니다. 다음 재생 큐는 클릭으로 바로 전환 가능합니다. 실제 환경에서는 `<audio>` 태그나 Howler.js로 교체하세요.',
+  },
+  {
+    id: 'app-05',
+    title: '메신저 채팅 앱 (Talk)',
+    description:
+      '카카오톡 스타일 1:1 채팅 화면. 말풍선, 읽음 표시, 타이핑 인디케이터, 자동 응답 시뮬레이션.',
+    platform: 'app',
+    category: 'utility',
+    tags: ['메신저', '채팅', '타이핑', '말풍선'],
+    stack: ['HTML', 'CSS', 'JavaScript'],
+    difficulty: 'beginner',
+    files: ['index.html', 'style.css', 'script.js'],
+    guide:
+      '카카오톡/라인 류 1:1 채팅 UI입니다. 말풍선은 in/out 클래스로 좌우 배치되고, 메시지를 보내면 0.5~2초 후 자동으로 가짜 응답이 도착합니다. 타이핑 인디케이터는 점 3개 애니메이션으로 표현했습니다. 실제 메신저는 WebSocket(Socket.IO 등) 또는 Supabase Realtime, Firebase Realtime DB로 구현합니다.',
+  },
+  {
+    id: 'ai-04',
+    title: 'AI 코드 어시스턴트 (Codex)',
+    description:
+      'VS Code 스타일 에디터 + 우측 AI 챗 패널. 가짜 코드 하이라이팅 + 키워드 기반 응답 + 타이핑 애니메이션.',
+    platform: 'ai',
+    category: 'utility',
+    tags: ['코딩', 'IDE', '하이라이팅', '챗'],
+    stack: ['HTML', 'CSS', 'JavaScript'],
+    difficulty: 'intermediate',
+    files: ['index.html', 'style.css', 'script.js'],
+    guide:
+      'GitHub Copilot Chat / Cursor 류 코드 어시스턴트의 UI 데모입니다. 키워드 기반(설명/접근성/버그/테스트)으로 미리 준비된 응답을 점진 타이핑합니다. 코드 하이라이팅은 수동 `<span>` 클래스로 처리했지만 실제로는 Shiki/Prism/highlight.js로 자동화하세요. AI 응답은 Claude API의 streaming 응답과 연결하면 자연스럽습니다.',
+  },
+  {
+    id: 'ai-05',
+    title: 'AI 번역기 (Polyglot)',
+    description:
+      'DeepL/구글 번역 스타일 인터페이스. 7개 언어 지원, 대체 표현 추천, 단어 분석, 음성 합성(TTS).',
+    platform: 'ai',
+    category: 'utility',
+    tags: ['번역', 'TTS', '다국어', '디바운스'],
+    stack: ['HTML', 'CSS', 'JavaScript'],
+    difficulty: 'intermediate',
+    files: ['index.html', 'style.css', 'script.js'],
+    guide:
+      'DeepL/구글 번역 스타일 UI입니다. 4개 예시 문장은 미리 번역된 결과를 정확히 보여주고, 그 외는 placeholder 번역으로 동작합니다. 입력은 400ms 디바운스로 처리하고, 음성 듣기는 브라우저 내장 SpeechSynthesis API를 사용합니다. 실제 번역은 DeepL API, Google Translate API, Claude/GPT의 번역 프롬프트로 교체하세요.',
+  },
+  {
+    id: 'data-04',
+    title: '영업 CRM 대시보드 (Lead)',
+    description:
+      'B2B 영업 CRM 대시보드. 매출 KPI + 파이프라인 스테이지 + 리더보드 + 일정 + 영업기회 테이블.',
+    platform: 'data',
+    category: 'utility',
+    tags: ['CRM', '영업', '파이프라인', 'Chart.js'],
+    stack: ['HTML', 'CSS', 'JavaScript', 'Chart.js'],
+    difficulty: 'intermediate',
+    files: ['index.html', 'style.css', 'script.js'],
+    guide:
+      'HubSpot/Salesforce 류 B2B 영업 CRM의 대시보드 페이지입니다. 파이프라인 스테이지(리드→접촉→제안→협상→성사)를 가로로 시각화하고, 영업 리더보드와 오늘의 일정을 함께 보여줍니다. 실제 CRM은 거래(Deal) 데이터를 백엔드에서 가져와 단계 이동을 드래그앤드롭으로 처리합니다.',
+  },
+  {
+    id: 'data-05',
+    title: '건강 모니터링 (Vital)',
+    description:
+      '심박수·걸음·칼로리·수분 + 수면 누적 차트 + 혈압 추이 + 운동/복약 알람. 헬스케어 대시보드.',
+    platform: 'data',
+    category: 'utility',
+    tags: ['헬스', '심박', '수면', 'SVG링'],
+    stack: ['HTML', 'CSS', 'JavaScript', 'Chart.js'],
+    difficulty: 'intermediate',
+    files: ['index.html', 'style.css', 'script.js'],
+    guide:
+      '애플 건강/삼성 헬스 류의 종합 건강 대시보드입니다. SVG 원형 진행 링은 stroke-dashoffset으로 애니메이션을 구현했고, 수면 차트는 깊은 수면/얕은 수면을 stacked bar로 표현합니다. 실제로는 Apple HealthKit, Google Fit, 또는 Fitbit/Garmin API에서 데이터를 가져와 표시합니다.',
+  },
+  {
+    id: 'game-04',
+    title: '틱택토 (vs AI)',
+    description:
+      '3목 게임. AI 난이도 3단계(랜덤 / 휴리스틱 / 미니맥스). 승리 라인 강조 + 점수 누적.',
+    platform: 'game',
+    category: 'game',
+    tags: ['보드게임', 'AI', '미니맥스', '난이도'],
+    stack: ['HTML', 'CSS', 'JavaScript'],
+    difficulty: 'intermediate',
+    files: ['index.html', 'style.css', 'script.js'],
+    guide:
+      '클래식 3목 게임에 3단계 AI를 붙였습니다. 쉬움은 랜덤, 보통은 휴리스틱(이기는 수 → 막는 수 → 가운데/모서리 우선), 미니맥스는 가지치기 없이 완전 탐색이라 무조건 무승부 이상입니다. 미니맥스 알고리즘은 ~30줄로 짧게 구현되어 알고리즘 학습용으로도 좋습니다.',
+  },
+  {
+    id: 'game-05',
+    title: '벽돌 깨기 (Breakout)',
+    description:
+      'Atari Breakout 클론. ←→ / 마우스 / 터치 조작. 5단 벽돌, 레벨업, 생명 3개, 최고기록 저장.',
+    platform: 'game',
+    category: 'game',
+    tags: ['아케이드', '캔버스', '물리', '레벨'],
+    stack: ['HTML', 'CSS', 'JavaScript', 'Canvas'],
+    difficulty: 'advanced',
+    files: ['index.html', 'style.css', 'script.js'],
+    guide:
+      '1976년 아타리의 Breakout을 HTML5 Canvas로 구현했습니다. 패들에 맞은 위치에 따라 반사각이 달라지도록 하여 공 컨트롤이 가능합니다. 모든 벽돌을 깨면 레벨이 오르고 공이 10% 빨라집니다. 마우스·키보드·터치 입력을 모두 지원합니다.',
+  },
+  {
     id: 'supabase-auth-01',
     title: 'Supabase OAuth 로그인 (Google + Kakao)',
     description:

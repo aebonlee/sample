@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wallet — 금융 지갑 앱</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="stage">
+    <section class="phone" id="phone">
+      <header class="topbar">
+        <div class="signal">9:41 ⚡ ●●●●</div>
+      </header>
+
+      <header class="appbar">
+        <div>
+          <p class="hello">안녕하세요,</p>
+          <h1>지훈님 👋</h1>
+        </div>
+        <button class="bell">🔔<span class="dot"></span></button>
+      </header>
+
+      <section class="card">
+        <p class="card__label">총 자산</p>
+        <h2 class="card__amount" id="total">₩ 4,283,500</h2>
+        <p class="card__delta"><span>▲ ₩52,300</span> · 이번 주</p>
+        <div class="card__split">
+          <div><b>₩2,500,000</b><span>입출금</span></div>
+          <div><b>₩1,233,500</b><span>적금</span></div>
+          <div><b>₩550,000</b><span>투자</span></div>
+        </div>
+      </section>
+
+      <nav class="quick">
+        <button class="q"><span>➡️</span><b>송금</b></button>
+        <button class="q"><span>📥</span><b>받기</b></button>
+        <button class="q"><span>💳</span><b>결제</b></button>
+        <button class="q"><span>📊</span><b>가계부</b></button>
+      </nav>
+
+      <section class="block">
+        <header class="block__head">
+          <h3>지출 분석</h3>
+          <select id="period">
+            <option>이번 주</option><option>이번 달</option><option>지난 달</option>
+          </select>
+        </header>
+        <div class="cats" id="cats"></div>
+      </section>
+
+      <section class="block">
+        <header class="block__head"><h3>최근 거래</h3><a>전체</a></header>
+        <ul class="tx" id="tx"></ul>
+      </section>
+
+      <nav class="tabbar">
+        <button class="tab active"><span>🏠</span><b>홈</b></button>
+        <button class="tab"><span>💸</span><b>송금</b></button>
+        <button class="tab"><span>📈</span><b>자산</b></button>
+        <button class="tab"><span>👤</span><b>마이</b></button>
+      </nav>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

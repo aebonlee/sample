@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Talk — 메신저 앱</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="stage">
+    <section class="phone">
+      <header class="top">
+        <button class="back">◀</button>
+        <div class="head">
+          <div class="ava">민</div>
+          <div>
+            <h1>김민지</h1>
+            <p>접속 중 · 메시지 읽음 표시</p>
+          </div>
+        </div>
+        <div class="actions">
+          <button>📞</button>
+          <button>⋮</button>
+        </div>
+      </header>
+
+      <section class="chat" id="chat">
+        <div class="day">오늘</div>
+
+        <div class="msg in">
+          <div class="ava-s">민</div>
+          <div class="bub">안녕! 오늘 점심 같이 먹을래?</div>
+          <span class="t">14:02</span>
+        </div>
+
+        <div class="msg in">
+          <div class="ava-s">민</div>
+          <div class="bub">회사 근처 새로 생긴 파스타집 있던데 ㅎㅎ</div>
+          <span class="t">14:02</span>
+        </div>
+
+        <div class="msg out">
+          <span class="t">읽음 · 14:05</span>
+          <div class="bub">좋아! 몇 시쯤?</div>
+        </div>
+
+        <div class="msg in">
+          <div class="ava-s">민</div>
+          <div class="bub">12시 30분 어때?</div>
+          <span class="t">14:06</span>
+        </div>
+
+        <div class="msg in">
+          <div class="ava-s">민</div>
+          <div class="bub bub--img" style="background:linear-gradient(135deg,#ffb56c,#c4632a)">파스타집 사진</div>
+          <span class="t">14:06</span>
+        </div>
+
+        <div class="msg out">
+          <span class="t">읽음 · 14:07</span>
+          <div class="bub">오 좋다 👍</div>
+        </div>
+
+        <div class="msg out">
+          <span class="t">읽음 · 14:07</span>
+          <div class="bub">그럼 12시 반에 1층 로비에서 봐!</div>
+        </div>
+
+        <div class="msg in typing" id="typing" hidden>
+          <div class="ava-s">민</div>
+          <div class="bub bub--typing"><i></i><i></i><i></i></div>
+        </div>
+      </section>
+
+      <footer class="composer">
+        <button class="plus">＋</button>
+        <input id="input" placeholder="메시지 입력" autocomplete="off" />
+        <button class="emoji">😊</button>
+        <button class="send" id="sendBtn">↑</button>
+      </footer>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
