@@ -688,6 +688,20 @@ export const samples: Sample[] = [
       '두더지 잡기 게임을 순수 DOM으로 구현했습니다 (Canvas 없음). 두더지/폭탄 등장은 CSS transition + `bottom` 값으로 부드러운 등장 애니메이션을 만듭니다. 콤보 3회마다 점수 가산 +1, 폭탄을 누르면 -5점 + 콤보 리셋. 모바일 터치도 자연스럽게 동작합니다.',
   },
   {
+    id: 'game-08',
+    title: '테트리스 (TETRIS)',
+    description:
+      '클래식 테트리스 완벽 구현. 7가지 블록, 홀드, 다음 블록 3개 미리보기, 고스트, 하드드롭, 레벨업.',
+    platform: 'game',
+    category: 'game',
+    tags: ['테트리스', '캔버스', '홀드', '고스트'],
+    stack: ['HTML', 'CSS', 'JavaScript', 'Canvas'],
+    difficulty: 'advanced',
+    files: ['index.html', 'style.css', 'script.js'],
+    guide:
+      '1984년 알렉세이 파지트노프의 테트리스를 충실히 구현했습니다. 7-bag 랜덤(블록 7종이 한 번씩 나온 후 새 가방), wall-kick(회전 시 벽에 닿으면 1-2칸 이동 시도), 고스트(현재 블록이 떨어질 위치 미리보기), 홀드(블록 보관 후 다른 블록과 교체), 하드드롭(즉시 바닥) 같은 모던 테트리스의 핵심 기능을 모두 포함합니다. 점수는 1/2/3/4줄 동시 제거 시 100/300/500/800점 × 레벨, 레벨은 10줄마다 상승하며 낙하 속도가 60ms씩 빨라집니다.',
+  },
+  {
     id: 'supabase-auth-01',
     title: 'Supabase OAuth 로그인 (Google + Kakao)',
     description:
