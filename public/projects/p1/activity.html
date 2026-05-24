@@ -81,6 +81,7 @@
   <header class="nav">
     <div class="nav__inner">
       <a class="brand" href="home.html"><span class="brand__mark">📚</span> 동화공방</a>
+      <button type="button" class="nav__toggle" aria-label="메뉴 열기" aria-expanded="false">☰</button>
       <nav class="nav__links">
         <a href="home.html">홈</a>
         <a href="create.html">동화 만들기</a>
@@ -150,5 +151,36 @@
     <a href="library.html" class="btn btn--primary">✓ 활동 완료</a>
     <a href="reader.html" class="btn btn--ghost">← 다시 읽기</a>
   </div>
+<script>
+  // 모바일 햄버거 메뉴 토글
+  (function() {
+    var CLS = 'nav__links';
+    document.addEventListener('click', function(e) {
+      var btn = e.target.closest('.nav__toggle');
+      if (btn) {
+        var nav = btn.parentElement.querySelector('.' + CLS);
+        if (nav) {
+          var open = nav.classList.toggle('is-open');
+          btn.setAttribute('aria-expanded', open);
+        }
+        e.preventDefault();
+        e.stopPropagation();
+        return;
+      }
+      // 메뉴 바깥 클릭 시 닫기
+      if (!e.target.closest('.' + CLS)) {
+        document.querySelectorAll('.' + CLS + '.is-open').forEach(function(n) { n.classList.remove('is-open'); });
+        document.querySelectorAll('.nav__toggle').forEach(function(b) { b.setAttribute('aria-expanded', 'false'); });
+      }
+    });
+    // 내부 링크 클릭 시 닫기
+    document.addEventListener('click', function(e) {
+      var link = e.target.closest('.' + CLS + ' a');
+      if (link) {
+        document.querySelectorAll('.' + CLS + '.is-open').forEach(function(n) { n.classList.remove('is-open'); });
+      }
+    });
+  })();
+</script>
 </body>
 </html>

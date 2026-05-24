@@ -63,13 +63,14 @@
 <body>
   <header class="nav">
     <div class="brand">📝 자소서 코치</div>
-    <nav>
+    <button type="button" class="nav__toggle" aria-label="메뉴 열기" aria-expanded="false">☰</button>
+    <nav class="nav-links">
       <a class="on" href="home.html">경험 입력</a>
-      <a href="#">STAR 결과</a>
-      <a href="#">자소서 작성</a>
-      <a href="#">피드백</a>
-      <a href="#">면접 준비</a>
-      <a href="#">내 자소서</a>
+      <a href="star.html">STAR 결과</a>
+      <a href="write.html">자소서 작성</a>
+      <a href="feedback.html">피드백</a>
+      <a href="interview.html">면접 준비</a>
+      <a href="my.html">내 자소서</a>
     </nav>
   </header>
 
@@ -127,5 +128,34 @@
       </div>
     </div>
   </main>
+<script>
+  // 모바일 햄버거 메뉴 토글
+  (function() {
+    var CLS = 'nav-links';
+    document.addEventListener('click', function(e) {
+      var btn = e.target.closest('.nav__toggle');
+      if (btn) {
+        var nav = btn.parentElement.querySelector('.' + CLS);
+        if (nav) {
+          var open = nav.classList.toggle('is-open');
+          btn.setAttribute('aria-expanded', open);
+        }
+        e.preventDefault();
+        e.stopPropagation();
+        return;
+      }
+      if (!e.target.closest('.' + CLS)) {
+        document.querySelectorAll('.' + CLS + '.is-open').forEach(function(n) { n.classList.remove('is-open'); });
+        document.querySelectorAll('.nav__toggle').forEach(function(b) { b.setAttribute('aria-expanded', 'false'); });
+      }
+    });
+    document.addEventListener('click', function(e) {
+      var link = e.target.closest('.' + CLS + ' a');
+      if (link) {
+        document.querySelectorAll('.' + CLS + '.is-open').forEach(function(n) { n.classList.remove('is-open'); });
+      }
+    });
+  })();
+</script>
 </body>
 </html>

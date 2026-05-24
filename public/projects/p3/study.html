@@ -103,6 +103,7 @@
 <body>
   <header class="nav">
     <div class="brand">📜 한국사 마스터</div>
+    <button type="button" class="nav__toggle" aria-label="메뉴 열기" aria-expanded="false">☰</button>
     <nav class="nav-links">
       <a href="home.html">타임라인</a>
       <a href="study.html" class="on">학습</a>
@@ -211,5 +212,36 @@
       </div>
     </div>
   </div>
+<script>
+  // 모바일 햄버거 메뉴 토글
+  (function() {
+    var CLS = 'nav-links';
+    document.addEventListener('click', function(e) {
+      var btn = e.target.closest('.nav__toggle');
+      if (btn) {
+        var nav = btn.parentElement.querySelector('.' + CLS);
+        if (nav) {
+          var open = nav.classList.toggle('is-open');
+          btn.setAttribute('aria-expanded', open);
+        }
+        e.preventDefault();
+        e.stopPropagation();
+        return;
+      }
+      // 메뉴 바깥 클릭 시 닫기
+      if (!e.target.closest('.' + CLS)) {
+        document.querySelectorAll('.' + CLS + '.is-open').forEach(function(n) { n.classList.remove('is-open'); });
+        document.querySelectorAll('.nav__toggle').forEach(function(b) { b.setAttribute('aria-expanded', 'false'); });
+      }
+    });
+    // 내부 링크 클릭 시 닫기
+    document.addEventListener('click', function(e) {
+      var link = e.target.closest('.' + CLS + ' a');
+      if (link) {
+        document.querySelectorAll('.' + CLS + '.is-open').forEach(function(n) { n.classList.remove('is-open'); });
+      }
+    });
+  })();
+</script>
 </body>
 </html>
