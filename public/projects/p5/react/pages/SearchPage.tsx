@@ -194,7 +194,7 @@ function PolicyCard({ policy, isFav, onToggleFav }: {
         onClick={(e) => { e.preventDefault(); onToggleFav(policy.id); }}
         aria-label={isFav ? '즐겨찾기 해제' : '즐겨찾기'}
       >
-        {isFav ? '★' : '☆'}
+        {isFav ? '★️' : '☆️'}
       </button>
 
       <span className="policy__cat">{policy.category}</span>

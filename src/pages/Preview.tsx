@@ -72,7 +72,7 @@ export default function Preview() {
 
         <div className="preview-bar__right">
           <a href={rawUrl} target="_blank" rel="noreferrer" className="preview-bar__raw">
-            원본 ↗
+            원본 ↗️
           </a>
         </div>
       </header>

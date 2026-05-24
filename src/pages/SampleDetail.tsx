@@ -56,7 +56,7 @@ export default function SampleDetail() {
             target="_blank"
             rel="noreferrer"
           >
-            새 탭에서 열기 ↗
+            새 탭에서 열기 ↗️
           </a>
         </div>
       </header>

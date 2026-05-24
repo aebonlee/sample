@@ -104,7 +104,7 @@ export default function DetailPage() {
               <Link to={`/quiz/${id}`} className="btn">🎯 퀴즈 도전</Link>
               <Link to="/mission" className="btn btn--ghost">📍 탐방 미션</Link>
               <button className={`btn btn--ghost ${isFav ? 'is-on' : ''}`} onClick={toggleFav}>
-                {isFav ? '★ 즐겨찾기됨' : '☆ 즐겨찾기'}
+                {isFav ? '★️ 즐겨찾기됨' : '☆️ 즐겨찾기'}
               </button>
             </div>
           </div>

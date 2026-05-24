@@ -290,7 +290,7 @@ export default function ProjectBuild() {
                       {p.desc && <span className="pb-side__desc">{p.desc}</span>}
                     </span>
                     <span className="pb-side__badge">
-                      {p.status === 'done' ? '✓' : p.status === 'wip' ? '⋯' : '○'}
+                      {p.status === 'done' ? '✓️' : p.status === 'wip' ? '⋯' : '○'}
                     </span>
                   </button>
                 ))}
@@ -357,7 +357,7 @@ export default function ProjectBuild() {
                     ))}
                   </div>
                   <div className="pb-tabs__right">
-                    <a href={pageUrl} target="_blank" rel="noreferrer" className="pb-mini">새 탭 ↗</a>
+                    <a href={pageUrl} target="_blank" rel="noreferrer" className="pb-mini">새 탭 ↗️</a>
                     {view !== 'preview' && htmlState === 'ready' && (
                       <button className="pb-mini" onClick={() => copy(sourceText)}>복사</button>
                     )}
@@ -396,7 +396,7 @@ export default function ProjectBuild() {
                   </span>
                 </div>
                 <div className="pb-tabs__right">
-                  <a href={sharedUrl} target="_blank" rel="noreferrer" className="pb-mini">원본 ↗</a>
+                  <a href={sharedUrl} target="_blank" rel="noreferrer" className="pb-mini">원본 ↗️</a>
                   {sharedState === 'ready' && (
                     <button className="pb-mini" onClick={() => copy(sharedText)}>복사</button>
                   )}

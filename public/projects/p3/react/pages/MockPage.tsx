@@ -131,7 +131,7 @@ export default function MockPage() {
             </p>
             <button className="btn btn--primary" onClick={start}
                     style={{ padding: '14px 40px', fontSize: '1.1rem' }}>
-              ▶ 시작하기
+              ▶️ 시작하기
             </button>
           </article>
         </main>
@@ -168,7 +168,7 @@ export default function MockPage() {
       <div className="page-head" style={{ display: 'flex', justifyContent: 'space-between' }}>
         <h1>📝 모의고사 진행 중</h1>
         <strong style={{ fontSize: '1.5rem', color: remain < 600 ? 'var(--danger)' : 'var(--primary)' }}>
-          ⏱ {String(min).padStart(2, '0')}:{String(sec).padStart(2, '0')}
+          ⏱️ {String(min).padStart(2, '0')}:{String(sec).padStart(2, '0')}
         </strong>
       </div>
 
@@ -206,7 +206,7 @@ export default function MockPage() {
             ) : (
               <button className="btn btn--primary" onClick={submit}
                       disabled={submitting}>
-                {submitting ? '제출 중...' : '✓ 제출하기'}
+                {submitting ? '제출 중...' : '✓️ 제출하기'}
               </button>
             )}
           </div>

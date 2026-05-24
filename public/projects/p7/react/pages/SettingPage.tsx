@@ -124,7 +124,7 @@ export default function SettingPage() {
           <div className="profile-card__meta">{profile?.email ?? user?.email ?? '—'}</div>
         </div>
         <button className="profile-card__edit"
-          onClick={() => nav('/profile/edit')}>✏ 편집</button>
+          onClick={() => nav('/profile/edit')}>✏️ 편집</button>
       </article>
 
       {/* 알림 */}

@@ -107,7 +107,7 @@ export default function FeedbackPage() {
               <p>{renderHighlighted(question.answer_text ?? '', fbState.data.highlights)}</p>
 
               <div className="actions">
-                <Link to={`/write/${resumeId}`} className="btn btn--ghost">✏ 수정하기</Link>
+                <Link to={`/write/${resumeId}`} className="btn btn--ghost">✏️ 수정하기</Link>
                 <Link to={`/interview/${resumeId}`} className="btn btn--primary">🎤 면접 준비 →</Link>
               </div>
             </section>
@@ -192,7 +192,7 @@ function SuggestionCard({ suggestion, questionId }: {
       <p className="fb__msg">→ <strong>{suggestion.new}</strong></p>
       <p className="fb__msg" style={{ fontSize: '.82rem', opacity: .8 }}>{suggestion.reason}</p>
       <button className="mini" onClick={apply} disabled={applied}>
-        {applied ? '✓ 적용됨' : '수정 적용'}
+        {applied ? '✓️ 적용됨' : '수정 적용'}
       </button>
     </article>
   );

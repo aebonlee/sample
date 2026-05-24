@@ -26,7 +26,7 @@ const STATUS_LABEL: Record<string, string> = {
   draft: '📝 작성 중',
   reviewing: '🔍 피드백 검토 중',
   submitted: '📤 제출 완료',
-  passed: '✅ 서류 합격',
+  passed: '✅️ 서류 합격',
   rejected: '❌ 불합격',
 };
 
@@ -70,7 +70,7 @@ export default function MyPage() {
   // ─── 필터 적용 ───────────────────────────────────
   const filtered = useMemo(() => {
     if (filter === '전체') return resumes;
-    if (filter === '⭐') return resumes.filter((r) => r.is_favorite);
+    if (filter === '⭐️') return resumes.filter((r) => r.is_favorite);
     return resumes.filter((r) => r.status === filter);
   }, [resumes, filter]);
 
@@ -105,8 +105,8 @@ export default function MyPage() {
           { key: 'draft',     label: '📝 작성 중' },
           { key: 'reviewing', label: '🔍 검토 중' },
           { key: 'submitted', label: '📤 제출' },
-          { key: 'passed',    label: '✅ 합격' },
-          { key: '⭐',        label: '⭐ 즐겨찾기' },
+          { key: 'passed',    label: '✅️ 합격' },
+          { key: '⭐️',        label: '⭐️ 즐겨찾기' },
         ].map(({ key, label }) => (
           <span key={key}
             className={`chip ${filter === key ? 'on' : ''}`}
@@ -146,7 +146,7 @@ function ResumeCard({ resume, onToggleFav }: { resume: ResumeWithTarget; onToggl
       <button
         className={`doc-item__star ${resume.is_favorite ? 'on' : ''}`}
         onClick={onToggleFav}>
-        {resume.is_favorite ? '★' : '☆'}
+        {resume.is_favorite ? '★️' : '☆️'}
       </button>
       <div className="doc-item__company">
         <div className="doc-item__logo" style={{ background: resume.target.logo_color }}>
@@ -172,7 +172,7 @@ function ResumeCard({ resume, onToggleFav }: { resume: ResumeWithTarget; onToggl
         </div>
       )}
       <div className="doc-item__actions">
-        <Link to={`/write/${resume.id}`} className="doc-item__btn">✏ 편집</Link>
+        <Link to={`/write/${resume.id}`} className="doc-item__btn">✏️ 편집</Link>
         <Link to={`/feedback/${resume.id}`} className="doc-item__btn">📊 피드백</Link>
         <Link to={`/interview/${resume.id}`} className="doc-item__btn">🎤 면접</Link>
       </div>

@@ -158,7 +158,7 @@ function DayGroupSection({ group }: { group: DayGroup }) {
             <p className="routine-item__name">{it.routine.name}</p>
             <span className="routine-item__cat">{it.routine.category}</span>
           </div>
-          <span className="routine-item__check">{it.skipped ? '✗' : '✓'}</span>
+          <span className="routine-item__check">{it.skipped ? '✗️' : '✓️'}</span>
         </div>
       ))}
     </section>

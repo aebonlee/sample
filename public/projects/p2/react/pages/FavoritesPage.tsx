@@ -24,7 +24,7 @@ type GroupKey = 'all' | 'era' | 'region' | 'category';
 
 const GROUPS: { value: GroupKey; label: string; icon: string }[] = [
   { value: 'all',      label: '전체',     icon: '📋' },
-  { value: 'era',      label: '시대별',   icon: '⏰' },
+  { value: 'era',      label: '시대별',   icon: '⏰️' },
   { value: 'region',   label: '지역별',   icon: '📍' },
   { value: 'category', label: '종목별',   icon: '🏛' },
 ];
@@ -95,7 +95,7 @@ export default function FavoritesPage() {
     <>
       <Nav />
       <div className="page-head">
-        <h1>⭐ 즐겨찾기</h1>
+        <h1>⭐️ 즐겨찾기</h1>
         <p>나중에 다시 보고 싶은 문화재를 모아두는 공간입니다.</p>
       </div>
 
@@ -124,9 +124,9 @@ export default function FavoritesPage() {
       <main className="body">
         {favs.length === 0 ? (
           <EmptyState
-            emoji="⭐"
+            emoji="⭐️"
             title="즐겨찾기한 문화재가 없어요"
-            desc="검색 결과에서 ★ 버튼을 눌러 모아보세요."
+            desc="검색 결과에서 ★️ 버튼을 눌러 모아보세요."
             action={<Link to="/" className="btn btn--primary">문화재 검색하러 가기 →</Link>}
           />
         ) : filtered.length === 0 ? (
@@ -170,7 +170,7 @@ function FavCard({ heritage, onUnfav }: { heritage: Heritage; onUnfav: (id: stri
           aria-label="즐겨찾기 해제"
           title="즐겨찾기 해제"
           onClick={(e) => { e.preventDefault(); onUnfav(heritage.id); }}
-        >★</button>
+        >★️</button>
       </div>
       <div className="card-item__body">
         <div className="card-item__cat">{heritage.designation}</div>

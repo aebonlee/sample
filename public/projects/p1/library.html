@@ -95,7 +95,7 @@
     <button class="chip" data-f="5-7">5~7세</button>
     <button class="chip" data-f="8-10">8~10세</button>
     <button class="chip" data-f="11-12">11~12세</button>
-    <button class="chip" data-f="fav">⭐ 즐겨찾기</button>
+    <button class="chip" data-f="fav">⭐️ 즐겨찾기</button>
   </div>
 
   <div class="lib" id="lib"></div>
@@ -111,7 +111,7 @@
       { id: 7, title: '효녀 심청', age: '11-12', emoji: '🌊', bg: 'linear-gradient(135deg,#1e3a8a,#3b82f6)', date: '2026.04.22', fav: false },
       { id: 8, title: '토끼의 간', age: '5-7', emoji: '🐰', bg: 'linear-gradient(135deg,#f43f5e,#fb7185)', date: '2026.04.18', fav: false },
       { id: 9, title: '추석 보름달의 약속', age: '8-10', emoji: '🌖', bg: 'linear-gradient(135deg,#fbbf24,#f59e0b)', date: '2026.04.10', fav: true },
-      { id: 10, title: '경주 첨성대 이야기', age: '11-12', emoji: '⭐', bg: 'linear-gradient(135deg,#7c3aed,#a78bfa)', date: '2026.04.04', fav: false },
+      { id: 10, title: '경주 첨성대 이야기', age: '11-12', emoji: '⭐️', bg: 'linear-gradient(135deg,#7c3aed,#a78bfa)', date: '2026.04.04', fav: false },
       { id: 11, title: '콩쥐 팥쥐', age: '5-7', emoji: '🫛', bg: 'linear-gradient(135deg,#22c55e,#86efac)', date: '2026.03.28', fav: false },
       { id: 12, title: '바다 용궁의 손님', age: '8-10', emoji: '🐠', bg: 'linear-gradient(135deg,#06b6d4,#67e8f9)', date: '2026.03.20', fav: true },
     ];
@@ -136,7 +136,7 @@
           <div class="book__cover" style="background: ${b.bg}">
             ${b.emoji}
             <span class="book__age">${b.age}세</span>
-            <button class="book__fav ${b.fav ? 'is-on' : ''}" data-id="${b.id}" onclick="event.preventDefault(); event.stopPropagation(); toggleFav(${b.id})">${b.fav ? '★' : '☆'}</button>
+            <button class="book__fav ${b.fav ? 'is-on' : ''}" data-id="${b.id}" onclick="event.preventDefault(); event.stopPropagation(); toggleFav(${b.id})">${b.fav ? '★️' : '☆️'}</button>
           </div>
           <div class="book__body">
             <p class="book__title">${b.title}</p>

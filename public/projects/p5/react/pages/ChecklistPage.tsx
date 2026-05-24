@@ -151,7 +151,7 @@ export default function ChecklistPage() {
     <>
       <Nav />
       <div className="page-head">
-        <h1>✓ 신청 체크리스트</h1>
+        <h1>✓️ 신청 체크리스트</h1>
         <p>한 단계씩 따라하시면 누락 없이 신청할 수 있습니다.
           {savedAt && (
             <small style={{ marginLeft: 12, color: 'var(--accent)' }}>
@@ -196,7 +196,7 @@ export default function ChecklistPage() {
           const allChecked = step.items.every((it) => checked[`${step.id}:${it}`]);
           return (
             <article key={step.id} className={`card step ${stepClass}`}>
-              <span className="step__num">{allChecked ? '✓' : i + 1}</span>
+              <span className="step__num">{allChecked ? '✓️' : i + 1}</span>
               <h3 className="step__title">{step.title}</h3>
               <p className="step__desc">{step.desc}</p>
               <div className="checks">

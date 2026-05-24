@@ -143,7 +143,7 @@ function Sidebar() {
       <Link to="/" className="on">💬 챗봇 상담</Link>
       <Link to="/search">🔍 정책 검색</Link>
       <Link to="/my">📋 내 맞춤 정책</Link>
-      <Link to="/checklist">✓ 신청 체크리스트</Link>
+      <Link to="/checklist">✓️ 신청 체크리스트</Link>
       <Link to="/calendar">📅 정책 캘린더</Link>
     </aside>
   );

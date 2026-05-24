@@ -112,3 +112,90 @@ a { color: inherit; text-decoration: none; }
   }
 }
 
+/* === MOBILE-POLISH-INJECTED === */
+/* ============================================
+   모바일 고도화 (≤720px) — 컬러셋/디자인 보존
+   ============================================ */
+@media (max-width: 720px) {
+  /* 컨테이너/섹션 좌우 여백 축소 */
+  .container, main, .main { padding-left: 14px !important; padding-right: 14px !important; }
+
+  /* 거대한 히어로 텍스트 축소 */
+  h1 { font-size: clamp(1.4rem, 5vw, 1.9rem) !important; line-height: 1.25; }
+  h2 { font-size: clamp(1.15rem, 4vw, 1.45rem) !important; }
+  h3 { font-size: clamp(1rem, 3.6vw, 1.2rem) !important; }
+  .hero h1, .hero__title { font-size: clamp(1.6rem, 6vw, 2.1rem) !important; }
+  .hero p { font-size: .95rem !important; }
+
+  /* 그리드/플렉스 자동 1열 정렬 */
+  .grid, .grid-2, .grid-3, .grid-4,
+  .stats, .summary, .layout, .actions, .filters {
+    grid-template-columns: 1fr !important;
+    flex-wrap: wrap;
+  }
+  .actions { gap: 8px; }
+  .actions .btn { width: 100%; }
+
+  /* 사이드바 → 본문 위/아래로 스택 */
+  .side, aside.side {
+    width: 100% !important;
+    position: static !important;
+    max-height: none !important;
+    margin-bottom: 16px;
+  }
+
+  /* 카드/섹션 패딩 살짝 줄여 가독성 */
+  .card, .section { padding: 14px !important; }
+
+  /* 버튼 터치 친화 — 최소 44px */
+  .btn, button, .chip, .tab {
+    min-height: 40px;
+    padding: 10px 14px;
+    font-size: .95rem;
+  }
+  .btn--sm { min-height: 36px; padding: 8px 12px; font-size: .88rem; }
+
+  /* 폼 요소: iOS 줌 방지 (16px+) */
+  input, textarea, select {
+    font-size: 16px !important;
+    padding: 10px 12px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* 가로 스크롤 방지 */
+  body, html { overflow-x: hidden; }
+
+  /* 이미지 반응형 */
+  img, video, iframe { max-width: 100%; height: auto; }
+
+  /* 테이블 가로 스크롤로 처리 */
+  table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+  /* 필터 칩 그룹 가로 스크롤 */
+  .filters, .chips {
+    display: flex !important;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    flex-wrap: nowrap !important;
+    scrollbar-width: none;
+  }
+  .filters::-webkit-scrollbar, .chips::-webkit-scrollbar { display: none; }
+  .chip { flex-shrink: 0; }
+
+  /* 페이지 헤더 좌우 정렬 → 세로 스택 */
+  .page-head, .pb-head { flex-direction: column !important; align-items: flex-start !important; }
+  .page-head > *, .pb-head > * { width: 100%; }
+
+  /* 푸터 가독성 */
+  footer { padding: 24px 14px !important; text-align: center; }
+}
+
+/* ============================================
+   터치 디바이스 호버 효과 제거
+   ============================================ */
+@media (hover: none) {
+  *:hover { transition: none !important; }
+  .btn:hover, .card:hover { transform: none !important; }
+}
+

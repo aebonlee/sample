@@ -84,7 +84,7 @@ export default function ActivityPage() {
 
           <div className="actions">
             <button className="btn btn--primary" onClick={markComplete}>
-              ✓ 활동 완료 → 라이브러리
+              ✓️ 활동 완료 → 라이브러리
             </button>
             <Link to={`/reader/${id}`} className="btn btn--ghost">← 다시 읽기</Link>
           </div>

@@ -118,7 +118,7 @@
     <div class="progress__bar"><div class="progress__fill" id="bar" style="width: 20%"></div></div>
     <div class="progress__meta">
       <span><span id="cur">1</span> / 5 문제</span>
-      <span class="timer">⏱ <span id="time">00:00</span></span>
+      <span class="timer">⏱️ <span id="time">00:00</span></span>
     </div>
   </div>
 
@@ -244,7 +244,7 @@
       const correct = picked === q.answer;
       $explain.hidden = false;
       $explain.classList.toggle('wrong-explain', !correct);
-      $explain.innerHTML = `${correct ? '✅ <strong>정답!</strong>' : '❌ <strong>오답</strong>'}<br/>${q.explain}`;
+      $explain.innerHTML = `${correct ? '✅️ <strong>정답!</strong>' : '❌ <strong>오답</strong>'}<br/>${q.explain}`;
       $next.disabled = false;
     }
 

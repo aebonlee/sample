@@ -133,7 +133,7 @@ export default function InterviewPage() {
               <span className="iq__caret">▼</span>
               <span className={`iq__type ${DIFF_CLASS[q.difficulty]}`}>
                 {q.category} · {DIFF_LABEL[q.difficulty]}
-                {isReady && ' · ✓ 준비완료'}
+                {isReady && ' · ✓️ 준비완료'}
               </span>
               <h3 className="iq__q">{q.question}</h3>
 
@@ -141,7 +141,7 @@ export default function InterviewPage() {
                 <div className="iq__detail">
                   {q.checklist.length > 0 && (
                     <div className="iq__sec">
-                      <h5>✅ 답변 시 체크 포인트</h5>
+                      <h5>✅️ 답변 시 체크 포인트</h5>
                       <ul>{q.checklist.map((c, i) => <li key={i}>{c}</li>)}</ul>
                     </div>
                   )}
@@ -155,7 +155,7 @@ export default function InterviewPage() {
                     <button className="iq__action iq__action--rec">🎙 녹음 연습</button>
                     <button className="iq__action">📝 내 답변 작성</button>
                     <button className="iq__action" onClick={() => toggleReady(q.id)}>
-                      {isReady ? '◯ 준비 취소' : '✓ 준비 완료'}
+                      {isReady ? '◯ 준비 취소' : '✓️ 준비 완료'}
                     </button>
                   </div>
                 </div>

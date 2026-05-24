@@ -113,13 +113,13 @@ export default function QuizPage() {
 
       <main className="quiz">
         <div className="meta">
-          <span>난이도 {'★'.repeat(q.difficulty)}{'☆'.repeat(5 - q.difficulty)}</span>
+          <span>난이도 {'★️'.repeat(q.difficulty)}{'☆️'.repeat(5 - q.difficulty)}</span>
           <div className="progress">
             <div className="bar">
               <div className="bar__fill" style={{ width: `${((idx + 1) / state.data.length) * 100}%` }} />
             </div>
           </div>
-          <span>{idx + 1} / {state.data.length} · ✓ {correctCount}</span>
+          <span>{idx + 1} / {state.data.length} · ✓️ {correctCount}</span>
         </div>
 
         <article className="qcard card">
@@ -154,7 +154,7 @@ export default function QuizPage() {
 
           {picked !== null && (
             <div className={`explain ${picked === q.answer_index ? '' : 'wrong'}`}>
-              {picked === q.answer_index ? '✅ ' : '❌ '}
+              {picked === q.answer_index ? '✅️ ' : '❌ '}
               <strong>{picked === q.answer_index ? '정답!' : '오답'}</strong>
               {picked !== q.answer_index && (
                 <> — 정답은 ({'①②③④⑤'[q.answer_index]}) <strong>{q.options[q.answer_index]}</strong></>
@@ -170,7 +170,7 @@ export default function QuizPage() {
             <button className="btn btn--primary"
               onClick={nextQuestion}
               disabled={picked === null || isLast}>
-              {isLast ? '✓ 완료' : '다음 →'}
+              {isLast ? '✓️ 완료' : '다음 →'}
             </button>
           </div>
         </article>

@@ -104,7 +104,7 @@ export default function PlanPage() {
             아직 학습 계획이 없어요. AI가 약점 데이터를 바탕으로 4주 일정을 만들어드려요.
           </p>
           <button className="btn btn--primary" onClick={createPlan} disabled={generating}>
-            {generating ? '🤖 AI 생성 중...' : '✨ AI 학습 계획 만들기'}
+            {generating ? '🤖 AI 생성 중...' : '✨️ AI 학습 계획 만들기'}
           </button>
         </div>
       ) : (
@@ -139,7 +139,7 @@ export default function PlanPage() {
                   <p className="today-card__title">{todayPlan.topics.join(' + ')}</p>
                   <p className="today-card__meta">약 {todayPlan.hours}시간 예상</p>
                 </div>
-                <Link to={`/diagnose/${certId}`} className="btn btn--primary">▶ 오늘 학습 시작</Link>
+                <Link to={`/diagnose/${certId}`} className="btn btn--primary">▶️ 오늘 학습 시작</Link>
               </article>
             </section>
           )}

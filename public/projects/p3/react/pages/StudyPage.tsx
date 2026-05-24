@@ -143,7 +143,7 @@ function LessonContent({ lesson, eraId }: { lesson: Lesson; eraId: string }) {
 
       {lesson.timeline.length > 0 && (
         <section className="card section">
-          <h2>⏰ 핵심 연표</h2>
+          <h2>⏰️ 핵심 연표</h2>
           <div className="timeline-mini">
             <ul>
               {lesson.timeline.map((t, i) => (

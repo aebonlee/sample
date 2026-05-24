@@ -104,7 +104,7 @@ export default function JournalPage() {
       message: initialState.data.encouragement,
       is_saved: true,
     });
-    alert('저장했어요 ♥');
+    alert('저장했어요 ♥️');
   }
 
   if (initialState.status === 'loading') return <div className="phone"><Spinner /></div>;
@@ -125,7 +125,7 @@ export default function JournalPage() {
         <p className="quote-card__text">{encouragement}</p>
         <p className="quote-card__author">— 오늘의 격려</p>
         <div className="quote-card__actions">
-          <button className="quote-card__btn" onClick={saveEncouragement}>♥ 저장</button>
+          <button className="quote-card__btn" onClick={saveEncouragement}>♥️ 저장</button>
           <button className="quote-card__btn" onClick={newEncouragement}>↻ 다른 격려</button>
         </div>
       </article>

@@ -30,7 +30,7 @@ const FILTERS: { value: Filter; label: string }[] = [
   { value: '5-7',   label: '5~7세' },
   { value: '8-10',  label: '8~10세' },
   { value: '11-12', label: '11~12세' },
-  { value: 'fav',   label: '⭐ 즐겨찾기' },
+  { value: 'fav',   label: '⭐️ 즐겨찾기' },
 ];
 
 export default function LibraryPage() {
@@ -138,7 +138,7 @@ export default function LibraryPage() {
                 title={query ? '검색 결과가 없어요' : '아직 동화가 없어요'}
                 desc={query ? '다른 검색어를 시도해 보세요' : '첫 동화를 만들어 보세요!'}
                 action={!query && (
-                  <Link to="/create" className="btn btn--primary">✨ 새 동화 만들기</Link>
+                  <Link to="/create" className="btn btn--primary">✨️ 새 동화 만들기</Link>
                 )}
               />
             </div>
@@ -164,7 +164,7 @@ function BookCard({ story, onToggleFav }: { story: Story; onToggleFav: (id: stri
           aria-label={story.is_favorite ? '즐겨찾기 해제' : '즐겨찾기'}
           onClick={(e) => { e.preventDefault(); onToggleFav(story.id); }}
         >
-          {story.is_favorite ? '★' : '☆'}
+          {story.is_favorite ? '★️' : '☆️'}
         </button>
       </div>
       <div className="book__body">

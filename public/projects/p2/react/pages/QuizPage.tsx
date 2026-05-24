@@ -155,7 +155,7 @@ export default function QuizPage() {
         </div>
         <div className="progress__meta">
           <span>{idx + 1} / {quizState.data.length} 문제</span>
-          <span>⏱ {String(min).padStart(2, '0')}:{String(sec).padStart(2, '0')}</span>
+          <span>⏱️ {String(min).padStart(2, '0')}:{String(sec).padStart(2, '0')}</span>
         </div>
       </div>
 
@@ -186,7 +186,7 @@ export default function QuizPage() {
 
           {picked !== null && (
             <div className={`explain ${picked === q.answer_index ? '' : 'wrong-explain'}`}>
-              {picked === q.answer_index ? '✅ ' : '❌ '}
+              {picked === q.answer_index ? '✅️ ' : '❌ '}
               <strong>{picked === q.answer_index ? '정답!' : '오답'}</strong> — {q.explanation}
             </div>
           )}

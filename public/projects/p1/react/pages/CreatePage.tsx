@@ -96,7 +96,7 @@ export default function CreatePage() {
     <>
       <Nav />
       <div className="page-head">
-        <h1>✨ 어떤 동화를 만들까요?</h1>
+        <h1>✨️ 어떤 동화를 만들까요?</h1>
         <p>아이의 나이와 좋아하는 것을 알려주면 맞춤형 동화를 만들어드려요.</p>
       </div>
 
@@ -164,7 +164,7 @@ export default function CreatePage() {
         <div className="actions">
           <Link to="/" className="btn btn--ghost">취소</Link>
           <button type="submit" className="btn btn--primary" disabled={submitting}>
-            {submitting ? '✨ 생성 시작 중...' : '✨ 동화 만들기'}
+            {submitting ? '✨️ 생성 시작 중...' : '✨️ 동화 만들기'}
           </button>
         </div>
 

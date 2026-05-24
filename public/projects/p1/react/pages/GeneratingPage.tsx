@@ -121,7 +121,7 @@ export default function GeneratingPage() {
     return (
       <div className="gen">
         <div className="gen__icon" style={{ background: 'linear-gradient(135deg, #22c55e, #4ade80)' }}>
-          ✓
+          ✓️
         </div>
         <h1>완성됐어요!</h1>
         <p className="gen__sub">동화 뷰어로 이동 중...</p>
@@ -133,7 +133,7 @@ export default function GeneratingPage() {
   const secsLeft = Math.max(0, Math.round(TOTAL_DURATION - elapsed));
   return (
     <div className="gen">
-      <div className="gen__icon">✨</div>
+      <div className="gen__icon">✨️</div>
       <h1>아이만의 동화를 만들고 있어요</h1>
       <p className="gen__sub">Solar LLM이 한국적 소재를 엮어내는 중입니다</p>
 
@@ -152,7 +152,7 @@ export default function GeneratingPage() {
           <li key={i} className={`step ${
             i < currentStep ? 'done' : i === currentStep ? 'doing' : 'todo'
           }`}>
-            <span className="step__check">{i < currentStep ? '✓' : i + 1}</span>
+            <span className="step__check">{i < currentStep ? '✓️' : i + 1}</span>
             <span className="step__title">{step.title}</span>
             <span className="step__time">~{step.duration}초</span>
           </li>

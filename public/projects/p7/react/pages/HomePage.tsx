@@ -120,7 +120,7 @@ export default function HomePage() {
         </div>
         {checkin && (
           <p style={{ margin: '10px 0 0', opacity: .85, fontSize: '.85rem' }}>
-            오늘 체크인 완료 ✓ {pendingMood && '저장 중...'}
+            오늘 체크인 완료 ✓️ {pendingMood && '저장 중...'}
           </p>
         )}
       </section>
@@ -173,7 +173,7 @@ function RoutineRow({ row, onToggle }: { row: RoutineRow; onToggle: () => void }
         <p className="routine__title">{row.routine.name}</p>
         <p className="routine__meta">{row.scheduled_time ?? '시간 미정'}</p>
       </div>
-      <button className="routine__check">{row.completed_today ? '✓' : '○'}</button>
+      <button className="routine__check">{row.completed_today ? '✓️' : '○'}</button>
     </div>
   );
 }

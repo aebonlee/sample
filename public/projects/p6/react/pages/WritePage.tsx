@@ -123,7 +123,7 @@ export default function WritePage() {
               className={`side__item ${q.status} ${selectedId === q.id ? 'on' : ''}`}
               onClick={() => selectQuestion(q.id)}
             >
-              <span className="side__item__no">{q.status === 'done' ? '✓' : i + 1}</span>
+              <span className="side__item__no">{q.status === 'done' ? '✓️' : i + 1}</span>
               {q.question_text.slice(0, 20)}...
             </div>
           ))}
@@ -151,7 +151,7 @@ export default function WritePage() {
                 <button onClick={() => setBody((b) => `**${b}**`)}>B 굵게</button>
                 <button onClick={() => setBody((b) => `*${b}*`)}>I 기울임</button>
                 <button onClick={polish} disabled={polishing}>
-                  {polishing ? '✨ 다듬는 중...' : '✨ AI 다듬기'}
+                  {polishing ? '✨️ 다듬는 중...' : '✨️ AI 다듬기'}
                 </button>
               </div>
 
@@ -175,7 +175,7 @@ export default function WritePage() {
                       setQuestions((qs) => qs.map((q) =>
                         q.id === selectedId ? { ...q, status: 'done' } : q));
                     }}>
-                    ✓ 이 문항 완료
+                    ✓️ 이 문항 완료
                   </button>
                   <Link to={`/feedback/${resumeId}`} className="btn btn--primary">
                     📊 AI 피드백 받기
@@ -197,7 +197,7 @@ export default function WritePage() {
               {charCount >= 500 && '훌륭합니다. AI에게 다듬어달라 요청해보세요.'}
             </p>
             <button className="ai-card__action" onClick={polish} disabled={polishing}>
-              {polishing ? '다듬는 중...' : '✨ AI 다듬기'}
+              {polishing ? '다듬는 중...' : '✨️ AI 다듬기'}
             </button>
           </div>
 

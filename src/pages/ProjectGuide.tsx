@@ -68,7 +68,7 @@ const ProjectDetail = ({ project }: { project: ProjectData }): ReactElement => (
       ))}
     </Section>
 
-    <Section icon="✨" title="프롬프트 엔지니어링">
+    <Section icon="✨️" title="프롬프트 엔지니어링">
       <p>{project.prompts.description}</p>
       {project.prompts.examples.map((ex, i) => (
         <div key={i} className="pgd-prompt">
@@ -119,7 +119,7 @@ const ProjectDetail = ({ project }: { project: ProjectData }): ReactElement => (
     <Section icon="🌟" title="확장 가능성">
       <ul className="pgd-expansion">
         {project.expansion.map((e, i) => (
-          <li key={i}><span style={{ color: project.color }}>✓</span> {e}</li>
+          <li key={i}><span style={{ color: project.color }}>✓️</span> {e}</li>
         ))}
       </ul>
     </Section>

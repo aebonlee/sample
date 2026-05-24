@@ -178,7 +178,7 @@ function Pin({ left, top, emoji, label, status }: {
   return (
     <div className={`pin pin--${status}`} style={{ left, top }}>
       <div className="pin__icon"><span>{emoji}</span></div>
-      <div className="pin__label">{label} {status === 'done' && '✓'}</div>
+      <div className="pin__label">{label} {status === 'done' && '✓️'}</div>
     </div>
   );
 }

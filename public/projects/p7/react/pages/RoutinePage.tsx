@@ -118,12 +118,12 @@ export default function RoutinePage() {
       </header>
 
       <article className="ai-recommend">
-        <div className="ai-recommend__ico">✨</div>
+        <div className="ai-recommend__ico">✨️</div>
         <h3 className="ai-recommend__title">최근 체크인 패턴 기반 추천</h3>
         <p className="ai-recommend__msg">{state.data.ai.recommendation}</p>
         {state.data.ai.suggestedIds.length > 0 && (
           <button className="ai-recommend__btn" onClick={addAllSuggested}>
-            ✓ 추천 {state.data.ai.suggestedIds.length}개 모두 추가
+            ✓️ 추천 {state.data.ai.suggestedIds.length}개 모두 추가
           </button>
         )}
       </article>
@@ -185,7 +185,7 @@ function RoutineCard({ routine, isAdded, onToggle }: {
         <p className="rec-card__meta">{routine.description}</p>
       </div>
       <button className="rec-card__add" onClick={onToggle}>
-        {isAdded ? '✓ 추가됨' : '+ 추가'}
+        {isAdded ? '✓️ 추가됨' : '+ 추가'}
       </button>
     </article>
   );

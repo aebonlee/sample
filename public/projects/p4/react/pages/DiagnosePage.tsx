@@ -139,7 +139,7 @@ export default function DiagnosePage() {
             <div className="info__grid">
               <div><span>총 문항</span><strong>{TOTAL_Q}문제</strong></div>
               <div><span>제한 시간</span><strong>{DURATION_MIN}분</strong></div>
-              <div><span>난이도</span><strong>★★★☆☆</strong></div>
+              <div><span>난이도</span><strong>★️★️★️☆️☆️</strong></div>
             </div>
 
             {/* 과목별 출제 비중 */}
@@ -205,7 +205,7 @@ export default function DiagnosePage() {
                        background: 'var(--accent)' }} />
         </div>
         <span style={{ color: timeLeft < 300 ? 'var(--danger)' : 'var(--text-dim)', fontFamily: 'monospace' }}>
-          ⏱ {String(min).padStart(2, '0')}:{String(sec).padStart(2, '0')}
+          ⏱️ {String(min).padStart(2, '0')}:{String(sec).padStart(2, '0')}
         </span>
       </div>
 

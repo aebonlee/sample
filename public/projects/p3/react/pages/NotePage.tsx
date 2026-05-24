@@ -167,7 +167,7 @@ export default function NotePage() {
             <button onClick={resetFilters}
                     style={{ padding: '7px 14px', borderRadius: 999, border: '1px solid var(--border)',
                              background: 'transparent', cursor: 'pointer', fontSize: '.82rem' }}>
-              필터 초기화 ✕
+              필터 초기화 ✕️
             </button>
           )}
         </div>

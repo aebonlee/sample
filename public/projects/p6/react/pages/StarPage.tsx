@@ -79,7 +79,7 @@ export default function StarPage() {
       <Stepper active={1} />
 
       <div className="page-head">
-        <h1>⭐ STAR로 정리했어요</h1>
+        <h1>⭐️ STAR로 정리했어요</h1>
         <p>입력하신 경험을 면접·자소서에 바로 쓸 수 있는 4가지 구조로 분해했습니다.</p>
       </div>
 

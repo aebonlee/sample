@@ -118,7 +118,7 @@ export default function HomePage() {
                     onClick={() => setShowExamples(!showExamples)}
                     style={{ marginTop: 8, background: 'transparent', border: 0,
                             color: 'var(--accent)', cursor: 'pointer', fontSize: '.85rem' }}>
-              {showExamples ? '예시 닫기 ▲' : '✨ 예시 보기 ▼'}
+              {showExamples ? '예시 닫기 ▲' : '✨️ 예시 보기 ▼'}
             </button>
             {showExamples && (
               <div style={{ marginTop: 8, display: 'flex', flexDirection: 'column', gap: 6 }}>
@@ -159,7 +159,7 @@ export default function HomePage() {
 
           <div className="actions">
             <button type="submit" className="btn btn--primary" disabled={!isValid || loading}>
-              {loading ? '✨ AI 분석 중...' : '✨ STAR로 정리하기'}
+              {loading ? '✨️ AI 분석 중...' : '✨️ STAR로 정리하기'}
             </button>
           </div>
 

@@ -52,7 +52,7 @@ export default function HomePage() {
           관심사에 맞춘 동화를 5분 안에 완성합니다.
         </p>
         <div className="hero__cta">
-          <Link to="/create" className="btn btn--primary">✨ 동화 만들기 시작</Link>
+          <Link to="/create" className="btn btn--primary">✨️ 동화 만들기 시작</Link>
           <Link to="/library" className="btn btn--ghost">예시 동화 보기 →</Link>
         </div>
       </section>
@@ -92,7 +92,7 @@ function StoryGrid({ state, hasUser }: {
         emoji="📖"
         title={hasUser ? '아직 만든 동화가 없어요' : '로그인하면 내 동화를 볼 수 있어요'}
         desc={hasUser ? '첫 동화를 만들어 보세요!' : ''}
-        action={<Link to="/create" className="btn btn--primary">✨ 첫 동화 만들기</Link>}
+        action={<Link to="/create" className="btn btn--primary">✨️ 첫 동화 만들기</Link>}
       />
     );
   }

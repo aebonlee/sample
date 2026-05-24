@@ -123,10 +123,10 @@ export default function DetailPage() {
         <div className="hero__actions">
           <Link to={`/checklist?policy=${policy.id}`} className="btn"
                 style={{ opacity: allOk ? 1 : 0.6 }}>
-            ✓ 신청 체크리스트
+            ✓️ 신청 체크리스트
           </Link>
           <button className={`btn btn--ghost ${fav ? 'on' : ''}`} onClick={toggleFav}>
-            {fav ? '⭐ 저장됨' : '☆ 즐겨찾기'}
+            {fav ? '⭐️ 저장됨' : '☆️ 즐겨찾기'}
           </button>
           <button className="btn btn--ghost"
                   onClick={() => navigator.share?.({ title: policy.title, url: location.href })}>
@@ -148,7 +148,7 @@ export default function DetailPage() {
                     <p className="req__label">{e.label}</p>
                     <p className="req__value">{e.value}</p>
                     <span className={`req__check ${e.isOk ? '' : 'req__check--no'}`}>
-                      {e.isOk ? '✓ 충족' : '✕ 미충족'}
+                      {e.isOk ? '✓️ 충족' : '✕️ 미충족'}
                     </span>
                   </div>
                 ))}

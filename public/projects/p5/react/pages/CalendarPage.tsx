@@ -58,13 +58,13 @@ export default function CalendarPage() {
       if (p.apply_deadline) evs.push({
         date: p.apply_deadline.split('T')[0],
         type: 'end',
-        label: `⚠ ${p.title.slice(0, 12)} D-Day`,
+        label: `⚠️ ${p.title.slice(0, 12)} D-Day`,
         policyId: p.id,
       });
       if (p.start_date) evs.push({
         date: p.start_date.split('T')[0],
         type: 'start',
-        label: `▶ ${p.title.slice(0, 12)} 시작`,
+        label: `▶️ ${p.title.slice(0, 12)} 시작`,
         policyId: p.id,
       });
     });
