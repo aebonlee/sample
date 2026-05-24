@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>비디오 강의 — React 마스터 클래스</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <a class="logo">LEARN<span>.</span>io</a>
+    <div class="crumb">
+      <span>React 마스터 클래스</span>
+      <em>· 14개 강의 · 4시간 32분</em>
+    </div>
+    <div class="actions">
+      <button class="ico">🔖</button>
+      <button class="ico">⋯</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="player">
+      <div id="video" class="video">
+        <div class="poster" id="poster">
+          <button id="playBtn" class="play-fab" aria-label="재생">▶</button>
+          <p class="poster__t" id="curTitle">1. 강좌 소개와 환경 설정</p>
+        </div>
+        <div class="controls">
+          <button id="playToggle">▶</button>
+          <span id="time">0:00 / 8:24</span>
+          <input id="seek" type="range" value="0" min="0" max="100" step="0.1" />
+          <select id="speed">
+            <option>0.5x</option><option>0.75x</option>
+            <option selected>1x</option><option>1.25x</option>
+            <option>1.5x</option><option>2x</option>
+          </select>
+          <button id="fs">⛶</button>
+        </div>
+      </div>
+
+      <h1 class="title" id="bigTitle">1. 강좌 소개와 환경 설정</h1>
+      <div class="meta">
+        <span class="badge">초급</span>
+        <span>강사: 박지훈</span>
+        <span>·</span>
+        <span>업데이트: 2025.05.18</span>
+      </div>
+
+      <nav class="tabs">
+        <button data-tab="about" class="tab active">강의 소개</button>
+        <button data-tab="note" class="tab">학습 노트</button>
+        <button data-tab="qna" class="tab">Q&amp;A</button>
+      </nav>
+
+      <div id="tab-about" class="panel">
+        <p>이 강의에서는 React 18의 핵심 개념과 함께, 실무에서 자주 쓰이는 패턴 14가지를 단계별로 학습합니다. 코드 샌드박스가 제공되므로 별도 환경 설정 없이 따라할 수 있어요.</p>
+        <ul>
+          <li>총 14개 강의 · 4시간 32분</li>
+          <li>이수증 제공 · 다운로드 가능한 코드 스니펫</li>
+          <li>학습 후 만들 수 있는 결과물: ToDo 앱, 디자인 시스템 컴포넌트</li>
+        </ul>
+      </div>
+
+      <div id="tab-note" class="panel" hidden>
+        <textarea id="note" placeholder="이 강의의 학습 노트를 적어보세요. 자동 저장됩니다."></textarea>
+        <p class="hint" id="saveHint">자동 저장됨</p>
+      </div>
+
+      <div id="tab-qna" class="panel" hidden>
+        <article class="q">
+          <header><b>이영희</b><time>2일 전</time></header>
+          <p>StrictMode가 useEffect를 두 번 호출하는 게 정상인가요?</p>
+          <div class="a">
+            <b>강사 답변</b>
+            <p>네, 개발 모드에서만 의도적으로 두 번 호출됩니다. 부작용을 정리(cleanup)하는 코드가 잘 동작하는지 확인할 수 있어요.</p>
+          </div>
+        </article>
+        <article class="q">
+          <header><b>김도윤</b><time>5일 전</time></header>
+          <p>useState 대신 useReducer를 써야 할 시점이 언제일까요?</p>
+        </article>
+      </div>
+    </section>
+
+    <aside class="curriculum">
+      <header>
+        <h2>커리큘럼</h2>
+        <p><span id="progress">0</span>% 완료</p>
+        <div class="bar"><i id="bar"></i></div>
+      </header>
+      <ul class="list" id="list"></ul>
+    </aside>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Snake — 클래식 스네이크 게임</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="stage">
+    <header class="head">
+      <h1>🐍 SNAKE</h1>
+      <p>방향키 또는 스와이프 · 스페이스로 일시정지</p>
+    </header>
+
+    <div class="hud">
+      <div class="stat"><span>점수</span><b id="score">0</b></div>
+      <div class="stat"><span>최고기록</span><b id="best">0</b></div>
+      <div class="stat"><span>속도</span><b id="speed">1×</b></div>
+    </div>
+
+    <div class="board-wrap">
+      <canvas id="board" width="400" height="400"></canvas>
+      <div id="overlay" class="overlay">
+        <h2 id="ovTitle">시작하기</h2>
+        <p id="ovText">방향키나 화면을 스와이프해서 사과를 먹어보세요.</p>
+        <button id="startBtn">▶ 시작</button>
+      </div>
+    </div>
+
+    <nav class="dpad">
+      <button class="d" data-dir="up">▲</button>
+      <button class="d" data-dir="left">◀</button>
+      <button class="d" data-dir="down">▼</button>
+      <button class="d" data-dir="right">▶</button>
+    </nav>
+
+    <div class="diff">
+      <span>난이도</span>
+      <button class="lv active" data-lv="easy">쉬움</button>
+      <button class="lv" data-lv="normal">보통</button>
+      <button class="lv" data-lv="hard">어려움</button>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

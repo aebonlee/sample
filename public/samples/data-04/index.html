@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lead — 영업 CRM 대시보드</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <header class="top">
+    <div class="brand">🎯 <b>Lead</b><span>Sales CRM</span></div>
+    <div class="user">
+      <button class="search">🔍 거래처·고객 검색</button>
+      <button class="bell">🔔</button>
+      <div class="avatar">JK</div>
+    </div>
+  </header>
+
+  <main class="main">
+    <section class="hero">
+      <div>
+        <h1>이번 분기 매출 목표 달성률 <span class="rate">73%</span></h1>
+        <p>이번 분기 목표 <b>5억 원</b> 중 <b>3.65억 원</b> 달성. 분기 종료까지 <b>23일</b> 남음.</p>
+      </div>
+      <button class="add">＋ 새 영업 기회</button>
+    </section>
+
+    <section class="kpis">
+      <article class="kpi">
+        <p>이번 달 매출</p>
+        <h2 data-v="124800000" data-cur="1">0</h2>
+        <span class="up">▲ 18.4% MoM</span>
+      </article>
+      <article class="kpi">
+        <p>활성 영업기회</p>
+        <h2 data-v="47">0</h2>
+        <span class="up">▲ 6건</span>
+      </article>
+      <article class="kpi">
+        <p>전환율</p>
+        <h2 data-v="34.2" data-suffix="%">0%</h2>
+        <span class="down">▼ 2.1%p</span>
+      </article>
+      <article class="kpi">
+        <p>평균 거래 규모</p>
+        <h2 data-v="8200000" data-cur="1">0</h2>
+        <span class="up">▲ ₩320K</span>
+      </article>
+    </section>
+
+    <section class="row">
+      <div class="panel">
+        <header>
+          <h3>영업 파이프라인</h3>
+          <span class="legend">단계별 진행 중인 거래 금액</span>
+        </header>
+        <div class="pipeline">
+          <div class="stage">
+            <header>리드 · <b>18건</b></header>
+            <div class="bar" style="background:#94a3b8"><i style="width:100%"></i></div>
+            <p>₩ 124M</p>
+          </div>
+          <div class="stage">
+            <header>접촉 · <b>12건</b></header>
+            <div class="bar" style="background:#60a5fa"><i style="width:78%"></i></div>
+            <p>₩ 98M</p>
+          </div>
+          <div class="stage">
+            <header>제안 · <b>9건</b></header>
+            <div class="bar" style="background:#a78bfa"><i style="width:56%"></i></div>
+            <p>₩ 72M</p>
+          </div>
+          <div class="stage">
+            <header>협상 · <b>5건</b></header>
+            <div class="bar" style="background:#fb923c"><i style="width:38%"></i></div>
+            <p>₩ 48M</p>
+          </div>
+          <div class="stage">
+            <header>성사 · <b>3건</b></header>
+            <div class="bar" style="background:#22c55e"><i style="width:24%"></i></div>
+            <p>₩ 28M</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel small">
+        <header><h3>이번 달 매출 추이</h3></header>
+        <canvas id="revenueChart" height="200"></canvas>
+      </div>
+    </section>
+
+    <section class="row">
+      <div class="panel">
+        <header><h3>🏆 영업 리더보드</h3><span class="legend">이번 분기</span></header>
+        <ul class="leader">
+          <li><span class="rank">1</span><div class="ava ava-1">박</div><div class="info"><b>박지훈</b><span>달성률 142%</span></div><div class="amt">₩ 142M</div></li>
+          <li><span class="rank">2</span><div class="ava ava-2">이</div><div class="info"><b>이수진</b><span>달성률 118%</span></div><div class="amt">₩ 118M</div></li>
+          <li><span class="rank">3</span><div class="ava ava-3">김</div><div class="info"><b>김도윤</b><span>달성률 95%</span></div><div class="amt">₩ 95M</div></li>
+          <li><span class="rank">4</span><div class="ava ava-4">최</div><div class="info"><b>최예린</b><span>달성률 72%</span></div><div class="amt">₩ 72M</div></li>
+        </ul>
+      </div>
+
+      <div class="panel small">
+        <header><h3>📅 오늘 일정</h3></header>
+        <ul class="todo">
+          <li><span class="dot d1"></span><div><b>10:00 (주)삼성전자 미팅</b><span>제안서 발표 · 본사 2층</span></div></li>
+          <li><span class="dot d2"></span><div><b>14:00 LG CNS 컨퍼런스 콜</b><span>예산 협상 · Zoom</span></div></li>
+          <li><span class="dot d3"></span><div><b>16:30 신규 리드 콜드콜 (3건)</b><span>현대카드 · 신세계 · CJ</span></div></li>
+          <li><span class="dot d1"></span><div><b>18:00 주간 영업 보고</b><span>판매부장과 1:1</span></div></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="row">
+      <div class="panel full">
+        <header><h3>📋 최근 영업 기회</h3><button class="more">전체 보기 →</button></header>
+        <table class="deals">
+          <thead><tr><th>회사명</th><th>거래명</th><th>단계</th><th>금액</th><th>예상 종료</th><th>담당</th></tr></thead>
+          <tbody>
+            <tr><td>(주)삼성전자</td><td>전사 ERP 시스템 도입</td><td><span class="badge b-pro">제안</span></td><td>₩ 280,000,000</td><td>6월 30일</td><td>박지훈</td></tr>
+            <tr><td>LG CNS</td><td>클라우드 전환 컨설팅</td><td><span class="badge b-neg">협상</span></td><td>₩ 124,000,000</td><td>6월 15일</td><td>이수진</td></tr>
+            <tr><td>현대카드</td><td>AI 신용 평가 모델</td><td><span class="badge b-pro">제안</span></td><td>₩ 95,000,000</td><td>7월 8일</td><td>김도윤</td></tr>
+            <tr><td>신세계 I&amp;C</td><td>리테일 데이터 플랫폼</td><td><span class="badge b-con">접촉</span></td><td>₩ 78,000,000</td><td>7월 20일</td><td>최예린</td></tr>
+            <tr><td>CJ ENM</td><td>콘텐츠 추천 엔진</td><td><span class="badge b-won">성사</span></td><td>₩ 62,000,000</td><td>완료</td><td>박지훈</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

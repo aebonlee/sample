@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Echo — AI 음성 받아쓰기</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="top">
+    <div class="brand">🎙️ <b>Echo</b><span> · AI 음성 받아쓰기</span></div>
+    <button class="lang">한국어 ▾</button>
+  </header>
+
+  <main class="layout">
+    <section class="recorder">
+      <div class="visual">
+        <div class="wave" id="wave">
+          <div></div><div></div><div></div><div></div><div></div>
+          <div></div><div></div><div></div><div></div><div></div>
+          <div></div><div></div><div></div><div></div><div></div>
+        </div>
+      </div>
+
+      <div class="status">
+        <div id="dot" class="dot"></div>
+        <span id="state">녹음 대기 중</span>
+      </div>
+      <div class="time" id="time">00:00</div>
+
+      <div class="ctrls">
+        <button id="recBtn" class="rec" aria-label="녹음">🎙️</button>
+        <button id="stopBtn" class="stop" disabled>■ 정지</button>
+        <button id="demoBtn" class="ghost">▶ 데모 재생</button>
+      </div>
+
+      <p class="hint">실제 환경에서는 MediaRecorder + Whisper(또는 Google Speech-to-Text) API를 사용합니다.</p>
+    </section>
+
+    <section class="transcript">
+      <header>
+        <h2>받아쓰기 결과</h2>
+        <div class="t-actions">
+          <button id="copyBtn">📋 복사</button>
+          <button id="dlBtn">⬇ TXT 저장</button>
+          <button id="sumBtn">✨ 요약</button>
+        </div>
+      </header>
+
+      <div id="text" class="text-area">
+        <p class="placeholder">녹음을 시작하면 여기 실시간 텍스트가 표시됩니다.</p>
+      </div>
+
+      <aside id="summary" class="summary" hidden>
+        <h3>🤖 AI 요약</h3>
+        <p id="sumBody"></p>
+        <ul id="bullets"></ul>
+      </aside>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

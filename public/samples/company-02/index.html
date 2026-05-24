@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>로스터리 무드 — 스페셜티 커피 브랜드</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="nav">
+    <div class="nav__inner">
+      <a href="#top" class="brand">MOOD <span>roastery</span></a>
+      <nav>
+        <a href="#menu">메뉴</a>
+        <a href="#story">스토리</a>
+        <a href="#shops">매장</a>
+        <a href="#reserve">예약</a>
+      </nav>
+      <a href="#reserve" class="btn">테이블 예약</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero__bg" aria-hidden="true"></div>
+      <div class="hero__txt">
+        <p class="kicker">SINCE 2019 · SEOUL</p>
+        <h1>매일 마셔도<br/>좋은 한 잔.</h1>
+        <p class="lead">에티오피아 예가체프부터 콜롬비아 게이샤까지, 매주 새로운 원두를 직접 로스팅합니다.</p>
+        <div class="hero__cta">
+          <a href="#menu" class="btn btn--solid">오늘의 메뉴</a>
+          <a href="#story" class="btn btn--ghost">브랜드 이야기</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="menu" class="section">
+      <div class="section__head">
+        <p class="kicker">MENU</p>
+        <h2>이번 주의 메뉴</h2>
+      </div>
+      <div class="menu-grid">
+        <article class="menu-card">
+          <div class="thumb thumb--1"></div>
+          <h3>에티오피아 예가체프</h3>
+          <p>플로럴 · 베리 · 시트러스</p>
+          <div class="row"><span>₩6,500</span><button class="add">담기</button></div>
+        </article>
+        <article class="menu-card">
+          <div class="thumb thumb--2"></div>
+          <h3>콜롬비아 게이샤</h3>
+          <p>자스민 · 복숭아 · 깔끔한 산미</p>
+          <div class="row"><span>₩9,800</span><button class="add">담기</button></div>
+        </article>
+        <article class="menu-card">
+          <div class="thumb thumb--3"></div>
+          <h3>플랫화이트</h3>
+          <p>고소한 우유 · 카라멜 피니시</p>
+          <div class="row"><span>₩5,500</span><button class="add">담기</button></div>
+        </article>
+        <article class="menu-card">
+          <div class="thumb thumb--4"></div>
+          <h3>아이스 라떼</h3>
+          <p>부드러운 바디 · 다크 초콜릿</p>
+          <div class="row"><span>₩5,800</span><button class="add">담기</button></div>
+        </article>
+      </div>
+    </section>
+
+    <section id="story" class="story">
+      <div class="story__img" aria-hidden="true"></div>
+      <div class="story__txt">
+        <p class="kicker">OUR STORY</p>
+        <h2>작은 로스터리에서<br/>매일 한 봉지씩.</h2>
+        <p>2019년 망원동의 4평짜리 공간에서 시작했습니다. "오늘 볶은 원두만 판다"는 원칙으로 시작해, 지금은 4개 매장에서 매일 30kg의 원두를 직접 로스팅하고 있습니다.</p>
+        <ul class="bullets">
+          <li>매일 갓 볶은 원두만 판매</li>
+          <li>SCA Q-Grader 인증 큐레이션</li>
+          <li>정기 구독 시 첫 달 30% 할인</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="shops" class="section">
+      <div class="section__head"><p class="kicker">SHOPS</p><h2>매장 안내</h2></div>
+      <div class="shops">
+        <div class="shop">
+          <h3>망원 본점</h3>
+          <p>서울 마포구 망원로 123<br/>매일 08:00 – 22:00</p>
+        </div>
+        <div class="shop">
+          <h3>성수 작업실</h3>
+          <p>서울 성동구 연무장길 45<br/>매일 10:00 – 21:00</p>
+        </div>
+        <div class="shop">
+          <h3>한남 라운지</h3>
+          <p>서울 용산구 이태원로 88<br/>매일 09:00 – 23:00</p>
+        </div>
+        <div class="shop">
+          <h3>판교 오피스점</h3>
+          <p>경기 성남시 분당구 판교역로 6<br/>평일 07:30 – 20:00</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="reserve" class="reserve">
+      <div class="reserve__card">
+        <h2>테이블 예약</h2>
+        <p>주말 브런치 타임 · 4인 이상 예약 권장</p>
+        <form id="reserveForm" class="form">
+          <label>이름<input required name="name" type="text" placeholder="예약자 이름" /></label>
+          <label>인원<select name="people"><option>2명</option><option>3명</option><option>4명</option><option>5명+</option></select></label>
+          <label>날짜<input required name="date" type="date" /></label>
+          <label>시간<input required name="time" type="time" /></label>
+          <label class="full">메모<textarea name="memo" placeholder="알레르기, 요청사항"></textarea></label>
+          <button class="btn btn--solid full" type="submit">예약 신청하기</button>
+        </form>
+        <p id="ok" class="ok" hidden>예약이 신청되었어요. 문자로 확정 안내드릴게요 ☕</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    © 2025 MOOD Roastery · 사업자 등록번호 000-00-00000
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

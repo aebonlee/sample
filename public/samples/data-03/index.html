@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Beacon — 웹 트래픽 분석</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <aside class="side">
+    <div class="logo">📡 Beacon</div>
+    <nav>
+      <a class="active">📊 대시보드</a>
+      <a>🌐 페이지</a>
+      <a>👥 사용자</a>
+      <a>📍 지역</a>
+      <a>🛒 전환</a>
+      <a>⚙️ 설정</a>
+    </nav>
+    <div class="site-info">
+      <p class="label">현재 사이트</p>
+      <p class="site">sample.dreamitbiz.com</p>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="top">
+      <div>
+        <h1>대시보드</h1>
+        <p>실시간 트래픽 · <span id="live"></span></p>
+      </div>
+      <div class="filters">
+        <select id="range">
+          <option>최근 24시간</option>
+          <option selected>최근 7일</option>
+          <option>최근 30일</option>
+          <option>이번 달</option>
+        </select>
+        <button class="exp">⬇ 내보내기</button>
+      </div>
+    </header>
+
+    <section class="kpis">
+      <article class="kpi">
+        <p>방문자</p>
+        <h2 data-v="12482">0</h2>
+        <span class="up">▲ 12.4%</span>
+      </article>
+      <article class="kpi">
+        <p>페이지뷰</p>
+        <h2 data-v="38917">0</h2>
+        <span class="up">▲ 8.1%</span>
+      </article>
+      <article class="kpi">
+        <p>평균 체류 시간</p>
+        <h2 data-v="2:48" data-text="1">0:00</h2>
+        <span class="down">▼ 4.2%</span>
+      </article>
+      <article class="kpi">
+        <p>이탈률</p>
+        <h2 data-v="32.4" data-suffix="%">0%</h2>
+        <span class="up">▼ 1.8%p</span>
+      </article>
+    </section>
+
+    <section class="row">
+      <div class="panel big">
+        <header><h3>방문자 추이</h3><span class="legend">방문자 · 페이지뷰</span></header>
+        <canvas id="trafficChart" height="120"></canvas>
+      </div>
+    </section>
+
+    <section class="row two">
+      <div class="panel">
+        <header><h3>유입 채널</h3></header>
+        <canvas id="channelChart" height="220"></canvas>
+      </div>
+      <div class="panel">
+        <header><h3>디바이스</h3></header>
+        <div class="dev-list">
+          <div class="dev"><span>💻</span><div><b>데스크탑</b><i style="--w:62%"></i></div><em>62%</em></div>
+          <div class="dev"><span>📱</span><div><b>모바일</b><i style="--w:31%"></i></div><em>31%</em></div>
+          <div class="dev"><span>📟</span><div><b>태블릿</b><i style="--w:7%"></i></div><em>7%</em></div>
+        </div>
+        <header style="margin-top:24px"><h3>브라우저</h3></header>
+        <div class="dev-list">
+          <div class="dev"><span>🌐</span><div><b>Chrome</b><i style="--w:58%"></i></div><em>58%</em></div>
+          <div class="dev"><span>🧭</span><div><b>Safari</b><i style="--w:24%"></i></div><em>24%</em></div>
+          <div class="dev"><span>🦊</span><div><b>Firefox</b><i style="--w:10%"></i></div><em>10%</em></div>
+          <div class="dev"><span>🪟</span><div><b>Edge</b><i style="--w:6%"></i></div><em>6%</em></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="row two">
+      <div class="panel">
+        <header><h3>인기 페이지</h3><span class="legend">최근 7일</span></header>
+        <table class="t">
+          <thead><tr><th>경로</th><th>방문자</th><th>평균 체류</th><th>이탈률</th></tr></thead>
+          <tbody>
+            <tr><td>/</td><td>4,820</td><td>3:12</td><td>22%</td></tr>
+            <tr><td>/samples</td><td>3,108</td><td>2:48</td><td>28%</td></tr>
+            <tr><td>/about</td><td>1,544</td><td>1:30</td><td>41%</td></tr>
+            <tr><td>/samples/personal-01</td><td>1,182</td><td>4:02</td><td>18%</td></tr>
+            <tr><td>/samples/landing-01</td><td>988</td><td>3:38</td><td>21%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="panel">
+        <header><h3>국가별 방문자</h3></header>
+        <ul class="geo">
+          <li><span class="flag">🇰🇷</span><span class="n">대한민국</span><span class="b"><i style="--w:78%"></i></span><span class="v">9,743</span></li>
+          <li><span class="flag">🇺🇸</span><span class="n">미국</span><span class="b"><i style="--w:14%"></i></span><span class="v">1,748</span></li>
+          <li><span class="flag">🇯🇵</span><span class="n">일본</span><span class="b"><i style="--w:8%"></i></span><span class="v">998</span></li>
+          <li><span class="flag">🇻🇳</span><span class="n">베트남</span><span class="b"><i style="--w:5%"></i></span><span class="v">624</span></li>
+          <li><span class="flag">🇸🇬</span><span class="n">싱가포르</span><span class="b"><i style="--w:3%"></i></span><span class="v">372</span></li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

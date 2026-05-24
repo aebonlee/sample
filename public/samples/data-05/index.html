@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Vital — 건강 모니터링</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <header class="top">
+    <div class="brand">💚 <b>Vital</b><span>건강 모니터링</span></div>
+    <div class="user">
+      <button class="day">오늘 · 5월 24일</button>
+      <div class="avatar">지훈</div>
+    </div>
+  </header>
+
+  <main class="main">
+    <section class="greet">
+      <div>
+        <h1>좋은 아침이에요, 지훈님 ☀️</h1>
+        <p>오늘 목표까지 <b>3,140보</b> 남았어요. 약 28분 산책이면 충분해요!</p>
+      </div>
+      <div class="ring">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="44" stroke="rgba(255,255,255,.15)" stroke-width="8" fill="none"/>
+          <circle id="ring" cx="50" cy="50" r="44" stroke="url(#g)" stroke-width="8" fill="none"
+                  stroke-linecap="round" stroke-dasharray="276" stroke-dashoffset="276"
+                  transform="rotate(-90 50 50)"/>
+          <defs>
+            <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#5eead4"/>
+              <stop offset="1" stop-color="#22c55e"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <div class="ring__txt">
+          <b id="ringPct">0%</b>
+          <span>목표 달성</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="vitals">
+      <article class="v">
+        <header><h3>💗 심박수</h3><span>지금</span></header>
+        <p class="big"><b id="hr">0</b><em>bpm</em></p>
+        <canvas id="hrChart" height="40"></canvas>
+        <footer>안정 · 60–100 bpm 정상</footer>
+      </article>
+
+      <article class="v">
+        <header><h3>👣 걸음 수</h3><span>오늘</span></header>
+        <p class="big"><b id="steps">0</b><em>걸음</em></p>
+        <div class="bar"><i style="--w:69%;background:linear-gradient(90deg,#5eead4,#22c55e)"></i></div>
+        <footer>목표 10,000보 중 69%</footer>
+      </article>
+
+      <article class="v">
+        <header><h3>🔥 칼로리</h3><span>오늘</span></header>
+        <p class="big"><b id="cal">0</b><em>kcal</em></p>
+        <div class="bar"><i style="--w:48%;background:linear-gradient(90deg,#fb923c,#ef4444)"></i></div>
+        <footer>목표 2,400 kcal 중 48%</footer>
+      </article>
+
+      <article class="v">
+        <header><h3>💧 수분 섭취</h3><span>오늘</span></header>
+        <p class="big"><b>5</b><em>/ 8잔</em></p>
+        <div class="cups">
+          <span class="cup full"></span><span class="cup full"></span><span class="cup full"></span>
+          <span class="cup full"></span><span class="cup full"></span>
+          <span class="cup"></span><span class="cup"></span><span class="cup"></span>
+        </div>
+        <footer>2시간 째 안 드셨어요</footer>
+      </article>
+    </section>
+
+    <section class="row">
+      <div class="panel">
+        <header><h3>주간 수면 패턴</h3><span class="legend">평균 7시간 12분</span></header>
+        <canvas id="sleepChart" height="180"></canvas>
+      </div>
+      <div class="panel">
+        <header><h3>혈압 추이 (30일)</h3><span class="legend">정상 범위</span></header>
+        <canvas id="bpChart" height="180"></canvas>
+      </div>
+    </section>
+
+    <section class="row">
+      <div class="panel">
+        <header><h3>오늘의 운동</h3></header>
+        <ul class="workout">
+          <li><span class="ic">🏃</span><div><b>아침 조깅</b><span>06:30 — 07:15 · 5.2km</span></div><span class="done">✓</span></li>
+          <li><span class="ic">🧘</span><div><b>요가 클래스</b><span>12:00 — 12:45 · 350 kcal</span></div><span class="done">✓</span></li>
+          <li><span class="ic">🚴</span><div><b>자전거 라이딩</b><span>18:00 — 19:00 · 12km</span></div><button class="start">시작</button></li>
+        </ul>
+      </div>
+      <div class="panel">
+        <header><h3>💊 복용 알람</h3></header>
+        <ul class="meds">
+          <li><span class="t">08:00</span><b>비타민 D</b><span class="ok">복용 완료</span></li>
+          <li><span class="t">12:30</span><b>오메가 3</b><span class="ok">복용 완료</span></li>
+          <li><span class="t">19:00</span><b>유산균</b><span class="pending">예정</span></li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

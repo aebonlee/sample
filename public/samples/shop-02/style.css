@@ -1,0 +1,67 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #fafafa;
+  --paper: #fff;
+  --ink: #111;
+  --muted: #888;
+  --line: #ececec;
+  --accent: #111;
+  --red: #e0394e;
+}
+html, body { background: var(--bg); color: var(--ink); font-family: 'Pretendard', system-ui, sans-serif; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; }
+
+.nav { background: #fff; border-bottom: 1px solid var(--line); }
+.nav__inner { max-width: 1400px; margin: 0 auto; padding: 18px 24px; display: flex; align-items: center; gap: 30px; }
+.brand { font-weight: 900; letter-spacing: 4px; font-size: 20px; }
+.nav nav { display: flex; gap: 24px; font-size: 14px; flex: 1; }
+.nav nav a { color: #555; padding-bottom: 4px; }
+.nav nav a.active { color: var(--ink); border-bottom: 2px solid var(--ink); font-weight: 600; }
+.util { display: flex; gap: 6px; }
+.ico { background: transparent; border: 0; cursor: pointer; padding: 8px 10px; font-size: 16px; border-radius: 8px; }
+.ico:hover { background: var(--bg); }
+#cart { background: var(--red); color: #fff; font-size: 11px; padding: 1px 6px; border-radius: 999px; margin-left: 2px; }
+
+.layout { max-width: 1400px; margin: 0 auto; padding: 30px 24px; display: grid; grid-template-columns: 220px 1fr; gap: 30px; }
+
+.filters { font-size: 14px; position: sticky; top: 20px; align-self: start; }
+.filters h2 { font-size: 13px; letter-spacing: 2px; margin-bottom: 14px; color: var(--muted); }
+.fgroup { padding: 14px 0; border-bottom: 1px solid var(--line); }
+.fgroup h3 { font-size: 14px; font-weight: 600; margin-bottom: 10px; }
+.fgroup label { display: flex; align-items: center; gap: 8px; padding: 4px 0; cursor: pointer; color: #444; font-size: 13px; }
+.colors { display: flex; gap: 8px; flex-wrap: wrap; }
+.color { width: 24px; height: 24px; border-radius: 50%; border: 1px solid var(--line); cursor: pointer; padding: 0; transition: transform .15s; }
+.color.active { outline: 2px solid var(--accent); outline-offset: 2px; transform: scale(1.1); }
+.reset { margin-top: 16px; width: 100%; padding: 10px; background: transparent; border: 1px solid var(--line); border-radius: 8px; cursor: pointer; font-size: 13px; }
+.reset:hover { background: var(--ink); color: #fff; border-color: var(--ink); }
+
+.phead { display: flex; justify-content: space-between; align-items: end; margin-bottom: 22px; }
+.phead h1 { font-size: 24px; letter-spacing: -.5px; }
+.phead p { font-size: 13px; color: var(--muted); margin-top: 4px; }
+.phead select { padding: 8px 12px; border: 1px solid var(--line); border-radius: 8px; background: #fff; font: inherit; }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+.card { cursor: pointer; }
+.thumb { aspect-ratio: 3/4; border-radius: 6px; margin-bottom: 10px; position: relative; overflow: hidden; transition: opacity .25s; }
+.card:hover .thumb { opacity: .9; }
+.thumb .like { position: absolute; top: 10px; right: 10px; background: rgba(255,255,255,.9); border: 0; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 14px; }
+.card.liked .like { background: var(--red); color: #fff; }
+.badge { position: absolute; top: 10px; left: 10px; background: var(--ink); color: #fff; padding: 3px 8px; border-radius: 4px; font-size: 11px; }
+.badge.sale { background: var(--red); }
+.card h3 { font-size: 14px; font-weight: 500; margin-bottom: 4px; line-height: 1.4; }
+.brand-row { font-size: 11px; color: var(--muted); margin-bottom: 4px; }
+.price { display: flex; align-items: center; gap: 8px; font-size: 14px; }
+.price b { font-weight: 700; }
+.price del { color: var(--muted); font-size: 12px; }
+.price .off { color: var(--red); font-weight: 700; font-size: 13px; }
+
+.empty { text-align: center; padding: 60px; color: var(--muted); }
+
+.toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(120%); background: var(--ink); color: #fff; padding: 12px 22px; border-radius: 999px; font-size: 14px; transition: transform .3s; }
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+@media (max-width: 880px) {
+  .layout { grid-template-columns: 1fr; }
+  .filters { position: static; }
+}
