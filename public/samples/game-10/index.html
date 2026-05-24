@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>POOL — 당구 게임</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="stage">
+    <header>
+      <h1>🎱 8-BALL POOL</h1>
+      <p>마우스로 조준 · 클릭&amp;드래그로 파워 · 놓아서 발사</p>
+    </header>
+
+    <div class="hud">
+      <div class="stat"><span>차례</span><b id="turn">플레이어 1</b></div>
+      <div class="stat"><span>P1 점수</span><b id="p1">0</b></div>
+      <div class="stat"><span>P2 점수</span><b id="p2">0</b></div>
+      <div class="stat"><span>샷 수</span><b id="shots">0</b></div>
+    </div>
+
+    <div class="board-wrap">
+      <canvas id="board" width="700" height="380"></canvas>
+      <div id="overlay" class="overlay">
+        <h2 id="ovT">8-BALL POOL</h2>
+        <p id="ovP">먼저 5점을 내면 승리!</p>
+        <button id="startBtn">▶ 시작</button>
+      </div>
+    </div>
+
+    <div class="actions">
+      <div class="power-wrap">
+        <span>파워</span>
+        <div class="power-bar"><i id="power"></i></div>
+      </div>
+      <button id="resetBtn" class="ghost">↻ 다시 시작</button>
+    </div>
+
+    <p class="hint">큐볼(흰 공)이 포켓에 빠지면 상대 차례로 넘어가요</p>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -716,6 +716,20 @@ export const samples: Sample[] = [
       '카지노 표준 블랙잭(21)을 구현했습니다. 카드는 SVG 없이 CSS만으로 4개 슈트(♠♥♦♣) 디자인. 핵심 규칙: A는 1 또는 11(버스트 시 자동으로 1), J·Q·K는 10, 21 초과 시 버스트. 딜러는 17 이상에서 stand. 블랙잭(첫 2장 21)은 1.5배 배당, 일반 승리는 2배, 무승부는 베팅금 반환. 더블다운은 첫 2장에서만 가능(베팅 2배 + 카드 1장 추가). 칩은 localStorage에 저장되어 새로고침 후에도 유지되고, 0원이 되면 1,000원 보너스 옵션이 제공됩니다.',
   },
   {
+    id: 'game-10',
+    title: '당구 (8-Ball Pool)',
+    description:
+      'Canvas 2D 물리 시뮬레이션. 큐볼 + 15개 색공 + 6개 포켓 + 2인 교대 + 마우스/터치 조준.',
+    platform: 'game',
+    category: 'game',
+    tags: ['당구', '물리', '캔버스', '2인'],
+    stack: ['HTML', 'CSS', 'JavaScript', 'Canvas'],
+    difficulty: 'advanced',
+    files: ['index.html', 'style.css', 'script.js'],
+    guide:
+      '포켓볼(8-Ball) 게임을 Canvas 2D + 직접 작성한 물리 엔진으로 구현했습니다. 핵심 알고리즘: (1) 공-공 탄성 충돌은 동일 질량 가정으로 충돌축 방향 속도 성분만 교환 + 겹침 해소, (2) 마찰 계수 0.985로 매 프레임 속도 감쇠, (3) 벽 충돌은 반사 + 90% 감쇠. 큐볼을 잡고 드래그한 거리만큼 파워가 정해지고, 놓으면 반대 방향으로 발사됩니다. 가이드 라인과 큐 스틱이 마우스 위치에 따라 실시간으로 회전합니다. 모바일 터치도 지원.',
+  },
+  {
     id: 'supabase-auth-01',
     title: 'Supabase OAuth 로그인 (Google + Kakao)',
     description:
