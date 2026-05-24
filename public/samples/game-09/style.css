@@ -1,0 +1,163 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --felt: #0c5132;
+  --felt-2: #084021;
+  --gold: #ffd24a;
+  --ink: #fff;
+  --muted: #a4b3aa;
+  --red: #d63333;
+  --black: #1a1a1a;
+  --card-bg: #fff;
+}
+html, body { font-family: 'Pretendard', system-ui, sans-serif; min-height: 100vh; background: radial-gradient(ellipse at center, var(--felt) 0%, var(--felt-2) 80%); color: var(--ink); }
+button { font-family: inherit; }
+
+.stage { max-width: 760px; margin: 0 auto; padding: 24px 16px; }
+
+.top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px; gap: 20px; flex-wrap: wrap; }
+.top h1 { font-size: 26px; letter-spacing: 6px; color: var(--gold); text-shadow: 0 2px 4px rgba(0,0,0,.3); }
+
+.chips-bar { display: flex; gap: 12px; }
+.chip-stack { display: flex; align-items: center; gap: 10px; background: rgba(0,0,0,.25); padding: 10px 16px; border-radius: 99px; }
+.chip-ic { font-size: 22px; }
+.chip-stack span { display: block; font-size: 10px; color: var(--muted); letter-spacing: 1px; }
+.chip-stack b { font-size: 17px; color: var(--gold); font-feature-settings: 'tnum'; }
+
+.table {
+  background: linear-gradient(180deg, var(--felt), var(--felt-2));
+  border: 2px solid rgba(255,210,74,.3);
+  border-radius: 18px;
+  padding: 28px 24px;
+  box-shadow: 0 20px 50px rgba(0,0,0,.4), inset 0 0 60px rgba(0,0,0,.2);
+  margin-bottom: 22px;
+  position: relative;
+  min-height: 380px;
+  display: flex; flex-direction: column;
+  justify-content: space-between;
+}
+
+.hand { padding: 8px 0; }
+.hand header { margin-bottom: 14px; }
+.hand h2 { font-size: 13px; letter-spacing: 2px; opacity: .85; }
+.hand h2 span { display: inline-block; margin-left: 10px; color: var(--gold); font-weight: 700; font-feature-settings: 'tnum'; padding: 2px 10px; background: rgba(0,0,0,.3); border-radius: 99px; font-size: 12px; }
+
+.cards { display: flex; min-height: 110px; align-items: center; gap: -50px; padding-left: 0; }
+.cards.dealing .card { animation: deal .35s; }
+@keyframes deal {
+  from { transform: translateY(-80px) rotate(-12deg); opacity: 0; }
+  to { transform: translateY(0) rotate(0); opacity: 1; }
+}
+
+.card {
+  width: 74px; height: 104px;
+  background: var(--card-bg);
+  border-radius: 8px;
+  margin-right: -34px;
+  position: relative;
+  display: flex; flex-direction: column;
+  padding: 6px 8px;
+  color: var(--black);
+  box-shadow: 0 4px 10px rgba(0,0,0,.3);
+  transition: transform .2s;
+  flex-shrink: 0;
+}
+.card:last-child { margin-right: 0; }
+.card.hover:hover { transform: translateY(-6px); }
+.card.red { color: var(--red); }
+.card.back {
+  background: linear-gradient(135deg, #2a4789, #163057);
+  color: var(--gold);
+}
+.card.back::before {
+  content: '♠'; position: absolute; inset: 0;
+  display: grid; place-items: center;
+  font-size: 38px;
+}
+
+.card .rank { font-size: 17px; font-weight: 800; line-height: 1; letter-spacing: -1px; }
+.card .suit { font-size: 14px; line-height: 1; }
+.card .big-suit {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 38px;
+  opacity: .85;
+}
+.card .corner-br {
+  position: absolute; right: 8px; bottom: 6px;
+  transform: rotate(180deg);
+  display: flex; flex-direction: column;
+}
+.card .corner-br .rank { font-size: 17px; }
+
+.result {
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0,0,0,.75);
+  padding: 18px 28px;
+  border-radius: 14px;
+  border: 2px solid var(--gold);
+  text-align: center;
+  z-index: 5;
+  animation: pop .4s;
+}
+@keyframes pop { 0% { transform: translate(-50%, -50%) scale(.6); opacity: 0; } 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; } }
+.result h2 { font-size: 22px; letter-spacing: 4px; color: var(--gold); }
+.result p { color: var(--ink); font-size: 14px; margin-top: 4px; font-feature-settings: 'tnum'; }
+.result.win h2 { color: #5eea84; }
+.result.lose h2 { color: #ff6e7a; }
+.result.push h2 { color: var(--gold); }
+
+.controls { background: rgba(0,0,0,.2); border-radius: 14px; padding: 22px; min-height: 180px; }
+
+.bet-area h3 { font-size: 12px; letter-spacing: 2px; color: var(--muted); margin-bottom: 8px; text-align: center; }
+.bet-display { text-align: center; margin-bottom: 18px; }
+.bet-display .cur { color: var(--muted); margin-right: 4px; font-size: 16px; }
+.bet-display b { font-size: 38px; color: var(--gold); font-feature-settings: 'tnum'; letter-spacing: -1px; }
+
+.bet-chips { display: flex; gap: 12px; justify-content: center; margin-bottom: 16px; flex-wrap: wrap; }
+.bc {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  border: 4px dashed rgba(255,255,255,.5);
+  color: #fff; font-weight: 800; font-size: 13px;
+  cursor: pointer;
+  transition: transform .15s;
+}
+.bc:active { transform: scale(.92); }
+.bc-10  { background: linear-gradient(135deg, #6b8eaa, #2a4f6a); }
+.bc-50  { background: linear-gradient(135deg, #b5704a, #6a3a1a); }
+.bc-100 { background: linear-gradient(135deg, #3a3a4a, #1a1a2a); }
+.bc-500 { background: linear-gradient(135deg, #b53a3a, #6a1a1a); }
+
+.bet-actions { display: flex; gap: 10px; justify-content: center; }
+.bet-actions button { padding: 10px 22px; border-radius: 99px; border: 0; cursor: pointer; font-size: 13px; font-weight: 700; }
+.ghost { background: transparent; color: var(--ink); border: 1px solid rgba(255,255,255,.3) !important; }
+.primary { background: var(--gold); color: #1a1a1a; }
+.primary:hover { filter: brightness(1.05); }
+
+.game-area { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.action {
+  padding: 12px 22px;
+  background: rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.3);
+  color: var(--ink);
+  border-radius: 99px;
+  cursor: pointer;
+  font-size: 13px; font-weight: 700;
+  transition: background .15s;
+}
+.action:hover { background: rgba(255,255,255,.2); }
+.action:disabled { opacity: .4; cursor: not-allowed; }
+.action.primary { background: var(--gold); color: #1a1a1a; border-color: var(--gold); }
+
+.rule { text-align: center; color: var(--muted); font-size: 12px; margin-top: 16px; }
+
+@media (max-width: 540px) {
+  .top h1 { font-size: 20px; letter-spacing: 3px; }
+  .card { width: 60px; height: 84px; padding: 4px 6px; }
+  .card .rank { font-size: 14px; }
+  .card .big-suit { font-size: 28px; }
+  .bc { width: 48px; height: 48px; font-size: 11px; border-width: 3px; }
+}
