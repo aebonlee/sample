@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>삼국시대 학습 — 한국사 마스터</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .layout {
+      max-width: 1200px; margin: 0 auto; padding: 24px 24px 80px;
+      display: grid; grid-template-columns: 220px 1fr; gap: 22px;
+    }
+    .side { position: sticky; top: 86px; align-self: start; }
+    .side h4 { margin: 0 0 10px; font-size: .8rem; color: var(--text-mute); text-transform: uppercase; letter-spacing: .06em; }
+    .side ol { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 2px; counter-reset: era; }
+    .side li {
+      counter-increment: era;
+      padding: 10px 12px; border-radius: 8px; cursor: pointer;
+      color: var(--text-dim); font-size: .88rem;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .side li::before { content: counter(era, decimal-leading-zero); font-family: ui-monospace, monospace; font-size: .75rem; color: var(--text-mute); }
+    .side li:hover { background: var(--surface); color: var(--text); }
+    .side li.on { background: var(--accent); color: #fff; }
+    .side li.on::before { color: rgba(255,255,255,.8); }
+    .side li.done::after { content: '✓'; margin-left: auto; color: var(--ok); }
+
+    .main { min-width: 0; }
+
+    .hero {
+      background: linear-gradient(135deg, var(--accent), var(--gold));
+      color: #fff; padding: 28px;
+      border-radius: 14px; margin-bottom: 18px;
+    }
+    .hero__cat { font-size: .85rem; opacity: .85; margin-bottom: 4px; }
+    .hero h1 { margin: 0 0 8px; font-size: 1.8rem; letter-spacing: -.01em; }
+    .hero p { margin: 0; opacity: .92; max-width: 600px; }
+
+    .level {
+      display: inline-flex; padding: 4px; background: var(--surface);
+      border: 1px solid var(--border); border-radius: 10px;
+      margin-bottom: 18px;
+    }
+    .level button {
+      padding: 7px 14px; border: 0; background: transparent;
+      border-radius: 8px; cursor: pointer; font-family: inherit;
+      color: var(--text-dim); font-size: .85rem; font-weight: 600;
+    }
+    .level button.on { background: var(--accent); color: #fff; }
+
+    .section { margin-bottom: 22px; padding: 22px; }
+    .section h2 { margin: 0 0 12px; font-size: 1.15rem; color: var(--accent); border-bottom: 2px solid var(--border); padding-bottom: 8px; }
+    .section p { margin: 0 0 12px; font-size: .95rem; line-height: 1.9; }
+
+    /* 연표 */
+    .timeline-mini { position: relative; padding: 14px 0; }
+    .timeline-mini::before {
+      content: ''; position: absolute; left: 0; right: 0; top: 50%;
+      height: 3px; background: linear-gradient(90deg, var(--accent), var(--gold));
+      border-radius: 2px;
+    }
+    .timeline-mini ul {
+      list-style: none; padding: 0; margin: 0;
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px;
+      position: relative;
+    }
+    .timeline-mini li {
+      text-align: center; padding-top: 30px;
+      position: relative;
+    }
+    .timeline-mini li::before {
+      content: ''; position: absolute; top: 14px; left: 50%; transform: translateX(-50%);
+      width: 16px; height: 16px; border-radius: 50%;
+      background: #fff; border: 3px solid var(--accent);
+    }
+    .timeline-mini strong { display: block; font-size: .85rem; font-weight: 700; }
+    .timeline-mini span { color: var(--text-mute); font-size: .75rem; }
+
+    /* 인물 */
+    .figures { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
+    .figure {
+      padding: 14px; background: var(--bg); border-radius: 10px;
+      text-align: center;
+    }
+    .figure__ico {
+      width: 56px; height: 56px; border-radius: 50%; margin: 0 auto 8px;
+      background: linear-gradient(135deg, var(--accent), var(--gold));
+      color: #fff; display: grid; place-items: center; font-size: 1.6rem;
+    }
+    .figure h4 { margin: 0 0 2px; font-size: .92rem; }
+    .figure p { margin: 0; color: var(--text-dim); font-size: .76rem; }
+
+    .actions { display: flex; gap: 10px; margin-top: 22px; }
+
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 1fr; }
+      .side { position: static; }
+      .side ol { flex-direction: row; overflow-x: auto; }
+      .side li { white-space: nowrap; }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="brand">📜 한국사 마스터</div>
+    <nav class="nav-links">
+      <a href="home.html">타임라인</a>
+      <a href="study.html" class="on">학습</a>
+      <a href="quiz.html">문제 풀기</a>
+      <a href="note.html">오답 노트</a>
+      <a href="report.html">성적표</a>
+      <a href="mock.html">모의고사</a>
+    </nav>
+    <div class="me">JL</div>
+  </header>
+
+  <div class="layout">
+    <aside class="side">
+      <h4>시대별 학습</h4>
+      <ol>
+        <li class="done">고조선·부여·삼한</li>
+        <li class="on">삼국시대</li>
+        <li>통일신라·발해</li>
+        <li>고려</li>
+        <li>조선 전기</li>
+        <li>조선 후기</li>
+        <li>근대 개항기</li>
+        <li>일제 강점기</li>
+        <li>광복과 정부수립</li>
+        <li>현대</li>
+      </ol>
+    </aside>
+
+    <div class="main">
+      <p class="crumb"><a href="home.html">타임라인</a> › 삼국시대</p>
+
+      <header class="hero">
+        <p class="hero__cat">BC 57 ~ 668 · 약 700년</p>
+        <h1>삼국시대</h1>
+        <p>고구려·백제·신라가 한반도와 만주를 무대로 경쟁하며 우리 민족의 정치·문화적 기틀을 다진 시기.</p>
+      </header>
+
+      <div class="level">
+        <button>🧒 기본</button>
+        <button class="on">👦 심화</button>
+        <button>👴 고급 (한능검 1급)</button>
+      </div>
+
+      <section class="card section">
+        <h2>🌟 시대 개관</h2>
+        <p>
+          삼국시대는 BC 57년 신라의 건국으로부터 668년 고구려 멸망까지 약 700년에 걸친 시기로,
+          고구려·백제·신라 세 나라가 한반도를 분점하며 경쟁한 시기다.
+          각국은 율령 반포, 불교 수용, 한자 도입 등 동아시아 보편 문화를 받아들이면서도 독자적인 정치 체제와 문화를 발전시켰다.
+        </p>
+        <p>
+          광개토대왕(고구려), 근초고왕(백제), 진흥왕(신라)의 시대는 각 나라가 전성기를 맞이한 때로,
+          영토 확장과 한강 유역 쟁탈전이 이 시기의 핵심 사건이다.
+        </p>
+      </section>
+
+      <section class="card section">
+        <h2>⏰ 핵심 연표</h2>
+        <div class="timeline-mini">
+          <ul>
+            <li><strong>BC 57</strong><span>신라 건국</span></li>
+            <li><strong>313</strong><span>낙랑군 축출</span></li>
+            <li><strong>427</strong><span>고구려 평양 천도</span></li>
+            <li><strong>553</strong><span>한강 유역 쟁탈</span></li>
+            <li><strong>668</strong><span>고구려 멸망</span></li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="card section">
+        <h2>👑 알아두어야 할 인물</h2>
+        <div class="figures">
+          <article class="figure">
+            <div class="figure__ico">⚔️</div>
+            <h4>광개토대왕</h4>
+            <p>고구려 · 영토 최대</p>
+          </article>
+          <article class="figure">
+            <div class="figure__ico">📜</div>
+            <h4>근초고왕</h4>
+            <p>백제 · 전성기</p>
+          </article>
+          <article class="figure">
+            <div class="figure__ico">🗡</div>
+            <h4>진흥왕</h4>
+            <p>신라 · 한강 차지</p>
+          </article>
+          <article class="figure">
+            <div class="figure__ico">🛕</div>
+            <h4>이차돈</h4>
+            <p>신라 불교 공인</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="card section">
+        <h2>📚 시험 출제 포인트</h2>
+        <p><strong>1) 광개토대왕릉비 비문</strong> — 4면에 한문 1,775자가 새겨진 비석. 고구려의 정복 활동을 기록한 1차 사료.</p>
+        <p><strong>2) 칠지도</strong> — 백제 근초고왕이 일본에 하사한 것으로 추정되는 철제 검. 백제-왜 관계를 보여주는 유물.</p>
+        <p><strong>3) 진흥왕 순수비</strong> — 진흥왕이 새로 정복한 지역을 돌아보며 세운 비. 북한산비·창녕비·황초령비·마운령비가 대표.</p>
+      </section>
+
+      <div class="actions">
+        <a href="quiz.html" class="btn btn--primary">🎯 이 시대 문제 풀기</a>
+        <a href="home.html" class="btn btn--ghost">← 다른 시대</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

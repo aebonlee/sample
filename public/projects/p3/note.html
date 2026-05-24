@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>오답 노트 — 한국사 마스터</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .page-head { max-width: 1100px; margin: 0 auto; padding: 24px 24px 12px; }
+    .page-head h1 { margin: 0 0 6px; font-size: 1.5rem; }
+    .page-head p { color: var(--text-dim); margin: 0; }
+
+    .summary {
+      max-width: 1100px; margin: 14px auto; padding: 0 24px;
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+    }
+    .sum {
+      padding: 14px 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    }
+    .sum span { color: var(--text-mute); font-size: .78rem; display: block; margin-bottom: 2px; }
+    .sum strong { font-size: 1.4rem; }
+    .sum strong em { font-style: normal; font-size: .82rem; color: var(--text-mute); margin-left: 4px; }
+
+    .filters {
+      max-width: 1100px; margin: 16px auto; padding: 0 24px;
+      display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+    }
+    .chip {
+      padding: 7px 14px; border-radius: 999px;
+      background: var(--surface); border: 1px solid var(--border);
+      cursor: pointer; font-size: .82rem; font-family: inherit;
+    }
+    .chip.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .sort {
+      margin-left: auto;
+      padding: 8px 12px; border: 1px solid var(--border); background: var(--surface);
+      border-radius: 8px; font-family: inherit; cursor: pointer; outline: none; font-size: .85rem;
+    }
+
+    .list {
+      max-width: 1100px; margin: 0 auto; padding: 14px 24px 80px;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+
+    .note {
+      padding: 20px 22px; position: relative;
+    }
+    .note__head {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 10px; flex-wrap: wrap; gap: 8px;
+    }
+    .note__tags { display: flex; gap: 6px; flex-wrap: wrap; }
+    .note__tag {
+      padding: 2px 9px; border-radius: 999px;
+      font-size: .7rem; font-weight: 700;
+    }
+    .note__tag--era { background: rgba(202,138,4,.15); color: var(--accent); }
+    .note__tag--type { background: rgba(124,58,237,.15); color: #7c3aed; }
+    .note__tag--cnt { background: rgba(220,38,38,.12); color: var(--danger); }
+    .note__date { color: var(--text-mute); font-size: .78rem; }
+
+    .note__q { margin: 0 0 12px; font-size: .95rem; font-weight: 600; line-height: 1.55; }
+
+    .answers {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+      margin-bottom: 12px;
+    }
+    .answer {
+      padding: 10px 14px; border-radius: 10px; font-size: .88rem;
+    }
+    .answer--my {
+      background: rgba(220,38,38,.06); border: 1px solid rgba(220,38,38,.2);
+    }
+    .answer--correct {
+      background: rgba(22,163,74,.06); border: 1px solid rgba(22,163,74,.2);
+    }
+    .answer label { color: var(--text-mute); font-size: .72rem; font-weight: 700; display: block; margin-bottom: 4px; text-transform: uppercase; letter-spacing: .04em; }
+    .answer--my label { color: var(--danger); }
+    .answer--correct label { color: var(--ok); }
+
+    .note__exp {
+      background: var(--bg); padding: 12px 14px; border-radius: 10px;
+      font-size: .88rem; line-height: 1.7; color: var(--text-dim);
+    }
+    .note__exp strong { color: var(--accent); }
+
+    .note__actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 14px; }
+    .mini-btn {
+      padding: 6px 12px; border-radius: 8px; font-size: .82rem;
+      background: var(--bg); border: 1px solid var(--border);
+      cursor: pointer; font-family: inherit; color: var(--text-dim);
+    }
+    .mini-btn:hover { color: var(--text); border-color: var(--accent); }
+
+    @media (max-width: 720px) {
+      .summary { grid-template-columns: 1fr; }
+      .answers { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="brand">📜 한국사 마스터</div>
+    <nav class="nav-links">
+      <a href="home.html">타임라인</a>
+      <a href="study.html">학습</a>
+      <a href="quiz.html">문제 풀기</a>
+      <a href="note.html" class="on">오답 노트</a>
+      <a href="report.html">성적표</a>
+      <a href="mock.html">모의고사</a>
+    </nav>
+    <div class="me">JL</div>
+  </header>
+
+  <div class="page-head">
+    <h1>📕 오답 노트</h1>
+    <p>틀린 문제는 정답률 80%가 될 때까지 자동으로 복습 큐에 들어갑니다.</p>
+  </div>
+
+  <div class="summary">
+    <div class="sum"><span>전체 오답</span><strong>32<em>문제</em></strong></div>
+    <div class="sum"><span>가장 약한 시대</span><strong>고려 후기</strong></div>
+    <div class="sum"><span>이번 주 복습</span><strong>14<em>회</em></strong></div>
+  </div>
+
+  <div class="filters">
+    <span class="chip on">전체</span>
+    <span class="chip">고조선·삼국</span>
+    <span class="chip">고려</span>
+    <span class="chip">조선</span>
+    <span class="chip">근현대</span>
+    <span class="chip">🔴 2회+ 오답</span>
+    <select class="sort">
+      <option>최근 오답순</option><option>오답 빈도순</option><option>시대순</option>
+    </select>
+  </div>
+
+  <main class="list">
+    <article class="note card">
+      <div class="note__head">
+        <div class="note__tags">
+          <span class="note__tag note__tag--era">통일신라</span>
+          <span class="note__tag note__tag--type">사료 분석</span>
+          <span class="note__tag note__tag--cnt">3회 오답</span>
+        </div>
+        <span class="note__date">2026.05.22</span>
+      </div>
+      <p class="note__q">"관리에게는 일정한 토지를 주되, 죽으면 나라에 다시 돌려주게 했다…"는 사료에서 설명하는 제도는?</p>
+      <div class="answers">
+        <div class="answer answer--my">
+          <label>내 답</label>① 녹읍
+        </div>
+        <div class="answer answer--correct">
+          <label>정답</label>② 관료전
+        </div>
+      </div>
+      <div class="note__exp">
+        💡 <strong>핵심 단서</strong>: "토지 자체를 자손에게 물려줄 수는 없었다". 신문왕이 687년 왕권 강화를 위해 녹읍을 폐지하고 관료전을 지급한 것이 정답.
+      </div>
+      <div class="note__actions">
+        <button class="mini-btn">🔁 다시 풀기</button>
+        <button class="mini-btn">📌 즐겨찾기</button>
+        <button class="mini-btn">📚 관련 학습</button>
+      </div>
+    </article>
+
+    <article class="note card">
+      <div class="note__head">
+        <div class="note__tags">
+          <span class="note__tag note__tag--era">고려</span>
+          <span class="note__tag note__tag--type">객관식</span>
+          <span class="note__tag note__tag--cnt">2회 오답</span>
+        </div>
+        <span class="note__date">2026.05.20</span>
+      </div>
+      <p class="note__q">고려 시대 무신정변(1170) 이후 등장한 최고 권력 기구로 옳은 것은?</p>
+      <div class="answers">
+        <div class="answer answer--my">
+          <label>내 답</label>③ 도방
+        </div>
+        <div class="answer answer--correct">
+          <label>정답</label>② 중방
+        </div>
+      </div>
+      <div class="note__exp">
+        💡 무신정변 직후 정중부 정권에서 <strong>중방</strong>이 최고 권력 기구가 됐고, 경대승이 신변 보호를 위해 만든 사병 집단이 <strong>도방</strong>입니다. 시기와 성격을 구분하세요.
+      </div>
+      <div class="note__actions">
+        <button class="mini-btn">🔁 다시 풀기</button>
+        <button class="mini-btn">📌 즐겨찾기</button>
+        <button class="mini-btn">📚 관련 학습</button>
+      </div>
+    </article>
+
+    <article class="note card">
+      <div class="note__head">
+        <div class="note__tags">
+          <span class="note__tag note__tag--era">조선 후기</span>
+          <span class="note__tag note__tag--type">지도</span>
+        </div>
+        <span class="note__date">2026.05.18</span>
+      </div>
+      <p class="note__q">정약용이 강진에서 유배 생활을 하며 저술한 책으로 옳은 것은?</p>
+      <div class="answers">
+        <div class="answer answer--my">
+          <label>내 답</label>④ 발해고
+        </div>
+        <div class="answer answer--correct">
+          <label>정답</label>① 목민심서
+        </div>
+      </div>
+      <div class="note__exp">
+        💡 정약용 3대 저서: <strong>목민심서</strong>(지방 행정), <strong>흠흠신서</strong>(형법), <strong>경세유표</strong>(국가 개혁안). 발해고는 유득공의 저서입니다.
+      </div>
+      <div class="note__actions">
+        <button class="mini-btn">🔁 다시 풀기</button>
+        <button class="mini-btn">📌 즐겨찾기</button>
+        <button class="mini-btn">📚 관련 학습</button>
+      </div>
+    </article>
+
+    <article class="note card">
+      <div class="note__head">
+        <div class="note__tags">
+          <span class="note__tag note__tag--era">일제 강점기</span>
+          <span class="note__tag note__tag--type">이미지</span>
+          <span class="note__tag note__tag--cnt">2회 오답</span>
+        </div>
+        <span class="note__date">2026.05.15</span>
+      </div>
+      <p class="note__q">1929년 광주에서 시작되어 전국으로 확산된 민족 운동은?</p>
+      <div class="answers">
+        <div class="answer answer--my">
+          <label>내 답</label>① 6·10 만세 운동
+        </div>
+        <div class="answer answer--correct">
+          <label>정답</label>② 광주 학생 항일 운동
+        </div>
+      </div>
+      <div class="note__exp">
+        💡 헷갈리기 쉬운 학생 항일 운동 3가지: <strong>1926 6·10 만세 운동</strong>(순종 인산일), <strong>1929 광주 학생 항일 운동</strong>(통학 열차 사건), <strong>1919 2·8 독립 선언</strong>(도쿄 유학생).
+      </div>
+      <div class="note__actions">
+        <button class="mini-btn">🔁 다시 풀기</button>
+        <button class="mini-btn">📌 즐겨찾기</button>
+        <button class="mini-btn">📚 관련 학습</button>
+      </div>
+    </article>
+  </main>
+</body>
+</html>

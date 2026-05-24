@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>한능검 모의고사 — 한국사 마스터</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body { background: #f8f5e4; }
+
+    .exam-bar {
+      background: var(--text); color: #fff;
+      padding: 10px 24px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      position: sticky; top: 0; z-index: 50;
+    }
+    .exam-bar__title { font-weight: 700; font-size: .95rem; }
+    .exam-bar__timer {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--danger); padding: 6px 14px; border-radius: 8px;
+      font-weight: 700; font-family: ui-monospace, monospace;
+    }
+    .exam-bar__timer.warn { background: var(--warn); }
+    .exam-bar__btns { display: flex; gap: 6px; }
+    .exam-bar__btn {
+      padding: 6px 12px; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2);
+      color: #fff; border-radius: 8px; font-family: inherit; font-size: .82rem; cursor: pointer;
+    }
+    .exam-bar__btn--primary {
+      background: var(--accent); border-color: var(--accent);
+    }
+
+    .layout {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 240px; gap: 18px;
+      padding: 20px 24px 80px;
+    }
+
+    .paper {
+      background: #fefdf6; border: 1px solid #d6c9b0;
+      border-radius: 8px; padding: 32px 36px;
+      box-shadow: 0 6px 20px rgba(0,0,0,.04);
+      font-family: 'Noto Serif KR', 'Pretendard', serif;
+    }
+
+    .paper__header {
+      text-align: center; border-bottom: 2px solid var(--text);
+      padding-bottom: 14px; margin-bottom: 20px;
+    }
+    .paper__header h1 { margin: 0; font-size: 1.3rem; letter-spacing: 4px; }
+    .paper__header p { margin: 4px 0 0; color: var(--text-dim); font-size: .85rem; }
+
+    .q {
+      margin-bottom: 30px;
+      padding-bottom: 24px;
+      border-bottom: 1px dashed var(--border);
+    }
+    .q__num {
+      display: inline-block;
+      background: var(--text); color: #fff;
+      width: 28px; height: 28px; border-radius: 50%;
+      text-align: center; line-height: 28px; font-weight: 700; font-size: .85rem;
+      margin-right: 8px;
+    }
+    .q__title {
+      display: inline; font-size: 1rem; font-weight: 500; line-height: 1.8;
+    }
+    .q__src {
+      margin: 12px 0; padding: 14px 18px;
+      background: rgba(202,138,4,.06); border-left: 3px solid var(--accent);
+      font-size: .92rem; line-height: 1.8;
+    }
+    .q__src small { display: block; color: var(--text-mute); margin-top: 6px; font-size: .75rem; }
+    .q__opts { margin-top: 14px; padding: 0; list-style: none; }
+    .q__opts li {
+      padding: 7px 0 7px 30px; position: relative;
+      font-size: .92rem; line-height: 1.6; cursor: pointer;
+    }
+    .q__opts li::before {
+      content: ''; position: absolute; left: 0; top: 9px;
+      width: 18px; height: 18px; border-radius: 50%;
+      border: 2px solid var(--text-mute);
+    }
+    .q__opts li:hover::before { border-color: var(--accent); }
+    .q__opts li.on::before {
+      border-color: var(--accent); background: var(--accent);
+      box-shadow: inset 0 0 0 3px #fff;
+    }
+    .q__opts li .num { font-weight: 700; margin-right: 8px; color: var(--text-dim); }
+
+    /* OMR */
+    .omr {
+      position: sticky; top: 72px; align-self: start;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 16px;
+      max-height: calc(100vh - 96px); overflow-y: auto;
+    }
+    .omr h3 { margin: 0 0 4px; font-size: .9rem; }
+    .omr__sub { margin: 0 0 12px; color: var(--text-mute); font-size: .78rem; }
+    .omr__grid {
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px;
+    }
+    .omr__cell {
+      aspect-ratio: 1; border: 1px solid var(--border); border-radius: 6px;
+      background: var(--bg); display: grid; place-items: center;
+      font-size: .72rem; cursor: pointer; font-family: ui-monospace, monospace;
+      color: var(--text-mute); position: relative;
+    }
+    .omr__cell.done { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .omr__cell.now { box-shadow: 0 0 0 2px var(--warn); }
+    .omr__cell.marked::after {
+      content: '!'; position: absolute; top: -2px; right: -2px;
+      width: 12px; height: 12px; background: var(--warn); color: #fff;
+      border-radius: 50%; font-size: .55rem; display: grid; place-items: center;
+    }
+
+    .omr__progress {
+      margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border);
+      font-size: .82rem;
+    }
+    .omr__progress strong { color: var(--accent); font-size: 1.2rem; }
+
+    .omr__submit {
+      width: 100%; margin-top: 12px;
+      padding: 10px; border: 0; border-radius: 8px;
+      background: var(--accent); color: #fff;
+      font-family: inherit; font-weight: 700; cursor: pointer;
+    }
+
+    @media (max-width: 920px) {
+      .layout { grid-template-columns: 1fr; }
+      .omr { position: static; max-height: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="exam-bar">
+    <span class="exam-bar__title">📝 한국사능력검정 기본 모의고사</span>
+    <div class="exam-bar__timer warn" id="timer">⏱ 32:18</div>
+    <div class="exam-bar__btns">
+      <button class="exam-bar__btn">⏸ 일시정지</button>
+      <button class="exam-bar__btn exam-bar__btn--primary">제출</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <div class="paper">
+      <div class="paper__header">
+        <h1>한 국 사 능 력 검 정 시 험</h1>
+        <p>기본 (4·5·6급) · 50문항 · 70분 · 100점 만점</p>
+      </div>
+
+      <div class="q">
+        <span class="q__num">1</span>
+        <p class="q__title">다음 자료에 해당하는 시대의 사회 모습으로 옳은 것은?</p>
+        <div class="q__src">
+          “이 시기 사람들은 강가나 해안가에 모여 살며 빗살무늬 토기를 사용했다. 또한 가락바퀴와 뼈바늘을 만들어 옷을 지어 입었으며, 농경이 시작되어 조와 피를 재배하기도 했다.”
+          <small>— 학교 교과서</small>
+        </div>
+        <ul class="q__opts">
+          <li><span class="num">①</span>주먹도끼와 슴베찌르개를 만들어 사용하였다.</li>
+          <li class="on"><span class="num">②</span>가락바퀴와 뼈바늘로 옷을 지어 입었다.</li>
+          <li><span class="num">③</span>비파형 동검을 만들어 청동기 문화를 발전시켰다.</li>
+          <li><span class="num">④</span>거푸집을 사용해 세형 동검을 만들었다.</li>
+          <li><span class="num">⑤</span>철제 농기구를 사용해 농업 생산력이 높아졌다.</li>
+        </ul>
+      </div>
+
+      <div class="q">
+        <span class="q__num">2</span>
+        <p class="q__title">다음 (가) 국가에 대한 설명으로 옳은 것을 모두 고른 것은?</p>
+        <div class="q__src">
+          (가)는 한반도 남쪽 변한 지역에 자리잡은 6개의 작은 나라들의 연맹체였다. 풍부한 철 자원을 바탕으로 일본 및 한반도 여러 나라와 활발히 교역했다.
+        </div>
+        <ul class="q__opts">
+          <li><span class="num">①</span>왕 아래 마가·우가·저가·구가 등의 가(加)가 있었다.</li>
+          <li><span class="num">②</span>골품제라는 엄격한 신분 제도를 운영했다.</li>
+          <li class="on"><span class="num">③</span>덩이쇠를 화폐처럼 사용하였다.</li>
+          <li><span class="num">④</span>읍락의 경계를 침범하면 책화로 노비나 가축을 변상했다.</li>
+          <li><span class="num">⑤</span>10월에 동맹이라는 제천 행사를 거행하였다.</li>
+        </ul>
+      </div>
+
+      <div class="q">
+        <span class="q__num">3</span>
+        <p class="q__title">밑줄 친 ‘이 왕’의 업적으로 옳은 것은?</p>
+        <div class="q__src">
+          <strong>이 왕</strong>이 시조이신 동명성왕의 묘에 절을 올리고 돌아왔다. 또 비류수 유역의 송양국을 정복하였다. 영토를 사방으로 넓혀 후세에 ‘영락대왕’이라 불렸다.
+        </div>
+        <ul class="q__opts">
+          <li><span class="num">①</span>율령을 반포하여 통치 체제를 정비하였다.</li>
+          <li class="on"><span class="num">②</span>광개토대왕의 업적이다. 만주 일대를 장악하고 후연을 격파하였다.</li>
+          <li><span class="num">③</span>한강 유역을 차지하고 단양 적성비를 세웠다.</li>
+          <li><span class="num">④</span>대가야를 정복하여 가야 연맹을 해체하였다.</li>
+          <li><span class="num">⑤</span>관산성 전투에서 백제 성왕을 전사시켰다.</li>
+        </ul>
+      </div>
+
+      <p style="text-align: center; color: var(--text-mute); padding: 24px; border: 1px dashed var(--border); border-radius: 10px;">
+        ⋯ 4~50번 문제는 OMR에서 이동 가능 ⋯
+      </p>
+    </div>
+
+    <aside class="omr">
+      <h3>📋 OMR 답안 카드</h3>
+      <p class="omr__sub">클릭으로 문항 이동 · ! 표시는 다시 보기</p>
+      <div class="omr__grid" id="omr"></div>
+      <div class="omr__progress">
+        풀이 진행률<br/>
+        <strong>32</strong> / 50 문항 (64%)
+      </div>
+      <button class="omr__submit">제출하기</button>
+    </aside>
+  </main>
+
+  <script>
+    // 50개 셀 생성, 진행 상태 가짜로 표시
+    const $omr = document.getElementById('omr');
+    const done = new Set([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32]);
+    const marked = new Set([8, 17, 23]);
+    let html = '';
+    for (let i = 1; i <= 50; i++) {
+      const cls = ['omr__cell'];
+      if (done.has(i)) cls.push('done');
+      if (marked.has(i)) cls.push('marked');
+      if (i === 33) cls.push('now');
+      html += `<div class="${cls.join(' ')}">${i}</div>`;
+    }
+    $omr.innerHTML = html;
+
+    // 타이머 카운트다운
+    let sec = 32 * 60 + 18;
+    setInterval(() => {
+      sec = Math.max(0, sec - 1);
+      const m = Math.floor(sec / 60), s = sec % 60;
+      document.getElementById('timer').innerHTML = `⏱ ${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    }, 1000);
+  </script>
+</body>
+</html>

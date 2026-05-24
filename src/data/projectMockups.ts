@@ -41,12 +41,12 @@ export const PROJECT_MOCKUPS: ProjectMockup[] = [
     projectId: 3,
     baseDir: '/projects/p3',
     pages: [
-      { id: 'home', title: '시대 타임라인', desc: '10대 시대 + 진도 + 통계', status: 'done' },
-      { id: 'study',   title: '시대별 학습', status: 'planned' },
-      { id: 'quiz',    title: '문제 풀기',   status: 'planned' },
-      { id: 'note',    title: '오답 노트',   status: 'planned' },
-      { id: 'report',  title: '성적표 & 취약점', status: 'planned' },
-      { id: 'mock',    title: '한능검 모의고사', status: 'planned' },
+      { id: 'home',   title: '시대 타임라인',     desc: '10대 시대 + 진도 + 통계',         status: 'done' },
+      { id: 'study',  title: '시대별 학습',       desc: '사이드바 + 수준 토글 + 연표/인물', status: 'done' },
+      { id: 'quiz',   title: '문제 풀기',         desc: '4유형 + 사료 분석 + 즉시 채점',    status: 'done' },
+      { id: 'note',   title: '오답 노트',         desc: '시대/유형 필터 + 횟수 + 해설',     status: 'done' },
+      { id: 'report', title: '성적표 & 취약점',   desc: '원형 게이지 + 시대별/유형별 분석', status: 'done' },
+      { id: 'mock',   title: '한능검 모의고사',   desc: '시험지 + OMR + 타이머',           status: 'done' },
     ],
   },
   {

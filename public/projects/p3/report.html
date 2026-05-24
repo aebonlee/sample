@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>성적표 & 취약점 — 한국사 마스터</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .page-head { max-width: 1100px; margin: 0 auto; padding: 24px 24px 12px; }
+    .page-head h1 { margin: 0 0 6px; font-size: 1.5rem; }
+    .page-head p { color: var(--text-dim); margin: 0; }
+
+    .hero-card {
+      max-width: 1100px; margin: 14px auto; padding: 0 24px;
+    }
+    .hero-card__inner {
+      display: grid; grid-template-columns: 240px 1fr; gap: 24px;
+      padding: 28px;
+      background: linear-gradient(135deg, var(--accent), var(--gold));
+      color: #fff; border-radius: 16px;
+    }
+    .circle {
+      width: 200px; height: 200px; border-radius: 50%;
+      background: conic-gradient(#fff 0% 78%, rgba(255,255,255,.2) 78% 100%);
+      display: grid; place-items: center; margin: auto;
+      position: relative;
+    }
+    .circle::before {
+      content: ''; position: absolute; width: 150px; height: 150px;
+      background: var(--accent); border-radius: 50%;
+    }
+    .circle__text { position: relative; text-align: center; }
+    .circle__pct { font-size: 2.6rem; font-weight: 800; line-height: 1; }
+    .circle__lab { display: block; font-size: .82rem; opacity: .9; margin-top: 4px; }
+
+    .hero-card__info h2 { margin: 0 0 8px; font-size: 1.4rem; }
+    .hero-card__info p { margin: 0 0 16px; opacity: .9; }
+    .hero-card__stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .hero-card__stat {
+      padding: 12px; background: rgba(255,255,255,.12); border-radius: 10px;
+    }
+    .hero-card__stat span { display: block; font-size: .72rem; opacity: .85; }
+    .hero-card__stat strong { font-size: 1.4rem; }
+
+    .layout {
+      max-width: 1100px; margin: 0 auto; padding: 14px 24px 80px;
+      display: grid; grid-template-columns: 1.4fr 1fr; gap: 18px;
+    }
+
+    .card h3 { margin: 0 0 16px; font-size: 1.05rem; }
+
+    /* 시대별 막대 */
+    .bars { display: flex; flex-direction: column; gap: 10px; }
+    .bar-row {
+      display: grid; grid-template-columns: 100px 1fr 50px; gap: 12px; align-items: center;
+      font-size: .85rem;
+    }
+    .bar-row__name { color: var(--text-dim); }
+    .bar-row__bar { height: 22px; background: var(--bg); border-radius: 4px; overflow: hidden; position: relative; }
+    .bar-row__fill {
+      height: 100%; background: linear-gradient(90deg, var(--accent), var(--gold));
+      border-radius: 4px;
+      display: flex; align-items: center; justify-content: flex-end;
+      padding-right: 8px; color: #fff; font-size: .72rem; font-weight: 700;
+    }
+    .bar-row__fill--low { background: linear-gradient(90deg, var(--danger), #f87171); }
+    .bar-row__fill--mid { background: linear-gradient(90deg, var(--warn), #fbbf24); }
+    .bar-row__pct { text-align: right; font-weight: 700; color: var(--text); }
+
+    /* 유형별 도넛 */
+    .types-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 18px; }
+    .donut {
+      text-align: center;
+    }
+    .donut__ring {
+      width: 90px; height: 90px; border-radius: 50%;
+      margin: 0 auto 6px;
+      display: grid; place-items: center;
+      background: conic-gradient(var(--ring, var(--accent)) 0% var(--p, 0%), var(--bg) var(--p, 0%) 100%);
+    }
+    .donut__ring::before {
+      content: ''; width: 64px; height: 64px; border-radius: 50%;
+      background: var(--surface); grid-area: 1/1;
+    }
+    .donut__pct { position: relative; font-weight: 700; font-size: .95rem; grid-area: 1/1; align-self: center; justify-self: center; }
+    .donut__lab { font-size: .8rem; color: var(--text-dim); margin-top: 4px; }
+
+    /* 추천 */
+    .recommends { display: flex; flex-direction: column; gap: 8px; }
+    .rec {
+      display: flex; gap: 12px; align-items: center;
+      padding: 12px; background: var(--bg); border-radius: 10px;
+      cursor: pointer; transition: background .15s ease;
+    }
+    .rec:hover { background: rgba(202,138,4,.08); }
+    .rec__ico {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent), var(--gold));
+      color: #fff; display: grid; place-items: center; font-size: 1.2rem; flex-shrink: 0;
+    }
+    .rec__body { flex: 1; }
+    .rec__title { margin: 0; font-weight: 600; font-size: .9rem; }
+    .rec__meta { color: var(--text-mute); font-size: .78rem; margin-top: 2px; }
+    .rec__arrow { color: var(--accent); }
+
+    .weakness {
+      padding: 16px; background: rgba(220,38,38,.06);
+      border-left: 4px solid var(--danger); border-radius: 0 10px 10px 0;
+      font-size: .9rem; line-height: 1.7;
+    }
+
+    @media (max-width: 880px) {
+      .hero-card__inner { grid-template-columns: 1fr; }
+      .layout { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="brand">📜 한국사 마스터</div>
+    <nav class="nav-links">
+      <a href="home.html">타임라인</a>
+      <a href="study.html">학습</a>
+      <a href="quiz.html">문제 풀기</a>
+      <a href="note.html">오답 노트</a>
+      <a href="report.html" class="on">성적표</a>
+      <a href="mock.html">모의고사</a>
+    </nav>
+    <div class="me">JL</div>
+  </header>
+
+  <div class="page-head">
+    <h1>📊 나의 성적표</h1>
+    <p>지난 30일간의 학습 기록을 기반으로 한 종합 진단입니다.</p>
+  </div>
+
+  <div class="hero-card">
+    <div class="hero-card__inner">
+      <div class="circle">
+        <div class="circle__text">
+          <span class="circle__pct">78</span>
+          <span class="circle__lab">평균 정답률 %</span>
+        </div>
+      </div>
+      <div class="hero-card__info">
+        <h2>예상 한능검 등급: <strong>3급</strong></h2>
+        <p>한 단계 더 올라가려면 <strong>고려 후기</strong>와 <strong>일제 강점기 사회·문화</strong>를 집중 학습하세요.</p>
+        <div class="hero-card__stats">
+          <div class="hero-card__stat"><span>푼 문제</span><strong>248</strong></div>
+          <div class="hero-card__stat"><span>정답</span><strong>194</strong></div>
+          <div class="hero-card__stat"><span>연속 학습</span><strong>14일</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="layout">
+    <article class="card">
+      <h3>📈 시대별 정답률</h3>
+      <div class="bars">
+        <div class="bar-row">
+          <span class="bar-row__name">고조선·삼국</span>
+          <div class="bar-row__bar"><div class="bar-row__fill" style="width: 92%">92</div></div>
+          <span class="bar-row__pct">최상</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-row__name">통일신라·발해</span>
+          <div class="bar-row__bar"><div class="bar-row__fill" style="width: 85%">85</div></div>
+          <span class="bar-row__pct">상</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-row__name">고려 전기</span>
+          <div class="bar-row__bar"><div class="bar-row__fill bar-row__fill--mid" style="width: 72%">72</div></div>
+          <span class="bar-row__pct">중</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-row__name">고려 후기</span>
+          <div class="bar-row__bar"><div class="bar-row__fill bar-row__fill--low" style="width: 48%">48</div></div>
+          <span class="bar-row__pct">하</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-row__name">조선 전기</span>
+          <div class="bar-row__bar"><div class="bar-row__fill" style="width: 88%">88</div></div>
+          <span class="bar-row__pct">상</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-row__name">조선 후기</span>
+          <div class="bar-row__bar"><div class="bar-row__fill bar-row__fill--mid" style="width: 74%">74</div></div>
+          <span class="bar-row__pct">중</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-row__name">근대 개항기</span>
+          <div class="bar-row__bar"><div class="bar-row__fill bar-row__fill--mid" style="width: 68%">68</div></div>
+          <span class="bar-row__pct">중</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-row__name">일제 강점기</span>
+          <div class="bar-row__bar"><div class="bar-row__fill bar-row__fill--low" style="width: 54%">54</div></div>
+          <span class="bar-row__pct">하</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-row__name">광복·정부수립</span>
+          <div class="bar-row__bar"><div class="bar-row__fill" style="width: 82%">82</div></div>
+          <span class="bar-row__pct">상</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-row__name">현대</span>
+          <div class="bar-row__bar"><div class="bar-row__fill" style="width: 86%">86</div></div>
+          <span class="bar-row__pct">상</span>
+        </div>
+      </div>
+    </article>
+
+    <div style="display: flex; flex-direction: column; gap: 18px;">
+      <article class="card">
+        <h3>🎯 유형별 정답률</h3>
+        <div class="types-grid">
+          <div class="donut">
+            <div class="donut__ring" style="--p: 86%; --ring: var(--accent);">
+              <span class="donut__pct">86%</span>
+            </div>
+            <div class="donut__lab">객관식</div>
+          </div>
+          <div class="donut">
+            <div class="donut__ring" style="--p: 64%; --ring: var(--warn);">
+              <span class="donut__pct">64%</span>
+            </div>
+            <div class="donut__lab">사료 분석</div>
+          </div>
+          <div class="donut">
+            <div class="donut__ring" style="--p: 78%; --ring: var(--accent);">
+              <span class="donut__pct">78%</span>
+            </div>
+            <div class="donut__lab">지도</div>
+          </div>
+          <div class="donut">
+            <div class="donut__ring" style="--p: 52%; --ring: var(--danger);">
+              <span class="donut__pct">52%</span>
+            </div>
+            <div class="donut__lab">이미지</div>
+          </div>
+        </div>
+        <div class="weakness">
+          <strong>🔴 취약점</strong>: 이미지 유형(유물·문화재 식별)이 가장 약합니다. 시대별 대표 유물 카드를 30분만 외워도 큰 향상이 기대됩니다.
+        </div>
+      </article>
+
+      <article class="card">
+        <h3>📚 추천 학습 코스</h3>
+        <div class="recommends">
+          <a class="rec" href="study.html">
+            <div class="rec__ico">📜</div>
+            <div class="rec__body">
+              <p class="rec__title">고려 후기 집중 학습</p>
+              <p class="rec__meta">무신정변·원 간섭기·공민왕 (예상 +12점)</p>
+            </div>
+            <span class="rec__arrow">→</span>
+          </a>
+          <a class="rec" href="quiz.html">
+            <div class="rec__ico">🖼</div>
+            <div class="rec__body">
+              <p class="rec__title">시대별 유물 카드 30분</p>
+              <p class="rec__meta">이미지 유형 정답률 +20% 예상</p>
+            </div>
+            <span class="rec__arrow">→</span>
+          </a>
+          <a class="rec" href="mock.html">
+            <div class="rec__ico">📝</div>
+            <div class="rec__body">
+              <p class="rec__title">한능검 기본 모의고사</p>
+              <p class="rec__meta">실전 감각 + 시간 관리 연습</p>
+            </div>
+            <span class="rec__arrow">→</span>
+          </a>
+        </div>
+      </article>
+    </div>
+  </main>
+</body>
+</html>

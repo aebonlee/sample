@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>문제 풀기 — 한국사 마스터</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .page-head { max-width: 760px; margin: 0 auto; padding: 24px 24px 12px; }
+    .page-head h1 { margin: 0 0 6px; font-size: 1.5rem; }
+    .page-head p { color: var(--text-dim); margin: 0; }
+
+    .types {
+      max-width: 760px; margin: 16px auto; padding: 0 24px;
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
+    }
+    .type {
+      padding: 14px 8px; text-align: center; cursor: pointer;
+      background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px;
+      font-family: inherit; transition: all .15s ease;
+    }
+    .type:hover { border-color: var(--accent); }
+    .type.on { border-color: var(--accent); background: rgba(202,138,4,.06); }
+    .type span { font-size: 1.5rem; display: block; }
+    .type strong { display: block; font-size: .85rem; margin-top: 4px; }
+    .type small { display: block; color: var(--text-mute); font-size: .72rem; }
+
+    .quiz { max-width: 760px; margin: 16px auto; padding: 0 24px 80px; }
+    .meta {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 14px; font-size: .85rem; color: var(--text-dim);
+    }
+    .progress { flex: 1; max-width: 380px; margin: 0 16px; }
+    .bar { height: 6px; background: rgba(202,138,4,.15); border-radius: 3px; overflow: hidden; }
+    .bar__fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--gold)); }
+
+    .qcard { padding: 26px; }
+    .qcard__era {
+      display: inline-block; padding: 3px 10px; border-radius: 999px;
+      background: rgba(202,138,4,.12); color: var(--accent);
+      font-size: .72rem; font-weight: 700; margin-bottom: 10px;
+    }
+    .qcard__q { margin: 0 0 16px; font-size: 1.05rem; line-height: 1.7; font-weight: 600; }
+
+    .source {
+      padding: 14px 16px; background: var(--bg); border: 1px dashed var(--accent);
+      border-radius: 10px; margin-bottom: 16px;
+      font-family: 'Noto Serif KR', serif; font-size: .9rem;
+      line-height: 1.8; color: var(--text);
+    }
+    .source small { display: block; color: var(--text-mute); margin-top: 8px; font-size: .75rem; font-family: 'Pretendard'; }
+
+    .opts { display: grid; gap: 8px; }
+    .opt {
+      display: flex; gap: 12px; align-items: flex-start;
+      padding: 12px 16px; border-radius: 10px;
+      background: var(--surface); border: 2px solid var(--border);
+      cursor: pointer; text-align: left; font-family: inherit;
+      transition: all .15s ease;
+    }
+    .opt:hover { border-color: var(--accent); }
+    .opt__num {
+      width: 26px; height: 26px; border-radius: 50%;
+      background: var(--bg); display: grid; place-items: center;
+      font-weight: 700; font-size: .8rem; flex-shrink: 0;
+    }
+    .opt__text { flex: 1; font-size: .92rem; line-height: 1.5; }
+    .opt.picked { border-color: var(--accent); background: rgba(202,138,4,.06); }
+    .opt.picked .opt__num { background: var(--accent); color: #fff; }
+    .opt.correct { border-color: var(--ok); background: rgba(22,163,74,.06); }
+    .opt.correct .opt__num { background: var(--ok); color: #fff; }
+    .opt.wrong { border-color: var(--danger); background: rgba(220,38,38,.06); }
+    .opt.wrong .opt__num { background: var(--danger); color: #fff; }
+    .opt[disabled] { cursor: default; }
+
+    .explain {
+      margin-top: 14px; padding: 14px 16px;
+      background: rgba(22,163,74,.08); border-left: 4px solid var(--ok);
+      border-radius: 0 10px 10px 0;
+      font-size: .9rem; line-height: 1.7;
+    }
+    .explain.wrong { background: rgba(220,38,38,.06); border-left-color: var(--danger); }
+    .explain[hidden] { display: none; }
+    .explain strong { color: var(--accent); }
+
+    .actions { display: flex; justify-content: space-between; margin-top: 18px; gap: 10px; }
+    .actions .info { color: var(--text-mute); font-size: .82rem; align-self: center; }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="brand">📜 한국사 마스터</div>
+    <nav class="nav-links">
+      <a href="home.html">타임라인</a>
+      <a href="study.html">학습</a>
+      <a href="quiz.html" class="on">문제 풀기</a>
+      <a href="note.html">오답 노트</a>
+      <a href="report.html">성적표</a>
+      <a href="mock.html">모의고사</a>
+    </nav>
+    <div class="me">JL</div>
+  </header>
+
+  <div class="page-head">
+    <h1>🎯 문제 풀기</h1>
+    <p>유형을 골라 약점부터 채워보세요. 매 문제마다 즉시 채점됩니다.</p>
+  </div>
+
+  <div class="types">
+    <button class="type on"><span>📝</span><strong>객관식</strong><small>5지선다</small></button>
+    <button class="type"><span>📜</span><strong>사료 분석</strong><small>제시문 해석</small></button>
+    <button class="type"><span>🗺</span><strong>지도</strong><small>위치/영역</small></button>
+    <button class="type"><span>🖼</span><strong>이미지</strong><small>유물/문화재</small></button>
+  </div>
+
+  <main class="quiz">
+    <div class="meta">
+      <span>난이도 ★★★☆☆</span>
+      <div class="progress"><div class="bar"><div class="bar__fill" id="bar" style="width: 33%"></div></div></div>
+      <span><span id="cur">2</span> / 6</span>
+    </div>
+
+    <article class="qcard card">
+      <span class="qcard__era">사료 분석 · 통일신라</span>
+      <h2 class="qcard__q">다음 사료에서 설명하는 제도로 옳은 것은?</h2>
+
+      <div class="source">
+        “관리에게는 일정한 토지를 주되, 죽으면 나라에 다시 돌려주게 했다. 또 토지에서 거두는 조세와 노동력 일부를 받을 수 있게 했으나, 토지 자체를 자손에게 물려줄 수는 없었다.”
+        <small>— 『삼국사기』 신문왕 7년(687) 기록</small>
+      </div>
+
+      <div class="opts" id="opts">
+        <button class="opt" data-i="0"><span class="opt__num">①</span><span class="opt__text">녹읍 — 직위에 따라 토지의 조세와 노동력을 수취하던 제도</span></button>
+        <button class="opt" data-i="1"><span class="opt__num">②</span><span class="opt__text">관료전 — 신문왕이 신권 강화를 위해 지급한 토지</span></button>
+        <button class="opt" data-i="2"><span class="opt__num">③</span><span class="opt__text">정전 — 성덕왕이 백성에게 지급한 토지</span></button>
+        <button class="opt" data-i="3"><span class="opt__num">④</span><span class="opt__text">과전법 — 고려 말 신진사대부가 정착시킨 토지 제도</span></button>
+        <button class="opt" data-i="4"><span class="opt__num">⑤</span><span class="opt__text">전시과 — 고려 시대 관리에게 지급한 토지와 임야</span></button>
+      </div>
+
+      <div class="explain wrong" id="explain" hidden>
+        ❌ <strong>오답</strong> — 정답은 ②번 <strong>관료전</strong>입니다.<br/><br/>
+        신문왕은 687년 왕권 강화를 위해 기존 귀족 세력의 경제 기반인 <strong>녹읍을 폐지</strong>하고, 직위에 한정해 토지의 조세 수취권만 인정한 <strong>관료전</strong>을 지급했습니다. 사료의 "토지 자체를 자손에게 물려줄 수는 없었다"가 핵심 단서입니다.
+      </div>
+
+      <div class="actions">
+        <button class="btn btn--ghost" id="prev">← 이전</button>
+        <span class="info">스페이스바: 다음 · 1~5: 답 선택</span>
+        <button class="btn btn--primary" id="next">다음 →</button>
+      </div>
+    </article>
+  </main>
+
+  <script>
+    const ANSWER = 1;
+    const $opts = document.getElementById('opts');
+    const $explain = document.getElementById('explain');
+    let picked = null;
+
+    $opts.addEventListener('click', (e) => {
+      const btn = e.target.closest('.opt');
+      if (!btn || picked !== null) return;
+      picked = Number(btn.dataset.i);
+      [...$opts.children].forEach((b, i) => {
+        b.disabled = true;
+        if (i === ANSWER) b.classList.add('correct');
+        if (i === picked) b.classList.add(i === ANSWER ? 'picked' : 'wrong');
+      });
+      $explain.hidden = false;
+      if (picked === ANSWER) {
+        $explain.classList.remove('wrong');
+        $explain.innerHTML = '✅ <strong>정답!</strong> 신문왕이 관료전을 지급하고 녹읍을 폐지한 것은 왕권 강화의 대표 사례입니다.';
+      }
+    });
+  </script>
+</body>
+</html>
