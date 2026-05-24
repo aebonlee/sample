@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PONG — 클래식 핑퐁</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="stage">
+    <header>
+      <h1>P · O · N · G</h1>
+      <p>1972 Atari · 마우스 또는 ↑↓ 키로 조작</p>
+    </header>
+
+    <div class="score">
+      <div class="s s-l">
+        <span>YOU</span>
+        <b id="scoreL">0</b>
+      </div>
+      <div class="vs">VS</div>
+      <div class="s s-r">
+        <span>CPU</span>
+        <b id="scoreR">0</b>
+      </div>
+    </div>
+
+    <div class="board-wrap">
+      <canvas id="board" width="600" height="400"></canvas>
+      <div id="overlay" class="overlay">
+        <h2 id="ovT">시작하기</h2>
+        <p id="ovP">먼저 5점 내면 승리. 스페이스 또는 시작 버튼을 누르세요.</p>
+        <button id="startBtn">▶ 시작</button>
+      </div>
+    </div>
+
+    <div class="diff">
+      <span>난이도</span>
+      <button class="lv" data-lv="easy">쉬움</button>
+      <button class="lv active" data-lv="normal">보통</button>
+      <button class="lv" data-lv="hard">어려움</button>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
