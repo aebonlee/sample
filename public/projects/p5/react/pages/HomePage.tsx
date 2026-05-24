@@ -1,48 +1,62 @@
 /**
- * ChatPage — 청년 정책 챗봇 (메인)
+ * HomePage — 청년 정책 챗봇 메인
  * ────────────────────────────────────────────────────────────
- * RAG 기반 챗봇 UI.
- * 사용자 메시지 → Solar LLM(정책 RAG 검색 포함) → 응답 + 정책 카드
+ * 핵심:
+ *   - RAG 챗봇: 사용자 메시지 → Solar LLM(정책 RAG 검색 포함) → 응답
+ *   - 빈 상태일 때 추천 카테고리 칩 표시
+ *   - 자동 스크롤 (새 메시지 시)
  *
- * 컴포넌트 분해:
- *   - Sidebar: 최근 대화 + 프로필
- *   - ChatThread: 메시지 목록 (자동 스크롤)
- *   - Composer: 입력창 + 전송
- *   - PolicyCardInline: 봇 응답에 첨부되는 정책 카드
+ * 패턴:
+ *   - useState 로 input/messages 관리
+ *   - useEffect 로 메시지 로드 + 스크롤
+ *   - sending state 로 중복 전송 방지
+ *   - optimistic update (user 메시지 즉시 표시)
  */
 
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { sendChat, fetchMessages } from '../supabase';
+import { useAsync } from '../hooks';
+import { Spinner } from '../components/Common';
 import type { Message } from '../types';
 
-const CONVERSATION_ID = 'default';  // 실제로는 useParams 등으로 동적
+const CONVERSATION_ID = 'default';
+const SUGGESTS = [
+  { emoji: '🏠', label: '주거', q: '월세가 부담되는데 청년 주거 지원 있나요?' },
+  { emoji: '💼', label: '취업·창업', q: '신입 구직 활동 지원금 알려주세요' },
+  { emoji: '💰', label: '금융·자산', q: '청년도약계좌 어떻게 가입하나요?' },
+  { emoji: '📚', label: '교육·역량', q: '국비 교육 받을 수 있나요?' },
+];
 
-const SUGGESTS = ['🏠 주거', '💼 취업·창업', '💰 금융·자산', '📚 교육·역량', '🏥 건강'];
-
-export default function ChatPage() {
+export default function HomePage() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput]       = useState('');
   const [pending, setPending]   = useState(false);
   const endRef = useRef<HTMLDivElement>(null);
 
-  // ─── 초기 로드 ────────────────────────────────────────
-  useEffect(() => {
-    fetchMessages(CONVERSATION_ID).then(setMessages);
+  // ─── 초기 메시지 로드 ────────────────────────────────
+  const initialState = useAsync(async () => {
+    return await fetchMessages(CONVERSATION_ID);
   }, []);
 
-  // ─── 새 메시지 시 자동 스크롤 ──────────────────────────
+  // 첫 로드 시 동기화
+  useEffect(() => {
+    if (initialState.status === 'success' && messages.length === 0 && initialState.data.length > 0) {
+      setMessages(initialState.data);
+    }
+  }, [initialState, messages.length]);
+
+  // ─── 새 메시지 시 자동 스크롤 ────────────────────────
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+  }, [messages, pending]);
 
-  // ─── 전송 ─────────────────────────────────────────────
   async function handleSend(e?: FormEvent) {
     e?.preventDefault();
     const text = input.trim();
     if (!text || pending) return;
 
-    // 낙관적 업데이트
+    // Optimistic: user 메시지 먼저 표시
     const tempUser: Message = {
       id: crypto.randomUUID(),
       conversation_id: CONVERSATION_ID,
@@ -66,10 +80,19 @@ export default function ChatPage() {
       };
       setMessages((prev) => [...prev, botMsg]);
     } catch (err) {
+      // 실패 시 user 메시지 롤백
+      setMessages((prev) => prev.filter((m) => m.id !== tempUser.id));
+      setInput(text);
       alert(`전송 실패: ${(err as Error).message}`);
     } finally {
       setPending(false);
     }
+  }
+
+  function quickSend(q: string) {
+    setInput(q);
+    // 다음 tick에 submit
+    setTimeout(() => handleSend(), 0);
   }
 
   return (
@@ -83,7 +106,14 @@ export default function ChatPage() {
         </header>
 
         <div className="chat">
-          {messages.length === 0 && <Welcome onPick={(text) => { setInput(text); handleSend(); }} />}
+          {initialState.status === 'loading' && messages.length === 0 && (
+            <Spinner label="대화를 불러오는 중..." />
+          )}
+
+          {messages.length === 0 && initialState.status === 'success' && (
+            <Welcome onPick={quickSend} />
+          )}
+
           {messages.map((m) => <MessageBubble key={m.id} msg={m} />)}
           {pending && <TypingIndicator />}
           <div ref={endRef} />
@@ -104,7 +134,7 @@ export default function ChatPage() {
   );
 }
 
-// ─── 보조 컴포넌트 ─────────────────────────────────────────
+// ─── 보조 ─────────────────────────────────────────
 
 function Sidebar() {
   return (
@@ -113,18 +143,23 @@ function Sidebar() {
       <Link to="/" className="on">💬 챗봇 상담</Link>
       <Link to="/search">🔍 정책 검색</Link>
       <Link to="/my">📋 내 맞춤 정책</Link>
+      <Link to="/checklist">✓ 신청 체크리스트</Link>
+      <Link to="/calendar">📅 정책 캘린더</Link>
     </aside>
   );
 }
 
-function Welcome({ onPick }: { onPick: (text: string) => void }) {
+function Welcome({ onPick }: { onPick: (q: string) => void }) {
   return (
     <div className="msg msg--bot">
       <div className="msg__bubble">
-        안녕하세요! 어떤 분야의 청년 지원 정책을 알아볼까요?
+        안녕하세요! 어떤 분야의 청년 지원 정책을 알아볼까요?<br/>
+        아래에서 카테고리를 선택하거나 자유롭게 질문해 주세요.
         <div className="suggests">
           {SUGGESTS.map((s) => (
-            <span key={s} className="suggest" onClick={() => onPick(s)}>{s}</span>
+            <span key={s.label} className="suggest" onClick={() => onPick(s.q)}>
+              {s.emoji} {s.label}
+            </span>
           ))}
         </div>
       </div>

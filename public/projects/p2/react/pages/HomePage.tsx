@@ -1,59 +1,50 @@
 /**
- * SearchPage — 우리문화재 홈/검색
+ * HomePage — 우리문화재 검색 (홈)
  * ────────────────────────────────────────────────────────────
- * 사용자가 자연어로 검색하면 pgvector RAG 로 유사 문화재를 찾아주는 페이지.
+ * 핵심:
+ *   - 자연어 검색 → pgvector RAG (search_heritages 함수)
+ *   - 빠른 검색 키워드 칩
+ *   - 검색어 없을 땐 "오늘의 추천" 표시
  *
- * 핵심 동작:
- *   1) 검색어 입력 → searchHeritages() 호출
- *   2) 결과 6건을 카드 그리드로 표시
- *   3) 카드 클릭 시 /heritage/:id 로 이동
- *
- * 검색 외에도:
- *   - 빈 상태에서는 "오늘의 추천 문화재" 4건 표시
- *   - 빠른 검색 키워드 칩 제공
+ * 패턴: useAsync 로 검색/추천 명시적 분기, 빈 결과 처리.
  */
 
 import { useState, type FormEvent } from 'react';
 import { Link } from 'react-router-dom';
-import { searchHeritages } from '../supabase';
+import { searchHeritages, supabase } from '../supabase';
+import { useAsync } from '../hooks';
+import { Spinner, ErrorBox, EmptyState } from '../components/Common';
 import type { Heritage } from '../types';
 
 const QUICK_KEYWORDS = ['경복궁', '석굴암', '첨성대', '훈민정음', '종묘', '남한산성'];
 
-export default function SearchPage() {
-  const [query, setQuery]     = useState('');
-  const [results, setResults] = useState<Heritage[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError]     = useState<string | null>(null);
+export default function HomePage() {
+  const [query, setQuery] = useState('');
+  const [activeQuery, setActiveQuery] = useState('');
 
-  // ─── 검색 실행 ────────────────────────────────────────────
-  async function handleSearch(e?: FormEvent) {
+  const searchState = useAsync(async () => {
+    if (!activeQuery) return [] as Heritage[];
+    return await searchHeritages(activeQuery, 6);
+  }, [activeQuery]);
+
+  const recommendState = useAsync(async () => {
+    const { data } = await supabase.from('heritages').select('*').limit(4).order('created_at', { ascending: false });
+    return (data ?? []) as Heritage[];
+  }, []);
+
+  function handleSearch(e?: FormEvent) {
     e?.preventDefault();
     const q = query.trim();
-    if (!q) return;
-
-    setLoading(true);
-    setError(null);
-    try {
-      const list = await searchHeritages(q, 6);
-      setResults(list);
-    } catch (err) {
-      setError((err as Error).message);
-    } finally {
-      setLoading(false);
-    }
+    if (q) setActiveQuery(q);
   }
 
-  // 빠른 키워드 클릭
   function quickSearch(keyword: string) {
-    setQuery(keyword);
-    setTimeout(() => handleSearch(), 0);   // state 반영 후 검색
+    setQuery(keyword); setActiveQuery(keyword);
   }
 
   return (
     <>
       <Nav />
-
       <section className="hero">
         <h1>우리 문화재, AI에게 물어보세요</h1>
         <p>국보·보물·유적지를 검색하면 초·중·고·어른 수준별로 설명해드립니다.</p>
@@ -65,15 +56,14 @@ export default function SearchPage() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="예) 경복궁, 석굴암, 첨성대..."
-              disabled={loading}
+              disabled={searchState.status === 'loading'}
             />
-            <button type="submit" disabled={loading}>
-              {loading ? '검색 중...' : '🔍 검색'}
+            <button type="submit" disabled={searchState.status === 'loading'}>
+              {searchState.status === 'loading' ? '검색 중...' : '🔍 검색'}
             </button>
           </div>
         </form>
 
-        {/* 빠른 키워드 */}
         <div className="quick">
           {QUICK_KEYWORDS.map((k) => (
             <button key={k} onClick={() => quickSearch(k)}>{k}</button>
@@ -82,21 +72,15 @@ export default function SearchPage() {
       </section>
 
       <main className="container">
-        {error && (
-          <div style={{ padding: 20, background: '#fee', borderRadius: 12 }}>
-            ❌ 검색 실패: {error}
-          </div>
-        )}
-
-        {results.length > 0 ? (
+        {activeQuery ? (
           <>
-            <h2 className="section-title">검색 결과 ({results.length}건)</h2>
-            <HeritageGrid items={results} />
+            <h2 className="section-title">"{activeQuery}" 검색 결과</h2>
+            <ResultGrid state={searchState} onClear={() => { setActiveQuery(''); setQuery(''); }} />
           </>
         ) : (
           <>
             <h2 className="section-title">🌟 오늘의 추천 문화재</h2>
-            <RecommendedSection />
+            <ResultGrid state={recommendState} />
           </>
         )}
       </main>
@@ -104,26 +88,28 @@ export default function SearchPage() {
   );
 }
 
-// ─── 보조 컴포넌트 ─────────────────────────────────────────
+function ResultGrid({ state, onClear }: {
+  state: ReturnType<typeof useAsync<Heritage[]>>;
+  onClear?: () => void;
+}) {
+  if (state.status === 'loading') return <Spinner label="🤖 검색 중..." />;
+  if (state.status === 'error')   return <ErrorBox error={state.error} />;
+  if (state.status !== 'success') return null;
 
-function Nav() {
-  return (
-    <header className="nav">
-      <div className="brand">🏛 우리<span>문화재</span></div>
-      <nav>
-        <Link to="/" className="on">검색</Link>
-        <Link to="/mission">탐방 미션</Link>
-        <Link to="/history">학습 기록</Link>
-        <Link to="/fav">즐겨찾기</Link>
-      </nav>
-    </header>
-  );
-}
+  if (state.data.length === 0) {
+    return (
+      <EmptyState
+        emoji="🔍"
+        title="검색 결과가 없어요"
+        desc="다른 키워드를 시도해 보세요."
+        action={onClear && <button onClick={onClear} className="btn btn--ghost">검색 초기화</button>}
+      />
+    );
+  }
 
-function HeritageGrid({ items }: { items: Heritage[] }) {
   return (
     <div className="heritage-grid">
-      {items.map((h) => (
+      {state.data.map((h) => (
         <Link key={h.id} to={`/heritage/${h.id}`} className="card">
           <div className="card__img" style={{ background: h.gradient }}>{h.emoji}</div>
           <div className="card__body">
@@ -137,12 +123,16 @@ function HeritageGrid({ items }: { items: Heritage[] }) {
   );
 }
 
-function RecommendedSection() {
-  // 실제로는 supabase에서 즐겨찾기 많은 순으로 4건 조회
-  // 여기서는 데모용으로 빈 안내
+function Nav() {
   return (
-    <p style={{ color: 'var(--text-mute)', padding: 20 }}>
-      문화재를 검색하거나 위의 빠른 키워드를 눌러보세요.
-    </p>
+    <header className="nav">
+      <div className="brand">🏛 우리<span>문화재</span></div>
+      <nav className="nav-links">
+        <Link to="/" className="on">검색</Link>
+        <Link to="/mission">탐방 미션</Link>
+        <Link to="/history">학습 기록</Link>
+        <Link to="/fav">즐겨찾기</Link>
+      </nav>
+    </header>
   );
 }

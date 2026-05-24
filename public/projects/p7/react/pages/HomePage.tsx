@@ -1,26 +1,28 @@
 /**
- * TodayPage — 오늘의 체크인 (홈)
- *
+ * HomePage — 오늘의 체크인 (회복탄력성 홈)
+ * ────────────────────────────────────────────────────────────
  * 핵심:
- *   1) 기분 이모지 선택 (5개) → mood_score 1~10 자동 결정
- *   2) 오늘의 루틴 목록 → 완료 체크
+ *   1) 기분 이모지 선택 (5개) → mood_score 자동 결정
+ *   2) 오늘의 루틴 목록 → 완료 체크 (optimistic)
  *   3) 이번 주 회복 점수 미니 그래프 (최근 7일)
  *
- * 디자인:
- *   - 모바일 폰 프레임 안에 모든 UI 배치
- *   - 따뜻한 오렌지/엠버 톤
+ * 패턴:
+ *   - useAsync 로 4가지 데이터 병렬 로드 (체크인 / 루틴 / 완료 / 회복점수)
+ *   - 기분 선택 + 루틴 완료 즉시 UI 반영
+ *   - 모바일 폰 프레임 + 하단 탭바
  */
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   submitCheckin, fetchTodayCheckin,
   fetchTodayRoutines, completeRoutine,
   fetchResilience,
 } from '../supabase';
+import { useAsync } from '../hooks';
+import { Spinner } from '../components/Common';
 import type { Checkin, Routine, UserRoutine, ResilienceDay } from '../types';
 
-/** 기분 옵션 — 이모지와 score 매핑 */
 const MOODS = [
   { emoji: '😢', label: '많이 안 좋음', score: 1 },
   { emoji: '😟', label: '약간 안 좋음', score: 3 },
@@ -31,41 +33,66 @@ const MOODS = [
 
 type RoutineRow = UserRoutine & { routine: Routine; completed_today: boolean };
 
-export default function TodayPage() {
-  const [checkin, setCheckin]   = useState<Checkin | null>(null);
+export default function HomePage() {
+  const [checkin, setCheckin] = useState<Checkin | null>(null);
   const [routines, setRoutines] = useState<RoutineRow[]>([]);
-  const [days, setDays]         = useState<ResilienceDay[]>([]);
+  const [pendingMood, setPendingMood] = useState<string | null>(null);
 
-  // ─── 초기 로드 ──────────────────────────────────────────
-  useEffect(() => {
-    Promise.all([
+  // ─── 4가지 데이터 병렬 로드 ────────────────────────
+  const state = useAsync(async () => {
+    const [c, r, d] = await Promise.all([
       fetchTodayCheckin(),
       fetchTodayRoutines(),
       fetchResilience(7),
-    ]).then(([c, r, d]) => {
-      setCheckin(c);
-      setRoutines(r);
-      setDays(d);
-    });
+    ]);
+    return { checkin: c, routines: r as RoutineRow[], days: d };
   }, []);
 
-  // ─── 기분 선택 ──────────────────────────────────────────
-  async function pickMood(emoji: string, score: number) {
-    const c = await submitCheckin(emoji, score);
-    setCheckin(c);
+  // 첫 로드 동기화
+  if (state.status === 'success') {
+    if (!checkin && state.data.checkin) setCheckin(state.data.checkin);
+    if (routines.length === 0 && state.data.routines.length > 0) setRoutines(state.data.routines);
   }
 
-  // ─── 루틴 완료 토글 ─────────────────────────────────────
+  // ─── 기분 선택 (optimistic) ────────────────────────
+  async function pickMood(emoji: string, score: number) {
+    setPendingMood(emoji);
+    try {
+      const c = await submitCheckin(emoji, score);
+      setCheckin(c);
+    } catch {
+      alert('체크인 저장 실패');
+    } finally {
+      setPendingMood(null);
+    }
+  }
+
+  // ─── 루틴 완료 (optimistic) ─────────────────────────
   async function toggleRoutine(row: RoutineRow) {
-    if (row.completed_today) return;   // 이미 완료
-    await completeRoutine(row.routine_id, row.routine.duration_min * 60);
+    if (row.completed_today) return;
+    // UI 먼저
     setRoutines((prev) =>
       prev.map((r) => r.id === row.id ? { ...r, completed_today: true } : r),
     );
+    try {
+      await completeRoutine(row.routine_id, row.routine.duration_min * 60);
+    } catch {
+      // 롤백
+      setRoutines((prev) =>
+        prev.map((r) => r.id === row.id ? { ...r, completed_today: false } : r),
+      );
+    }
   }
 
+  if (state.status === 'loading') return <div className="phone"><Spinner /></div>;
+  if (state.status === 'error')   return <div className="phone"><p>로딩 실패</p></div>;
+
+  const days = state.status === 'success' ? state.data.days : [];
   const doneCount = routines.filter((r) => r.completed_today).length;
-  const dateStr   = new Date().toLocaleDateString('ko-KR', { dateStyle: 'full' });
+  const dateStr = new Date().toLocaleDateString('ko-KR', { dateStyle: 'full' });
+  const avgScore = days.length
+    ? Math.round(days.reduce((s, d) => s + (d.resilience_score ?? 0), 0) / days.length)
+    : 0;
 
   return (
     <div className="phone">
@@ -82,23 +109,35 @@ export default function TodayPage() {
             <button
               key={m.emoji}
               aria-label={m.label}
+              title={m.label}
               className={checkin?.mood_emoji === m.emoji ? 'mood__emoji on' : 'mood__emoji'}
               onClick={() => pickMood(m.emoji, m.score)}
+              disabled={!!pendingMood}
             >
               {m.emoji}
             </button>
           ))}
         </div>
-        {checkin && <p style={{ opacity: .85, margin: '8px 0 0' }}>오늘 체크인 완료 ✓</p>}
+        {checkin && (
+          <p style={{ margin: '10px 0 0', opacity: .85, fontSize: '.85rem' }}>
+            오늘 체크인 완료 ✓ {pendingMood && '저장 중...'}
+          </p>
+        )}
       </section>
 
       {/* ─── 오늘의 루틴 ─── */}
       <section className="section">
         <h3>🌿 오늘의 루틴 ({doneCount} / {routines.length})</h3>
         <div className="routines">
-          {routines.map((r) => (
-            <RoutineRow key={r.id} row={r} onToggle={() => toggleRoutine(r)} />
-          ))}
+          {routines.length === 0 ? (
+            <p style={{ color: 'var(--text-mute)', fontSize: '.85rem', padding: 14 }}>
+              <Link to="/routine">+ 루틴 추가하기</Link>
+            </p>
+          ) : (
+            routines.map((r) => (
+              <RoutineRow key={r.id} row={r} onToggle={() => toggleRoutine(r)} />
+            ))
+          )}
         </div>
       </section>
 
@@ -113,16 +152,18 @@ export default function TodayPage() {
             ))}
           </div>
           <div className="stat-card__text">
-            <strong>{Math.round(days.reduce((a, d) => a + (d.resilience_score ?? 0), 0) / (days.length || 1))}점</strong>
+            <strong>{avgScore}점</strong>
             <span>지난 7일 평균</span>
           </div>
         </Link>
       </section>
+
+      <TabBar active="home" />
     </div>
   );
 }
 
-// ─── 보조 컴포넌트 ─────────────────────────────────────────
+// ─── 보조 ─────────────────────────────────────────
 
 function RoutineRow({ row, onToggle }: { row: RoutineRow; onToggle: () => void }) {
   return (
@@ -134,5 +175,17 @@ function RoutineRow({ row, onToggle }: { row: RoutineRow; onToggle: () => void }
       </div>
       <button className="routine__check">{row.completed_today ? '✓' : '○'}</button>
     </div>
+  );
+}
+
+function TabBar({ active }: { active: string }) {
+  return (
+    <nav className="tabbar">
+      <Link to="/" className={`tab ${active === 'home' ? 'on' : ''}`}><span>🏠</span>홈</Link>
+      <Link to="/routine" className={`tab ${active === 'routine' ? 'on' : ''}`}><span>🌿</span>루틴</Link>
+      <Link to="/journal" className={`tab ${active === 'journal' ? 'on' : ''}`}><span>📓</span>저널</Link>
+      <Link to="/chart" className={`tab ${active === 'chart' ? 'on' : ''}`}><span>📊</span>그래프</Link>
+      <Link to="/setting" className={`tab ${active === 'setting' ? 'on' : ''}`}><span>⚙</span>설정</Link>
+    </nav>
   );
 }

@@ -1,60 +1,82 @@
 /**
- * ExperiencePage — 경험 입력 (5단계 파이프라인 시작)
+ * HomePage — 자소서 코치 (경험 입력)
+ * ────────────────────────────────────────────────────────────
+ * 5단계 파이프라인의 첫 단계.
  *
  * 흐름:
- *   1) 자유 텍스트로 경험 작성 (최소 200자)
+ *   1) 자유 텍스트로 경험 작성 (최소 200자, 권장 500자+)
  *   2) 지원처와 강조하고 싶은 역량 입력 (선택)
- *   3) 제출 → saveExperience() → convertToStar() → /star/:id 로 이동
+ *   3) 제출 → saveExperience() → convertToStar() (AI 분석) → /star/:id 이동
  *
- * UX 포인트:
- *   - 글자 수 카운터 (실시간)
- *   - 200자 미만이면 버튼 비활성
- *   - AI 분석 중에는 버튼에 로딩 상태
+ * 패턴:
+ *   - 글자수 카운터 (200/2000)
+ *   - 형식 검증 (최소 200자)
+ *   - useLocalStorage 로 임시 저장 (이탈 시 복구)
+ *   - 제출 중에는 버튼 비활성 + 로딩 표시
+ *   - 예시 보기 토글
  */
 
 import { useState, type FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { saveExperience, convertToStar } from '../supabase';
+import { useLocalStorage } from '../hooks';
+import { ErrorBox } from '../components/Common';
 
-export default function ExperiencePage() {
+const EXAMPLES = [
+  {
+    title: '캡스톤 디자인 팀장 경험',
+    text: '대학교 4학년 캡스톤 프로젝트에서 5명 팀의 팀장을 맡았다. 첫 4주간 의견 충돌로 진척이 없었는데...',
+  },
+  {
+    title: '인턴십 데이터 분석',
+    text: '여름 인턴 6주간 마케팅팀에서 GA4 데이터 분석을 담당했다. 처음엔 SQL도 잘 몰랐지만...',
+  },
+];
+
+export default function HomePage() {
   const navigate = useNavigate();
-  const [title, setTitle]         = useState('');
-  const [rawText, setRawText]     = useState('');
-  const [targetRole, setTargetRole] = useState('');
-  const [emphasis, setEmphasis]   = useState('');
-  const [loading, setLoading]     = useState(false);
-  const [error, setError]         = useState<string | null>(null);
+  const [draft, setDraft] = useLocalStorage('p6:exp:draft', {
+    title: '', rawText: '', targetRole: '', emphasis: '',
+  });
+  const [showExamples, setShowExamples] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const charCount = rawText.length;
+  const charCount = draft.rawText.length;
   const isValid = charCount >= 200 && charCount <= 2000;
 
-  // ─── 제출 ─────────────────────────────────────────────
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     if (!isValid || loading) return;
-
     setLoading(true);
     setError(null);
+
     try {
-      // 1) experiences 테이블에 저장
+      // 1) 경험 저장
       const exp = await saveExperience({
-        title: title.trim() || rawText.slice(0, 30) + '...',
-        raw_text: rawText.trim(),
-        target_role: targetRole.trim() || undefined,
-        emphasis: emphasis.split(',').map((x) => x.trim()).filter(Boolean),
-        user_id: '',           // RLS 정책에서 자동 채워짐
+        title: draft.title.trim() || draft.rawText.slice(0, 30) + '...',
+        raw_text: draft.rawText.trim(),
+        target_role: draft.targetRole.trim() || undefined,
+        emphasis: draft.emphasis.split(',').map((x) => x.trim()).filter(Boolean),
+        user_id: '',   // RLS 정책에서 자동
       });
 
-      // 2) STAR 변환 (Edge Function → Solar Chat → DB 저장)
+      // 2) AI STAR 분석 (Edge Function)
       await convertToStar(exp.id);
 
-      // 3) 결과 페이지로 이동
+      // 3) 임시 저장 초기화 + 결과 페이지로
+      setDraft({ title: '', rawText: '', targetRole: '', emphasis: '' });
       navigate(`/star/${exp.id}`);
     } catch (err) {
       setError((err as Error).message);
     } finally {
       setLoading(false);
     }
+  }
+
+  function loadExample(ex: typeof EXAMPLES[number]) {
+    setDraft({ ...draft, title: ex.title, rawText: ex.text });
+    setShowExamples(false);
   }
 
   return (
@@ -69,32 +91,57 @@ export default function ExperiencePage() {
 
       <main className="container">
         <form className="card" onSubmit={handleSubmit}>
+
           <Field label="① 경험의 제목">
             <input
               type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              value={draft.title}
+              onChange={(e) => setDraft({ ...draft, title: e.target.value })}
               placeholder="예) 대학교 캡스톤 프로젝트 리더 경험"
             />
           </Field>
 
-          <Field label="② 경험을 자유롭게 적어주세요"
-                 hint={`${charCount} / 2,000자 · 최소 200자`}>
+          <Field
+            label="② 경험을 자유롭게 적어주세요"
+            hint={`${charCount} / 2,000자 · 최소 200자`}
+            error={charCount > 0 && charCount < 200 ? '최소 200자 이상 적어주세요' : null}
+          >
             <textarea
-              value={rawText}
-              onChange={(e) => setRawText(e.target.value)}
+              value={draft.rawText}
+              onChange={(e) => setDraft({ ...draft, rawText: e.target.value })}
               minLength={200}
               maxLength={2000}
               placeholder="언제, 어디서, 누구와, 어떤 상황이었고, 무엇을 했고, 어떤 결과가 있었는지..."
               required
             />
+            <button type="button"
+                    onClick={() => setShowExamples(!showExamples)}
+                    style={{ marginTop: 8, background: 'transparent', border: 0,
+                            color: 'var(--accent)', cursor: 'pointer', fontSize: '.85rem' }}>
+              {showExamples ? '예시 닫기 ▲' : '✨ 예시 보기 ▼'}
+            </button>
+            {showExamples && (
+              <div style={{ marginTop: 8, display: 'flex', flexDirection: 'column', gap: 6 }}>
+                {EXAMPLES.map((ex, i) => (
+                  <button key={i} type="button" onClick={() => loadExample(ex)}
+                          style={{ padding: 10, background: 'var(--bg)',
+                                  borderRadius: 8, textAlign: 'left',
+                                  border: '1px solid var(--border)', cursor: 'pointer' }}>
+                    <strong style={{ fontSize: '.85rem' }}>{ex.title}</strong>
+                    <p style={{ margin: '4px 0 0', fontSize: '.78rem', color: 'var(--text-dim)' }}>
+                      {ex.text.slice(0, 80)}...
+                    </p>
+                  </button>
+                ))}
+              </div>
+            )}
           </Field>
 
           <Field label="③ 강조하고 싶은 역량 (쉼표로 구분)">
             <input
               type="text"
-              value={emphasis}
-              onChange={(e) => setEmphasis(e.target.value)}
+              value={draft.emphasis}
+              onChange={(e) => setDraft({ ...draft, emphasis: e.target.value })}
               placeholder="예) 리더십, 문제해결, 협업"
             />
           </Field>
@@ -102,36 +149,38 @@ export default function ExperiencePage() {
           <Field label="④ 지원처 (선택)">
             <input
               type="text"
-              value={targetRole}
-              onChange={(e) => setTargetRole(e.target.value)}
+              value={draft.targetRole}
+              onChange={(e) => setDraft({ ...draft, targetRole: e.target.value })}
               placeholder="예) 카카오 백엔드 개발자"
             />
           </Field>
 
-          {error && (
-            <div style={{ padding: 12, background: '#fee', borderRadius: 8, color: '#c00' }}>
-              ❌ {error}
-            </div>
-          )}
+          {error && <ErrorBox error={error} />}
 
           <div className="actions">
             <button type="submit" className="btn btn--primary" disabled={!isValid || loading}>
               {loading ? '✨ AI 분석 중...' : '✨ STAR로 정리하기'}
             </button>
           </div>
+
+          {draft.rawText && (
+            <p style={{ fontSize: '.78rem', color: 'var(--text-mute)', textAlign: 'right', margin: '8px 0 0' }}>
+              💾 자동 임시 저장됨 (브라우저)
+            </p>
+          )}
         </form>
       </main>
     </>
   );
 }
 
-// ─── 보조 컴포넌트 ─────────────────────────────────────────
+// ─── 보조 ─────────────────────────────────────────
 
 function Nav() {
   return (
     <header className="nav">
       <div className="brand">📝 자소서 코치</div>
-      <nav>
+      <nav className="nav-links">
         <Link to="/" className="on">경험 입력</Link>
         <Link to="/my">내 자소서</Link>
       </nav>
@@ -140,23 +189,26 @@ function Nav() {
 }
 
 function Stepper({ active }: { active: number }) {
-  const steps = ['경험', 'STAR', '작성', '피드백', '면접'];
   return (
     <div className="stepper">
-      {steps.map((s, i) => (
-        <span key={i} className={i === active ? 'step-dot on' : i < active ? 'step-dot done' : 'step-dot'}>
-          {i + 1}
-        </span>
+      {[0, 1, 2, 3, 4].map((i) => (
+        <span key={i} className={`step-dot ${i < active ? 'done' : i === active ? 'on' : ''}`}>{i + 1}</span>
       ))}
     </div>
   );
 }
 
-function Field({ label, hint, children }: { label: string; hint?: string; children: React.ReactNode }) {
+function Field({ label, hint, error, children }: {
+  label: string; hint?: string; error?: string | null; children: React.ReactNode;
+}) {
   return (
     <div className="field">
-      <label className="field__label">{label}{hint && <span className="field__hint"> {hint}</span>}</label>
+      <label className="field__label">
+        {label}
+        {hint && <span className="field__hint"> {hint}</span>}
+      </label>
       {children}
+      {error && <p style={{ color: 'var(--danger)', fontSize: '.8rem', margin: '4px 0 0' }}>{error}</p>}
     </div>
   );
 }
