@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FORM — 운동 트래커</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="stage">
+    <section class="phone">
+      <header class="top">9:41 ⚡ ●●●●</header>
+
+      <header class="hero">
+        <p class="day">월요일 · 5월 24일</p>
+        <h1>오늘의 운동 💪</h1>
+      </header>
+
+      <section class="ring-block">
+        <div class="ring">
+          <svg viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="44" stroke="rgba(255,255,255,.08)" stroke-width="10" fill="none"/>
+            <circle id="ring" cx="50" cy="50" r="44" stroke="url(#g)" stroke-width="10" fill="none"
+                    stroke-linecap="round" stroke-dasharray="276" stroke-dashoffset="276"
+                    transform="rotate(-90 50 50)"/>
+            <defs>
+              <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#ff7a3e"/>
+                <stop offset="1" stop-color="#ff3e6e"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <div class="ring__t">
+            <b id="ringPct">0%</b>
+            <span>완료</span>
+          </div>
+        </div>
+        <div class="ring-meta">
+          <p>전신 근력 운동</p>
+          <span>5가지 운동 · 약 45분</span>
+        </div>
+      </section>
+
+      <section class="exercises">
+        <h2>오늘의 메뉴</h2>
+        <ul class="ex-list" id="exList"></ul>
+      </section>
+
+      <section class="stats">
+        <div class="stat"><b>3</b><span>주간 운동</span></div>
+        <div class="stat"><b>12</b><span>이번 달</span></div>
+        <div class="stat"><b>🔥7</b><span>연속</span></div>
+      </section>
+
+      <button id="startBtn" class="start-btn">▶ 운동 시작</button>
+
+      <nav class="tabbar">
+        <button class="tab active"><span>🏋</span><b>홈</b></button>
+        <button class="tab"><span>📈</span><b>기록</b></button>
+        <button class="tab"><span>👥</span><b>친구</b></button>
+        <button class="tab"><span>👤</span><b>나</b></button>
+      </nav>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cal — 캘린더 앱</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="stage">
+    <section class="phone">
+      <header class="top">9:41 ⚡ ●●●●</header>
+
+      <header class="head">
+        <div>
+          <p id="monthLabel">5월 2025</p>
+          <h1 id="dayLabel">5월 24일 토</h1>
+        </div>
+        <div class="head-actions">
+          <button id="prevBtn">◀</button>
+          <button id="todayBtn">오늘</button>
+          <button id="nextBtn">▶</button>
+        </div>
+      </header>
+
+      <div class="weekdays">
+        <span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span>
+      </div>
+
+      <div class="grid" id="grid"></div>
+
+      <section class="events">
+        <header><h2 id="evHead">이 날의 일정</h2><button id="addBtn">＋</button></header>
+        <ul id="evList" class="ev-list"></ul>
+      </section>
+
+      <nav class="tabbar">
+        <button class="tab active"><span>📅</span><b>월</b></button>
+        <button class="tab"><span>📆</span><b>주</b></button>
+        <button class="tab"><span>📋</span><b>일정</b></button>
+        <button class="tab"><span>⚙</span><b>설정</b></button>
+      </nav>
+    </section>
+  </main>
+
+  <div id="modal" class="modal" hidden>
+    <div class="modal-card">
+      <h3>새 일정</h3>
+      <input id="title" placeholder="제목 (예: 회의)" />
+      <input id="time" placeholder="시간 (예: 14:00)" />
+      <select id="cat">
+        <option value="work">업무</option>
+        <option value="personal">개인</option>
+        <option value="study">공부</option>
+        <option value="health">건강</option>
+      </select>
+      <div class="modal-act">
+        <button id="cancelBtn">취소</button>
+        <button id="saveBtn">저장</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -548,6 +548,146 @@ export const samples: Sample[] = [
       '1976년 아타리의 Breakout을 HTML5 Canvas로 구현했습니다. 패들에 맞은 위치에 따라 반사각이 달라지도록 하여 공 컨트롤이 가능합니다. 모든 벽돌을 깨면 레벨이 오르고 공이 10% 빨라집니다. 마우스·키보드·터치 입력을 모두 지원합니다.',
   },
   {
+    id: 'personal-03',
+    title: '링크 인 바이오 (Link in Bio)',
+    description:
+      'Linktree 스타일 한 페이지 링크 모음. 인플루언서·크리에이터의 SNS·블로그·샵을 한 곳에 정리. 다크모드 + 클릭 카운터.',
+    platform: 'web',
+    category: 'personal',
+    tags: ['Linktree', '크리에이터', 'SNS', '다크모드'],
+    stack: ['HTML', 'CSS', 'JavaScript'],
+    difficulty: 'beginner',
+    files: ['index.html', 'style.css', 'script.js'],
+    guide:
+      'Linktree/Beacons 류 인플루언서 링크 페이지 템플릿입니다. CSS 그라데이션 배경 + backdrop-filter로 글래스모피즘을 구현했고, 클릭 횟수와 테마 설정은 localStorage에 저장됩니다. 실제로는 각 링크에 실제 URL을 넣고 NEW 뱃지를 동적으로 관리하면 됩니다.',
+  },
+  {
+    id: 'landing-03',
+    title: '음악 페스티벌 랜딩 (PULSE)',
+    description:
+      '인디 뮤직 페스티벌 랜딩. 네온 핑크/시안 그라데이션 + 실시간 카운트다운 + 라인업 + 스테이지 + 티켓 3종.',
+    platform: 'web',
+    category: 'landing',
+    tags: ['페스티벌', '카운트다운', '네온', '티켓'],
+    stack: ['HTML', 'CSS', 'JavaScript'],
+    difficulty: 'intermediate',
+    files: ['index.html', 'style.css', 'script.js'],
+    guide:
+      '음악 페스티벌/콘서트/이벤트용 랜딩 페이지입니다. 네온 컬러와 큰 타이포로 페스티벌 분위기를 극대화했습니다. 카운트다운은 `setInterval`로 1초마다 갱신되고, target 날짜만 바꾸면 다른 이벤트에 재사용 가능합니다. 라인업은 폰트 사이즈에 따라 헤드라이너→서브로 위계를 만듭니다.',
+  },
+  {
+    id: 'app-06',
+    title: '운동 트래커 앱 (FORM)',
+    description:
+      '폰 프레임 안의 운동 트래커. SVG 진행 링 + 5가지 운동 체크리스트 + 연속 기록 + localStorage.',
+    platform: 'app',
+    category: 'utility',
+    tags: ['운동', '폰프레임', 'SVG링', '체크리스트'],
+    stack: ['HTML', 'CSS', 'JavaScript'],
+    difficulty: 'intermediate',
+    files: ['index.html', 'style.css', 'script.js'],
+    guide:
+      'Nike Training Club / Strong 류 운동 트래커 앱의 홈 화면입니다. 운동 완료 시 SVG `stroke-dashoffset`이 부드럽게 줄어들며 링이 채워집니다. 항목 체크 상태는 localStorage에 저장됩니다. 실제 앱은 운동별 상세 화면, 타이머, 호흡 가이드, 비디오 등을 추가합니다.',
+  },
+  {
+    id: 'app-07',
+    title: '캘린더 앱 (Cal)',
+    description:
+      '폰 프레임 안의 풀 캘린더. 월간 그리드 + 일정 점 표시 + 일정 추가/삭제 모달 + 카테고리별 색상.',
+    platform: 'app',
+    category: 'utility',
+    tags: ['캘린더', '폰프레임', '모달', '카테고리'],
+    stack: ['HTML', 'CSS', 'JavaScript'],
+    difficulty: 'intermediate',
+    files: ['index.html', 'style.css', 'script.js'],
+    guide:
+      '구글 캘린더/카카오 캘린더 류의 모바일 캘린더 앱입니다. 월 단위 그리드 렌더링은 첫 요일 + 전월/다음월 채우기 패턴으로 처리합니다. 일정은 카테고리별 색 점으로 표시되고, 클릭으로 선택 → 하단에 상세 표시 → ＋ 버튼으로 추가 모달이 열립니다. 모든 일정은 localStorage에 영속화됩니다.',
+  },
+  {
+    id: 'ai-06',
+    title: 'AI 이미지 편집 (Lens)',
+    description:
+      'AI 이미지 편집 툴 UI. 6가지 AI 도구(배경 제거·업스케일·복원 등) + 필터 + 조정 슬라이더 + 가짜 진행률.',
+    platform: 'ai',
+    category: 'media',
+    tags: ['이미지편집', 'AI필터', '진행률', '히스토리'],
+    stack: ['HTML', 'CSS', 'JavaScript'],
+    difficulty: 'intermediate',
+    files: ['index.html', 'style.css', 'script.js'],
+    guide:
+      'Photoshop AI / Photoroom 류 AI 이미지 편집 도구의 UI입니다. AI 도구 클릭 시 다단계 진행률 시뮬레이션(인코딩→추론→디코딩)이 단계별 메시지와 함께 표시됩니다. 필터/조정은 CSS `filter` 속성으로 실시간 적용됩니다. 실제로는 Replicate, Hugging Face, 또는 자체 모델 추론 엔드포인트로 연결합니다.',
+  },
+  {
+    id: 'ai-07',
+    title: 'AI 이력서 첨삭 (Resu)',
+    description:
+      '이력서 입력 → AI 분석 → 종합 점수 + 항목별 점수 + 강점/약점 + before/after 첨삭 예시.',
+    platform: 'ai',
+    category: 'utility',
+    tags: ['이력서', '첨삭', '점수', 'before-after'],
+    stack: ['HTML', 'CSS', 'JavaScript'],
+    difficulty: 'intermediate',
+    files: ['index.html', 'style.css', 'script.js'],
+    guide:
+      '잡플래닛 AI 첨삭 / Resume.io 류 이력서 분석 도구입니다. 좌측에 이력서를 입력하고 "AI 분석"을 누르면 5단계 로딩 후 우측에 종합 점수, 항목별 막대 그래프, 강점·약점 리스트, before/after 첨삭 예시가 표시됩니다. 직무 선택에 따라 다른 평가 기준을 적용할 수 있도록 설계되었습니다. 실제로는 Claude/GPT의 구조화된 출력으로 교체하면 됩니다.',
+  },
+  {
+    id: 'data-06',
+    title: '암호화폐 대시보드 (Coin)',
+    description:
+      '실시간 코인 시세 대시보드. 포트폴리오 가치 + 6개 코인 + 가격 차트 + 마켓 뉴스 + 보유 자산 테이블.',
+    platform: 'data',
+    category: 'utility',
+    tags: ['암호화폐', '실시간', 'Chart.js', '포트폴리오'],
+    stack: ['HTML', 'CSS', 'JavaScript', 'Chart.js'],
+    difficulty: 'intermediate',
+    files: ['index.html', 'style.css', 'script.js'],
+    guide:
+      '업비트/빗썸 류 암호화폐 거래소의 대시보드 페이지입니다. 6개 가짜 코인 데이터를 사용하며, 3초마다 ±0.3% 가격 흔들기로 실시간 시세 변화를 시뮬레이션합니다. 코인 선택 시 가격 차트가 동적으로 갱신됩니다. 실제 데이터는 Upbit Open API, CoinGecko API, Binance WebSocket으로 연결합니다.',
+  },
+  {
+    id: 'data-07',
+    title: '스마트홈 IoT (Hive)',
+    description:
+      'IoT 디바이스 모니터링 대시보드. 실내 환경 + 방별 기기 + 자동화 시나리오 + 24시간 차트.',
+    platform: 'data',
+    category: 'utility',
+    tags: ['IoT', '스마트홈', '자동화', 'Chart.js'],
+    stack: ['HTML', 'CSS', 'JavaScript', 'Chart.js'],
+    difficulty: 'intermediate',
+    files: ['index.html', 'style.css', 'script.js'],
+    guide:
+      '삼성 SmartThings / Apple HomeKit 류의 스마트홈 컨트롤 패널입니다. 방별 기기 전원 토글, 자동화 시나리오 on/off, 환경 차트(온도·습도 + 전력 사용량)를 한 화면에 정리했습니다. 실제 IoT 연동은 MQTT 브로커 또는 Matter/Thread 표준 프로토콜로 처리합니다.',
+  },
+  {
+    id: 'game-06',
+    title: 'PONG — 클래식 핑퐁',
+    description:
+      '1972년 아타리 PONG의 충실한 클론. 마우스/터치/키보드 조작 + 3단계 AI + 5점 선득점 + 레트로 룩.',
+    platform: 'game',
+    category: 'game',
+    tags: ['아케이드', 'AI', '레트로', '캔버스'],
+    stack: ['HTML', 'CSS', 'JavaScript', 'Canvas'],
+    difficulty: 'intermediate',
+    files: ['index.html', 'style.css', 'script.js'],
+    guide:
+      '1972년 아타리의 첫 비디오 게임 PONG을 ~120줄로 구현했습니다. AI는 공의 Y좌표를 lerp(난이도별 0.045~0.11)로 추적해 자연스럽게 약점이 있는 상대를 만듭니다. 패들 충돌 시 맞은 위치에 따라 공 각도가 달라지므로 컨트롤이 가능합니다. 모노톤 + Courier 폰트로 80년대 게임센터 분위기를 재현했습니다.',
+  },
+  {
+    id: 'game-07',
+    title: '두더지 잡기',
+    description:
+      '30초 안에 최대한 많이 잡기. 9개 구멍 + 콤보 시스템 + 폭탄(피하기) + 최고 기록.',
+    platform: 'game',
+    category: 'game',
+    tags: ['아케이드', '반응속도', '콤보', 'localStorage'],
+    stack: ['HTML', 'CSS', 'JavaScript'],
+    difficulty: 'beginner',
+    files: ['index.html', 'style.css', 'script.js'],
+    guide:
+      '두더지 잡기 게임을 순수 DOM으로 구현했습니다 (Canvas 없음). 두더지/폭탄 등장은 CSS transition + `bottom` 값으로 부드러운 등장 애니메이션을 만듭니다. 콤보 3회마다 점수 가산 +1, 폭탄을 누르면 -5점 + 콤보 리셋. 모바일 터치도 자연스럽게 동작합니다.',
+  },
+  {
     id: 'supabase-auth-01',
     title: 'Supabase OAuth 로그인 (Google + Kakao)',
     description:

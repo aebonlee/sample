@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hive — 스마트홈 모니터링</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <header class="top">
+    <div class="brand">🏠 <b>Hive</b><span>스마트홈 IoT</span></div>
+    <div class="right">
+      <button class="add">＋ 기기 추가</button>
+      <div class="avatar">홈</div>
+    </div>
+  </header>
+
+  <main class="main">
+    <section class="overview">
+      <article class="card big">
+        <p class="kicker">현재 실내</p>
+        <h1><b id="temp">0</b>°C <span class="hum"><b id="hum">0</b>%</span></h1>
+        <p class="weather">☀️ 맑음 · 외기 22°C</p>
+      </article>
+      <article class="card">
+        <p class="kicker">월 전력 사용</p>
+        <h2><b id="power">0</b> kWh</h2>
+        <p class="meta"><span class="up">▲ 7%</span> 지난달 대비</p>
+      </article>
+      <article class="card">
+        <p class="kicker">활성 기기</p>
+        <h2><b id="active">0</b> <span class="small">/ 18대</span></h2>
+        <p class="meta">✓ 모두 정상</p>
+      </article>
+      <article class="card">
+        <p class="kicker">보안 상태</p>
+        <h2 style="color:var(--green)">🛡 안전</h2>
+        <p class="meta">전체 문/창 잠김</p>
+      </article>
+    </section>
+
+    <section class="row">
+      <div class="panel">
+        <header><h3>🌡 24시간 온도 / 습도</h3><span class="legend">파랑: 온도 · 보라: 습도</span></header>
+        <canvas id="envChart" height="140"></canvas>
+      </div>
+    </section>
+
+    <section class="row">
+      <div class="panel full">
+        <header><h3>🏘 방별 기기 상태</h3><button class="ghost">전체 보기</button></header>
+        <div class="rooms" id="rooms"></div>
+      </div>
+    </section>
+
+    <section class="row two">
+      <div class="panel">
+        <header><h3>⚡ 시간별 전력</h3></header>
+        <canvas id="powerChart" height="180"></canvas>
+      </div>
+
+      <div class="panel">
+        <header><h3>🤖 자동화 시나리오</h3></header>
+        <ul class="auto-list">
+          <li><div><b>🌅 좋은 아침</b><span>매일 07:00 · 거실 조명 점등 + 커튼 OPEN</span></div><label class="sw"><input type="checkbox" checked><i></i></label></li>
+          <li><div><b>🌙 잘 자요</b><span>매일 23:30 · 전체 조명 OFF + 문 잠금</span></div><label class="sw"><input type="checkbox" checked><i></i></label></li>
+          <li><div><b>🏃 외출 모드</b><span>위치 기반 · 에어컨/조명 OFF</span></div><label class="sw"><input type="checkbox" checked><i></i></label></li>
+          <li><div><b>🌧 우천 알림</b><span>비 예보 시 창문 자동 닫기</span></div><label class="sw"><input type="checkbox"><i></i></label></li>
+          <li><div><b>🎬 영화 모드</b><span>TV ON 시 조명 30% 디밍</span></div><label class="sw"><input type="checkbox" checked><i></i></label></li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

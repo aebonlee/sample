@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PULSE 2025 — 인디 뮤직 페스티벌</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="nav">
+    <div class="inner">
+      <a class="brand">PULSE<span>'25</span></a>
+      <nav>
+        <a href="#lineup">라인업</a>
+        <a href="#schedule">스케줄</a>
+        <a href="#venue">장소</a>
+        <a href="#ticket">티켓</a>
+      </nav>
+      <a href="#ticket" class="btn-buy">티켓 구매</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero__bg" aria-hidden="true"></div>
+      <p class="kicker">INDIE MUSIC FESTIVAL · 2025</p>
+      <h1>PULSE<br/><span>2025</span></h1>
+      <p class="date">7월 19일 토요일 — 20일 일요일</p>
+      <p class="venue">서울 잠실종합운동장 보조경기장</p>
+
+      <div class="countdown" id="cd">
+        <div><b id="dd">00</b><span>일</span></div>
+        <div><b id="hh">00</b><span>시간</span></div>
+        <div><b id="mm">00</b><span>분</span></div>
+        <div><b id="ss">00</b><span>초</span></div>
+      </div>
+
+      <div class="hero__cta">
+        <a href="#ticket" class="btn-primary">🎫 1일권 ₩99,000</a>
+        <a href="#lineup" class="btn-ghost">라인업 보기 →</a>
+      </div>
+    </section>
+
+    <section id="lineup" class="lineup">
+      <p class="kicker">LINE UP</p>
+      <h2>이번 해의 아티스트</h2>
+      <div class="bill">
+        <div class="day-mark">DAY 1 · 7.19 SAT</div>
+        <div class="row row--xl"><span>혁오</span><span>새소년</span><span>잔나비</span></div>
+        <div class="row row--l"><span>아이유</span><span>볼빨간사춘기</span><span>10cm</span></div>
+        <div class="row row--m"><span>적재</span><span>오존</span><span>죠지</span><span>한로로</span><span>아도이</span></div>
+        <div class="day-mark">DAY 2 · 7.20 SUN</div>
+        <div class="row row--xl"><span>다이나믹 듀오</span><span>이하이</span><span>창모</span></div>
+        <div class="row row--l"><span>비비</span><span>크러쉬</span><span>딘</span></div>
+        <div class="row row--m"><span>로꼬</span><span>죠다쉬</span><span>코드 쿤스트</span><span>릴러말즈</span><span>저스디스</span></div>
+      </div>
+    </section>
+
+    <section id="schedule" class="sched">
+      <p class="kicker">SCHEDULE</p>
+      <h2>두 개의 무대, 25팀</h2>
+      <div class="stages">
+        <div class="stage">
+          <header><h3>🔥 PULSE 메인 스테이지</h3><span>잠실 야외</span></header>
+          <ul>
+            <li><b>17:00</b><span>오프닝 액트 · 한로로</span></li>
+            <li><b>18:00</b><span>아도이</span></li>
+            <li><b>19:15</b><span>새소년</span></li>
+            <li><b>20:30</b><span>혁오</span></li>
+            <li><b>22:00</b><span>헤드라이너 · 아이유</span></li>
+          </ul>
+        </div>
+        <div class="stage">
+          <header><h3>🌙 MOON 스테이지</h3><span>실내 홀</span></header>
+          <ul>
+            <li><b>17:30</b><span>죠지</span></li>
+            <li><b>18:45</b><span>오존</span></li>
+            <li><b>20:00</b><span>적재</span></li>
+            <li><b>21:15</b><span>10cm</span></li>
+            <li><b>22:30</b><span>볼빨간사춘기</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="venue" class="venue-sec">
+      <p class="kicker">VENUE</p>
+      <h2>잠실종합운동장 보조경기장</h2>
+      <div class="map" aria-hidden="true">
+        <div class="pin">📍</div>
+      </div>
+      <ul class="info">
+        <li><b>🚇 지하철</b><span>2·9호선 종합운동장역 5번 출구 도보 7분</span></li>
+        <li><b>🅿️ 주차</b><span>현장 주차 불가 (대중교통 권장)</span></li>
+        <li><b>🍔 푸드존</b><span>15개 푸드트럭 · 비건 옵션 포함</span></li>
+      </ul>
+    </section>
+
+    <section id="ticket" class="ticket">
+      <p class="kicker">TICKET</p>
+      <h2>티켓 종류</h2>
+      <div class="tiers">
+        <article class="t">
+          <h3>1일권</h3>
+          <p class="price">₩ 99,000</p>
+          <ul>
+            <li>당일 입장 (DAY 1 또는 DAY 2)</li>
+            <li>모든 스테이지 관람</li>
+            <li>웰컴 드링크 1잔</li>
+          </ul>
+          <button>선택하기</button>
+        </article>
+        <article class="t t--best">
+          <span class="best">BEST</span>
+          <h3>2일권</h3>
+          <p class="price">₩ 179,000</p>
+          <ul>
+            <li>이틀 모두 입장</li>
+            <li>모든 스테이지 관람</li>
+            <li>웰컴 드링크 2잔</li>
+            <li>한정 굿즈 백</li>
+          </ul>
+          <button>선택하기</button>
+        </article>
+        <article class="t">
+          <h3>VIP</h3>
+          <p class="price">₩ 299,000</p>
+          <ul>
+            <li>이틀 모두 입장</li>
+            <li>VIP 라운지 + 전용 입장</li>
+            <li>아티스트 미팅 추첨</li>
+            <li>한정 굿즈 + 사인 포스터</li>
+          </ul>
+          <button>선택하기</button>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    © 2025 PULSE Festival · 주최 PULSE Entertainment
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

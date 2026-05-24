@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Resu — AI 이력서 첨삭</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="top">
+    <div class="brand">📄 <b>Resu</b><span>AI 이력서 분석 & 첨삭</span></div>
+    <button class="btn-share">↗ 공유</button>
+  </header>
+
+  <main class="layout">
+    <section class="resume-panel">
+      <header class="panel-head">
+        <h2>이력서 입력</h2>
+        <select id="role">
+          <option>프론트엔드 개발자</option>
+          <option>백엔드 개발자</option>
+          <option>프로덕트 디자이너</option>
+          <option>데이터 분석가</option>
+          <option>마케터</option>
+        </select>
+      </header>
+      <textarea id="resume" placeholder="이력서 내용을 붙여넣으세요...">박지훈
+프론트엔드 개발자 · 5년차
+
+[경력]
+- (주)스타트업A (2021.03 - 현재)
+  - 회사 메인 서비스 개발 담당
+  - React, TypeScript 사용
+  - 다양한 기능을 만들었습니다
+
+- (주)스타트업B (2019.01 - 2021.02)
+  - 웹 페이지 만들기
+  - 디자이너와 협업
+
+[스킬]
+JavaScript, React, HTML, CSS, Git
+
+[학력]
+한국대학교 컴퓨터공학과 (2014-2019)</textarea>
+      <footer class="panel-foot">
+        <span><b id="cc">0</b>자 / 권장 800-1500자</span>
+        <button id="analyzeBtn" class="primary">✨ AI 분석 시작</button>
+      </footer>
+    </section>
+
+    <section class="result-panel">
+      <header class="panel-head">
+        <h2>AI 분석 결과</h2>
+        <span id="scoreLabel" class="score" hidden>종합 점수: <b id="scoreNum">0</b>/100</span>
+      </header>
+
+      <div id="empty" class="empty">
+        <div class="empty-ic">🤖</div>
+        <p>이력서를 입력하고 <b>AI 분석 시작</b>을 눌러주세요.</p>
+        <p class="sub">AI가 직무에 맞게 강점·개선점을 찾아드립니다.</p>
+      </div>
+
+      <div id="loading" class="loading" hidden>
+        <div class="spinner"></div>
+        <p id="loadText">이력서를 읽는 중...</p>
+      </div>
+
+      <div id="result" class="result" hidden>
+        <article class="card score-card">
+          <h3>종합 평가</h3>
+          <p id="overall"></p>
+        </article>
+
+        <article class="card">
+          <h3>📊 항목별 점수</h3>
+          <div id="scores" class="scores"></div>
+        </article>
+
+        <article class="card">
+          <h3>✅ 강점</h3>
+          <ul id="strong"></ul>
+        </article>
+
+        <article class="card warn">
+          <h3>⚠ 개선이 필요한 부분</h3>
+          <ul id="weak"></ul>
+        </article>
+
+        <article class="card">
+          <h3>💡 구체적 첨삭 제안</h3>
+          <div id="suggest"></div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
