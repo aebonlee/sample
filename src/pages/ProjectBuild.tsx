@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { Highlight, themes, type Language } from 'prism-react-renderer';
+import JSZip from 'jszip';
 import { PROJECT_DATA } from '../data/projectDetails';
 import { getProjectMockup, type SharedFile } from '../data/projectMockups';
 
@@ -14,11 +15,81 @@ const FILE_TABS: { id: ViewMode; label: string; lang: Language }[] = [
 ];
 
 function langToPrism(l: string): Language {
-  if (l === 'tsx') return 'tsx';
-  if (l === 'sql') return 'sql' as Language; // prism supports sql
+  if (l === 'tsx' || l === 'ts') return 'tsx';
+  if (l === 'sql') return 'sql' as Language;
   if (l === 'css') return 'css';
   if (l === 'js')  return 'javascript';
+  if (l === 'md')  return 'markdown';
   return 'markup';
+}
+
+/** 프로젝트 전체를 ZIP으로 묶어 다운로드 */
+async function downloadProjectZip(
+  baseUrl: string,
+  projectTitle: string,
+  pages: { id: string }[],
+  shared: SharedFile[],
+) {
+  const zip = new JSZip();
+  const root = zip.folder(`project-${projectTitle.replace(/[^\w가-힣]+/g, '-').slice(0, 40)}`)!;
+
+  const fetchText = async (path: string): Promise<string> => {
+    const r = await fetch(`${baseUrl}/${path}`);
+    if (!r.ok) throw new Error(`fetch failed: ${path}`);
+    return r.text();
+  };
+
+  // 페이지 HTML들 → pages/
+  const pagesFolder = root.folder('pages')!;
+  await Promise.all(pages.map(async (p) => {
+    try {
+      const html = await fetchText(`${p.id}.html`);
+      pagesFolder.file(`${p.id}.html`, html);
+    } catch {}
+  }));
+
+  // 공통 파일들 → 경로 그대로 보존
+  await Promise.all(shared.map(async (s) => {
+    try {
+      const text = await fetchText(s.filename);
+      root.file(s.filename, text);
+    } catch {}
+  }));
+
+  // 설명 README
+  root.file('PROJECT.md',
+    `# ${projectTitle}\n\n` +
+    `이 프로젝트는 sample.dreamitbiz.com 의 ProjectBuild 페이지에서 자동 생성된 ZIP 입니다.\n\n` +
+    `## 폴더 구조\n\n` +
+    '```\n' +
+    'pages/         # 정적 HTML 모형 (iframe 미리보기용)\n' +
+    'style.css      # 공통 디자인 토큰\n' +
+    'schema.sql     # Supabase / PostgreSQL 스키마\n' +
+    'react/         # React 19 + Supabase 실제 구현 예시\n' +
+    '  App.tsx\n' +
+    '  supabase.ts\n' +
+    '  types.ts\n' +
+    '  pages/HomePage.tsx\n' +
+    '  README.md\n' +
+    '```\n\n' +
+    '## 실행\n\n' +
+    '```bash\n' +
+    'cd react\n' +
+    'npm install\n' +
+    'cp .env.example .env.local\n' +
+    'npm run dev\n' +
+    '```\n',
+  );
+
+  const blob = await zip.generateAsync({ type: 'blob' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${projectTitle.replace(/[^\w가-힣]+/g, '-').slice(0, 40)}.zip`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
 }
 
 /** HTML 문자열에서 <style> · <script> 내용을 추출 */
@@ -150,11 +221,25 @@ export default function ProjectBuild() {
         </span>
         <div>
           <h1>{project.title} — 구현 페이지</h1>
-          <p>왼쪽에서 페이지를 골라 미리보기/HTML/CSS/JS를 확인하거나, 아래 공통 파일에서 SQL 스키마·React 코드를 확인하세요.</p>
+          <p>페이지별로 HTML/CSS/JS가 분리되고, React 소스(App.tsx + supabase.ts + types.ts + pages/HomePage.tsx)와 SQL 스키마는 공통 파일에서 확인할 수 있습니다.</p>
         </div>
-        <Link to={`/projects/${project.id}`} className="btn btn--ghost btn--sm" style={{ marginLeft: 'auto' }}>
-          ← 프로젝트 가이드
-        </Link>
+        <div style={{ marginLeft: 'auto', display: 'flex', gap: 8 }}>
+          <button
+            type="button"
+            className="btn btn--primary btn--sm"
+            onClick={() => downloadProjectZip(
+              `${base}${mockup.baseDir}`,
+              project.title,
+              mockup.pages.filter((p) => p.status === 'done'),
+              mockup.shared,
+            )}
+          >
+            📦 ZIP 다운로드
+          </button>
+          <Link to={`/projects/${project.id}`} className="btn btn--ghost btn--sm">
+            ← 가이드
+          </Link>
+        </div>
       </header>
 
       <div className="pb-layout">

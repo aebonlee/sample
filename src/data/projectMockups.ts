@@ -7,24 +7,31 @@ export interface MockupPage {
 }
 
 export interface SharedFile {
-  filename: string;       // 'style.css' | 'schema.sql' | 'App.tsx'
+  filename: string;       // 'style.css' | 'schema.sql' | 'react/App.tsx' ...
   label: string;
-  lang: 'css' | 'sql' | 'tsx' | 'js' | 'markup';
+  lang: 'css' | 'sql' | 'tsx' | 'ts' | 'js' | 'markup' | 'md';
   desc?: string;
 }
 
 export interface ProjectMockup {
   projectId: number;
   baseDir: string;        // public path (e.g., '/projects/p1')
-  shared: SharedFile[];   // 프로젝트 공통 파일 (CSS / SQL / React)
+  shared: SharedFile[];   // 프로젝트 공통 파일 (CSS / SQL / React 다중 파일)
   pages: MockupPage[];
 }
 
 // 모든 프로젝트에 동일하게 존재하는 공통 파일 묶음
+// React 소스는 react/ 폴더에 4개 파일로 분리되어 있음
 const COMMON_SHARED: SharedFile[] = [
-  { filename: 'style.css',  label: 'style.css',  lang: 'css', desc: '공통 디자인 토큰·레이아웃' },
-  { filename: 'schema.sql', label: 'schema.sql', lang: 'sql', desc: 'Supabase/PostgreSQL 스키마' },
-  { filename: 'App.tsx',    label: 'App.tsx',    lang: 'tsx', desc: 'React 19 + Supabase 예제' },
+  // 디자인·DB·문서
+  { filename: 'style.css',           label: 'style.css',          lang: 'css', desc: '공통 디자인 토큰·레이아웃' },
+  { filename: 'schema.sql',          label: 'schema.sql',         lang: 'sql', desc: 'Supabase/PostgreSQL 스키마 (테이블·뷰·RLS·RAG)' },
+  { filename: 'react/README.md',     label: 'react/README.md',    lang: 'md',  desc: '설치·실행·폴더 구조 가이드' },
+  // React 다중 파일
+  { filename: 'react/App.tsx',       label: 'react/App.tsx',      lang: 'tsx', desc: '라우터 (router 설정만)' },
+  { filename: 'react/supabase.ts',   label: 'react/supabase.ts',  lang: 'ts',  desc: 'Supabase 클라이언트 + API 헬퍼' },
+  { filename: 'react/types.ts',      label: 'react/types.ts',     lang: 'ts',  desc: '도메인 타입 정의' },
+  { filename: 'react/pages/HomePage.tsx', label: 'react/pages/HomePage.tsx', lang: 'tsx', desc: '메인 페이지 React 컴포넌트' },
 ];
 
 export const PROJECT_MOCKUPS: ProjectMockup[] = [
