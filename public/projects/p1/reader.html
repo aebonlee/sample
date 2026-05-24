@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>호랑이와 곶감 — 동화 뷰어</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      background: #2d1326;
+      color: #fff;
+      min-height: 100vh;
+      display: grid; grid-template-rows: auto 1fr auto;
+    }
+    .nav { background: rgba(0,0,0,.2); border-bottom: 1px solid rgba(255,255,255,.08); }
+    .nav__inner { color: #fff; }
+    .nav__links a { color: rgba(255,255,255,.7); }
+    .nav__links a:hover { background: rgba(255,255,255,.1); color: #fff; }
+
+    .book-wrap {
+      display: grid; place-items: center;
+      padding: 28px 20px;
+    }
+    .book {
+      width: 100%; max-width: 720px;
+      background: #fdf6e3; color: #4a2c2a;
+      border-radius: 16px;
+      box-shadow: 0 30px 60px rgba(0,0,0,.5);
+      overflow: hidden;
+      position: relative;
+    }
+    .scene {
+      aspect-ratio: 16 / 11;
+      display: grid; place-items: center;
+      position: relative; overflow: hidden;
+    }
+    .scene__art {
+      font-size: 9rem;
+      filter: drop-shadow(0 6px 20px rgba(0,0,0,.2));
+      animation: floaty 3s ease-in-out infinite;
+    }
+    @keyframes floaty { 0%, 100% { transform: translateY(0) } 50% { transform: translateY(-8px) } }
+    .text {
+      padding: 28px 32px;
+      font-family: 'Pretendard', sans-serif;
+      font-size: 1.05rem;
+      line-height: 1.9;
+    }
+    .text h2 {
+      margin: 0 0 14px; font-size: 1.3rem;
+      color: var(--accent); font-weight: 700;
+    }
+    .text p { margin: 0 0 12px; }
+
+    .pager {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 18px 24px;
+      background: #f5e9d4; border-top: 1px solid #e6d5b8;
+    }
+    .pager__btn {
+      background: var(--accent); color: #fff; border: 0;
+      padding: 10px 18px; border-radius: 999px;
+      cursor: pointer; font-family: inherit; font-weight: 600;
+      font-size: .88rem;
+    }
+    .pager__btn:disabled { opacity: .3; cursor: not-allowed; }
+    .pager__dots { display: flex; gap: 6px; }
+    .pager__dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: rgba(74,44,42,.2); cursor: pointer;
+    }
+    .pager__dot.is-on { background: var(--accent); width: 28px; border-radius: 5px; }
+
+    .ctrl {
+      display: flex; gap: 10px; justify-content: center;
+      padding: 16px;
+    }
+    .ctrl button {
+      background: rgba(255,255,255,.1); color: #fff; border: 1px solid rgba(255,255,255,.15);
+      padding: 8px 14px; border-radius: 10px;
+      cursor: pointer; font-family: inherit; font-size: .85rem;
+    }
+    .ctrl button:hover { background: rgba(255,255,255,.15); }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="nav__inner">
+      <a class="brand" href="home.html"><span class="brand__mark">📚</span> 동화공방</a>
+      <nav class="nav__links">
+        <a href="home.html">홈</a>
+        <a href="create.html">동화 만들기</a>
+        <a href="library.html">내 동화</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="book-wrap">
+    <div class="book">
+      <div class="scene" id="scene" style="background: linear-gradient(135deg,#fb923c,#fbbf24)">
+        <div class="scene__art" id="art">🐯</div>
+      </div>
+      <div class="text" id="text">
+        <h2 id="title">제1장 — 깊은 산속의 호랑이</h2>
+        <p id="body">옛날 옛적, 깊고 깊은 산속에 무서운 호랑이가 살고 있었어요. 어느 비 오는 밤, 호랑이는 너무 배가 고팠어요. "오늘은 꼭 마을로 내려가서 무엇이라도 잡아 먹어야겠다!"</p>
+      </div>
+      <nav class="pager">
+        <button class="pager__btn" id="prev" disabled>← 이전</button>
+        <div class="pager__dots" id="dots"></div>
+        <button class="pager__btn" id="next">다음 →</button>
+      </nav>
+    </div>
+  </main>
+
+  <div class="ctrl">
+    <button>🔊 읽어주기</button>
+    <button>💾 저장</button>
+    <button onclick="window.location='activity.html'">📝 독후활동</button>
+    <button>↓ PDF 받기</button>
+  </div>
+
+  <script>
+    const SCENES = [
+      { art: '🐯', bg: 'linear-gradient(135deg,#fb923c,#fbbf24)', title: '제1장 — 깊은 산속의 호랑이',
+        body: '옛날 옛적, 깊고 깊은 산속에 무서운 호랑이가 살고 있었어요. 어느 비 오는 밤, 호랑이는 너무 배가 고팠어요. "오늘은 꼭 마을로 내려가서 무엇이라도 잡아 먹어야겠다!"' },
+      { art: '🏠', bg: 'linear-gradient(135deg,#10b981,#34d399)', title: '제2장 — 마을 어귀의 작은 집',
+        body: '호랑이는 살금살금 마을로 내려갔어요. 어느 작은 집 앞에 다다랐을 때, 안에서 아기 우는 소리가 들려왔어요. 엄마가 아기를 달래고 있었지요.' },
+      { art: '👶', bg: 'linear-gradient(135deg,#a78bfa,#c084fc)', title: '제3장 — 우는 아기',
+        body: '"울지 마라, 곰이 온다!" 엄마가 말했지만 아기는 계속 울었어요. "그래도 안 그치네. 호랑이가 온다!" 그 말을 들은 호랑이는 깜짝 놀랐어요. "어떻게 내가 온 줄 알았을까?"' },
+      { art: '🍯', bg: 'linear-gradient(135deg,#f59e0b,#fef3c7)', title: '제4장 — 곶감의 정체',
+        body: '바로 그때, 엄마가 다시 말했어요. "여기 곶감 하나 줄게!" 아기가 울음을 뚝 그쳤어요. 호랑이는 깜짝 놀라 생각했어요. "곶감이라는 게 도대체 얼마나 무섭길래!"' },
+      { art: '😱', bg: 'linear-gradient(135deg,#6366f1,#a78bfa)', title: '제5장 — 호랑이의 오해',
+        body: '호랑이는 두려움에 떨기 시작했어요. "곶감은 분명 나보다 훨씬 강한 짐승일 거야!" 그때 도둑 한 명이 마침 그 집으로 들어가려고 다가왔어요. 어두워서 호랑이를 소로 착각하고 그 등에 올라탔지요.' },
+      { art: '🌅', bg: 'linear-gradient(135deg,#ec4899,#fbcfe8)', title: '제6장 — 화해와 깨달음',
+        body: '호랑이는 곶감인 줄 알고 죽을힘을 다해 도망쳤어요. 도둑도 호랑이인 줄 모르고 떨어지지 않으려 꼭 붙들었지요. 아침이 되어서야 둘 다 진실을 알게 되었어요. 그 후 호랑이는 다시는 마을에 내려가지 않았답니다.' },
+    ];
+
+    let i = 0;
+    const $scene = document.getElementById('scene');
+    const $art = document.getElementById('art');
+    const $title = document.getElementById('title');
+    const $body = document.getElementById('body');
+    const $dots = document.getElementById('dots');
+    const $prev = document.getElementById('prev');
+    const $next = document.getElementById('next');
+
+    function render() {
+      const s = SCENES[i];
+      $scene.style.background = s.bg;
+      $art.textContent = s.art;
+      $title.textContent = s.title;
+      $body.textContent = s.body;
+      $prev.disabled = i === 0;
+      $next.textContent = i === SCENES.length - 1 ? '독후활동 →' : '다음 →';
+      $dots.innerHTML = SCENES.map((_, j) =>
+        `<span class="pager__dot ${j === i ? 'is-on' : ''}" data-i="${j}"></span>`
+      ).join('');
+    }
+
+    $prev.addEventListener('click', () => { if (i > 0) { i--; render(); } });
+    $next.addEventListener('click', () => {
+      if (i < SCENES.length - 1) { i++; render(); }
+      else window.location = 'activity.html';
+    });
+    $dots.addEventListener('click', (e) => {
+      const dot = e.target.closest('.pager__dot');
+      if (dot) { i = Number(dot.dataset.i); render(); }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') $prev.click();
+      if (e.key === 'ArrowRight') $next.click();
+    });
+
+    render();
+  </script>
+</body>
+</html>

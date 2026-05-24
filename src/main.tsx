@@ -9,6 +9,7 @@ import PlatformPage from './pages/PlatformPage';
 import Community from './pages/Community';
 import Projects from './pages/Projects';
 import ProjectGuide from './pages/ProjectGuide';
+import ProjectBuild from './pages/ProjectBuild';
 import Preview from './pages/Preview';
 import { AuthProvider } from './contexts/AuthContext';
 import './styles/global.css';
@@ -27,6 +28,7 @@ const router = createHashRouter([
       { path: 'platform/:platform', element: <PlatformPage /> },
       { path: 'projects', element: <Projects /> },
       { path: 'projects/:id', element: <ProjectGuide /> },
+      { path: 'projects/:id/build', element: <ProjectBuild /> },
       { path: 'community', element: <Community /> },
       { path: 'samples/:id', element: <SampleDetail /> },
     ],

@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>문화재 AI 해설 — 홈</title>
+  <style>
+    :root {
+      --bg: #f5f0e6; --surface: #fff; --border: #d6c9b0;
+      --text: #3d2914; --text-dim: #6b4f30; --text-mute: #a0846a;
+      --accent: #B45309; --accent-2: #d97706;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; font-family: 'Pretendard', 'Noto Serif KR', serif;
+      background: var(--bg); color: var(--text); line-height: 1.6;
+    }
+    .nav {
+      background: var(--surface); border-bottom: 2px solid var(--border);
+      padding: 14px 24px; display: flex; align-items: center; gap: 20px;
+    }
+    .brand { font-weight: 800; font-size: 1.1rem; }
+    .brand span { color: var(--accent); }
+    nav { margin-left: auto; display: flex; gap: 16px; }
+    nav a { color: var(--text-dim); text-decoration: none; font-size: .9rem; }
+    nav a.on { color: var(--accent); font-weight: 600; }
+
+    .hero {
+      padding: 60px 24px; text-align: center;
+      background: linear-gradient(180deg, var(--bg), var(--surface));
+    }
+    .hero h1 { margin: 0 0 14px; font-size: 2.2rem; letter-spacing: -.01em; }
+    .hero p { color: var(--text-dim); max-width: 560px; margin: 0 auto 28px; }
+
+    .search-box {
+      max-width: 560px; margin: 0 auto;
+      display: flex; gap: 8px; padding: 6px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px;
+    }
+    .search-box input {
+      flex: 1; border: 0; padding: 10px 14px; background: transparent;
+      font-family: inherit; font-size: .95rem; outline: none;
+    }
+    .search-box button {
+      padding: 10px 22px; border: 0; border-radius: 10px;
+      background: var(--accent); color: #fff;
+      font-family: inherit; font-weight: 600; cursor: pointer;
+    }
+
+    .quick { max-width: 800px; margin: 14px auto 0; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+    .quick a {
+      padding: 6px 12px; background: rgba(180,83,9,.08); color: var(--accent);
+      border-radius: 999px; font-size: .82rem; text-decoration: none;
+    }
+
+    .container { max-width: 1100px; margin: 40px auto; padding: 0 24px 80px; }
+    .section-title { margin: 0 0 16px; font-size: 1.2rem; }
+    .heritage-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px;
+    }
+    .card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; overflow: hidden;
+      transition: transform .15s ease;
+      cursor: pointer;
+    }
+    .card:hover { transform: translateY(-3px); }
+    .card__img {
+      aspect-ratio: 4/3; display: grid; place-items: center;
+      font-size: 3rem; color: #fff;
+    }
+    .card__body { padding: 14px 16px; }
+    .card__cat { color: var(--accent); font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+    .card__title { margin: 4px 0; font-size: 1rem; font-weight: 700; }
+    .card__loc { color: var(--text-mute); font-size: .8rem; }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="brand">🏛 우리<span>문화재</span></div>
+    <nav>
+      <a class="on" href="home.html">검색</a>
+      <a href="#">탐방 미션</a>
+      <a href="#">학습 기록</a>
+      <a href="#">즐겨찾기</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>우리 문화재, AI에게 물어보세요</h1>
+    <p>국보·보물·유적지를 검색하면 초·중·고·어른 수준별로 설명해드립니다.</p>
+    <div class="search-box">
+      <input type="search" placeholder="예) 경복궁, 석굴암, 첨성대..." />
+      <button>🔍 검색</button>
+    </div>
+    <div class="quick">
+      <a href="#">🏯 경복궁</a>
+      <a href="#">🗿 석굴암</a>
+      <a href="#">⭐ 첨성대</a>
+      <a href="#">📜 훈민정음</a>
+      <a href="#">🏛 종묘</a>
+      <a href="#">⛰ 남한산성</a>
+    </div>
+  </section>
+
+  <main class="container">
+    <h2 class="section-title">🌟 오늘의 추천 문화재</h2>
+    <div class="heritage-grid">
+      <article class="card">
+        <div class="card__img" style="background: linear-gradient(135deg,#B45309,#d97706)">🏯</div>
+        <div class="card__body">
+          <div class="card__cat">국보 제223호 · 조선</div>
+          <h3 class="card__title">경복궁 근정전</h3>
+          <p class="card__loc">📍 서울 종로구</p>
+        </div>
+      </article>
+      <article class="card">
+        <div class="card__img" style="background: linear-gradient(135deg,#6b4f30,#a0846a)">🗿</div>
+        <div class="card__body">
+          <div class="card__cat">국보 제24호 · 통일신라</div>
+          <h3 class="card__title">석굴암 본존불</h3>
+          <p class="card__loc">📍 경북 경주시</p>
+        </div>
+      </article>
+      <article class="card">
+        <div class="card__img" style="background: linear-gradient(135deg,#7c3aed,#a78bfa)">⭐</div>
+        <div class="card__body">
+          <div class="card__cat">국보 제31호 · 신라</div>
+          <h3 class="card__title">경주 첨성대</h3>
+          <p class="card__loc">📍 경북 경주시</p>
+        </div>
+      </article>
+      <article class="card">
+        <div class="card__img" style="background: linear-gradient(135deg,#0c4a6e,#3b82f6)">📜</div>
+        <div class="card__body">
+          <div class="card__cat">국보 제70호 · 조선</div>
+          <h3 class="card__title">훈민정음 해례본</h3>
+          <p class="card__loc">📍 서울 간송미술관</p>
+        </div>
+      </article>
+    </div>
+  </main>
+</body>
+</html>

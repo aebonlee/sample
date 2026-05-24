@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>동화 생성 중...</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      display: grid; place-items: center; min-height: 100vh;
+      background:
+        radial-gradient(800px 500px at 50% 0%, rgba(236,72,153,.16), transparent 60%),
+        var(--bg);
+    }
+    .gen {
+      max-width: 480px; width: 100%; padding: 40px 32px;
+      text-align: center;
+    }
+    .gen__icon {
+      width: 96px; height: 96px; border-radius: 50%;
+      margin: 0 auto 24px;
+      background: linear-gradient(135deg, var(--accent), var(--warm));
+      display: grid; place-items: center;
+      font-size: 3rem; animation: spin 8s linear infinite;
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .gen h1 { margin: 0 0 8px; font-size: 1.4rem; }
+    .gen__sub { color: var(--text-dim); margin: 0 0 32px; }
+
+    .progress { margin-bottom: 28px; }
+    .progress__bar {
+      height: 8px; background: rgba(236,72,153,.12);
+      border-radius: 4px; overflow: hidden;
+    }
+    .progress__fill {
+      height: 100%; width: 0;
+      background: linear-gradient(90deg, var(--accent), var(--warm));
+      transition: width .4s ease;
+    }
+    .progress__meta {
+      display: flex; justify-content: space-between; margin-top: 8px;
+      font-size: .82rem; color: var(--text-mute);
+    }
+
+    .steps {
+      list-style: none; padding: 0; margin: 0;
+      text-align: left;
+    }
+    .step {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 16px; margin-bottom: 8px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px;
+      transition: all .3s ease;
+    }
+    .step__check {
+      width: 24px; height: 24px; border-radius: 50%;
+      background: var(--bg); border: 2px solid var(--border);
+      display: grid; place-items: center;
+      font-size: .85rem; flex-shrink: 0;
+    }
+    .step.done .step__check {
+      background: var(--accent); border-color: var(--accent); color: #fff;
+    }
+    .step.doing .step__check {
+      background: var(--surface); border-color: var(--accent); color: var(--accent);
+      animation: pulse 1s ease infinite;
+    }
+    .step__title { flex: 1; font-size: .92rem; font-weight: 500; }
+    .step__time { color: var(--text-mute); font-size: .8rem; }
+    .step.todo { opacity: .5; }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    .tip {
+      margin-top: 24px; padding: 14px 16px;
+      background: rgba(251,191,36,.1); border: 1px solid rgba(251,191,36,.3);
+      border-radius: 10px; color: var(--text-dim);
+      font-size: .85rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="gen">
+    <div class="gen__icon">✨</div>
+    <h1>아이만의 동화를 만들고 있어요</h1>
+    <p class="gen__sub">Solar LLM이 한국적 소재를 엮어내는 중입니다</p>
+
+    <div class="progress">
+      <div class="progress__bar">
+        <div class="progress__fill" id="bar"></div>
+      </div>
+      <div class="progress__meta">
+        <span id="pct">0%</span>
+        <span>약 30초 남음</span>
+      </div>
+    </div>
+
+    <ul class="steps" id="steps">
+      <li class="step doing" data-i="0">
+        <span class="step__check">1</span>
+        <span class="step__title">소재 분석 및 줄거리 구상</span>
+        <span class="step__time">~5초</span>
+      </li>
+      <li class="step todo" data-i="1">
+        <span class="step__check">2</span>
+        <span class="step__title">연령별 어휘 수준으로 본문 작성</span>
+        <span class="step__time">~10초</span>
+      </li>
+      <li class="step todo" data-i="2">
+        <span class="step__check">3</span>
+        <span class="step__title">장면별로 분할 (5~8장)</span>
+        <span class="step__time">~3초</span>
+      </li>
+      <li class="step todo" data-i="3">
+        <span class="step__check">4</span>
+        <span class="step__title">장면별 삽화 프롬프트 생성</span>
+        <span class="step__time">~7초</span>
+      </li>
+      <li class="step todo" data-i="4">
+        <span class="step__check">5</span>
+        <span class="step__title">독후활동 질문 및 활동 생성</span>
+        <span class="step__time">~5초</span>
+      </li>
+    </ul>
+
+    <div class="tip">
+      💡 Tip — 동화가 완성되면 PDF로 저장하거나 인쇄해 종이책처럼 읽을 수 있어요.
+    </div>
+  </div>
+
+  <script>
+    // 가짜 진행률 시뮬레이션
+    const steps = document.querySelectorAll('.step');
+    const bar = document.getElementById('bar');
+    const pct = document.getElementById('pct');
+    const stepDurations = [3000, 6000, 1800, 4500, 3000]; // ms
+    let cumulative = 0;
+    const total = stepDurations.reduce((a, b) => a + b, 0);
+
+    stepDurations.forEach((dur, idx) => {
+      setTimeout(() => {
+        steps[idx].classList.remove('doing', 'todo');
+        steps[idx].classList.add('done');
+        if (steps[idx + 1]) {
+          steps[idx + 1].classList.remove('todo');
+          steps[idx + 1].classList.add('doing');
+        }
+      }, cumulative + dur);
+      cumulative += dur;
+    });
+
+    // 부드러운 progress bar
+    const start = Date.now();
+    const tick = () => {
+      const elapsed = Date.now() - start;
+      const p = Math.min(100, (elapsed / total) * 100);
+      bar.style.width = p + '%';
+      pct.textContent = Math.round(p) + '%';
+      if (p < 100) requestAnimationFrame(tick);
+      else setTimeout(() => { window.location = 'reader.html'; }, 600);
+    };
+    requestAnimationFrame(tick);
+  </script>
+</body>
+</html>

@@ -171,7 +171,7 @@ export default function ProjectGuide(): ReactElement {
         <div className="pgd-content">
           <div className="pgd-hero-card" style={{ borderLeftColor: project.color }}>
             <span className="pgd-hero-icon" style={{ background: `${project.color}18`, color: project.color }}>{project.icon}</span>
-            <div>
+            <div style={{ flex: 1 }}>
               <h3 className="pgd-hero-title">{project.title}</h3>
               <p className="pgd-hero-subtitle">{project.subtitle}</p>
               <div className="pgd-hero-tags">
@@ -180,6 +180,13 @@ export default function ProjectGuide(): ReactElement {
                 ))}
               </div>
             </div>
+            <Link
+              to={`/projects/${project.id}/build`}
+              className="btn btn--primary btn--sm"
+              style={{ marginLeft: 'auto', whiteSpace: 'nowrap' }}
+            >
+              🎨 구현 페이지 보기 →
+            </Link>
           </div>
 
           <ProjectDetail project={project} />

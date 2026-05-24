@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>내 동화 — 라이브러리</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .page-head { max-width: 1080px; margin: 0 auto; padding: 32px 20px 8px; }
+    .page-head h1 { margin: 0 0 6px; font-size: 1.6rem; }
+    .page-head p { color: var(--text-dim); margin: 0; }
+
+    .filters {
+      max-width: 1080px; margin: 20px auto; padding: 0 20px;
+      display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+    }
+    .search {
+      flex: 1; min-width: 200px; padding: 10px 14px;
+      border-radius: 10px; border: 1px solid var(--border);
+      background: var(--surface); font-family: inherit; font-size: .9rem;
+      outline: none;
+    }
+    .search:focus { border-color: var(--accent); }
+    .chip {
+      padding: 8px 14px; border-radius: 999px;
+      background: var(--surface); border: 1px solid var(--border);
+      font-size: .82rem; cursor: pointer; font-family: inherit;
+    }
+    .chip.is-on { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    .lib {
+      max-width: 1080px; margin: 0 auto; padding: 24px 20px 64px;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 16px;
+    }
+    .book {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; overflow: hidden; cursor: pointer;
+      transition: transform .15s ease, box-shadow .15s ease;
+      position: relative;
+    }
+    .book:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(236,72,153,.12); }
+    .book__cover {
+      aspect-ratio: 3/4; display: grid; place-items: center;
+      color: #fff; font-size: 2.6rem;
+      position: relative;
+    }
+    .book__age {
+      position: absolute; top: 8px; right: 8px;
+      background: rgba(0,0,0,.45); color: #fff;
+      padding: 3px 8px; border-radius: 999px; font-size: .68rem; font-weight: 700;
+    }
+    .book__fav {
+      position: absolute; bottom: 8px; right: 8px;
+      width: 30px; height: 30px; border-radius: 50%;
+      background: rgba(0,0,0,.4); border: 0; color: #fff;
+      cursor: pointer; font-size: .9rem;
+    }
+    .book__fav.is-on { color: #fbbf24; background: rgba(0,0,0,.55); }
+    .book__body { padding: 12px 14px; }
+    .book__title { margin: 0 0 4px; font-size: .95rem; font-weight: 600; }
+    .book__meta { color: var(--text-mute); font-size: .76rem; }
+
+    .empty {
+      grid-column: 1 / -1;
+      text-align: center; padding: 60px 20px;
+      color: var(--text-dim);
+    }
+    .empty span { font-size: 3rem; display: block; margin-bottom: 12px; }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="nav__inner">
+      <a class="brand" href="home.html"><span class="brand__mark">📚</span> 동화공방</a>
+      <nav class="nav__links">
+        <a href="home.html">홈</a>
+        <a href="create.html">동화 만들기</a>
+        <a href="library.html" class="is-on">내 동화</a>
+      </nav>
+      <div class="nav__cta">
+        <a href="create.html" class="btn btn--primary">+ 새 동화</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="page-head">
+    <h1>📚 내가 만든 동화</h1>
+    <p>지금까지 만든 동화 <strong id="count">12</strong>권 — 즐겁게 읽고 활동까지 마치셨네요!</p>
+  </div>
+
+  <div class="filters">
+    <input class="search" type="search" placeholder="동화 제목 검색…" id="search" />
+    <button class="chip is-on" data-f="all">전체</button>
+    <button class="chip" data-f="5-7">5~7세</button>
+    <button class="chip" data-f="8-10">8~10세</button>
+    <button class="chip" data-f="11-12">11~12세</button>
+    <button class="chip" data-f="fav">⭐ 즐겨찾기</button>
+  </div>
+
+  <div class="lib" id="lib"></div>
+
+  <script>
+    const BOOKS = [
+      { id: 1, title: '호랑이와 곶감', age: '5-7', emoji: '🐯', bg: 'linear-gradient(135deg,#fb923c,#fbbf24)', date: '2026.05.20', fav: true },
+      { id: 2, title: '달이 된 누나', age: '8-10', emoji: '🌕', bg: 'linear-gradient(135deg,#f59e0b,#fef3c7)', date: '2026.05.18', fav: false },
+      { id: 3, title: '제주 용두암 전설', age: '11-12', emoji: '🐉', bg: 'linear-gradient(135deg,#10b981,#34d399)', date: '2026.05.15', fav: true },
+      { id: 4, title: '단오 축제의 비밀', age: '8-10', emoji: '🎎', bg: 'linear-gradient(135deg,#6366f1,#8b5cf6)', date: '2026.05.10', fav: false },
+      { id: 5, title: '도깨비 방망이', age: '5-7', emoji: '🪄', bg: 'linear-gradient(135deg,#ec4899,#f472b6)', date: '2026.05.05', fav: false },
+      { id: 6, title: '선녀와 나무꾼', age: '8-10', emoji: '🦢', bg: 'linear-gradient(135deg,#0ea5e9,#7dd3fc)', date: '2026.04.28', fav: true },
+      { id: 7, title: '효녀 심청', age: '11-12', emoji: '🌊', bg: 'linear-gradient(135deg,#1e3a8a,#3b82f6)', date: '2026.04.22', fav: false },
+      { id: 8, title: '토끼의 간', age: '5-7', emoji: '🐰', bg: 'linear-gradient(135deg,#f43f5e,#fb7185)', date: '2026.04.18', fav: false },
+      { id: 9, title: '추석 보름달의 약속', age: '8-10', emoji: '🌖', bg: 'linear-gradient(135deg,#fbbf24,#f59e0b)', date: '2026.04.10', fav: true },
+      { id: 10, title: '경주 첨성대 이야기', age: '11-12', emoji: '⭐', bg: 'linear-gradient(135deg,#7c3aed,#a78bfa)', date: '2026.04.04', fav: false },
+      { id: 11, title: '콩쥐 팥쥐', age: '5-7', emoji: '🫛', bg: 'linear-gradient(135deg,#22c55e,#86efac)', date: '2026.03.28', fav: false },
+      { id: 12, title: '바다 용궁의 손님', age: '8-10', emoji: '🐠', bg: 'linear-gradient(135deg,#06b6d4,#67e8f9)', date: '2026.03.20', fav: true },
+    ];
+
+    let filter = 'all';
+    let query = '';
+
+    function render() {
+      const $lib = document.getElementById('lib');
+      const list = BOOKS.filter((b) => {
+        if (filter === 'fav' && !b.fav) return false;
+        if (filter !== 'all' && filter !== 'fav' && b.age !== filter) return false;
+        if (query && !b.title.toLowerCase().includes(query.toLowerCase())) return false;
+        return true;
+      });
+      if (list.length === 0) {
+        $lib.innerHTML = '<div class="empty"><span>📖</span>조건에 맞는 동화가 없어요.</div>';
+        return;
+      }
+      $lib.innerHTML = list.map((b) => `
+        <a class="book" href="reader.html">
+          <div class="book__cover" style="background: ${b.bg}">
+            ${b.emoji}
+            <span class="book__age">${b.age}세</span>
+            <button class="book__fav ${b.fav ? 'is-on' : ''}" data-id="${b.id}" onclick="event.preventDefault(); event.stopPropagation(); toggleFav(${b.id})">${b.fav ? '★' : '☆'}</button>
+          </div>
+          <div class="book__body">
+            <p class="book__title">${b.title}</p>
+            <p class="book__meta">${b.date} · ${b.age}세</p>
+          </div>
+        </a>
+      `).join('');
+    }
+
+    window.toggleFav = (id) => {
+      const b = BOOKS.find((x) => x.id === id);
+      if (b) { b.fav = !b.fav; render(); }
+    };
+
+    document.querySelectorAll('.chip').forEach((c) => {
+      c.addEventListener('click', () => {
+        document.querySelectorAll('.chip').forEach((x) => x.classList.remove('is-on'));
+        c.classList.add('is-on');
+        filter = c.dataset.f;
+        render();
+      });
+    });
+    document.getElementById('search').addEventListener('input', (e) => {
+      query = e.target.value;
+      render();
+    });
+
+    render();
+  </script>
+</body>
+</html>

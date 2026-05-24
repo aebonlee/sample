@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>자격증 학습 — 자격증 선택</title>
+  <style>
+    :root {
+      --bg: #f0f9ff; --surface: #fff; --border: #bae6fd;
+      --text: #0c4a6e; --text-dim: #075985; --text-mute: #0369a1;
+      --accent: #0284c7; --accent-2: #0ea5e9;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: 'Pretendard', sans-serif; background: var(--bg); color: var(--text); line-height: 1.55; }
+    .nav { background: var(--surface); border-bottom: 1px solid var(--border); padding: 14px 24px; display: flex; gap: 18px; align-items: center; }
+    .brand { font-weight: 800; }
+    nav { margin-left: auto; display: flex; gap: 12px; }
+    nav a { color: var(--text-dim); text-decoration: none; font-size: .9rem; padding: 6px 12px; border-radius: 8px; }
+    nav a.on { background: var(--accent); color: #fff; }
+
+    .page-head { max-width: 1100px; margin: 0 auto; padding: 28px 24px 0; }
+    .page-head h1 { margin: 0 0 6px; font-size: 1.6rem; }
+    .page-head p { color: var(--text-dim); margin: 0; }
+
+    .search-bar { max-width: 1100px; margin: 18px auto; padding: 0 24px; display: flex; gap: 10px; }
+    .search-bar input { flex: 1; padding: 12px 16px; border: 1px solid var(--border); background: var(--surface); border-radius: 10px; font-family: inherit; outline: none; }
+    .search-bar select { padding: 12px 14px; border: 1px solid var(--border); background: var(--surface); border-radius: 10px; font-family: inherit; outline: none; }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 16px 24px 80px; }
+
+    .cat-tabs { display: flex; gap: 6px; margin-bottom: 18px; flex-wrap: wrap; }
+    .cat { padding: 8px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 999px; cursor: pointer; font-size: .85rem; }
+    .cat.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+    .cert {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; padding: 20px; cursor: pointer;
+      transition: transform .15s ease, box-shadow .15s ease;
+      position: relative;
+    }
+    .cert:hover { transform: translateY(-3px); box-shadow: 0 12px 24px rgba(2,132,199,.12); }
+    .cert__head { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+    .cert__ico { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; font-size: 1.4rem; color: #fff; flex-shrink: 0; }
+    .cert__title { margin: 0; font-size: 1.05rem; font-weight: 700; }
+    .cert__sub { color: var(--text-mute); font-size: .8rem; }
+    .cert__meta { display: flex; gap: 14px; font-size: .82rem; color: var(--text-dim); margin: 10px 0; }
+    .cert__meta span strong { color: var(--text); }
+    .cert__progress {
+      margin-top: 14px;
+      height: 6px; background: var(--bg); border-radius: 3px; overflow: hidden;
+    }
+    .cert__fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-2)); }
+    .cert__progress-label {
+      display: flex; justify-content: space-between; margin-top: 6px;
+      font-size: .75rem; color: var(--text-mute);
+    }
+    .badge {
+      position: absolute; top: 14px; right: 14px;
+      padding: 3px 9px; border-radius: 999px;
+      background: rgba(2,132,199,.1); color: var(--accent);
+      font-size: .7rem; font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="brand">🎓 자격증 코치</div>
+    <nav>
+      <a class="on" href="home.html">자격증 선택</a>
+      <a href="#">문제 풀기</a>
+      <a href="#">취약점 분석</a>
+      <a href="#">학습 계획</a>
+      <a href="#">오답 노트</a>
+    </nav>
+  </header>
+
+  <div class="page-head">
+    <h1>🎓 어떤 자격증을 준비하시나요?</h1>
+    <p>먼저 진단 평가로 현재 실력을 파악하고, 취약점에 집중하는 학습 계획을 만들어드립니다.</p>
+  </div>
+
+  <div class="search-bar">
+    <input type="search" placeholder="자격증명 검색 (예: 정보처리기사, 토익, ADsP...)" />
+    <select>
+      <option>전체 분야</option><option>IT</option><option>어학</option><option>금융</option><option>경영</option>
+    </select>
+  </div>
+
+  <main class="container">
+    <div class="cat-tabs">
+      <span class="cat on">🔥 인기</span>
+      <span class="cat">💻 IT/SW</span>
+      <span class="cat">🌐 어학</span>
+      <span class="cat">💼 경영/금융</span>
+      <span class="cat">⚖ 공무원/공기업</span>
+      <span class="cat">🛠 기술</span>
+    </div>
+
+    <div class="grid">
+      <article class="cert">
+        <span class="badge">진행 중</span>
+        <div class="cert__head">
+          <div class="cert__ico" style="background: linear-gradient(135deg,#0284c7,#0ea5e9)">💻</div>
+          <div>
+            <h3 class="cert__title">정보처리기사</h3>
+            <p class="cert__sub">한국산업인력공단 · 4년제 이상</p>
+          </div>
+        </div>
+        <div class="cert__meta">
+          <span>📅 다음 시험 <strong>2026.07.18</strong></span>
+        </div>
+        <div class="cert__progress"><div class="cert__fill" style="width: 64%"></div></div>
+        <div class="cert__progress-label"><span>248 / 380 문제</span><span>64%</span></div>
+      </article>
+
+      <article class="cert">
+        <span class="badge">진행 중</span>
+        <div class="cert__head">
+          <div class="cert__ico" style="background: linear-gradient(135deg,#7c3aed,#a78bfa)">📊</div>
+          <div>
+            <h3 class="cert__title">ADsP (데이터 분석 준전문가)</h3>
+            <p class="cert__sub">한국데이터산업진흥원</p>
+          </div>
+        </div>
+        <div class="cert__meta">
+          <span>📅 다음 시험 <strong>2026.08.24</strong></span>
+        </div>
+        <div class="cert__progress"><div class="cert__fill" style="width: 32%"></div></div>
+        <div class="cert__progress-label"><span>96 / 300 문제</span><span>32%</span></div>
+      </article>
+
+      <article class="cert">
+        <div class="cert__head">
+          <div class="cert__ico" style="background: linear-gradient(135deg,#dc2626,#f87171)">🌐</div>
+          <div>
+            <h3 class="cert__title">TOEIC</h3>
+            <p class="cert__sub">YBM · 매월 시행</p>
+          </div>
+        </div>
+        <div class="cert__meta">
+          <span>📚 평균 학습 <strong>3개월</strong></span>
+          <span>📈 합격률 <strong>—</strong></span>
+        </div>
+        <div class="cert__progress"><div class="cert__fill" style="width: 0%"></div></div>
+        <div class="cert__progress-label"><span>시작 전</span><span>0%</span></div>
+      </article>
+
+      <article class="cert">
+        <div class="cert__head">
+          <div class="cert__ico" style="background: linear-gradient(135deg,#16a34a,#4ade80)">💰</div>
+          <div>
+            <h3 class="cert__title">투자자산운용사</h3>
+            <p class="cert__sub">금융투자협회</p>
+          </div>
+        </div>
+        <div class="cert__meta">
+          <span>📚 평균 학습 <strong>4개월</strong></span>
+          <span>📈 합격률 <strong>52%</strong></span>
+        </div>
+        <div class="cert__progress"><div class="cert__fill" style="width: 0%"></div></div>
+        <div class="cert__progress-label"><span>시작 전</span><span>0%</span></div>
+      </article>
+
+      <article class="cert">
+        <div class="cert__head">
+          <div class="cert__ico" style="background: linear-gradient(135deg,#f59e0b,#fbbf24)">🛠</div>
+          <div>
+            <h3 class="cert__title">전기기사</h3>
+            <p class="cert__sub">한국산업인력공단</p>
+          </div>
+        </div>
+        <div class="cert__meta">
+          <span>📚 평균 학습 <strong>6개월</strong></span>
+          <span>📈 합격률 <strong>22%</strong></span>
+        </div>
+        <div class="cert__progress"><div class="cert__fill" style="width: 0%"></div></div>
+        <div class="cert__progress-label"><span>시작 전</span><span>0%</span></div>
+      </article>
+
+      <article class="cert">
+        <div class="cert__head">
+          <div class="cert__ico" style="background: linear-gradient(135deg,#0ea5e9,#67e8f9)">📈</div>
+          <div>
+            <h3 class="cert__title">SQL 개발자 (SQLD)</h3>
+            <p class="cert__sub">한국데이터산업진흥원</p>
+          </div>
+        </div>
+        <div class="cert__meta">
+          <span>📚 평균 학습 <strong>2개월</strong></span>
+          <span>📈 합격률 <strong>48%</strong></span>
+        </div>
+        <div class="cert__progress"><div class="cert__fill" style="width: 0%"></div></div>
+        <div class="cert__progress-label"><span>시작 전</span><span>0%</span></div>
+      </article>
+    </div>
+  </main>
+</body>
+</html>

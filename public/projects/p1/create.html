@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>동화 만들기 — 입력</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .page-head { padding: 32px 20px 8px; max-width: 720px; margin: 0 auto; }
+    .page-head h1 { margin: 0 0 6px; font-size: 1.6rem; letter-spacing: -.01em; }
+    .page-head p { color: var(--text-dim); margin: 0; }
+
+    .form { max-width: 720px; margin: 24px auto; padding: 0 20px 64px; }
+    .field { margin-bottom: 22px; }
+    .field__label { display: block; margin-bottom: 8px; font-weight: 600; font-size: .92rem; }
+    .field__hint { color: var(--text-mute); font-size: .8rem; margin-left: 6px; font-weight: 400; }
+    .field__input, .field__textarea {
+      width: 100%; padding: 12px 14px; border-radius: 10px;
+      border: 1px solid var(--border); background: var(--surface);
+      color: var(--text); font-family: inherit; font-size: .95rem;
+      outline: none; transition: border-color .15s ease;
+    }
+    .field__input:focus, .field__textarea:focus { border-color: var(--accent); }
+    .field__textarea { min-height: 100px; resize: vertical; }
+
+    .opt-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 8px; }
+    .opt-tile {
+      padding: 14px 12px; border-radius: 12px;
+      background: var(--surface); border: 1.5px solid var(--border);
+      cursor: pointer; text-align: center;
+      transition: all .15s ease;
+    }
+    .opt-tile input { display: none; }
+    .opt-tile__emoji { font-size: 1.6rem; display: block; margin-bottom: 4px; }
+    .opt-tile__label { font-weight: 600; font-size: .82rem; display: block; }
+    .opt-tile__sub { color: var(--text-mute); font-size: .72rem; display: block; }
+    .opt-tile:has(input:checked) {
+      background: rgba(236,72,153,.08); border-color: var(--accent);
+    }
+
+    .tags { display: flex; gap: 8px; flex-wrap: wrap; }
+    .tag {
+      padding: 7px 14px; border-radius: 999px;
+      background: var(--surface); border: 1px solid var(--border);
+      cursor: pointer; font-size: .85rem;
+    }
+    .tag.is-on { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    .actions {
+      display: flex; gap: 10px; justify-content: flex-end;
+      margin-top: 32px;
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="nav__inner">
+      <a class="brand" href="home.html"><span class="brand__mark">📚</span> 동화공방</a>
+      <nav class="nav__links">
+        <a href="home.html">홈</a>
+        <a href="create.html" class="is-on">동화 만들기</a>
+        <a href="library.html">내 동화</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="page-head">
+    <h1>✨ 어떤 동화를 만들까요?</h1>
+    <p>아이의 나이와 좋아하는 것을 알려주면 맞춤형 동화를 만들어드려요.</p>
+  </div>
+
+  <form class="form" onsubmit="event.preventDefault(); window.location='generating.html';">
+    <div class="field">
+      <label class="field__label">① 누구의 동화인가요? <span class="field__hint">아이의 이름 (선택)</span></label>
+      <input type="text" class="field__input" placeholder="예) 지우" />
+    </div>
+
+    <div class="field">
+      <label class="field__label">② 몇 살의 어휘 수준이 좋을까요?</label>
+      <div class="opt-grid">
+        <label class="opt-tile">
+          <input type="radio" name="age" />
+          <span class="opt-tile__emoji">🧒</span>
+          <span class="opt-tile__label">5~7세</span>
+          <span class="opt-tile__sub">유아</span>
+        </label>
+        <label class="opt-tile">
+          <input type="radio" name="age" checked />
+          <span class="opt-tile__emoji">👦</span>
+          <span class="opt-tile__label">8~10세</span>
+          <span class="opt-tile__sub">초등 저학년</span>
+        </label>
+        <label class="opt-tile">
+          <input type="radio" name="age" />
+          <span class="opt-tile__emoji">👧</span>
+          <span class="opt-tile__label">11~12세</span>
+          <span class="opt-tile__sub">초등 고학년</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field__label">③ 어떤 한국적 소재가 좋을까요?</label>
+      <div class="opt-grid">
+        <label class="opt-tile">
+          <input type="radio" name="origin" checked />
+          <span class="opt-tile__emoji">🐯</span>
+          <span class="opt-tile__label">전래동화</span>
+        </label>
+        <label class="opt-tile">
+          <input type="radio" name="origin" />
+          <span class="opt-tile__emoji">🎎</span>
+          <span class="opt-tile__label">명절·풍습</span>
+        </label>
+        <label class="opt-tile">
+          <input type="radio" name="origin" />
+          <span class="opt-tile__emoji">🏔</span>
+          <span class="opt-tile__label">지역 설화</span>
+        </label>
+        <label class="opt-tile">
+          <input type="radio" name="origin" />
+          <span class="opt-tile__emoji">🏯</span>
+          <span class="opt-tile__label">역사 인물</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field__label">④ 동화에 담고 싶은 가치 <span class="field__hint">여러 개 선택 가능</span></label>
+      <div class="tags" id="valueTags">
+        <span class="tag is-on">우정</span>
+        <span class="tag">용기</span>
+        <span class="tag is-on">배려</span>
+        <span class="tag">정직</span>
+        <span class="tag">호기심</span>
+        <span class="tag">가족애</span>
+        <span class="tag">자연 사랑</span>
+        <span class="tag">도전</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field__label">⑤ 추가 요청사항 <span class="field__hint">선택</span></label>
+      <textarea class="field__textarea" placeholder="예) 주인공이 호기심 많은 다람쥐였으면 좋겠어요. 배경은 가을 산속이고, 결말은 따뜻한 화해로 마무리되면 좋겠어요."></textarea>
+    </div>
+
+    <div class="actions">
+      <a href="home.html" class="btn btn--ghost">취소</a>
+      <button type="submit" class="btn btn--primary">✨ 동화 만들기</button>
+    </div>
+  </form>
+
+  <script>
+    document.querySelectorAll('#valueTags .tag').forEach((t) => {
+      t.addEventListener('click', () => t.classList.toggle('is-on'));
+    });
+  </script>
+</body>
+</html>

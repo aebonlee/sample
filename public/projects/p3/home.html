@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>한국사 학습 — 시대 타임라인</title>
+  <style>
+    :root {
+      --bg: #fefce8; --surface: #fff; --border: #fde68a;
+      --text: #78350f; --text-dim: #92400e; --text-mute: #b45309;
+      --accent: #ca8a04; --accent-2: #eab308;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; font-family: 'Pretendard', sans-serif;
+      background: var(--bg); color: var(--text); line-height: 1.6;
+    }
+    .nav { background: var(--surface); border-bottom: 1px solid var(--border); padding: 14px 24px; display: flex; align-items: center; gap: 18px; }
+    .brand { font-weight: 800; font-size: 1.1rem; color: var(--accent); }
+    nav { margin-left: auto; display: flex; gap: 14px; }
+    nav a { color: var(--text-dim); text-decoration: none; font-size: .9rem; padding: 6px 10px; border-radius: 8px; }
+    nav a.on { background: var(--accent); color: #fff; }
+    .me { width: 36px; height: 36px; border-radius: 50%; background: var(--accent); color: #fff; display: grid; place-items: center; font-weight: 700; }
+
+    .page-head { max-width: 1100px; margin: 0 auto; padding: 28px 24px 8px; }
+    .page-head h1 { margin: 0 0 6px; font-size: 1.6rem; }
+    .page-head p { color: var(--text-dim); margin: 0; }
+
+    .stats { max-width: 1100px; margin: 14px auto; padding: 0 24px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .stat { padding: 14px 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+    .stat span { color: var(--text-mute); font-size: .78rem; }
+    .stat strong { display: block; font-size: 1.4rem; }
+
+    .container { max-width: 1100px; margin: 24px auto; padding: 0 24px 80px; }
+    .timeline {
+      position: relative; padding-left: 40px;
+    }
+    .timeline::before {
+      content: ''; position: absolute; left: 14px; top: 0; bottom: 0;
+      width: 4px; background: linear-gradient(180deg, var(--accent), var(--accent-2));
+      border-radius: 2px;
+    }
+    .era {
+      position: relative; padding: 18px 22px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; margin-bottom: 18px;
+      cursor: pointer; transition: transform .15s ease;
+    }
+    .era:hover { transform: translateX(4px); }
+    .era__dot {
+      position: absolute; left: -33px; top: 22px;
+      width: 24px; height: 24px; border-radius: 50%;
+      background: var(--accent); border: 4px solid var(--bg);
+    }
+    .era__head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+    .era__title { margin: 0; font-size: 1.1rem; font-weight: 700; }
+    .era__year { color: var(--text-mute); font-size: .85rem; }
+    .era__desc { color: var(--text-dim); margin: 0 0 12px; font-size: .9rem; }
+
+    .progress { display: flex; align-items: center; gap: 10px; font-size: .8rem; color: var(--text-dim); }
+    .progress__bar { flex: 1; height: 6px; background: var(--bg); border-radius: 3px; overflow: hidden; }
+    .progress__fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-2)); }
+    .progress__pct { font-weight: 700; color: var(--accent); }
+
+    .era__topics { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+    .topic { padding: 3px 9px; background: var(--bg); border-radius: 999px; font-size: .72rem; }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="brand">📜 한국사 마스터</div>
+    <nav>
+      <a class="on" href="home.html">타임라인</a>
+      <a href="#">문제 풀기</a>
+      <a href="#">오답 노트</a>
+      <a href="#">성적표</a>
+      <a href="#">한능검 모의고사</a>
+    </nav>
+    <div class="me">JL</div>
+  </header>
+
+  <div class="page-head">
+    <h1>📜 시대별 한국사 학습</h1>
+    <p>고조선부터 현대까지 — 흥미로운 이야기로 한국사를 정복해 보세요.</p>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><span>학습한 시대</span><strong>4 / 10</strong></div>
+    <div class="stat"><span>푼 문제</span><strong>248</strong></div>
+    <div class="stat"><span>정답률</span><strong>72%</strong></div>
+    <div class="stat"><span>연속 학습</span><strong>🔥 12일</strong></div>
+  </div>
+
+  <main class="container">
+    <div class="timeline">
+      <article class="era">
+        <span class="era__dot"></span>
+        <div class="era__head">
+          <h2 class="era__title">고조선 · 부여 · 삼한</h2>
+          <span class="era__year">BC 2333 ~ BC 108</span>
+        </div>
+        <p class="era__desc">단군 신화부터 시작되는 우리 민족 최초의 국가. 청동기·철기 문화와 함께 한반도의 첫 정치 체계가 형성됩니다.</p>
+        <div class="progress">
+          <span>진도</span>
+          <div class="progress__bar"><div class="progress__fill" style="width: 100%"></div></div>
+          <span class="progress__pct">100%</span>
+        </div>
+        <div class="era__topics">
+          <span class="topic">단군신화</span><span class="topic">8조법</span><span class="topic">청동기</span><span class="topic">위만조선</span>
+        </div>
+      </article>
+
+      <article class="era">
+        <span class="era__dot"></span>
+        <div class="era__head">
+          <h2 class="era__title">삼국시대</h2>
+          <span class="era__year">BC 57 ~ 668</span>
+        </div>
+        <p class="era__desc">고구려·백제·신라 세 나라의 경쟁과 문화 교류. 광개토대왕, 근초고왕, 진흥왕의 시대.</p>
+        <div class="progress">
+          <span>진도</span>
+          <div class="progress__bar"><div class="progress__fill" style="width: 85%"></div></div>
+          <span class="progress__pct">85%</span>
+        </div>
+        <div class="era__topics">
+          <span class="topic">광개토대왕</span><span class="topic">백제 부흥</span><span class="topic">신라 통일</span>
+        </div>
+      </article>
+
+      <article class="era">
+        <span class="era__dot"></span>
+        <div class="era__head">
+          <h2 class="era__title">통일신라 · 발해</h2>
+          <span class="era__year">668 ~ 935</span>
+        </div>
+        <p class="era__desc">통일된 한반도에 꽃핀 화려한 불교 문화. 그 북쪽에는 해동성국 발해가 있었습니다.</p>
+        <div class="progress">
+          <span>진도</span>
+          <div class="progress__bar"><div class="progress__fill" style="width: 60%"></div></div>
+          <span class="progress__pct">60%</span>
+        </div>
+      </article>
+
+      <article class="era">
+        <span class="era__dot"></span>
+        <div class="era__head">
+          <h2 class="era__title">고려</h2>
+          <span class="era__year">918 ~ 1392</span>
+        </div>
+        <p class="era__desc">왕건이 세운 고려, 거란과 몽골의 침입을 견뎌낸 인내의 역사.</p>
+        <div class="progress">
+          <span>진도</span>
+          <div class="progress__bar"><div class="progress__fill" style="width: 30%"></div></div>
+          <span class="progress__pct">30%</span>
+        </div>
+      </article>
+
+      <article class="era">
+        <span class="era__dot"></span>
+        <div class="era__head">
+          <h2 class="era__title">조선 전기</h2>
+          <span class="era__year">1392 ~ 1592</span>
+        </div>
+        <p class="era__desc">세종대왕의 훈민정음, 성리학의 정착, 그리고 사화와 당쟁의 시작.</p>
+        <div class="progress">
+          <span>진도</span>
+          <div class="progress__bar"><div class="progress__fill" style="width: 0%"></div></div>
+          <span class="progress__pct">시작 전</span>
+        </div>
+      </article>
+    </div>
+  </main>
+</body>
+</html>

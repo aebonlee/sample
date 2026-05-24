@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>독후활동 — 호랑이와 곶감</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .page-head { padding: 28px 20px 4px; max-width: 880px; margin: 0 auto; }
+    .page-head__crumb { color: var(--text-mute); font-size: .85rem; margin-bottom: 8px; }
+    .page-head__crumb a { color: var(--text-mute); }
+    .page-head__crumb a:hover { color: var(--accent); }
+    .page-head h1 { margin: 0 0 6px; font-size: 1.6rem; letter-spacing: -.01em; }
+    .page-head p { color: var(--text-dim); margin: 0; }
+
+    .grid {
+      max-width: 880px; margin: 24px auto; padding: 0 20px 64px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    }
+    .act {
+      padding: 22px; position: relative;
+    }
+    .act__type {
+      display: inline-block; padding: 3px 10px;
+      background: rgba(236,72,153,.1); color: var(--accent);
+      border-radius: 999px; font-size: .72rem; font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .act h3 { margin: 0 0 10px; font-size: 1.05rem; letter-spacing: -.01em; }
+    .act p { margin: 0 0 14px; color: var(--text-dim); font-size: .9rem; }
+
+    .qs { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+    .qs li {
+      padding: 12px 14px; background: var(--bg);
+      border: 1px solid var(--border); border-radius: 10px;
+      font-size: .9rem; line-height: 1.5;
+    }
+    .qs li::before {
+      content: 'Q. '; color: var(--accent); font-weight: 700; margin-right: 4px;
+    }
+
+    .draw {
+      padding: 16px; background: var(--bg); border-radius: 10px;
+      text-align: center;
+    }
+    .draw__hint {
+      border: 2px dashed var(--border);
+      border-radius: 10px;
+      padding: 32px 16px; color: var(--text-mute);
+      font-size: .88rem;
+    }
+
+    .craft {
+      list-style: none; padding: 0; margin: 0;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .craft li {
+      display: flex; align-items: center; gap: 8px;
+      font-size: .88rem; color: var(--text-dim);
+    }
+    .craft li::before {
+      content: '✓'; color: var(--accent); font-weight: 700;
+    }
+
+    .role {
+      display: flex; flex-wrap: wrap; gap: 8px;
+    }
+    .role span {
+      padding: 8px 14px; border-radius: 999px;
+      background: var(--bg); border: 1px solid var(--border);
+      font-size: .85rem;
+    }
+
+    .actions { text-align: center; padding: 0 20px 48px; }
+    .actions .btn { margin: 0 4px; }
+
+    @media (max-width: 720px) { .grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="nav__inner">
+      <a class="brand" href="home.html"><span class="brand__mark">📚</span> 동화공방</a>
+      <nav class="nav__links">
+        <a href="home.html">홈</a>
+        <a href="create.html">동화 만들기</a>
+        <a href="library.html">내 동화</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="page-head">
+    <p class="page-head__crumb"><a href="reader.html">호랑이와 곶감</a> › 독후활동</p>
+    <h1>📝 동화를 다 읽었어요! 무엇을 더 해볼까요?</h1>
+    <p>오늘 읽은 동화로 아이와 함께 할 수 있는 활동을 추천해드려요.</p>
+  </div>
+
+  <div class="grid">
+    <article class="act card">
+      <span class="act__type">💭 생각 질문</span>
+      <h3>이야기를 함께 떠올려 봐요</h3>
+      <p>아이의 답을 들으며 천천히 대화해보세요.</p>
+      <ul class="qs">
+        <li>호랑이는 왜 곶감을 무서워했을까요?</li>
+        <li>만약 내가 호랑이라면 무엇을 가장 무서워할까요?</li>
+        <li>오해가 풀린 후 호랑이는 어떻게 달라졌을까요?</li>
+        <li>나도 무엇인가를 오해한 적이 있나요?</li>
+      </ul>
+    </article>
+
+    <article class="act card">
+      <span class="act__type">🎨 그림 그리기</span>
+      <h3>나만의 장면을 그려요</h3>
+      <p>가장 인상 깊었던 장면을 그려보고 이야기를 들려주세요.</p>
+      <div class="draw">
+        <div class="draw__hint">
+          ✏️ 여기에 그림을 그려요<br/>
+          <small>(인쇄 후 사용해도 좋아요)</small>
+        </div>
+      </div>
+    </article>
+
+    <article class="act card">
+      <span class="act__type">🧶 만들기 활동</span>
+      <h3>호랑이 종이 인형 만들기</h3>
+      <p>준비물과 순서를 따라 호랑이 인형을 만들어봐요.</p>
+      <ul class="craft">
+        <li>주황색 색종이, 검정색 매직, 가위, 풀</li>
+        <li>색종이를 반으로 접어 호랑이 얼굴 자르기</li>
+        <li>검정 매직으로 눈코입과 줄무늬 그리기</li>
+        <li>막대에 붙여 인형극에 사용하기</li>
+      </ul>
+    </article>
+
+    <article class="act card">
+      <span class="act__type">🎭 역할놀이</span>
+      <h3>호랑이와 아기, 도둑 역할로 나눠봐요</h3>
+      <p>가족이 함께 동화를 연기해보면 더 재미있어요!</p>
+      <div class="role">
+        <span>👶 우는 아기</span>
+        <span>👩 엄마</span>
+        <span>🐯 호랑이</span>
+        <span>🥷 도둑</span>
+      </div>
+      <p style="margin-top: 14px; font-size: .85rem;">💡 호랑이의 마음을 짐작하며 연기해보세요.</p>
+    </article>
+  </div>
+
+  <div class="actions">
+    <a href="library.html" class="btn btn--primary">✓ 활동 완료</a>
+    <a href="reader.html" class="btn btn--ghost">← 다시 읽기</a>
+  </div>
+</body>
+</html>

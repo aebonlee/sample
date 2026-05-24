@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>회복탄력성 코치 — 오늘의 체크인</title>
+  <style>
+    :root {
+      --bg: #fff7ed; --surface: #fff; --border: #fed7aa;
+      --text: #7c2d12; --text-dim: #9a3412; --text-mute: #c2410c;
+      --accent: #ea580c; --accent-2: #fb923c; --soft: #fef3c7;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; font-family: 'Pretendard', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+    .phone {
+      max-width: 420px; margin: 32px auto; padding: 28px 24px 80px;
+      background: var(--surface); border-radius: 28px;
+      box-shadow: 0 20px 60px rgba(124,45,18,.15);
+    }
+
+    .greet { margin-bottom: 24px; }
+    .greet p { margin: 0 0 4px; color: var(--text-mute); font-size: .85rem; }
+    .greet h1 { margin: 0; font-size: 1.5rem; }
+
+    .mood {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #fff; padding: 22px; border-radius: 18px; text-align: center; margin-bottom: 22px;
+    }
+    .mood h2 { margin: 0 0 14px; font-size: 1.05rem; font-weight: 600; }
+    .mood__emojis { display: flex; gap: 8px; justify-content: center; margin-bottom: 16px; }
+    .mood__emoji {
+      width: 50px; height: 50px; border-radius: 50%;
+      background: rgba(255,255,255,.15); border: 0;
+      font-size: 1.6rem; cursor: pointer;
+      transition: all .15s ease;
+    }
+    .mood__emoji:hover { background: rgba(255,255,255,.25); transform: scale(1.08); }
+    .mood__emoji.on {
+      background: #fff; transform: scale(1.15);
+      box-shadow: 0 4px 12px rgba(0,0,0,.15);
+    }
+    .mood__scale { display: flex; gap: 4px; padding: 0 6px; }
+    .mood__scale-dot {
+      flex: 1; height: 8px; border-radius: 4px;
+      background: rgba(255,255,255,.2); cursor: pointer;
+    }
+    .mood__scale-dot.on { background: #fff; }
+    .mood__scale-labels {
+      display: flex; justify-content: space-between;
+      margin-top: 6px; font-size: .72rem; opacity: .85;
+    }
+
+    .section h3 { margin: 0 0 12px; font-size: .95rem; color: var(--text-dim); }
+    .section { margin-bottom: 22px; }
+
+    .routines { display: flex; flex-direction: column; gap: 10px; }
+    .routine {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px; background: var(--soft); border-radius: 14px;
+      cursor: pointer;
+    }
+    .routine__ico { width: 40px; height: 40px; border-radius: 12px; background: #fff; display: grid; place-items: center; font-size: 1.3rem; flex-shrink: 0; }
+    .routine__title { font-weight: 600; font-size: .92rem; margin: 0 0 2px; }
+    .routine__meta { color: var(--text-mute); font-size: .78rem; }
+    .routine__check {
+      width: 26px; height: 26px; border-radius: 50%;
+      border: 2px solid var(--accent); background: transparent; cursor: pointer;
+      display: grid; place-items: center; flex-shrink: 0;
+    }
+    .routine.done .routine__check { background: var(--accent); color: #fff; }
+    .routine.done { opacity: .65; }
+    .routine.done .routine__title { text-decoration: line-through; }
+
+    .stat-card {
+      display: flex; align-items: center; gap: 14px;
+      padding: 16px; background: var(--soft); border-radius: 14px;
+    }
+    .stat-card__chart {
+      width: 80px; height: 60px; display: flex; align-items: end; gap: 3px;
+    }
+    .bar {
+      flex: 1; background: linear-gradient(180deg, var(--accent), var(--accent-2));
+      border-radius: 3px 3px 0 0;
+    }
+    .stat-card__text strong { display: block; font-size: 1.1rem; }
+    .stat-card__text span { color: var(--text-dim); font-size: .82rem; }
+
+    .quote {
+      padding: 16px; background: rgba(234,88,12,.06);
+      border-left: 3px solid var(--accent); border-radius: 0 12px 12px 0;
+      font-style: italic; color: var(--text-dim); font-size: .9rem;
+    }
+    .quote::before { content: '"'; color: var(--accent); font-weight: 700; }
+    .quote::after { content: '"'; color: var(--accent); font-weight: 700; }
+  </style>
+</head>
+<body>
+  <div class="phone">
+    <header class="greet">
+      <p>2026년 5월 24일 토요일</p>
+      <h1>안녕하세요, 지수님 🌱</h1>
+    </header>
+
+    <section class="mood">
+      <h2>오늘 기분이 어떠세요?</h2>
+      <div class="mood__emojis">
+        <button class="mood__emoji">😢</button>
+        <button class="mood__emoji">😟</button>
+        <button class="mood__emoji on">😊</button>
+        <button class="mood__emoji">😄</button>
+        <button class="mood__emoji">🤩</button>
+      </div>
+      <div class="mood__scale">
+        <div class="mood__scale-dot"></div>
+        <div class="mood__scale-dot"></div>
+        <div class="mood__scale-dot on"></div>
+        <div class="mood__scale-dot on"></div>
+        <div class="mood__scale-dot on"></div>
+        <div class="mood__scale-dot on"></div>
+        <div class="mood__scale-dot on"></div>
+        <div class="mood__scale-dot"></div>
+        <div class="mood__scale-dot"></div>
+        <div class="mood__scale-dot"></div>
+      </div>
+      <div class="mood__scale-labels">
+        <span>매우 나쁨</span><span>매우 좋음</span>
+      </div>
+    </section>
+
+    <section class="section">
+      <h3>🌿 오늘의 루틴 (3/4)</h3>
+      <div class="routines">
+        <div class="routine done">
+          <div class="routine__ico">☀️</div>
+          <div style="flex: 1;">
+            <p class="routine__title">아침에 햇볕 5분 쬐기</p>
+            <p class="routine__meta">7:00 · 기상 직후</p>
+          </div>
+          <button class="routine__check">✓</button>
+        </div>
+        <div class="routine done">
+          <div class="routine__ico">📓</div>
+          <div style="flex: 1;">
+            <p class="routine__title">감사 일기 1줄 쓰기</p>
+            <p class="routine__meta">10:00 · 점심 전</p>
+          </div>
+          <button class="routine__check">✓</button>
+        </div>
+        <div class="routine done">
+          <div class="routine__ico">🚶</div>
+          <div style="flex: 1;">
+            <p class="routine__title">10분 산책</p>
+            <p class="routine__meta">14:00 · 오후</p>
+          </div>
+          <button class="routine__check">✓</button>
+        </div>
+        <div class="routine">
+          <div class="routine__ico">🧘</div>
+          <div style="flex: 1;">
+            <p class="routine__title">잠들기 전 호흡 명상 3분</p>
+            <p class="routine__meta">22:30 · 취침 전</p>
+          </div>
+          <button class="routine__check"></button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h3>📊 이번 주 회복 점수</h3>
+      <div class="stat-card">
+        <div class="stat-card__chart">
+          <div class="bar" style="height: 40%"></div>
+          <div class="bar" style="height: 55%"></div>
+          <div class="bar" style="height: 35%"></div>
+          <div class="bar" style="height: 70%"></div>
+          <div class="bar" style="height: 80%"></div>
+          <div class="bar" style="height: 65%"></div>
+          <div class="bar" style="height: 75%"></div>
+        </div>
+        <div class="stat-card__text">
+          <strong>회복력 +18%</strong>
+          <span>지난 주 대비 꾸준히 상승 중</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="quote">
+      한 발짝씩 천천히, 그래도 매일 — 그게 가장 빠른 길이에요. 오늘도 잘하고 있어요.
+    </div>
+  </div>
+</body>
+</html>
