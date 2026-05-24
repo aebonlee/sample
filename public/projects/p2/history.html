@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>학습 기록 — 우리문화재</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .page-head { max-width: 1100px; margin: 0 auto; padding: 24px 24px 12px; }
+    .page-head h1 { margin: 0 0 6px; font-size: 1.5rem; }
+    .page-head p { margin: 0; color: var(--text-dim); }
+
+    .summary {
+      max-width: 1100px; margin: 14px auto; padding: 0 24px;
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+    }
+    .sum {
+      padding: 16px 18px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    }
+    .sum__head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .sum__label { color: var(--text-mute); font-size: .78rem; }
+    .sum__delta { color: #22c55e; font-size: .72rem; font-weight: 700; }
+    .sum strong { display: block; font-size: 1.8rem; letter-spacing: -.01em; }
+    .sum em { font-style: normal; font-size: .82rem; color: var(--text-mute); margin-left: 4px; }
+
+    .layout {
+      max-width: 1100px; margin: 14px auto; padding: 0 24px 80px;
+      display: grid; grid-template-columns: 1.4fr 1fr; gap: 18px;
+    }
+
+    /* 캘린더 */
+    .cal {
+      padding: 22px;
+    }
+    .cal__head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .cal__head h3 { margin: 0; font-size: 1.05rem; }
+    .cal__nav { display: flex; gap: 6px; }
+    .cal__nav button {
+      width: 30px; height: 30px; border-radius: 8px;
+      background: var(--bg); border: 1px solid var(--border);
+      cursor: pointer; font-family: inherit;
+    }
+    .cal__weekdays {
+      display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px;
+      margin-bottom: 6px;
+      font-size: .72rem; color: var(--text-mute); text-align: center; font-weight: 600;
+    }
+    .cal__grid {
+      display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px;
+    }
+    .day {
+      aspect-ratio: 1; border-radius: 8px;
+      display: grid; place-items: center;
+      font-size: .85rem; position: relative;
+      cursor: pointer;
+    }
+    .day.empty { visibility: hidden; }
+    .day.off { color: var(--text-mute); }
+    .day.today { background: var(--accent); color: #fff; font-weight: 700; }
+    .day.active { background: rgba(180,83,9,.12); }
+    .day.active::after {
+      content: ''; position: absolute; bottom: 3px; left: 50%;
+      transform: translateX(-50%);
+      width: 4px; height: 4px; border-radius: 50%; background: var(--accent);
+    }
+    .day.active.lvl2 { background: rgba(180,83,9,.25); }
+    .day.active.lvl3 { background: rgba(180,83,9,.4); color: #fff; font-weight: 700; }
+
+    .cal__legend {
+      display: flex; gap: 12px; margin-top: 18px; font-size: .75rem; color: var(--text-mute);
+      align-items: center;
+    }
+    .cal__legend i {
+      display: inline-block; width: 14px; height: 14px; border-radius: 4px;
+      vertical-align: middle; margin-right: 4px;
+    }
+
+    /* 우측 */
+    .recent { padding: 22px; }
+    .recent h3 { margin: 0 0 14px; font-size: 1.05rem; }
+    .recent__list { display: flex; flex-direction: column; gap: 8px; }
+    .recent__item {
+      display: flex; gap: 10px; align-items: center;
+      padding: 10px; border-radius: 10px;
+    }
+    .recent__item:hover { background: var(--bg); }
+    .recent__ico {
+      width: 40px; height: 40px; border-radius: 10px;
+      display: grid; place-items: center; font-size: 1.2rem; color: #fff;
+      flex-shrink: 0;
+    }
+    .recent__body { flex: 1; min-width: 0; }
+    .recent__title { margin: 0 0 2px; font-size: .9rem; font-weight: 600; }
+    .recent__meta { color: var(--text-mute); font-size: .76rem; }
+    .recent__act {
+      padding: 2px 8px; border-radius: 999px;
+      font-size: .68rem; font-weight: 700;
+    }
+    .recent__act--quiz { background: rgba(34,197,94,.15); color: #16a34a; }
+    .recent__act--read { background: rgba(180,83,9,.12); color: var(--accent); }
+    .recent__act--mission { background: rgba(124,58,237,.15); color: #7c3aed; }
+
+    /* 뱃지 */
+    .badges { padding: 22px; }
+    .badges h3 { margin: 0 0 14px; font-size: 1.05rem; }
+    .badges__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .badge-tile {
+      aspect-ratio: 1; border-radius: 12px;
+      display: grid; place-items: center; text-align: center;
+      background: linear-gradient(135deg, var(--accent), var(--gold));
+      color: #fff; padding: 6px;
+      font-size: 1.6rem;
+    }
+    .badge-tile.locked {
+      background: var(--bg); color: var(--text-mute);
+      border: 1px dashed var(--border);
+      font-size: 1.4rem; opacity: .6;
+    }
+    .badge-tile small { font-size: .6rem; display: block; margin-top: 3px; opacity: .9; font-weight: 600; letter-spacing: .04em; }
+
+    @media (max-width: 880px) {
+      .layout { grid-template-columns: 1fr; }
+      .summary { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="brand">🏛 우리<span>문화재</span></div>
+    <nav class="nav-links">
+      <a href="home.html">검색</a>
+      <a href="mission.html">탐방 미션</a>
+      <a href="history.html" class="on">학습 기록</a>
+      <a href="fav.html">즐겨찾기</a>
+    </nav>
+  </header>
+
+  <div class="page-head">
+    <h1>📊 나의 학습 기록</h1>
+    <p>지금까지 학습한 문화재와 활동을 한눈에 확인해보세요.</p>
+  </div>
+
+  <div class="summary">
+    <div class="sum">
+      <div class="sum__head"><span class="sum__label">학습한 문화재</span><span class="sum__delta">+8</span></div>
+      <strong>42<em>개</em></strong>
+    </div>
+    <div class="sum">
+      <div class="sum__head"><span class="sum__label">푼 퀴즈</span><span class="sum__delta">+12</span></div>
+      <strong>156<em>문제</em></strong>
+    </div>
+    <div class="sum">
+      <div class="sum__head"><span class="sum__label">평균 정답률</span><span class="sum__delta">+4%</span></div>
+      <strong>83<em>%</em></strong>
+    </div>
+    <div class="sum">
+      <div class="sum__head"><span class="sum__label">연속 학습</span><span class="sum__delta">🔥</span></div>
+      <strong>14<em>일</em></strong>
+    </div>
+  </div>
+
+  <main class="layout">
+    <div>
+      <article class="card cal">
+        <div class="cal__head">
+          <h3>📅 2026년 5월</h3>
+          <div class="cal__nav">
+            <button type="button">‹</button>
+            <button type="button">›</button>
+          </div>
+        </div>
+        <div class="cal__weekdays">
+          <span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span>
+        </div>
+        <div class="cal__grid" id="cal"></div>
+        <div class="cal__legend">
+          <span>적음 <i style="background:rgba(180,83,9,.12)"></i><i style="background:rgba(180,83,9,.25)"></i><i style="background:rgba(180,83,9,.4)"></i> 많음</span>
+          <span style="margin-left:auto;">이번 달 활동 18일 / 24일</span>
+        </div>
+      </article>
+
+      <article class="card badges" style="margin-top: 18px;">
+        <h3>🏅 획득한 뱃지</h3>
+        <div class="badges__grid">
+          <div class="badge-tile">🥇<small>첫 탐방</small></div>
+          <div class="badge-tile">🏛<small>궁궐 마스터</small></div>
+          <div class="badge-tile">📚<small>30일 연속</small></div>
+          <div class="badge-tile locked">🔒<small>퀴즈왕</small></div>
+          <div class="badge-tile locked">🔒<small>1000pt</small></div>
+          <div class="badge-tile locked">🔒<small>전국 일주</small></div>
+          <div class="badge-tile locked">🔒<small>유적 박사</small></div>
+          <div class="badge-tile locked">🔒<small>야경 사진</small></div>
+        </div>
+      </article>
+    </div>
+
+    <article class="card recent">
+      <h3>📜 최근 활동</h3>
+      <div class="recent__list">
+        <a href="quiz.html" class="recent__item">
+          <span class="recent__ico" style="background: linear-gradient(135deg,#B45309,#fbbf24)">🏯</span>
+          <div class="recent__body">
+            <p class="recent__title">경복궁 근정전 퀴즈</p>
+            <p class="recent__meta">2시간 전 · 5/5 정답</p>
+          </div>
+          <span class="recent__act recent__act--quiz">퀴즈</span>
+        </a>
+        <a href="detail.html" class="recent__item">
+          <span class="recent__ico" style="background: linear-gradient(135deg,#6b4f30,#a0846a)">🗿</span>
+          <div class="recent__body">
+            <p class="recent__title">석굴암 본존불 상세 학습</p>
+            <p class="recent__meta">어제 · 12분 학습</p>
+          </div>
+          <span class="recent__act recent__act--read">학습</span>
+        </a>
+        <a href="mission.html" class="recent__item">
+          <span class="recent__ico" style="background: linear-gradient(135deg,#7c3aed,#a78bfa)">📍</span>
+          <div class="recent__body">
+            <p class="recent__title">종묘 정전 방문 인증</p>
+            <p class="recent__meta">2026.05.15 · +120 pts</p>
+          </div>
+          <span class="recent__act recent__act--mission">탐방</span>
+        </a>
+        <a href="detail.html" class="recent__item">
+          <span class="recent__ico" style="background: linear-gradient(135deg,#0c4a6e,#3b82f6)">📜</span>
+          <div class="recent__body">
+            <p class="recent__title">훈민정음 해례본</p>
+            <p class="recent__meta">3일 전 · 18분 학습</p>
+          </div>
+          <span class="recent__act recent__act--read">학습</span>
+        </a>
+        <a href="quiz.html" class="recent__item">
+          <span class="recent__ico" style="background: linear-gradient(135deg,#7c3aed,#a78bfa)">⭐</span>
+          <div class="recent__body">
+            <p class="recent__title">경주 첨성대 퀴즈</p>
+            <p class="recent__meta">5일 전 · 4/5 정답</p>
+          </div>
+          <span class="recent__act recent__act--quiz">퀴즈</span>
+        </a>
+      </div>
+    </article>
+  </main>
+
+  <script>
+    // 5월 캘린더 (1일 = 금요일)
+    const cal = document.getElementById('cal');
+    const activity = { 1:1, 2:2, 3:0, 4:1, 5:2, 6:1, 7:0, 8:3, 9:2, 10:1, 12:1, 13:2, 14:1, 15:3, 16:1, 18:2, 19:1, 20:3, 21:1, 22:2, 24:3 };
+    let html = '';
+    // 5월 1일은 금요일 = 5번째 자리, 1일 앞에 빈칸 5개
+    for (let i = 0; i < 5; i++) html += `<span class="day empty"></span>`;
+    for (let d = 1; d <= 31; d++) {
+      const lvl = activity[d];
+      const cls = ['day'];
+      if (lvl) { cls.push('active'); if (lvl >= 2) cls.push('lvl' + lvl); }
+      if (d === 24) cls.push('today');
+      html += `<span class="${cls.join(' ')}">${d}</span>`;
+    }
+    cal.innerHTML = html;
+  </script>
+</body>
+</html>

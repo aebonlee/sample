@@ -29,12 +29,12 @@ export const PROJECT_MOCKUPS: ProjectMockup[] = [
     projectId: 2,
     baseDir: '/projects/p2',
     pages: [
-      { id: 'home', title: '홈 · 문화재 검색', desc: '검색 + 추천 문화재 카드', status: 'done' },
-      { id: 'detail',  title: '문화재 상세 (수준별 해설)', status: 'planned' },
-      { id: 'quiz',    title: '퀴즈 풀기',     status: 'planned' },
-      { id: 'mission', title: '탐방 미션 (지도)', status: 'planned' },
-      { id: 'history', title: '학습 기록',     status: 'planned' },
-      { id: 'fav',     title: '즐겨찾기',      status: 'planned' },
+      { id: 'home',    title: '홈 · 문화재 검색', desc: '검색 + 추천 문화재 카드',         status: 'done' },
+      { id: 'detail',  title: '문화재 상세',      desc: '수준별 해설 4단계 토글 + 키워드',  status: 'done' },
+      { id: 'quiz',    title: '퀴즈 풀기',        desc: '5문제 + 즉시 채점 + 결과 화면',    status: 'done' },
+      { id: 'mission', title: '탐방 미션 (지도)', desc: '지도 핀 + 미션 카드 + 포인트',     status: 'done' },
+      { id: 'history', title: '학습 기록',        desc: '캘린더 + 활동 통계 + 뱃지',        status: 'done' },
+      { id: 'fav',     title: '즐겨찾기',         desc: '시대/지역/종목별 그룹 + 검색',     status: 'done' },
     ],
   },
   {

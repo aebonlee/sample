@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>퀴즈 — 우리문화재</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .quiz-head {
+      max-width: 720px; margin: 24px auto 0; padding: 0 24px;
+    }
+    .quiz-head h1 { margin: 0 0 6px; font-size: 1.4rem; }
+    .quiz-head p { margin: 0; color: var(--text-dim); font-size: .9rem; }
+
+    .progress {
+      max-width: 720px; margin: 18px auto; padding: 0 24px;
+    }
+    .progress__bar { height: 8px; background: rgba(180,83,9,.12); border-radius: 4px; overflow: hidden; }
+    .progress__fill {
+      height: 100%; background: linear-gradient(90deg, var(--accent), var(--gold));
+      transition: width .35s ease;
+    }
+    .progress__meta {
+      display: flex; justify-content: space-between;
+      margin-top: 8px; font-size: .82rem; color: var(--text-mute);
+    }
+
+    .quiz-wrap {
+      max-width: 720px; margin: 0 auto; padding: 0 24px 80px;
+    }
+    .qcard { padding: 28px; margin-bottom: 16px; }
+    .qcard__cat {
+      display: inline-block; padding: 4px 12px; border-radius: 999px;
+      background: rgba(180,83,9,.1); color: var(--accent);
+      font-size: .75rem; font-weight: 700; margin-bottom: 12px;
+    }
+    .qcard__q { margin: 0 0 22px; font-size: 1.15rem; line-height: 1.6; font-weight: 600; }
+    .qcard__img {
+      aspect-ratio: 5/3; border-radius: 12px; margin: 0 0 22px;
+      background: linear-gradient(135deg, #B45309, #fbbf24);
+      display: grid; place-items: center; font-size: 4rem; color: rgba(255,255,255,.95);
+    }
+
+    .opts { display: grid; gap: 10px; }
+    .opt {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 18px; border-radius: 12px;
+      background: var(--surface); border: 2px solid var(--border);
+      cursor: pointer; font-family: inherit;
+      transition: all .15s ease; text-align: left;
+    }
+    .opt:hover { border-color: var(--accent); background: rgba(180,83,9,.04); }
+    .opt__num {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--bg); display: grid; place-items: center;
+      font-weight: 700; font-size: .85rem; flex-shrink: 0;
+    }
+    .opt__text { flex: 1; font-size: .95rem; }
+    .opt.picked { border-color: var(--accent); background: rgba(180,83,9,.08); }
+    .opt.picked .opt__num { background: var(--accent); color: #fff; }
+    .opt.correct { border-color: #22c55e; background: rgba(34,197,94,.08); }
+    .opt.correct .opt__num { background: #22c55e; color: #fff; }
+    .opt.wrong { border-color: #ef4444; background: rgba(239,68,68,.08); }
+    .opt.wrong .opt__num { background: #ef4444; color: #fff; }
+    .opt[disabled] { cursor: default; }
+
+    .explain {
+      margin-top: 18px; padding: 16px 18px;
+      background: rgba(34,197,94,.08); border-left: 4px solid #22c55e;
+      border-radius: 0 10px 10px 0;
+      font-size: .92rem; line-height: 1.7;
+    }
+    .explain.wrong-explain { background: rgba(239,68,68,.06); border-left-color: #ef4444; }
+    .explain strong { color: var(--accent); }
+    .explain[hidden] { display: none; }
+
+    .actions { display: flex; justify-content: space-between; margin-top: 24px; gap: 10px; }
+    .timer {
+      color: var(--text-dim); font-size: .85rem; padding: 8px 12px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+    }
+
+    /* Result modal */
+    .result {
+      padding: 32px; text-align: center;
+    }
+    .result__icon { font-size: 4rem; margin-bottom: 10px; }
+    .result h2 { margin: 0 0 6px; font-size: 1.6rem; }
+    .result__score {
+      display: flex; gap: 14px; justify-content: center;
+      margin: 22px 0;
+    }
+    .result__stat { padding: 16px 22px; background: var(--bg); border-radius: 12px; }
+    .result__stat span { display: block; font-size: .78rem; color: var(--text-mute); margin-bottom: 4px; }
+    .result__stat strong { font-size: 1.6rem; color: var(--accent); }
+    .result__actions { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="brand">🏛 우리<span>문화재</span></div>
+    <nav class="nav-links">
+      <a href="home.html">검색</a>
+      <a href="mission.html">탐방 미션</a>
+      <a href="history.html">학습 기록</a>
+      <a href="fav.html">즐겨찾기</a>
+    </nav>
+  </header>
+
+  <div class="quiz-head">
+    <p class="crumb"><a href="detail.html">경복궁 근정전</a> › 퀴즈</p>
+    <h1>🎯 경복궁 근정전 퀴즈</h1>
+    <p>총 5문제 · 정답률에 따라 학습 추천이 달라져요.</p>
+  </div>
+
+  <div class="progress">
+    <div class="progress__bar"><div class="progress__fill" id="bar" style="width: 20%"></div></div>
+    <div class="progress__meta">
+      <span><span id="cur">1</span> / 5 문제</span>
+      <span class="timer">⏱ <span id="time">00:00</span></span>
+    </div>
+  </div>
+
+  <main class="quiz-wrap">
+    <article class="qcard card">
+      <span class="qcard__cat" id="qCat">건축</span>
+      <div class="qcard__img" id="qImg">🏯</div>
+      <h2 class="qcard__q" id="qText">근정전의 ‘근정(勤政)’이 뜻하는 것은 무엇일까요?</h2>
+      <div class="opts" id="opts"></div>
+      <div class="explain" id="explain" hidden></div>
+      <div class="actions">
+        <button class="btn btn--ghost" id="prevBtn" disabled>← 이전</button>
+        <button class="btn btn--primary" id="nextBtn" disabled>다음 →</button>
+      </div>
+    </article>
+
+    <div class="card result" id="result" hidden>
+      <div class="result__icon">🎉</div>
+      <h2>퀴즈 완료!</h2>
+      <p style="color: var(--text-dim); margin: 0;">근정전에 대한 이해도가 높아요.</p>
+      <div class="result__score">
+        <div class="result__stat"><span>정답</span><strong id="rCorrect">0</strong></div>
+        <div class="result__stat"><span>정답률</span><strong id="rRate">0%</strong></div>
+        <div class="result__stat"><span>소요시간</span><strong id="rTime">00:00</strong></div>
+      </div>
+      <div class="result__actions">
+        <a href="quiz.html" class="btn btn--primary">한 번 더</a>
+        <a href="detail.html" class="btn btn--ghost">상세 보기</a>
+        <a href="home.html" class="btn btn--ghost">다른 문화재</a>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const QUIZ = [
+      {
+        cat: '뜻 풀이', img: '📜',
+        q: '근정전의 ‘근정(勤政)’이 뜻하는 것은 무엇일까요?',
+        opts: ['부지런히 나라를 다스린다', '하늘의 명을 받는다', '백성과 더불어 즐긴다', '큰 정치를 펼친다'],
+        answer: 0,
+        explain: '근정(勤政)은 ‘부지런할 근, 정사 정’으로, 임금이 부지런히 나라를 다스려야 백성이 평안하다는 유교적 통치 이념을 담은 이름입니다.',
+      },
+      {
+        cat: '시대', img: '🏛',
+        q: '근정전이 처음 지어진 해는 언제일까요?',
+        opts: ['1392년', '1395년', '1592년', '1865년'],
+        answer: 1,
+        explain: '근정전은 1395년(태조 4년) 한양 천도와 함께 경복궁의 정전으로 처음 지어졌습니다. 1592년 임진왜란으로 소실되었다가 1865년 흥선대원군이 중건했습니다.',
+      },
+      {
+        cat: '건축', img: '🏯',
+        q: '근정전 마당에 깔린 돌의 이름과, 거친 표면을 가진 이유로 옳은 것은?',
+        opts: [
+          '맷돌석 — 추위를 막기 위해',
+          '박석 — 햇빛 난반사와 미끄럼 방지',
+          '청석 — 발자국 소리를 줄이기 위해',
+          '화강석 — 단순한 미관상 이유',
+        ],
+        answer: 1,
+        explain: '박석(薄石)은 약간 거친 표면이 햇빛을 난반사시켜 왕의 눈부심을 막고, 비 오는 날 의관을 갖춘 신하들이 미끄러지지 않게 하는 실용적 장치였습니다.',
+      },
+      {
+        cat: '상징', img: '☀️',
+        q: '어좌 뒤편에 펼쳐진 일월오봉도가 상징하는 것은?',
+        opts: [
+          '왕실의 부귀영화',
+          '왕은 자연과 우주를 다스리는 존재임',
+          '평화와 번영',
+          '학문의 융성',
+        ],
+        answer: 1,
+        explain: '일월오봉도는 해와 달, 다섯 봉우리를 그린 그림으로, 왕은 하늘과 땅을 연결해 만물의 조화를 다스리는 존재임을 상징합니다.',
+      },
+      {
+        cat: '제도', img: '👥',
+        q: '근정전 앞 마당의 ‘품계석’은 모두 몇 등급으로 나뉘어 있었을까요?',
+        opts: ['9등급', '12등급', '18등급', '24등급'],
+        answer: 2,
+        explain: '품계석은 정1품부터 종9품까지 총 18등급으로, 신하의 지위에 따라 자리가 정해졌습니다.',
+      },
+    ];
+
+    let idx = 0;
+    let answers = Array(QUIZ.length).fill(null);
+    const start = Date.now();
+    const $opts = document.getElementById('opts');
+    const $explain = document.getElementById('explain');
+    const $prev = document.getElementById('prevBtn');
+    const $next = document.getElementById('nextBtn');
+
+    function render() {
+      const q = QUIZ[idx];
+      document.getElementById('qCat').textContent = q.cat;
+      document.getElementById('qImg').textContent = q.img;
+      document.getElementById('qText').textContent = q.q;
+      document.getElementById('cur').textContent = idx + 1;
+      document.getElementById('bar').style.width = ((idx + 1) / QUIZ.length * 100) + '%';
+      $explain.hidden = true;
+      $opts.innerHTML = q.opts.map((opt, i) => `
+        <button class="opt" data-i="${i}">
+          <span class="opt__num">${'ABCD'[i]}</span>
+          <span class="opt__text">${opt}</span>
+        </button>
+      `).join('');
+      $prev.disabled = idx === 0;
+      $next.disabled = answers[idx] === null;
+      $next.textContent = idx === QUIZ.length - 1 ? '결과 보기 →' : '다음 →';
+
+      // 이미 푼 문제는 결과 표시
+      if (answers[idx] !== null) revealAt(idx, false);
+    }
+
+    function revealAt(i, animate = true) {
+      const q = QUIZ[i];
+      const picked = answers[i];
+      [...$opts.children].forEach((btn) => {
+        const j = Number(btn.dataset.i);
+        btn.disabled = true;
+        if (j === q.answer) btn.classList.add('correct');
+        if (j === picked && j !== q.answer) btn.classList.add('wrong');
+        if (j === picked) btn.classList.add('picked');
+      });
+      const correct = picked === q.answer;
+      $explain.hidden = false;
+      $explain.classList.toggle('wrong-explain', !correct);
+      $explain.innerHTML = `${correct ? '✅ <strong>정답!</strong>' : '❌ <strong>오답</strong>'}<br/>${q.explain}`;
+      $next.disabled = false;
+    }
+
+    $opts.addEventListener('click', (e) => {
+      const btn = e.target.closest('.opt');
+      if (!btn || btn.disabled) return;
+      answers[idx] = Number(btn.dataset.i);
+      revealAt(idx);
+    });
+
+    $prev.addEventListener('click', () => { idx--; render(); });
+    $next.addEventListener('click', () => {
+      if (idx < QUIZ.length - 1) { idx++; render(); }
+      else showResult();
+    });
+
+    function showResult() {
+      document.querySelector('.qcard').hidden = true;
+      const correct = answers.filter((a, i) => a === QUIZ[i].answer).length;
+      document.getElementById('rCorrect').textContent = `${correct}/${QUIZ.length}`;
+      document.getElementById('rRate').textContent = Math.round(correct / QUIZ.length * 100) + '%';
+      const sec = Math.floor((Date.now() - start) / 1000);
+      document.getElementById('rTime').textContent =
+        `${String(Math.floor(sec/60)).padStart(2,'0')}:${String(sec%60).padStart(2,'0')}`;
+      document.getElementById('result').hidden = false;
+      window.scrollTo({ top: 100, behavior: 'smooth' });
+    }
+
+    setInterval(() => {
+      const sec = Math.floor((Date.now() - start) / 1000);
+      document.getElementById('time').textContent =
+        `${String(Math.floor(sec/60)).padStart(2,'0')}:${String(sec%60).padStart(2,'0')}`;
+    }, 500);
+
+    render();
+  </script>
+</body>
+</html>

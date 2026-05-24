@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>경복궁 근정전 — 우리문화재</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .hero {
+      background: linear-gradient(135deg, #B45309, #d97706);
+      color: #fff;
+      padding: 32px 24px;
+    }
+    .hero__inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 280px 1fr; gap: 28px; }
+    .hero__art {
+      aspect-ratio: 1; border-radius: 14px;
+      background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15);
+      display: grid; place-items: center; font-size: 6rem;
+    }
+    .hero__body h1 { margin: 0 0 8px; font-size: 1.8rem; letter-spacing: -.01em; }
+    .hero__cat { font-size: .85rem; opacity: .85; margin-bottom: 6px; }
+    .hero__meta {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px 24px;
+      margin-top: 18px; font-size: .88rem;
+    }
+    .hero__meta span { opacity: .75; min-width: 80px; display: inline-block; }
+    .hero__actions { display: flex; gap: 8px; margin-top: 18px; flex-wrap: wrap; }
+    .hero__actions .btn { background: rgba(255,255,255,.95); color: var(--accent); border-color: transparent; }
+    .hero__actions .btn--ghost {
+      background: transparent; color: #fff; border-color: rgba(255,255,255,.4);
+    }
+
+    .level-tabs {
+      max-width: 1100px; margin: -22px auto 0; padding: 0 24px;
+      position: relative; z-index: 2;
+    }
+    .level-tabs__inner {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; padding: 8px;
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.06);
+    }
+    .level-tab {
+      padding: 12px 14px; border: 0; background: transparent;
+      border-radius: 10px; color: var(--text-dim);
+      font-family: inherit; font-size: .88rem; font-weight: 600;
+      cursor: pointer; transition: all .15s ease;
+    }
+    .level-tab:hover { color: var(--text); background: var(--bg); }
+    .level-tab.on {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #fff;
+    }
+    .level-tab small { display: block; font-size: .72rem; opacity: .85; font-weight: 400; }
+
+    .container { padding-top: 28px; }
+
+    .grid {
+      display: grid; grid-template-columns: 1fr 320px; gap: 22px;
+    }
+    .explain h2 { margin: 0 0 14px; font-size: 1.2rem; color: var(--accent); }
+    .explain p { margin: 0 0 14px; line-height: 1.9; font-size: .95rem; }
+    .explain h3 { margin: 22px 0 10px; font-size: 1.05rem; }
+    .explain blockquote {
+      margin: 16px 0; padding: 14px 18px;
+      background: rgba(180,83,9,.06); border-left: 4px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      color: var(--text-dim); font-style: italic;
+    }
+
+    .side { display: flex; flex-direction: column; gap: 16px; }
+    .side .card { padding: 18px; }
+    .side h4 { margin: 0 0 12px; font-size: .85rem; color: var(--text-mute); text-transform: uppercase; letter-spacing: .06em; }
+    .keywords { display: flex; flex-wrap: wrap; gap: 6px; }
+    .keyword {
+      padding: 4px 10px; background: rgba(180,83,9,.08);
+      color: var(--accent); border-radius: 999px; font-size: .78rem;
+    }
+    .related { display: flex; flex-direction: column; gap: 8px; }
+    .related a {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 10px; border-radius: 8px;
+    }
+    .related a:hover { background: var(--bg); }
+    .related__ico {
+      width: 36px; height: 36px; border-radius: 8px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #fff; display: grid; place-items: center; font-size: 1.1rem;
+    }
+    .related strong { font-size: .9rem; display: block; }
+    .related span { color: var(--text-mute); font-size: .76rem; }
+
+    .map-mini {
+      aspect-ratio: 4/3; border-radius: 10px;
+      background:
+        radial-gradient(circle at 60% 50%, var(--accent), transparent 30%),
+        linear-gradient(135deg, #e0d4b8, #c5b78d);
+      position: relative;
+    }
+    .map-mini::after {
+      content: '📍'; position: absolute; top: 45%; left: 55%;
+      font-size: 1.6rem; transform: translate(-50%, -100%);
+    }
+
+    @media (max-width: 880px) {
+      .hero__inner { grid-template-columns: 1fr; }
+      .hero__art { max-width: 220px; margin: 0 auto; }
+      .grid { grid-template-columns: 1fr; }
+      .level-tabs__inner { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="brand">🏛 우리<span>문화재</span></div>
+    <nav class="nav-links">
+      <a href="home.html">검색</a>
+      <a href="mission.html">탐방 미션</a>
+      <a href="history.html">학습 기록</a>
+      <a href="fav.html">즐겨찾기</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero__inner">
+      <div class="hero__art">🏯</div>
+      <div class="hero__body">
+        <div class="hero__cat">국보 제223호 · 조선 시대</div>
+        <h1>경복궁 근정전</h1>
+        <p style="margin: 0; opacity: .9;">조선 왕조의 정궁인 경복궁의 정전(正殿)으로, 왕이 신하들과 함께 국가의 주요 행사를 거행하던 가장 중요한 건물.</p>
+        <div class="hero__meta">
+          <div><span>지정일</span> 1985.01.08</div>
+          <div><span>위치</span> 서울 종로구 사직로 161</div>
+          <div><span>건립</span> 1395년 (태조 4년)</div>
+          <div><span>건축양식</span> 다포식 팔작지붕</div>
+        </div>
+        <div class="hero__actions">
+          <a href="quiz.html" class="btn btn--primary">🎯 퀴즈 도전</a>
+          <a href="mission.html" class="btn btn--ghost">📍 탐방 미션</a>
+          <button class="btn btn--ghost" type="button">⭐ 즐겨찾기</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="level-tabs">
+    <div class="level-tabs__inner">
+      <button class="level-tab" data-level="elem">초등<small>쉽고 흥미롭게</small></button>
+      <button class="level-tab" data-level="mid">중등<small>역사적 맥락</small></button>
+      <button class="level-tab on" data-level="high">고등<small>건축·사상</small></button>
+      <button class="level-tab" data-level="adult">일반<small>심층 해설</small></button>
+    </div>
+  </div>
+
+  <main class="container">
+    <p class="crumb"><a href="home.html">홈</a> › <a href="#">조선</a> › 경복궁 근정전</p>
+
+    <div class="grid">
+      <article class="card explain" id="explain">
+        <h2>🎓 고등 수준 · 건축과 사상</h2>
+
+        <p>
+          근정전(勤政殿)은 1395년 태조 이성계가 한양에 도읍을 정하면서 새로 지은 경복궁의 중심 전각이다.
+          ‘부지런할 근(勤)’ ‘정사 정(政)’이라는 이름에는 <strong>왕이 부지런히 정사를 돌봐 백성을 평안케 해야 한다</strong>는 유교적 통치 이념이 담겨 있다.
+        </p>
+
+        <h3>1. 건축적 특징</h3>
+        <p>
+          정면 5칸, 측면 5칸의 중층(2층) 건물로, 한국 목조건축의 정수로 꼽힌다.
+          지붕은 다포식 팔작지붕이며, 처마 끝의 잡상과 추녀마루의 곡선은 당대 최고 수준의 목구조 기술을 보여준다.
+          내부의 기둥은 단 한 그루의 큰 소나무를 사용해 만든 것으로, 자연 곡선을 그대로 살린 것이 특징이다.
+        </p>
+
+        <blockquote>
+          근정전은 ‘땅의 평면(月臺) → 인간의 사회(왕과 신하) → 하늘의 권위(어좌의 일월오봉도)’라는 수직적 구조로,
+          유교적 우주관을 건축으로 표현한 가장 완성도 높은 사례다.
+        </blockquote>
+
+        <h3>2. 월대와 박석</h3>
+        <p>
+          근정전 앞 넓은 마당에는 박석(薄石)이 깔려 있는데, 이는 햇빛을 난반사시켜 왕의 눈부심을 줄이고,
+          비 오는 날 미끄러지지 않게 하는 실용적 장치이다.
+          마당 양옆에 정렬된 품계석은 신하들의 지위에 따른 자리를 표시했으며, 정 1품부터 종 9품까지 18개의 등급이 새겨져 있다.
+        </p>
+
+        <h3>3. 임진왜란과 중건</h3>
+        <p>
+          1592년 임진왜란으로 소실된 후 약 270여 년간 폐허로 남아 있다가, 1865년 흥선대원군이 왕권 강화를 위해 중건했다.
+          지금 우리가 보는 근정전은 그때 중건된 모습이며, 1985년 국보로 지정되었다.
+        </p>
+
+        <h3>4. 일월오봉도 (日月五峯圖)</h3>
+        <p>
+          어좌 뒤편에 펼쳐진 일월오봉도는 해와 달, 다섯 봉우리를 그린 그림으로,
+          왕은 하늘과 땅을 연결하는 존재이며 자연 만물의 조화를 다스리는 자임을 상징한다.
+          왕의 권위와 통치의 정당성을 시각적으로 드러내는 가장 중요한 의장이었다.
+        </p>
+      </article>
+
+      <aside class="side">
+        <div class="card">
+          <h4>핵심 키워드</h4>
+          <div class="keywords">
+            <span class="keyword">유교적 통치</span>
+            <span class="keyword">다포식</span>
+            <span class="keyword">팔작지붕</span>
+            <span class="keyword">월대</span>
+            <span class="keyword">품계석</span>
+            <span class="keyword">일월오봉도</span>
+            <span class="keyword">임진왜란</span>
+            <span class="keyword">흥선대원군</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <h4>위치</h4>
+          <div class="map-mini"></div>
+          <p style="margin: 12px 0 0; font-size: .85rem; color: var(--text-dim);">
+            서울특별시 종로구 사직로 161<br/>
+            <span style="color: var(--text-mute); font-size: .8rem;">3호선 경복궁역 5번 출구 도보 5분</span>
+          </p>
+        </div>
+
+        <div class="card">
+          <h4>관련 문화재</h4>
+          <div class="related">
+            <a href="#"><span class="related__ico">🏯</span><div><strong>경복궁 경회루</strong><span>국보 제224호</span></div></a>
+            <a href="#"><span class="related__ico">🏛</span><div><strong>창덕궁 인정전</strong><span>국보 제225호</span></div></a>
+            <a href="#"><span class="related__ico">⛩</span><div><strong>종묘 정전</strong><span>국보 제227호</span></div></a>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <script>
+    const LEVELS = {
+      elem: { title: '🧒 초등 수준 · 쉽고 흥미롭게', html: `
+        <p>경복궁 <strong>근정전</strong>은 옛날 우리나라 조선 시대 임금님이 일하던 가장 멋진 집이에요!</p>
+        <p>지금으로부터 약 <strong>630년 전</strong>에 세워졌어요. 임금님이 신하들과 회의하고, 큰 행사를 열던 곳이지요.</p>
+        <h3>왜 이름이 ‘근정전’일까요?</h3>
+        <p>‘근정(勤政)’은 ‘<strong>부지런히 나라를 다스린다</strong>’는 뜻이에요. 임금님이 부지런해야 백성들이 행복하니까요.</p>
+        <h3>건물의 특별한 점</h3>
+        <p>지붕이 두 층으로 되어 있고, 처마 끝이 위로 살짝 올라가 있어요. 옛날 목수 아저씨들이 한 그루의 큰 나무로 만든 기둥도 있답니다!</p>
+        <blockquote>임금님이 앉던 의자 뒤에는 해와 달, 다섯 개의 산이 그려진 큰 그림(일월오봉도)이 있어요. ☀️🌕🏔</blockquote>
+      `},
+      mid: { title: '👦 중등 수준 · 역사적 맥락', html: `
+        <p>경복궁 근정전은 1395년(태조 4년) 조선의 새 도읍 한양에 지어진 <strong>법궁(法宮)의 정전</strong>이다. 임금이 신하들과 함께 즉위식·신년하례 등 국가의 가장 큰 의례를 치렀던 공간이다.</p>
+        <h3>이름의 뜻</h3>
+        <p>‘근정(勤政)’은 <em>"임금은 부지런히 나라를 다스려야 한다"</em>는 유교적 정치 이상을 담은 이름이다. 정도전이 지은 이름이라고 전해진다.</p>
+        <h3>임진왜란과 중건</h3>
+        <p>1592년 임진왜란 때 불타 사라졌다가 270여 년이 지난 1865년 <strong>흥선대원군</strong>이 왕권 강화를 위해 다시 지었다. 오늘날 우리가 보는 모습은 그때 중건된 것이다.</p>
+        <h3>월대와 품계석</h3>
+        <p>건물 앞 넓은 마당에는 신하들이 서던 자리를 표시한 <strong>품계석</strong>이 있다. 정1품부터 종9품까지 18등급으로, 신하의 지위가 한눈에 보였다.</p>
+      `},
+      high: null,
+      adult: { title: '👴 일반 수준 · 심층 해설', html: `
+        <p>근정전은 조선 왕조의 통치 이념과 건축 미학이 가장 응축된 공간이다. 단순한 ‘궁궐의 정전’이 아니라, 유교적 군주관 — <strong>천명(天命)을 받아 백성을 다스리는 자</strong>로서의 왕 — 을 공간으로 번역한 구조물로 읽힌다.</p>
+        <h3>공간의 위계</h3>
+        <p>광화문 → 흥례문 → 영제교 → 근정문 → 근정전으로 이어지는 5단계의 진입 동선은 의도된 ‘성스러운 길’이다. 각 문을 지날 때마다 시야가 좁혀지고, 마침내 월대 위 근정전에 도달했을 때 어좌가 시야 정중앙에 놓이도록 설계되었다.</p>
+        <h3>박석의 미학</h3>
+        <p>마당 바닥의 박석은 평평하지 않다. 약간 거친 표면이 햇빛을 난반사시켜 왕의 눈부심을 막고, 동시에 비 오는 날 의관을 갖춘 신하들이 미끄러지지 않게 하는 실용적 장치였다. 보존이 잘 된 박석에는 600년 전 장인의 정질 흔적이 남아 있다.</p>
+        <h3>다포식과 단청</h3>
+        <p>지붕 처마를 받치는 공포(栱包)는 다포식으로, 기둥 위뿐 아니라 기둥 사이에도 공포를 두어 화려한 외관을 만든다. 단청은 청·적·황·백·흑의 오방색으로 칠해져 음양오행 사상을 표현한다.</p>
+        <h3>현대의 의미</h3>
+        <p>2010년 광화문 복원과 함께 근정전 일대도 전체적으로 정비되어, 오늘날 조선 궁궐 건축의 최고 사례를 가장 가까이서 볼 수 있는 공간이 되었다. 매일 두 차례 진행되는 수문장 교대식과 함께 한국 전통 문화를 가장 잘 경험할 수 있는 장소다.</p>
+      `},
+    };
+
+    document.querySelectorAll('.level-tab').forEach((t) => {
+      t.addEventListener('click', () => {
+        const level = t.dataset.level;
+        if (LEVELS[level]) {
+          document.querySelectorAll('.level-tab').forEach((x) => x.classList.remove('on'));
+          t.classList.add('on');
+          const el = document.getElementById('explain');
+          const data = LEVELS[level];
+          el.innerHTML = `<h2>${data.title}</h2>${data.html}`;
+          window.scrollTo({ top: 380, behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>

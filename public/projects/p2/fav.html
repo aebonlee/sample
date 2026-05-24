@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>즐겨찾기 — 우리문화재</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .page-head { max-width: 1100px; margin: 0 auto; padding: 24px 24px 12px; }
+    .page-head h1 { margin: 0 0 6px; font-size: 1.5rem; }
+    .page-head p { margin: 0; color: var(--text-dim); }
+
+    .filters {
+      max-width: 1100px; margin: 16px auto; padding: 0 24px;
+      display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+    }
+    .search {
+      flex: 1; min-width: 220px;
+      padding: 10px 14px; border: 1px solid var(--border);
+      background: var(--surface); border-radius: 10px;
+      font-family: inherit; outline: none;
+    }
+    .search:focus { border-color: var(--accent); }
+
+    .group {
+      display: inline-flex; padding: 4px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+    .group button {
+      padding: 7px 14px; border: 0; background: transparent;
+      border-radius: 8px; cursor: pointer; font-family: inherit;
+      font-size: .84rem; color: var(--text-dim);
+    }
+    .group button.on {
+      background: var(--accent); color: #fff;
+    }
+
+    .sort {
+      padding: 9px 12px; border: 1px solid var(--border);
+      background: var(--surface); border-radius: 10px;
+      font-family: inherit; cursor: pointer; outline: none; font-size: .85rem;
+    }
+
+    .body {
+      max-width: 1100px; margin: 0 auto; padding: 14px 24px 80px;
+    }
+
+    .section + .section { margin-top: 28px; }
+    .section__head {
+      display: flex; align-items: baseline; gap: 10px;
+      margin-bottom: 14px;
+    }
+    .section__head h2 { margin: 0; font-size: 1.1rem; }
+    .section__head span { color: var(--text-mute); font-size: .85rem; }
+
+    .grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px;
+    }
+    .card-item {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; overflow: hidden; cursor: pointer;
+      transition: transform .15s ease, box-shadow .15s ease;
+      position: relative;
+    }
+    .card-item:hover { transform: translateY(-3px); box-shadow: 0 12px 24px rgba(0,0,0,.06); }
+    .card-item__img {
+      aspect-ratio: 4/3; display: grid; place-items: center;
+      font-size: 2.6rem; color: #fff; position: relative;
+    }
+    .card-item__star {
+      position: absolute; top: 8px; right: 8px;
+      width: 32px; height: 32px; border-radius: 50%;
+      background: rgba(0,0,0,.4); border: 0; color: #fbbf24;
+      cursor: pointer; font-size: 1rem;
+    }
+    .card-item__body { padding: 12px 14px; }
+    .card-item__cat {
+      color: var(--accent); font-size: .7rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .04em;
+    }
+    .card-item__title { margin: 4px 0; font-size: .95rem; font-weight: 700; }
+    .card-item__loc { color: var(--text-mute); font-size: .78rem; }
+
+    .empty {
+      text-align: center; padding: 60px 24px;
+      color: var(--text-dim);
+    }
+    .empty span { font-size: 3rem; display: block; margin-bottom: 12px; }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="brand">🏛 우리<span>문화재</span></div>
+    <nav class="nav-links">
+      <a href="home.html">검색</a>
+      <a href="mission.html">탐방 미션</a>
+      <a href="history.html">학습 기록</a>
+      <a href="fav.html" class="on">즐겨찾기</a>
+    </nav>
+  </header>
+
+  <div class="page-head">
+    <h1>⭐ 즐겨찾기</h1>
+    <p>나중에 다시 보고 싶은 문화재를 모아두는 공간입니다.</p>
+  </div>
+
+  <div class="filters">
+    <input class="search" type="search" placeholder="문화재 이름·지역 검색…" id="search" />
+    <div class="group" id="grp">
+      <button class="on" data-g="all">전체</button>
+      <button data-g="era">시대별</button>
+      <button data-g="region">지역별</button>
+      <button data-g="type">종목별</button>
+    </div>
+    <select class="sort">
+      <option>최근 추가순</option><option>이름순</option><option>지정번호순</option>
+    </select>
+  </div>
+
+  <main class="body" id="body"></main>
+
+  <script>
+    const FAVS = [
+      { id:1, title:'경복궁 근정전', cat:'국보 제223호', loc:'서울 종로구', era:'조선', region:'서울', type:'궁궐', emoji:'🏯', bg:'linear-gradient(135deg,#B45309,#fbbf24)' },
+      { id:2, title:'석굴암 본존불', cat:'국보 제24호', loc:'경북 경주시', era:'통일신라', region:'경상', type:'불상', emoji:'🗿', bg:'linear-gradient(135deg,#6b4f30,#a0846a)' },
+      { id:3, title:'경주 첨성대', cat:'국보 제31호', loc:'경북 경주시', era:'신라', region:'경상', type:'천문', emoji:'⭐', bg:'linear-gradient(135deg,#7c3aed,#a78bfa)' },
+      { id:4, title:'훈민정음 해례본', cat:'국보 제70호', loc:'서울 간송미술관', era:'조선', region:'서울', type:'문서', emoji:'📜', bg:'linear-gradient(135deg,#0c4a6e,#3b82f6)' },
+      { id:5, title:'다보탑', cat:'국보 제20호', loc:'경북 경주시 불국사', era:'통일신라', region:'경상', type:'탑', emoji:'🏛', bg:'linear-gradient(135deg,#16a34a,#4ade80)' },
+      { id:6, title:'직지심체요절', cat:'세계기록유산', loc:'프랑스 국립도서관', era:'고려', region:'해외', type:'문서', emoji:'📖', bg:'linear-gradient(135deg,#dc2626,#f87171)' },
+      { id:7, title:'팔만대장경', cat:'국보 제32호', loc:'경남 합천 해인사', era:'고려', region:'경상', type:'문서', emoji:'📚', bg:'linear-gradient(135deg,#9a3412,#fb923c)' },
+      { id:8, title:'창덕궁 인정전', cat:'국보 제225호', loc:'서울 종로구', era:'조선', region:'서울', type:'궁궐', emoji:'🏛', bg:'linear-gradient(135deg,#365314,#84cc16)' },
+      { id:9, title:'종묘 정전', cat:'국보 제227호', loc:'서울 종로구', era:'조선', region:'서울', type:'사당', emoji:'⛩', bg:'linear-gradient(135deg,#0f766e,#14b8a6)' },
+      { id:10,title:'안압지(동궁과 월지)', cat:'사적 제18호', loc:'경북 경주시', era:'통일신라', region:'경상', type:'유적', emoji:'🌊', bg:'linear-gradient(135deg,#0369a1,#7dd3fc)' },
+      { id:11,title:'수원 화성', cat:'사적 제3호', loc:'경기 수원시', era:'조선', region:'경기', type:'성곽', emoji:'🏰', bg:'linear-gradient(135deg,#a16207,#fde047)' },
+      { id:12,title:'미륵사지 석탑', cat:'국보 제11호', loc:'전북 익산시', era:'백제', region:'전라', type:'탑', emoji:'🗼', bg:'linear-gradient(135deg,#7e22ce,#d8b4fe)' },
+    ];
+
+    const $body = document.getElementById('body');
+    let groupKey = 'all';
+    let query = '';
+
+    function render() {
+      const filtered = FAVS.filter((f) => {
+        if (!query) return true;
+        return (f.title + f.loc).toLowerCase().includes(query.toLowerCase());
+      });
+      if (filtered.length === 0) {
+        $body.innerHTML = '<div class="empty"><span>⭐</span>즐겨찾기한 문화재가 없어요.</div>';
+        return;
+      }
+      if (groupKey === 'all') {
+        $body.innerHTML = `<section class="section"><div class="section__head"><h2>전체</h2><span>${filtered.length}개</span></div><div class="grid">${filtered.map(item).join('')}</div></section>`;
+        return;
+      }
+      const grouped = {};
+      filtered.forEach((f) => {
+        const k = f[groupKey === 'era' ? 'era' : groupKey === 'region' ? 'region' : 'type'];
+        if (!grouped[k]) grouped[k] = [];
+        grouped[k].push(f);
+      });
+      $body.innerHTML = Object.entries(grouped)
+        .map(([k, list]) => `
+          <section class="section">
+            <div class="section__head"><h2>${k}</h2><span>${list.length}개</span></div>
+            <div class="grid">${list.map(item).join('')}</div>
+          </section>`)
+        .join('');
+    }
+
+    function item(f) {
+      return `
+        <article class="card-item">
+          <div class="card-item__img" style="background: ${f.bg}">
+            ${f.emoji}
+            <button class="card-item__star" aria-label="즐겨찾기 해제">★</button>
+          </div>
+          <div class="card-item__body">
+            <div class="card-item__cat">${f.cat}</div>
+            <h3 class="card-item__title">${f.title}</h3>
+            <p class="card-item__loc">📍 ${f.loc}</p>
+          </div>
+        </article>
+      `;
+    }
+
+    document.getElementById('grp').addEventListener('click', (e) => {
+      const b = e.target.closest('button[data-g]');
+      if (!b) return;
+      document.querySelectorAll('#grp button').forEach((x) => x.classList.remove('on'));
+      b.classList.add('on');
+      groupKey = b.dataset.g;
+      render();
+    });
+    document.getElementById('search').addEventListener('input', (e) => {
+      query = e.target.value;
+      render();
+    });
+
+    render();
+  </script>
+</body>
+</html>

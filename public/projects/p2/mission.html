@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>탐방 미션 — 우리문화재</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .page-head { max-width: 1200px; margin: 0 auto; padding: 24px 24px 12px; }
+    .page-head h1 { margin: 0 0 6px; font-size: 1.5rem; }
+    .page-head p { margin: 0; color: var(--text-dim); }
+
+    .stats {
+      max-width: 1200px; margin: 14px auto; padding: 0 24px;
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+    }
+    .stat {
+      background: var(--surface); border: 1px solid var(--border);
+      padding: 14px 18px; border-radius: 12px;
+    }
+    .stat span { color: var(--text-mute); font-size: .78rem; }
+    .stat strong { display: block; font-size: 1.4rem; margin-top: 2px; }
+    .stat__bar { height: 4px; background: var(--bg); border-radius: 2px; overflow: hidden; margin-top: 8px; }
+    .stat__bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--gold)); }
+
+    .layout {
+      max-width: 1200px; margin: 14px auto; padding: 0 24px 80px;
+      display: grid; grid-template-columns: 1fr 340px; gap: 20px;
+    }
+
+    .map {
+      aspect-ratio: 4/3;
+      background:
+        radial-gradient(circle at 30% 40%, rgba(180,83,9,.15), transparent 30%),
+        radial-gradient(circle at 70% 65%, rgba(180,83,9,.1), transparent 30%),
+        linear-gradient(135deg, #e8dcb8, #c5b78d);
+      border-radius: 14px; position: relative;
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .map::before {
+      content: ''; position: absolute; inset: 0;
+      background-image:
+        linear-gradient(to right, rgba(61,41,20,.06) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(61,41,20,.06) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    .pin {
+      position: absolute; transform: translate(-50%, -100%);
+      cursor: pointer;
+      transition: transform .15s ease;
+    }
+    .pin:hover { transform: translate(-50%, -110%) scale(1.1); z-index: 5; }
+    .pin__icon {
+      width: 44px; height: 44px; border-radius: 50% 50% 50% 0;
+      transform: rotate(-45deg);
+      display: grid; place-items: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,.25);
+      font-size: 1.2rem;
+    }
+    .pin__icon > span { transform: rotate(45deg); }
+    .pin--done .pin__icon { background: #22c55e; color: #fff; }
+    .pin--planned .pin__icon { background: var(--accent); color: #fff; }
+    .pin--locked .pin__icon { background: var(--text-mute); color: #fff; opacity: .7; }
+    .pin__label {
+      position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+      margin-top: 6px;
+      background: rgba(61,41,20,.85); color: #fff;
+      padding: 3px 10px; border-radius: 6px;
+      font-size: .72rem; white-space: nowrap;
+    }
+
+    .map__legend {
+      position: absolute; bottom: 14px; left: 14px;
+      background: rgba(255,255,255,.92); border: 1px solid var(--border);
+      border-radius: 10px; padding: 10px 14px;
+      display: flex; gap: 14px;
+      font-size: .78rem;
+    }
+    .map__legend i {
+      display: inline-block; width: 12px; height: 12px; border-radius: 50%;
+      margin-right: 4px; vertical-align: middle;
+    }
+
+    .missions { display: flex; flex-direction: column; gap: 10px; }
+    .missions h3 { margin: 0 0 10px; font-size: .85rem; color: var(--text-mute); text-transform: uppercase; letter-spacing: .06em; }
+    .mission {
+      padding: 14px 16px; cursor: pointer;
+      transition: transform .15s ease;
+      border-left: 4px solid var(--accent);
+    }
+    .mission:hover { transform: translateX(3px); }
+    .mission.done { border-left-color: #22c55e; opacity: .8; }
+    .mission.locked { border-left-color: var(--text-mute); opacity: .6; }
+    .mission__head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px; }
+    .mission__title { margin: 0; font-size: .95rem; font-weight: 700; }
+    .mission__pts { color: var(--accent); font-weight: 700; font-size: .85rem; }
+    .mission__meta { color: var(--text-mute); font-size: .8rem; margin: 0 0 8px; }
+    .mission__tags { display: flex; flex-wrap: wrap; gap: 4px; }
+    .mission__tags span { padding: 2px 8px; background: var(--bg); border-radius: 999px; font-size: .7rem; color: var(--text-dim); }
+    .mission__btn {
+      margin-top: 10px; padding: 6px 12px; border: 0; border-radius: 8px;
+      background: var(--accent); color: #fff; font-family: inherit; font-size: .82rem; cursor: pointer;
+    }
+    .mission.done .mission__btn { background: #22c55e; }
+    .mission.locked .mission__btn { background: var(--text-mute); cursor: not-allowed; }
+
+    @media (max-width: 880px) {
+      .layout { grid-template-columns: 1fr; }
+      .stats { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="brand">🏛 우리<span>문화재</span></div>
+    <nav class="nav-links">
+      <a href="home.html">검색</a>
+      <a href="mission.html" class="on">탐방 미션</a>
+      <a href="history.html">학습 기록</a>
+      <a href="fav.html">즐겨찾기</a>
+    </nav>
+  </header>
+
+  <div class="page-head">
+    <h1>📍 서울 궁궐 5대 탐방</h1>
+    <p>5개 궁궐을 모두 방문하면 ‘조선의 길’ 뱃지를 획득합니다.</p>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <span>방문 완료</span>
+      <strong>2 / 5</strong>
+      <div class="stat__bar"><div class="stat__bar-fill" style="width: 40%"></div></div>
+    </div>
+    <div class="stat">
+      <span>획득 포인트</span>
+      <strong>340 pts</strong>
+      <div class="stat__bar"><div class="stat__bar-fill" style="width: 68%"></div></div>
+    </div>
+    <div class="stat">
+      <span>다음 보상까지</span>
+      <strong>160 pts</strong>
+      <div class="stat__bar"><div class="stat__bar-fill" style="width: 32%"></div></div>
+    </div>
+    <div class="stat">
+      <span>획득 뱃지</span>
+      <strong>🏅 3개</strong>
+    </div>
+  </div>
+
+  <main class="layout">
+    <div class="card" style="padding: 14px;">
+      <div class="map">
+        <div class="pin pin--done" style="left: 30%; top: 35%;"><div class="pin__icon"><span>🏯</span></div><div class="pin__label">경복궁 ✓</div></div>
+        <div class="pin pin--done" style="left: 50%; top: 50%;"><div class="pin__icon"><span>⛩</span></div><div class="pin__label">종묘 ✓</div></div>
+        <div class="pin pin--planned" style="left: 55%; top: 38%;"><div class="pin__icon"><span>🏛</span></div><div class="pin__label">창덕궁</div></div>
+        <div class="pin pin--planned" style="left: 62%; top: 48%;"><div class="pin__icon"><span>🏯</span></div><div class="pin__label">창경궁</div></div>
+        <div class="pin pin--locked" style="left: 38%; top: 60%;"><div class="pin__icon"><span>🏛</span></div><div class="pin__label">덕수궁</div></div>
+
+        <div class="map__legend">
+          <span><i style="background:#22c55e"></i>완료</span>
+          <span><i style="background:var(--accent)"></i>예정</span>
+          <span><i style="background:var(--text-mute)"></i>잠금</span>
+        </div>
+      </div>
+    </div>
+
+    <aside class="missions">
+      <h3>미션 목록</h3>
+
+      <article class="mission card done">
+        <div class="mission__head">
+          <h4 class="mission__title">🏯 경복궁 방문하기</h4>
+          <span class="mission__pts">+100</span>
+        </div>
+        <p class="mission__meta">📍 종로구 사직로 161 · 2026.05.18 방문</p>
+        <div class="mission__tags"><span>국보</span><span>조선</span></div>
+        <button class="mission__btn" type="button">📜 인증 사진 보기</button>
+      </article>
+
+      <article class="mission card done">
+        <div class="mission__head">
+          <h4 class="mission__title">⛩ 종묘 정전</h4>
+          <span class="mission__pts">+120</span>
+        </div>
+        <p class="mission__meta">📍 종로구 종로 157 · 2026.05.15 방문</p>
+        <div class="mission__tags"><span>국보</span><span>유네스코</span></div>
+        <button class="mission__btn" type="button">📜 인증 사진 보기</button>
+      </article>
+
+      <article class="mission card">
+        <div class="mission__head">
+          <h4 class="mission__title">🏛 창덕궁 인정전</h4>
+          <span class="mission__pts">+100</span>
+        </div>
+        <p class="mission__meta">📍 종로구 율곡로 99 · 09:00 ~ 18:00</p>
+        <div class="mission__tags"><span>국보</span><span>유네스코</span></div>
+        <button class="mission__btn" type="button">📷 인증하기</button>
+      </article>
+
+      <article class="mission card">
+        <div class="mission__head">
+          <h4 class="mission__title">🏯 창경궁 명정전</h4>
+          <span class="mission__pts">+80</span>
+        </div>
+        <p class="mission__meta">📍 종로구 창경궁로 185</p>
+        <div class="mission__tags"><span>국보</span><span>조선</span></div>
+        <button class="mission__btn" type="button">📷 인증하기</button>
+      </article>
+
+      <article class="mission card locked">
+        <div class="mission__head">
+          <h4 class="mission__title">🔒 덕수궁 중화전</h4>
+          <span class="mission__pts">+100</span>
+        </div>
+        <p class="mission__meta">📍 4곳 방문 완료 시 해제</p>
+        <div class="mission__tags"><span>보물</span><span>대한제국</span></div>
+        <button class="mission__btn" type="button" disabled>잠금됨</button>
+      </article>
+    </aside>
+  </main>
+</body>
+</html>
