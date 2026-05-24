@@ -129,6 +129,20 @@ export default function ProjectBuild() {
   const initialSel = search.get('sel') ?? `page:${mockup?.pages[0]?.id ?? 'home'}`;
   const [selection, setSelection] = useState<string>(initialSel);
   const [view, setView] = useState<ViewMode>('preview');
+  // 좌측 사이드바 드롭다운: 'pages' | 'shared' | null — 아코디언(한 번에 하나)
+  const [openGroup, setOpenGroup] = useState<'pages' | 'shared' | null>(
+    initialSel.startsWith('shared:') ? 'shared' : 'pages',
+  );
+
+  /** 항목 클릭 → 선택 적용 + 드롭다운 자동 닫기 */
+  function pick(sel: string) {
+    setSelection(sel);
+    setOpenGroup(null);
+  }
+  /** 헤더 클릭 → 같은 그룹이면 닫기, 다른 그룹이면 그것만 열기(아코디언) */
+  function toggleGroup(g: 'pages' | 'shared') {
+    setOpenGroup((cur) => (cur === g ? null : g));
+  }
 
   // 페치 캐시
   const [htmlText, setHtmlText] = useState<string>('');
@@ -244,48 +258,82 @@ export default function ProjectBuild() {
 
       <div className="pb-layout">
         <aside className="pb-side">
-          <details className="pb-side__group" open>
-            <summary className="pb-side__h">
-              <span>📄 페이지 <em>{mockup.pages.length}</em></span>
+          {/* 페이지 그룹 */}
+          <div className={`pb-side__group ${openGroup === 'pages' ? 'is-open' : ''}`}>
+            <button
+              type="button"
+              className="pb-side__h"
+              onClick={() => toggleGroup('pages')}
+              aria-expanded={openGroup === 'pages'}
+            >
+              <span>
+                📄 페이지 <em>{mockup.pages.length}</em>
+                {selection.startsWith('page:') && (
+                  <small className="pb-side__current">
+                    · {mockup.pages.find((p) => `page:${p.id}` === selection)?.title}
+                  </small>
+                )}
+              </span>
               <span className="pb-side__caret">▾</span>
-            </summary>
-            <nav className="pb-side__nav">
-              {mockup.pages.map((p, idx) => (
-                <button
-                  key={p.id}
-                  className={`pb-side__item ${selection === `page:${p.id}` ? 'is-active' : ''} pb-side__item--${p.status}`}
-                  onClick={() => setSelection(`page:${p.id}`)}
-                  title={p.desc || p.title}
-                >
-                  <span className="pb-side__num">{String(idx + 1).padStart(2, '0')}</span>
-                  <span className="pb-side__title">{p.title}</span>
-                  <span className="pb-side__badge">
-                    {p.status === 'done' ? '✓' : p.status === 'wip' ? '⋯' : '○'}
-                  </span>
-                </button>
-              ))}
-            </nav>
-          </details>
+            </button>
+            {openGroup === 'pages' && (
+              <nav className="pb-side__nav">
+                {mockup.pages.map((p, idx) => (
+                  <button
+                    key={p.id}
+                    className={`pb-side__item ${selection === `page:${p.id}` ? 'is-active' : ''} pb-side__item--${p.status}`}
+                    onClick={() => pick(`page:${p.id}`)}
+                  >
+                    <span className="pb-side__num">{String(idx + 1).padStart(2, '0')}</span>
+                    <span className="pb-side__body">
+                      <span className="pb-side__title">{p.title}</span>
+                      {p.desc && <span className="pb-side__desc">{p.desc}</span>}
+                    </span>
+                    <span className="pb-side__badge">
+                      {p.status === 'done' ? '✓' : p.status === 'wip' ? '⋯' : '○'}
+                    </span>
+                  </button>
+                ))}
+              </nav>
+            )}
+          </div>
 
-          <details className="pb-side__group">
-            <summary className="pb-side__h">
-              <span>📦 공통 파일 <em>{mockup.shared.length}</em></span>
+          {/* 공통 파일 그룹 */}
+          <div className={`pb-side__group ${openGroup === 'shared' ? 'is-open' : ''}`}>
+            <button
+              type="button"
+              className="pb-side__h"
+              onClick={() => toggleGroup('shared')}
+              aria-expanded={openGroup === 'shared'}
+            >
+              <span>
+                📦 공통 파일 <em>{mockup.shared.length}</em>
+                {selection.startsWith('shared:') && (
+                  <small className="pb-side__current">
+                    · {mockup.shared.find((s) => `shared:${s.filename}` === selection)?.label}
+                  </small>
+                )}
+              </span>
               <span className="pb-side__caret">▾</span>
-            </summary>
-            <nav className="pb-side__nav">
-              {mockup.shared.map((s) => (
-                <button
-                  key={s.filename}
-                  className={`pb-side__item ${selection === `shared:${s.filename}` ? 'is-active' : ''}`}
-                  onClick={() => setSelection(`shared:${s.filename}`)}
-                  title={s.desc || s.label}
-                >
-                  <span className={`pb-side__lang pb-side__lang--${s.lang}`}>{s.lang.toUpperCase()}</span>
-                  <span className="pb-side__title">{s.label}</span>
-                </button>
-              ))}
-            </nav>
-          </details>
+            </button>
+            {openGroup === 'shared' && (
+              <nav className="pb-side__nav">
+                {mockup.shared.map((s) => (
+                  <button
+                    key={s.filename}
+                    className={`pb-side__item ${selection === `shared:${s.filename}` ? 'is-active' : ''}`}
+                    onClick={() => pick(`shared:${s.filename}`)}
+                  >
+                    <span className={`pb-side__lang pb-side__lang--${s.lang}`}>{s.lang.toUpperCase()}</span>
+                    <span className="pb-side__body">
+                      <span className="pb-side__title">{s.label}</span>
+                      {s.desc && <span className="pb-side__desc">{s.desc}</span>}
+                    </span>
+                  </button>
+                ))}
+              </nav>
+            )}
+          </div>
         </aside>
 
         <div className="pb-stage">
