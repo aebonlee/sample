@@ -223,7 +223,7 @@ export default function ProjectBuild() {
           <h1>{project.title} — 구현 페이지</h1>
           <p>페이지별로 HTML/CSS/JS가 분리되고, React 소스(App.tsx + supabase.ts + types.ts + pages/HomePage.tsx)와 SQL 스키마는 공통 파일에서 확인할 수 있습니다.</p>
         </div>
-        <div style={{ marginLeft: 'auto', display: 'flex', gap: 8 }}>
+        <div className="pb-head__actions">
           <button
             type="button"
             className="btn btn--primary btn--sm"
@@ -244,42 +244,48 @@ export default function ProjectBuild() {
 
       <div className="pb-layout">
         <aside className="pb-side">
-          <h4 className="pb-side__h">페이지 ({mockup.pages.length})</h4>
-          <nav className="pb-side__nav">
-            {mockup.pages.map((p, idx) => (
-              <button
-                key={p.id}
-                className={`pb-side__item ${selection === `page:${p.id}` ? 'is-active' : ''} pb-side__item--${p.status}`}
-                onClick={() => setSelection(`page:${p.id}`)}
-              >
-                <span className="pb-side__num">{String(idx + 1).padStart(2, '0')}</span>
-                <span className="pb-side__body">
+          <details className="pb-side__group" open>
+            <summary className="pb-side__h">
+              <span>📄 페이지 <em>{mockup.pages.length}</em></span>
+              <span className="pb-side__caret">▾</span>
+            </summary>
+            <nav className="pb-side__nav">
+              {mockup.pages.map((p, idx) => (
+                <button
+                  key={p.id}
+                  className={`pb-side__item ${selection === `page:${p.id}` ? 'is-active' : ''} pb-side__item--${p.status}`}
+                  onClick={() => setSelection(`page:${p.id}`)}
+                  title={p.desc || p.title}
+                >
+                  <span className="pb-side__num">{String(idx + 1).padStart(2, '0')}</span>
                   <span className="pb-side__title">{p.title}</span>
-                  {p.desc && <span className="pb-side__desc">{p.desc}</span>}
-                </span>
-                <span className="pb-side__badge">
-                  {p.status === 'done' ? '✓' : p.status === 'wip' ? '⋯' : '○'}
-                </span>
-              </button>
-            ))}
-          </nav>
+                  <span className="pb-side__badge">
+                    {p.status === 'done' ? '✓' : p.status === 'wip' ? '⋯' : '○'}
+                  </span>
+                </button>
+              ))}
+            </nav>
+          </details>
 
-          <h4 className="pb-side__h" style={{ marginTop: 22 }}>공통 파일 ({mockup.shared.length})</h4>
-          <nav className="pb-side__nav">
-            {mockup.shared.map((s) => (
-              <button
-                key={s.filename}
-                className={`pb-side__item ${selection === `shared:${s.filename}` ? 'is-active' : ''}`}
-                onClick={() => setSelection(`shared:${s.filename}`)}
-              >
-                <span className={`pb-side__lang pb-side__lang--${s.lang}`}>{s.lang.toUpperCase()}</span>
-                <span className="pb-side__body">
+          <details className="pb-side__group">
+            <summary className="pb-side__h">
+              <span>📦 공통 파일 <em>{mockup.shared.length}</em></span>
+              <span className="pb-side__caret">▾</span>
+            </summary>
+            <nav className="pb-side__nav">
+              {mockup.shared.map((s) => (
+                <button
+                  key={s.filename}
+                  className={`pb-side__item ${selection === `shared:${s.filename}` ? 'is-active' : ''}`}
+                  onClick={() => setSelection(`shared:${s.filename}`)}
+                  title={s.desc || s.label}
+                >
+                  <span className={`pb-side__lang pb-side__lang--${s.lang}`}>{s.lang.toUpperCase()}</span>
                   <span className="pb-side__title">{s.label}</span>
-                  {s.desc && <span className="pb-side__desc">{s.desc}</span>}
-                </span>
-              </button>
-            ))}
-          </nav>
+                </button>
+              ))}
+            </nav>
+          </details>
         </aside>
 
         <div className="pb-stage">
