@@ -53,8 +53,9 @@ a { color: inherit; text-decoration: none; }
 .mail { display: inline-block; font-size: 22px; border-bottom: 2px solid var(--ink); padding-bottom: 4px; }
 
 .lightbox { position: fixed; inset: 0; background: rgba(20,18,15,.96); display: grid; place-items: center; padding: 30px; z-index: 100; }
-.lightbox .close { position: absolute; top: 20px; right: 30px; color: #fff; font-size: 38px; cursor: pointer; }
-.lb-inner { width: min(90vw, 800px); aspect-ratio: 4/5; }
+.lightbox[hidden] { display: none; }
+.lightbox .close { position: absolute; top: 20px; right: 30px; color: #fff; font-size: 38px; cursor: pointer; line-height: 1; padding: 6px 12px; }
+.lb-inner { width: min(90vw, 800px); max-height: 85vh; aspect-ratio: 4/5; }
 
 .foot { text-align: center; padding: 30px; color: var(--muted); font-size: 12px; border-top: 1px solid var(--line); }
 
