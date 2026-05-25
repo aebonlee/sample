@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360" width="600" height="360" role="img" aria-label="디자인 시스템 라이브러리">
+  <defs>
+    <linearGradient id="d2-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0c4a6e"/>
+      <stop offset="1" stop-color="#1e40af"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="360" fill="url(#d2-bg)"/>
+
+  <!-- Storybook 사이드바 + 캔버스 -->
+  <g transform="translate(60 40)">
+    <!-- 전체 프레임 -->
+    <rect width="480" height="280" rx="10" fill="#fafafa" stroke="#7dd3fc"/>
+
+    <!-- 좌측 사이드바 -->
+    <rect x="0" y="0" width="140" height="280" rx="10" fill="#0f172a"/>
+    <rect x="0" y="0" width="140" height="36" fill="#0c4a6e"/>
+    <text x="14" y="23" font-family="-apple-system,sans-serif" font-size="11" font-weight="800" fill="#7dd3fc">📚 Storybook</text>
+
+    <!-- 컴포넌트 트리 -->
+    <g font-family="-apple-system,sans-serif" font-size="10" fill="#cbd5e1">
+      <text x="14" y="60" font-weight="700" fill="#67e8f9">▾ Buttons</text>
+      <text x="24" y="78">Primary</text>
+      <text x="24" y="94">Secondary</text>
+      <text x="24" y="110">Ghost</text>
+      <text x="14" y="132" font-weight="700" fill="#67e8f9">▾ Inputs</text>
+      <text x="24" y="150">Text Field</text>
+      <text x="24" y="166">Select</text>
+      <text x="24" y="182">Checkbox</text>
+      <text x="14" y="204" font-weight="700" fill="#67e8f9">▾ Cards</text>
+      <text x="24" y="222">Article</text>
+      <text x="24" y="238">Stat</text>
+      <text x="24" y="254">Profile</text>
+    </g>
+
+    <!-- 캔버스 (오른쪽) -->
+    <g transform="translate(160 24)">
+      <text x="0" y="0" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#0f172a">Button / Primary</text>
+
+      <!-- 버튼 variations -->
+      <g transform="translate(0 16)">
+        <rect width="80" height="32" rx="16" fill="#3b82f6"/>
+        <text x="40" y="21" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Primary</text>
+
+        <rect x="92" width="80" height="32" rx="16" fill="#fff" stroke="#3b82f6" stroke-width="2"/>
+        <text x="132" y="21" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#3b82f6">Outline</text>
+
+        <rect x="184" width="80" height="32" rx="16" fill="transparent"/>
+        <text x="224" y="21" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#3b82f6">Ghost</text>
+
+        <rect x="0" y="44" width="80" height="32" rx="16" fill="#cbd5e1"/>
+        <text x="40" y="65" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#64748b">Disabled</text>
+
+        <rect x="92" y="44" width="80" height="32" rx="16" fill="#ef4444"/>
+        <text x="132" y="65" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Danger</text>
+      </g>
+
+      <!-- 토큰 swatch -->
+      <text x="0" y="160" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#0f172a">Tokens</text>
+      <g transform="translate(0 170)">
+        <rect width="40" height="40" rx="6" fill="#3b82f6"/>
+        <rect x="50" width="40" height="40" rx="6" fill="#10b981"/>
+        <rect x="100" width="40" height="40" rx="6" fill="#f59e0b"/>
+        <rect x="150" width="40" height="40" rx="6" fill="#ef4444"/>
+        <rect x="200" width="40" height="40" rx="6" fill="#a78bfa"/>
+        <rect x="250" width="40" height="40" rx="6" fill="#0f172a"/>
+      </g>
+
+      <text x="0" y="240" font-family="ui-monospace,monospace" font-size="9" fill="#64748b">--blue-500 · --green-500 · --amber-500</text>
+    </g>
+  </g>
+
+  <text x="60" y="346" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#7dd3fc">디자인 시스템 · Storybook · Figma</text>
+</svg>
