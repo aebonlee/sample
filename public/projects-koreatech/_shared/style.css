@@ -1,0 +1,200 @@
+/* 한기대 프로젝트 공통 mockup 스타일 — CT 7단계 알고리즘 데모 페이지 */
+:root {
+  --bg: #0f172a;
+  --bg-elev: #1e293b;
+  --bg-card: #111827;
+  --border: #1f2937;
+  --border-strong: #374151;
+  --text: #f8fafc;
+  --text-dim: #cbd5e1;
+  --text-mute: #64748b;
+  --accent: #0046C8;
+  --accent-2: #2563eb;
+  --ok: #10b981;
+  --warn: #f59e0b;
+  --danger: #ef4444;
+  --info: #38bdf8;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: -apple-system, "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.55;
+}
+
+.container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 32px 24px 64px;
+}
+
+.demo-hero {
+  background: linear-gradient(135deg, var(--accent) 0%, #6d28d9 100%);
+  padding: 36px 32px;
+  border-radius: 16px;
+  margin-bottom: 28px;
+}
+.demo-hero__eyebrow {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.18);
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.demo-hero h1 {
+  margin: 0 0 8px;
+  font-size: 1.8rem;
+  letter-spacing: -0.02em;
+}
+.demo-hero p {
+  margin: 0;
+  color: rgba(255,255,255,0.85);
+  font-size: 0.95rem;
+}
+
+.panel {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 22px;
+  margin-bottom: 18px;
+}
+.panel h2 {
+  margin: 0 0 14px;
+  font-size: 1.05rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.panel h2 .pill {
+  font-size: 0.7rem;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(0,70,200,0.2);
+  color: #93c5fd;
+  font-weight: 700;
+}
+
+.row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+label.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  font-weight: 600;
+}
+input, select, textarea {
+  background: var(--bg-elev);
+  color: var(--text);
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  min-width: 120px;
+}
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--accent-2);
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.2);
+}
+textarea { min-height: 80px; resize: vertical; font-family: "Fira Code", Consolas, monospace; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 18px;
+  border-radius: 8px;
+  border: 1px solid var(--border-strong);
+  background: var(--bg-elev);
+  color: var(--text);
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.88rem;
+}
+.btn:hover { background: #2a3344; }
+.btn--primary {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+.btn--primary:hover { background: var(--accent-2); }
+.btn--ok { background: var(--ok); border-color: var(--ok); color: #fff; }
+.btn--danger { background: var(--danger); border-color: var(--danger); color: #fff; }
+.btn--ghost { background: transparent; }
+
+.output {
+  background: #020617;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  font-family: "Fira Code", Consolas, monospace;
+  font-size: 0.82rem;
+  color: #e2e8f0;
+  white-space: pre-wrap;
+  min-height: 80px;
+  max-height: 360px;
+  overflow-y: auto;
+  line-height: 1.65;
+}
+.output:empty::before {
+  content: "▶ 실행 버튼을 눌러주세요";
+  color: var(--text-mute);
+}
+
+table.t {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+table.t th, table.t td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+table.t th {
+  background: var(--bg-elev);
+  font-weight: 700;
+  color: var(--text-dim);
+}
+table.t tbody tr:hover { background: rgba(37,99,235,0.06); }
+
+.badge {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: 6px;
+  font-size: 0.74rem;
+  font-weight: 700;
+}
+.badge--ok { background: rgba(16,185,129,0.18); color: #6ee7b7; }
+.badge--warn { background: rgba(245,158,11,0.18); color: #fcd34d; }
+.badge--danger { background: rgba(239,68,68,0.18); color: #fca5a5; }
+.badge--info { background: rgba(56,189,248,0.18); color: #7dd3fc; }
+
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.meter {
+  height: 8px;
+  background: var(--bg-elev);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.meter > span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), #22d3ee);
+}
+
+@media (max-width: 720px) {
+  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  .demo-hero h1 { font-size: 1.4rem; }
+}

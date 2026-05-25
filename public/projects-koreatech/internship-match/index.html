@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>산학협력 인턴십 매칭 — 데모</title>
+<link rel="stylesheet" href="../_shared/style.css"/>
+</head>
+<body>
+<div class="container">
+  <header class="demo-hero">
+    <span class="demo-hero__eyebrow">PROJECT 08 · 한기대</span>
+    <h1>💼 산학협력 인턴십 매칭</h1>
+    <p>학생 프로필과 기업 공고를 가중합(스킬 60% · 전공 25% · 관심 15%)으로 매칭하여 Top 3 기업을 추천합니다.</p>
+  </header>
+
+  <section class="panel">
+    <h2>① 학생 프로필 <span class="pill">INPUT</span></h2>
+    <div class="row">
+      <label class="field">전공
+        <select id="sMajor"><option>CSE</option><option>EE</option><option>ME</option><option>ID</option></select>
+      </label>
+      <label class="field">관심 산업
+        <select id="sInt"><option>AI</option><option>Embedded</option><option>Web</option><option>Mobile</option><option>Robotics</option></select>
+      </label>
+      <label class="field">기술 스택 (콤마 구분)
+        <input id="sSkills" type="text" value="Python, ML, TensorFlow, NumPy" style="min-width:300px;"/>
+      </label>
+      <button class="btn btn--primary" onclick="match()">🎯 매칭 실행</button>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>② 추천 기업 Top 3</h2>
+    <div id="top3"></div>
+  </section>
+
+  <section class="panel">
+    <h2>③ 전체 기업 매칭 점수</h2>
+    <table class="t"><thead><tr><th>기업</th><th>직무</th><th>스킬 일치</th><th>전공 일치</th><th>관심 일치</th><th>적합도</th></tr></thead>
+    <tbody id="full"></tbody></table>
+  </section>
+
+  <section class="panel">
+    <h2>④ 실행 로그</h2>
+    <pre class="output" id="log"></pre>
+  </section>
+</div>
+
+<script>
+const companies = [
+  { id: "CoA", job: "AI 엔지니어",      need: ["Python","ML","PyTorch","NumPy"], major: "CSE", industry: "AI" },
+  { id: "CoB", job: "임베디드 엔지니어", need: ["C","RTOS","PCB"],                  major: "EE",  industry: "Embedded" },
+  { id: "CoC", job: "백엔드 개발자",     need: ["Java","Spring","DB","Docker"],    major: "CSE", industry: "Web" },
+  { id: "CoD", job: "프론트엔드 개발자", need: ["React","TypeScript","CSS"],       major: "CSE", industry: "Web" },
+  { id: "CoE", job: "로봇 엔지니어",     need: ["C++","ROS","Robotics"],          major: "ME",  industry: "Robotics" },
+  { id: "CoF", job: "MLOps 엔지니어",   need: ["Python","Docker","Kubernetes","ML"], major: "CSE", industry: "AI" },
+];
+
+function match() {
+  const major = document.getElementById("sMajor").value;
+  const interest = document.getElementById("sInt").value;
+  const skills = new Set(document.getElementById("sSkills").value.split(",").map(s => s.trim()).filter(Boolean));
+  const log = [`[입력] 전공 ${major} · 관심 ${interest} · 기술 ${[...skills].join(", ")}`];
+
+  const scored = companies.map(c => {
+    const overlap = c.need.filter(s => skills.has(s)).length / Math.max(c.need.length, 1);
+    const majorM = c.major === major ? 1 : 0;
+    const intM = c.industry === interest ? 1 : 0;
+    const score = 0.6 * overlap + 0.25 * majorM + 0.15 * intM;
+    return { ...c, overlap, majorM, intM, score };
+  }).sort((a, b) => b.score - a.score);
+
+  const colors = ["#22d3ee", "#a78bfa", "#fb7185"];
+  document.getElementById("top3").innerHTML = scored.slice(0, 3).map((c, i) => `
+    <div class="panel" style="margin-bottom:10px; padding:16px 20px; border-left:4px solid ${colors[i]};">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+        <div>
+          <span style="font-size:.78rem; color:var(--text-mute);">#${i + 1}</span>
+          <b style="font-size:1.05rem; margin-left:6px;">${c.id} · ${c.job}</b>
+        </div>
+        <span class="badge badge--info" style="font-size:.9rem; padding:6px 12px;">${(c.score * 100).toFixed(0)}점</span>
+      </div>
+      <div style="font-size:.85rem; color:var(--text-dim); margin-bottom:6px;">
+        요구: ${c.need.map(n => skills.has(n) ? `<b style="color:#10b981">${n}</b>` : n).join(", ")}
+      </div>
+      <div class="meter"><span style="width:${c.score * 100}%; background:${colors[i]};"></span></div>
+    </div>
+  `).join("");
+
+  document.getElementById("full").innerHTML = scored.map(c => `
+    <tr>
+      <td><b>${c.id}</b></td>
+      <td>${c.job}</td>
+      <td>${(c.overlap * 100).toFixed(0)}%</td>
+      <td>${c.majorM ? "✓" : "—"}</td>
+      <td>${c.intM ? "✓" : "—"}</td>
+      <td><b>${(c.score * 100).toFixed(0)}</b></td>
+    </tr>`).join("");
+
+  scored.slice(0, 3).forEach((c, i) => log.push(`  #${i+1} ${c.id} ${c.job}: 적합도 ${(c.score*100).toFixed(0)}점 (스킬 ${(c.overlap*100).toFixed(0)}%)`));
+  document.getElementById("log").textContent = log.join("\n");
+}
+match();
+</script>
+</body>
+</html>

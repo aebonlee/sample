@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>강의실 활용도 — 데모</title>
+<link rel="stylesheet" href="../_shared/style.css"/>
+<style>
+.heatmap { display: grid; grid-template-columns: 60px repeat(10, 1fr); gap: 3px; font-size:.72rem; }
+.heatmap .cell { height: 28px; border-radius: 3px; display:flex; align-items:center; justify-content:center; color:#fff; }
+.heatmap .hd { color: var(--text-dim); font-weight:700; }
+</style>
+</head>
+<body>
+<div class="container">
+  <header class="demo-hero">
+    <span class="demo-hero__eyebrow">PROJECT 04 · 한기대</span>
+    <h1>🏫 강의실 활용도 분석</h1>
+    <p>요일 × 교시 50 슬롯 매트릭스를 분석해 강의실별 활용률과 시간대별 한산함을 히트맵으로 시각화합니다.</p>
+  </header>
+
+  <section class="panel">
+    <h2>① 시간표 입력 <span class="pill">INPUT</span></h2>
+    <p style="color:var(--text-mute); font-size:.78rem; margin:0 0 8px;">형식: <code>강의실,요일(0-4),교시(0-9)</code> · 한 줄에 하나씩</p>
+    <textarea id="schedule">공학관-101,0,1
+공학관-101,0,2
+공학관-101,1,3
+공학관-101,2,1
+공학관-101,2,2
+공학관-101,3,4
+공학관-202,0,1
+정보관-305,1,5
+정보관-305,2,5
+정보관-305,3,6
+정보관-305,4,6
+정보관-305,1,6
+정보관-305,2,7</textarea>
+    <div class="row" style="margin-top:10px;">
+      <button class="btn btn--primary" onclick="analyze()">📊 분석 실행</button>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>② 강의실별 활용률</h2>
+    <table class="t"><thead><tr><th>강의실</th><th>활용률</th><th>슬롯 (사용 / 전체)</th><th>판정</th></tr></thead>
+    <tbody id="usageTable"></tbody></table>
+  </section>
+
+  <section class="panel">
+    <h2>③ 히트맵 (강의실별 요일×교시)</h2>
+    <div id="heatmap"></div>
+  </section>
+
+  <section class="panel">
+    <h2>④ 실행 로그</h2>
+    <pre class="output" id="log"></pre>
+  </section>
+</div>
+
+<script>
+const DAYS = ["월","화","수","목","금"];
+
+function analyze() {
+  const lines = document.getElementById("schedule").value.trim().split("\n");
+  const rooms = {};
+  lines.forEach(line => {
+    const [room, day, period] = line.split(",");
+    if (!rooms[room]) rooms[room] = Array.from({length:5}, () => Array(10).fill(false));
+    rooms[room][parseInt(day)][parseInt(period)] = true;
+  });
+
+  const log = [`[입력] 시간표 ${lines.length}건, 강의실 ${Object.keys(rooms).length}개`];
+
+  // 활용률 테이블
+  const tbody = document.getElementById("usageTable");
+  tbody.innerHTML = "";
+  Object.entries(rooms).forEach(([room, matrix]) => {
+    const used = matrix.flat().filter(x => x).length;
+    const rate = (used / 50 * 100);
+    let badge = "badge--ok", status = "보통";
+    if (rate < 30) { badge = "badge--warn"; status = "저활용"; }
+    else if (rate >= 70) { badge = "badge--danger"; status = "포화"; }
+    tbody.innerHTML += `<tr>
+      <td><b>${room}</b></td>
+      <td>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div class="meter" style="flex:1;"><span style="width:${rate}%"></span></div>
+          <span style="min-width:50px;text-align:right;">${rate.toFixed(1)}%</span>
+        </div>
+      </td>
+      <td>${used} / 50</td>
+      <td><span class="badge ${badge}">${status}</span></td>
+    </tr>`;
+    log.push(`  ${room.padEnd(14)} ${rate.toFixed(1)}% (${used}/50) → ${status}`);
+  });
+
+  // 히트맵 (각 강의실)
+  const heat = document.getElementById("heatmap");
+  heat.innerHTML = "";
+  Object.entries(rooms).forEach(([room, matrix]) => {
+    const wrap = document.createElement("div");
+    wrap.style.marginBottom = "16px";
+    wrap.innerHTML = `<div style="font-weight:700;margin-bottom:6px;">${room}</div>`;
+    const grid = document.createElement("div");
+    grid.className = "heatmap";
+    grid.innerHTML = `<div class="cell hd"></div>` + Array.from({length:10}, (_, i) => `<div class="cell hd">${i+1}교시</div>`).join("");
+    matrix.forEach((row, di) => {
+      grid.innerHTML += `<div class="cell hd">${DAYS[di]}</div>` + row.map(cell =>
+        cell
+          ? `<div class="cell" style="background:#0046C8;">●</div>`
+          : `<div class="cell" style="background:#1e293b;"></div>`
+      ).join("");
+    });
+    wrap.appendChild(grid);
+    heat.appendChild(wrap);
+  });
+
+  document.getElementById("log").textContent = log.join("\n");
+}
+analyze();
+</script>
+</body>
+</html>

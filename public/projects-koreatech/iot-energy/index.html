@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>스마트 캠퍼스 IoT 에너지 모니터링 — 데모</title>
+<link rel="stylesheet" href="../_shared/style.css"/>
+</head>
+<body>
+<div class="container">
+  <header class="demo-hero">
+    <span class="demo-hero__eyebrow">PROJECT 05 · 한기대</span>
+    <h1>⚡ 스마트 캠퍼스 IoT 에너지 모니터링</h1>
+    <p>건물별 시간대 베이스라인 대비 30% 초과/절감을 자동 감지하고 24시간 패턴을 시각화합니다.</p>
+  </header>
+
+  <section class="panel">
+    <h2>① 실시간 측정값 추가</h2>
+    <div class="row" style="margin-bottom:10px;">
+      <label class="field">건물
+        <select id="b"><option>공학관</option><option>기숙사</option><option>정보관</option></select>
+      </label>
+      <label class="field">시각(시)
+        <input id="h" type="number" min="0" max="23" value="22"/>
+      </label>
+      <label class="field">측정값 (kW)
+        <input id="v" type="number" min="0" value="180"/>
+      </label>
+      <button class="btn btn--primary" onclick="check()">📡 측정</button>
+      <button class="btn btn--ghost" onclick="resetChart()">↻ 리셋</button>
+    </div>
+    <p style="color:var(--text-mute); font-size:.78rem; margin:0;">임계비율: ±30% (베이스라인 대비)</p>
+  </section>
+
+  <section class="panel">
+    <h2>② 24시간 패턴 (건물별)</h2>
+    <svg id="chart" viewBox="0 0 940 280" style="width:100%; height:260px; background:#020617; border-radius:8px;"></svg>
+    <div class="row" style="margin-top:10px; gap:14px; font-size:.78rem;">
+      <span><span style="display:inline-block;width:12px;height:12px;background:#22d3ee;border-radius:2px;vertical-align:middle;"></span> 공학관</span>
+      <span><span style="display:inline-block;width:12px;height:12px;background:#fbbf24;border-radius:2px;vertical-align:middle;"></span> 기숙사</span>
+      <span><span style="display:inline-block;width:12px;height:12px;background:#a78bfa;border-radius:2px;vertical-align:middle;"></span> 정보관</span>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>③ 알림 로그</h2>
+    <pre class="output" id="log"></pre>
+  </section>
+</div>
+
+<script>
+const baselines = {
+  "공학관": { 0:80, 3:60, 6:120, 9:320, 12:280, 15:340, 18:200, 21:130, 22:90 },
+  "기숙사": { 0:250, 3:160, 6:140, 9:80, 12:110, 15:100, 18:220, 21:260, 22:280 },
+  "정보관": { 0:70, 3:50, 6:100, 9:410, 12:360, 15:420, 18:240, 21:120, 22:80 },
+};
+const colors = { "공학관": "#22d3ee", "기숙사": "#fbbf24", "정보관": "#a78bfa" };
+const THRESHOLD = 0.30;
+let log = [];
+let readings = { "공학관": [], "기숙사": [], "정보관": [] };
+
+function check() {
+  const b = document.getElementById("b").value;
+  const h = parseInt(document.getElementById("h").value, 10);
+  const v = parseFloat(document.getElementById("v").value);
+  const baseH = Object.keys(baselines[b]).map(Number).reduce((a,c) => Math.abs(c-h) < Math.abs(a-h) ? c : a);
+  const base = baselines[b][baseH];
+  const diff = (v - base) / base;
+  let msg;
+  if (diff > THRESHOLD) msg = `⚠ [${b}] ${h}시 ${v}kW (베이스 ${base}, +${(diff*100).toFixed(0)}%) 이상치 감지`;
+  else if (diff < -THRESHOLD) msg = `💡 [${b}] ${h}시 ${v}kW (베이스 ${base}, ${(diff*100).toFixed(0)}%) 절감 우수`;
+  else msg = `✓ [${b}] ${h}시 ${v}kW (베이스 ${base}, ${(diff*100).toFixed(0)}%) 정상`;
+  log.unshift(msg);
+  readings[b].push({ h, v });
+  render();
+}
+function resetChart() { log = []; readings = { "공학관": [], "기숙사": [], "정보관": [] }; render(); }
+
+function render() {
+  const svg = document.getElementById("chart");
+  const W = 940, H = 280, PAD = 36;
+  const maxKW = 500;
+  let g = `<g font-family="monospace" font-size="10" fill="#64748b">`;
+  // 격자
+  for (let i = 0; i <= 5; i++) {
+    const y = PAD + (H - PAD * 2) * i / 5;
+    const v = maxKW * (5 - i) / 5;
+    g += `<line x1="${PAD}" y1="${y}" x2="${W - 10}" y2="${y}" stroke="#1e293b"/>`;
+    g += `<text x="${PAD - 6}" y="${y + 3}" text-anchor="end">${v}</text>`;
+  }
+  for (let h = 0; h <= 24; h += 3) {
+    const x = PAD + (W - PAD - 10) * h / 24;
+    g += `<text x="${x}" y="${H - 8}" text-anchor="middle">${h}h</text>`;
+  }
+  g += "</g>";
+
+  // 베이스라인 라인 + 측정 포인트
+  Object.entries(baselines).forEach(([b, base]) => {
+    const c = colors[b];
+    const hours = Object.keys(base).map(Number).sort((a,b)=>a-b);
+    const pts = hours.map(h => {
+      const x = PAD + (W - PAD - 10) * h / 24;
+      const y = PAD + (H - PAD * 2) * (1 - base[h] / maxKW);
+      return [x, y];
+    });
+    g += `<polyline fill="none" stroke="${c}" stroke-width="2" opacity="0.55" stroke-dasharray="4 3"
+            points="${pts.map(p => p.join(",")).join(" ")}"/>`;
+    // 측정 포인트
+    readings[b].forEach(r => {
+      const x = PAD + (W - PAD - 10) * r.h / 24;
+      const y = PAD + (H - PAD * 2) * (1 - r.v / maxKW);
+      g += `<circle cx="${x}" cy="${y}" r="4" fill="${c}"/>`;
+    });
+  });
+  svg.innerHTML = g;
+
+  document.getElementById("log").textContent = log.slice(0, 12).join("\n");
+}
+
+// 초기 시드
+[["공학관",22,180],["기숙사",22,290],["정보관",9,410]].forEach(([b,h,v]) => {
+  document.getElementById("b").value = b;
+  document.getElementById("h").value = h;
+  document.getElementById("v").value = v;
+  check();
+});
+</script>
+</body>
+</html>
