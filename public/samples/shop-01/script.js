@@ -1,10 +1,11 @@
 // 갤러리 썸네일 → 메인 이미지 교체
-const mainImg = document.getElementById('mainImg');
+const mainImgEl = document.getElementById('mainImgEl');
 document.querySelectorAll('.gallery__thumbs button').forEach((b) => {
   b.addEventListener('click', () => {
     document.querySelectorAll('.gallery__thumbs button').forEach((x) => x.classList.remove('is-on'));
     b.classList.add('is-on');
-    mainImg.style.background = b.dataset.bg;
+    mainImgEl.src = b.dataset.img;
+    mainImgEl.alt = b.getAttribute('aria-label') || '';
   });
 });
 
