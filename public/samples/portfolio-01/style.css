@@ -77,14 +77,22 @@ a { color: inherit; text-decoration: none; }
   aspect-ratio: 4 / 3;
   border-radius: 14px; overflow: hidden;
   display: grid; place-items: center;
+  background: var(--bg-elev);
   color: rgba(255,255,255,.95); font-size: 1.8rem; font-weight: 800;
   letter-spacing: -.01em; margin-bottom: 14px;
   position: relative;
 }
 .card--wide .art { aspect-ratio: 16 / 9; font-size: 2.4rem; }
+.art img {
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+  transition: transform 0.4s ease;
+}
+.card:hover .art img { transform: scale(1.04); }
 .art::after {
   content: ''; position: absolute; inset: 0;
   background: linear-gradient(180deg, transparent 60%, rgba(0,0,0,.25));
+  pointer-events: none;
 }
 .card h3 { margin: 0 0 4px; font-size: 1rem; font-weight: 600; }
 .card p { margin: 0; color: var(--text-mute); font-size: .85rem; }

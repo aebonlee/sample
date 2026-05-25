@@ -45,6 +45,7 @@ export default function App() {
             ))}
             <NavLink to="/projects" onClick={() => setMobileNavOpen(false)}>쉬었음 청년 프로젝트</NavLink>
             <NavLink to="/projects-koreatech" onClick={() => setMobileNavOpen(false)}>한기대 프로젝트</NavLink>
+            <NavLink to="/learning" onClick={() => setMobileNavOpen(false)}>학습사이트</NavLink>
             <NavLink to="/community" onClick={() => setMobileNavOpen(false)}>커뮤니티</NavLink>
           </nav>
 
@@ -104,58 +105,40 @@ export default function App() {
             </div>
           </div>
 
-          <div className="site-footer__col">
+          <div className="site-footer__col site-footer__col--site">
             <h4>사이트</h4>
-            <ul>
-              <li><Link to="/about">About</Link></li>
+            <ul className="site-footer__links--2col">
               <li><Link to="/platform/web">웹개발</Link></li>
               <li><Link to="/platform/app">앱개발</Link></li>
               <li><Link to="/platform/ai">AI</Link></li>
               <li><Link to="/platform/data">데이터</Link></li>
               <li><Link to="/platform/game">게임</Link></li>
+              <li><Link to="/community">커뮤니티</Link></li>
               <li><Link to="/projects">쉬었음 청년 프로젝트</Link></li>
               <li><Link to="/projects-koreatech">한기대 프로젝트</Link></li>
-              <li><Link to="/community">커뮤니티</Link></li>
+              <li><Link to="/learning">학습사이트</Link></li>
+              <li><Link to="/about">About</Link></li>
             </ul>
           </div>
 
           <div className="site-footer__col">
-            <h4>리소스</h4>
-            <ul>
-              <li>
-                <a href="https://claude.ai" target="_blank" rel="noreferrer">
-                  Claude (디자인 변형)
-                </a>
-              </li>
-              <li><Link to="/about">샘플 사용 가이드</Link></li>
-              <li>
-                <a href="mailto:aebon@kyonggi.ac.kr?subject=%5BSample%20Gallery%5D%20%EC%83%88%20%EC%83%98%ED%94%8C%20%EC%A0%9C%EC%95%88">
-                  새 샘플 제안
-                </a>
-              </li>
-              <li>
-                <a href="mailto:aebon@kyonggi.ac.kr?subject=%5BSample%20Gallery%5D%20%ED%94%BC%EB%93%9C%EB%B0%B1">
-                  피드백 / 버그 신고
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          <div className="site-footer__col">
-            <h4>문의</h4>
+            <h4>문의 & 리소스</h4>
             <ul className="site-footer__info">
-              <li><span>운영사</span>DreamIT Biz</li>
               <li>
-                <span>대표 이메일</span>
+                <span>이메일</span>
                 <a href="mailto:aebon@kyonggi.ac.kr">aebon@kyonggi.ac.kr</a>
               </li>
               <li>
                 <span>웹사이트</span>
-                <a href="https://dreamitbiz.com" target="_blank" rel="noreferrer">
-                  dreamitbiz.com
-                </a>
+                <a href="https://dreamitbiz.com" target="_blank" rel="noreferrer">dreamitbiz.com</a>
               </li>
-              <li><span>도메인</span>sample.dreamitbiz.com</li>
+              <li>
+                <span>도메인</span>sample.dreamitbiz.com
+              </li>
+              <li>
+                <span>제안</span>
+                <a href="mailto:aebon@kyonggi.ac.kr?subject=%5BSample%20Gallery%5D%20%EC%83%88%20%EC%83%98%ED%94%8C%20%EC%A0%9C%EC%95%88">새 샘플 / 피드백</a>
+              </li>
             </ul>
           </div>
         </div>

@@ -30,6 +30,58 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="container project-spot">
+        <div className="section-head">
+          <span className="section-eyebrow">실전 프로젝트 가이드</span>
+          <h2 className="section-title">두 가지 트랙, 두 가지 깊이</h2>
+          <p className="section-lead">
+            교육 대상에 맞춰 분리된 프로젝트 가이드입니다. 디자인 샘플로 시작했다면, 다음
+            단계로 실제 아키텍처·알고리즘·구현까지 이어 보세요.
+          </p>
+        </div>
+        <div className="project-spot__grid">
+          <Link to="/projects" className="project-spot__card project-spot__card--neet">
+            <div className="project-spot__head">
+              <span className="project-spot__icon">🌱</span>
+              <span className="project-spot__count">7개 프로젝트</span>
+            </div>
+            <h3 className="project-spot__title">쉬었음 청년 프로젝트</h3>
+            <p className="project-spot__desc">
+              구직 활동을 잠시 멈춘 청년이 다시 한 걸음 떼는 데 도움이 되는 일상·서비스형
+              Solar LLM 프로젝트 7개. 아키텍처 · 데이터 파이프라인 · Solar API · 프롬프트 ·
+              DB 스키마 · 배포 계획까지 한 번에 정리되어 있습니다.
+            </p>
+            <ul className="project-spot__tags">
+              <li>AI 동화책</li>
+              <li>감정 일기 챗봇</li>
+              <li>맞춤 정책 매칭</li>
+              <li>+4</li>
+            </ul>
+            <span className="project-spot__cta">7개 프로젝트 살펴보기 →</span>
+          </Link>
+
+          <Link to="/projects-koreatech" className="project-spot__card project-spot__card--koreatech">
+            <div className="project-spot__head">
+              <span className="project-spot__icon">🎓</span>
+              <span className="project-spot__count">9개 프로젝트</span>
+            </div>
+            <h3 className="project-spot__title">한기대 프로젝트 (CT 7단계)</h3>
+            <p className="project-spot__desc">
+              한국기술교육대학교 재학생을 위한 공학·전공 심화 9개 프로젝트. 컴퓨팅 사고
+              7단계(문제 인식 → 정의 → 분해 → 추상화 → 알고리즘 → 구현 → 발표) 와
+              브라우저에서 바로 실행 가능한 HTML/CSS/JS 데모, 파이썬 소스, ZIP 다운로드 포함.
+            </p>
+            <ul className="project-spot__tags">
+              <li>캡스톤 팀 매칭</li>
+              <li>3D 프린터 큐</li>
+              <li>IoT 에너지 모니터링</li>
+              <li>+6</li>
+            </ul>
+            <span className="project-spot__cta">9개 프로젝트 살펴보기 →</span>
+          </Link>
+        </div>
+      </section>
+
       <section className="container platforms">
         <h2 className="section-title">샘플 플랫폼</h2>
         <div className="platforms__grid">
