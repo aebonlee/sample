@@ -1,16 +1,18 @@
+const U = 'https://images.unsplash.com/';
+const Q = '?w=1200&auto=format&fit=crop&q=80';
 const IMAGES = [
-  { id: 1,  cat: 'city',     title: '청계천, 5월의 저녁',         grad: 'linear-gradient(180deg, #4a5a7a 0%, #1a1f30 100%)', ar: '3/4' },
-  { id: 2,  cat: 'portrait', title: '윤하, 스튜디오',             grad: 'linear-gradient(135deg, #d2b495 0%, #5a4030 100%)', ar: '4/5' },
-  { id: 3,  cat: 'nature',   title: '제주, 비양도',               grad: 'linear-gradient(180deg, #b8d5dd 0%, #4a7889 100%)', ar: '4/3' },
-  { id: 4,  cat: 'travel',   title: '교토, 료안지의 오후',         grad: 'linear-gradient(140deg, #c8a878 0%, #5a4525 100%)', ar: '3/4' },
-  { id: 5,  cat: 'city',     title: '서울론7017',                 grad: 'linear-gradient(180deg, #d5cabb 0%, #6f5e4a 100%)', ar: '4/5' },
-  { id: 6,  cat: 'portrait', title: '지훈, 광교호수',             grad: 'linear-gradient(135deg, #aaa098 0%, #2a2823 100%)', ar: '3/4' },
-  { id: 7,  cat: 'nature',   title: '오대산, 새벽',                grad: 'linear-gradient(180deg, #4a5d49 0%, #1a2519 100%)', ar: '4/3' },
-  { id: 8,  cat: 'travel',   title: '리스본, 알파마 골목',         grad: 'linear-gradient(170deg, #f0d8a8 0%, #8a5a3a 100%)', ar: '4/5' },
-  { id: 9,  cat: 'city',     title: '망원동, 골목',               grad: 'linear-gradient(180deg, #c5b8a8 0%, #4f4538 100%)', ar: '3/4' },
-  { id: 10, cat: 'portrait', title: '엄마, 부엄',                 grad: 'linear-gradient(150deg, #e8c8a0 0%, #6f4a30 100%)', ar: '4/5' },
-  { id: 11, cat: 'nature',   title: '한강, 일출',                  grad: 'linear-gradient(180deg, #f7c9a0 0%, #6f4a78 100%)', ar: '4/3' },
-  { id: 12, cat: 'travel',   title: '하노이, 호안낁엠 호수',       grad: 'linear-gradient(170deg, #98c0a8 0%, #2a4530 100%)', ar: '3/4' },
+  { id: 1,  cat: 'landscape', title: '산정호수의 새벽',    src: U + 'photo-1501785888041-af3ef285b470' + Q, ar: '4/5' },
+  { id: 2,  cat: 'landscape', title: '안개 낀 숲길',       src: U + 'photo-1470071459604-3b5ec3a7fe05' + Q, ar: '3/4' },
+  { id: 3,  cat: 'landscape', title: '능선의 아침',        src: U + 'photo-1506905925346-21bda4d32df4' + Q, ar: '4/3' },
+  { id: 4,  cat: 'city',      title: '뉴욕, 비 오는 거리', src: U + 'photo-1480714378408-67cf0d13bc1b' + Q, ar: '3/4' },
+  { id: 5,  cat: 'city',      title: '도시의 황혼',        src: U + 'photo-1502920917128-1aa500764cbd' + Q, ar: '4/5' },
+  { id: 6,  cat: 'city',      title: '빌딩 숲',            src: U + 'photo-1444723121867-7a241cacace9' + Q, ar: '4/3' },
+  { id: 7,  cat: 'object',    title: '책상 위 오후',       src: U + 'photo-1495774856032-8b90bbb32b32' + Q, ar: '4/5' },
+  { id: 8,  cat: 'object',    title: '옛 타자기',          src: U + 'photo-1517637382994-f02da38c6728' + Q, ar: '3/4' },
+  { id: 9,  cat: 'object',    title: '빈티지 카메라',      src: U + 'photo-1542038784456-1ea8e935640e' + Q, ar: '4/5' },
+  { id: 10, cat: 'travel',    title: '베네치아 운하',      src: U + 'photo-1523906834658-6e24ef2386f9' + Q, ar: '4/3' },
+  { id: 11, cat: 'travel',    title: '파리, 에펠탑',       src: U + 'photo-1502602898657-3e91760cbb34' + Q, ar: '3/4' },
+  { id: 12, cat: 'travel',    title: '산을 오르며',        src: U + 'photo-1503220317375-aaad61436b1b' + Q, ar: '3/4' },
 ];
 
 const gallery = document.getElementById('gallery');
@@ -24,7 +26,7 @@ function render() {
     const el = document.createElement('figure');
     el.className = 'tile';
     el.innerHTML = `
-      <div class="img" style="background:${i.grad};aspect-ratio:${i.ar}"></div>
+      <img class="img" src="${i.src}" alt="${i.title}" loading="lazy" style="aspect-ratio:${i.ar}" />
       <figcaption class="cap">${i.title}</figcaption>
     `;
     el.addEventListener('click', () => openLb(i));
@@ -33,7 +35,7 @@ function render() {
 }
 
 function openLb(i) {
-  lbInner.style.background = i.grad;
+  lbInner.innerHTML = `<img src="${i.src}" alt="${i.title}" />`;
   lbInner.style.aspectRatio = i.ar;
   lightbox.hidden = false;
 }
