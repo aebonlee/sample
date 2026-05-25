@@ -151,9 +151,13 @@ a { color: inherit; text-decoration: none; }
 .project:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
 .project__thumb {
   height: 120px; border-radius: 10px; margin-bottom: 16px;
-  display: grid; place-items: center; color: #fff;
-  font-weight: 800; font-size: 2rem; letter-spacing: .05em;
+  overflow: hidden; background: var(--bg-elev);
 }
+.project__thumb img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  transition: transform 0.4s ease;
+}
+.project:hover .project__thumb img { transform: scale(1.05); }
 .project h3 { margin: 0 0 8px; font-size: 1.1rem; }
 .project p { margin: 0 0 14px; color: var(--text-dim); font-size: .92rem; }
 .project__tags { display: flex; gap: 6px; flex-wrap: wrap; }

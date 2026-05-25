@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360" width="600" height="360" role="img" aria-label="파이썬 데이터 분석 강의">
+  <defs>
+    <linearGradient id="py-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7c2d12"/>
+      <stop offset="1" stop-color="#451a03"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="360" fill="url(#py-bg)"/>
+
+  <!-- 파이썬 로고 (두 뱀 모양) -->
+  <g transform="translate(420 100)">
+    <!-- 위쪽 파란 부분 -->
+    <path d="M 40 0 Q 0 0 0 30 L 0 60 L 80 60 L 80 75 L 0 75 Q -10 75 -10 90 L -10 130 Q -10 145 5 145 L 30 145 L 30 130 L 30 100 Q 30 90 40 90 L 90 90 Q 110 90 110 70 L 110 30 Q 110 0 80 0 Z" fill="#3b82f6"/>
+    <!-- 아래쪽 노란 부분 -->
+    <path d="M 80 60 Q 110 60 110 75 L 110 110 Q 110 140 80 140 L 30 140 L 30 130 L 70 130 Q 80 130 80 120 L 80 110 Z" fill="#fbbf24" transform="translate(0 5)"/>
+    <!-- 눈 -->
+    <circle cx="20" cy="20" r="4" fill="#fff"/>
+    <circle cx="20" cy="20" r="2" fill="#0f172a"/>
+    <circle cx="95" cy="125" r="4" fill="#fff"/>
+    <circle cx="95" cy="125" r="2" fill="#0f172a"/>
+  </g>
+
+  <!-- 코드 (Pandas) -->
+  <g font-family="ui-monospace,monospace" font-size="13" fill="#fed7aa">
+    <text x="40" y="80"><tspan fill="#fb923c">import</tspan> pandas <tspan fill="#fb923c">as</tspan> pd</text>
+    <text x="40" y="105"><tspan fill="#fb923c">import</tspan> numpy <tspan fill="#fb923c">as</tspan> np</text>
+
+    <text x="40" y="150">df = pd.<tspan fill="#fbbf24">read_csv</tspan>(<tspan fill="#86efac">'data.csv'</tspan>)</text>
+    <text x="40" y="175">df.<tspan fill="#fbbf24">groupby</tspan>(<tspan fill="#86efac">'category'</tspan>)</text>
+    <text x="40" y="200">  .<tspan fill="#fbbf24">mean</tspan>().<tspan fill="#fbbf24">plot</tspan>(<tspan fill="#94a3b8">kind=</tspan><tspan fill="#86efac">'bar'</tspan>)</text>
+
+    <text x="40" y="240"><tspan fill="#94a3b8"># 📊 1,820명이 수강 중</tspan></text>
+  </g>
+
+  <!-- 바 차트 미니 -->
+  <g transform="translate(420 240)">
+    <rect x="0"  y="40" width="14" height="40" fill="#fb923c"/>
+    <rect x="20" y="20" width="14" height="60" fill="#fbbf24"/>
+    <rect x="40" y="10" width="14" height="70" fill="#fed7aa"/>
+    <rect x="60" y="30" width="14" height="50" fill="#fb923c"/>
+    <rect x="80" y="50" width="14" height="30" fill="#fbbf24"/>
+    <line x1="0" y1="80" x2="100" y2="80" stroke="#fed7aa" stroke-width="1"/>
+  </g>
+
+  <g font-family="-apple-system,sans-serif">
+    <rect x="40" y="32" width="160" height="24" rx="12" fill="rgba(251,146,60,0.20)"/>
+    <text x="120" y="48" text-anchor="middle" font-size="11" font-weight="700" fill="#fdba74">데이터 분석 · 18h</text>
+  </g>
+</svg>
