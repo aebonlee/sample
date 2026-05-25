@@ -10,26 +10,108 @@ import {
 
 const platformOrder: Platform[] = ['web', 'app', 'ai', 'data', 'game'];
 
+// 메인에서 강조할 대표 샘플 (선별 8개). 카테고리·난이도가 골고루 섞이도록 직접 선정.
+const FEATURED_IDS = [
+  'portfolio-02',  // 사진작가 — 사진 SVG 적용
+  'personal-04',   // 취업 이력 — 사진 SVG 적용
+  'portfolio-01',  // 스튜디오 — Unsplash 사진 적용
+  'landing-02',    // SaaS 랜딩
+  'shop-01',       // 커피 쇼핑
+  'ai-01',         // 이미지 생성 UI
+  'app-04',        // 캘린더 앱
+  'blog-01',       // 편집형 블로그
+];
+const featuredSamples = FEATURED_IDS
+  .map((id) => samples.find((s) => s.id === id))
+  .filter((s): s is NonNullable<typeof s> => Boolean(s));
+
 export default function Home() {
   return (
     <>
-      <section className="hero">
-        <div className="container">
-          <h1 className="hero__title">
-            웹사이트 디자인 <span className="hero__accent">샘플 갤러리</span>
-          </h1>
-          <p className="hero__lead">
-            개인 포트폴리오 · 회사 사이트 · 학습 사이트 · 블로그 등 프로젝트 타입별 디자인 샘플과
-            소스코드를 제공합니다. 마음에 드는 디자인을 골라 그대로 가져다 쓰거나, 제작 방법을
-            보고 직접 만들어 보세요.
-          </p>
-          <div className="hero__cta">
-            <Link className="btn btn--primary" to="/platform/web">웹개발 샘플 보기</Link>
-            <Link className="btn btn--ghost" to="/about">About 보기</Link>
+      {/* 1) HERO — 풍성한 비주얼 */}
+      <section className="hero hero--v2">
+        <div className="hero__bg" aria-hidden="true">
+          <span className="hero__orb hero__orb--a" />
+          <span className="hero__orb hero__orb--b" />
+          <span className="hero__orb hero__orb--c" />
+          <span className="hero__grid" />
+        </div>
+        <div className="container hero__inner">
+          <div className="hero__text">
+            <span className="hero__badge">
+              <span className="hero__badge-dot" />
+              45+ 디자인 샘플 · 16개 실전 프로젝트 · 5개 학습 사이트
+            </span>
+            <h1 className="hero__title">
+              그대로 가져다 쓰는 <br/>
+              <span className="hero__accent">디자인 샘플 갤러리</span>
+            </h1>
+            <p className="hero__lead">
+              개인 포트폴리오 · 회사 사이트 · 학습 사이트 · 블로그 등 프로젝트 타입별 디자인 샘플과
+              소스코드를 제공합니다. 마음에 드는 디자인을 골라 그대로 가져다 쓰거나, Claude 에게
+              변형을 부탁해 자신만의 사이트로 빠르게 발전시켜 보세요.
+            </p>
+            <div className="hero__cta">
+              <Link className="btn btn--primary" to="/platform/web">웹개발 샘플 보기</Link>
+              <Link className="btn btn--ghost" to="/projects-koreatech">한기대 프로젝트 →</Link>
+            </div>
+            <ul className="hero__points">
+              <li>✓ HTML · CSS · JS 정적 사이트</li>
+              <li>✓ 다크 모드 · 반응형 기본 탑재</li>
+              <li>✓ ZIP 다운로드 & Claude 변형 가이드</li>
+            </ul>
+          </div>
+
+          {/* 우측 미니 미리보기 콜라주 (실제 샘플 SVG 4장) */}
+          <div className="hero__collage" aria-hidden="true">
+            <div className="hero__tile hero__tile--1">
+              <img src={`${import.meta.env.BASE_URL}samples/portfolio-02/preview.svg`} alt="" loading="lazy"/>
+            </div>
+            <div className="hero__tile hero__tile--2">
+              <img src={`${import.meta.env.BASE_URL}samples/personal-04/preview.svg`} alt="" loading="lazy"/>
+            </div>
+            <div className="hero__tile hero__tile--3">
+              <div className="hero__stat-card">
+                <span className="hero__stat-num">45+</span>
+                <span className="hero__stat-label">디자인 샘플</span>
+              </div>
+              <div className="hero__stat-card hero__stat-card--alt">
+                <span className="hero__stat-num">16</span>
+                <span className="hero__stat-label">실전 프로젝트</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
+      {/* 2) 샘플 소개 (플랫폼) */}
+      <section className="container platforms">
+        <div className="section-head">
+          <span className="section-eyebrow">Sample Platforms</span>
+          <h2 className="section-title">샘플 플랫폼</h2>
+          <p className="section-lead">
+            5개 카테고리로 정리된 디자인 샘플 모음. 클릭해서 해당 카테고리의 전체 샘플과 미리보기를
+            확인하세요.
+          </p>
+        </div>
+        <div className="platforms__grid">
+          {platformOrder.map((p) => {
+            const count = samplesByPlatform(p).length;
+            return (
+              <Link key={p} to={`/platform/${p}`} className="platform-card">
+                <div className="platform-card__head">
+                  <span className="platform-card__label">{platformLabels[p]}</span>
+                  <span className="platform-card__count">{count}</span>
+                </div>
+                <p className="platform-card__desc">{platformDescriptions[p]}</p>
+                <span className="platform-card__cta">살펴보기 →</span>
+              </Link>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* 3) 프로젝트 소개 (샘플 소개 다음) */}
       <section className="container project-spot">
         <div className="section-head">
           <span className="section-eyebrow">실전 프로젝트 가이드</span>
@@ -82,31 +164,30 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="container platforms">
-        <h2 className="section-title">샘플 플랫폼</h2>
-        <div className="platforms__grid">
-          {platformOrder.map((p) => {
-            const count = samplesByPlatform(p).length;
-            return (
-              <Link key={p} to={`/platform/${p}`} className="platform-card">
-                <div className="platform-card__head">
-                  <span className="platform-card__label">{platformLabels[p]}</span>
-                  <span className="platform-card__count">{count}</span>
-                </div>
-                <p className="platform-card__desc">{platformDescriptions[p]}</p>
-                <span className="platform-card__cta">살펴보기 →</span>
-              </Link>
-            );
-          })}
+      {/* 4) Featured 샘플 (전체가 아닌 선별 8개) */}
+      <section id="featured" className="container gallery">
+        <div className="section-head section-head--inline">
+          <div>
+            <span className="section-eyebrow">Featured Samples</span>
+            <h2 className="section-title">대표 샘플</h2>
+            <p className="section-lead">
+              사진 적용·인터랙션·디자인이 가장 잘 드러나는 대표 샘플 {featuredSamples.length}개입니다.
+              전체 {samples.length}개는 카테고리 페이지에서 확인하세요.
+            </p>
+          </div>
+          <Link to="/platform/web" className="btn btn--ghost btn--sm gallery__see-all">
+            전체 샘플 보기 →
+          </Link>
         </div>
-      </section>
-
-      <section id="all" className="container gallery">
-        <h2 className="section-title">전체 샘플 ({samples.length})</h2>
         <div className="gallery__grid">
-          {samples.map((s) => (
+          {featuredSamples.map((s) => (
             <SampleCard key={s.id} sample={s} />
           ))}
+        </div>
+        <div className="gallery__more">
+          <Link to="/platform/web" className="btn btn--primary">
+            45+ 전체 샘플 둘러보기 →
+          </Link>
         </div>
       </section>
     </>

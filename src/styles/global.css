@@ -2102,3 +2102,227 @@ code {
 }
 .learning-cta h3 { margin: 0 0 6px; font-size: 1.1rem; }
 .learning-cta p { margin: 0 0 14px; color: var(--text-dim); font-size: 0.9rem; }
+
+/* ───────────────────────────────────────── *
+ *  Home Hero v2 — 풍성한 비주얼 (오브·그리드·콜라주)
+ * ───────────────────────────────────────── */
+.hero--v2 {
+  position: relative;
+  padding: 72px 0 64px;
+  background: none;            /* 기존 hero 의 radial 제거 → __bg 로 위임 */
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+}
+.hero__bg {
+  position: absolute; inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+.hero__orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.55;
+}
+.hero__orb--a {
+  width: 460px; height: 460px;
+  background: radial-gradient(circle, #6366f1, transparent 70%);
+  top: -120px; left: -80px;
+}
+.hero__orb--b {
+  width: 520px; height: 520px;
+  background: radial-gradient(circle, #ec4899, transparent 70%);
+  top: -60px; right: -100px;
+  opacity: 0.45;
+}
+.hero__orb--c {
+  width: 360px; height: 360px;
+  background: radial-gradient(circle, #22d3ee, transparent 70%);
+  bottom: -140px; left: 30%;
+  opacity: 0.35;
+}
+:root[data-theme='dark'] .hero__orb { opacity: 0.32; }
+:root[data-theme='dark'] .hero__orb--b { opacity: 0.28; }
+:root[data-theme='dark'] .hero__orb--c { opacity: 0.22; }
+.hero__grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(15,23,42,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15,23,42,0.04) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: linear-gradient(180deg, rgba(0,0,0,0.5), transparent 80%);
+}
+:root[data-theme='dark'] .hero__grid {
+  background-image:
+    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+}
+
+.hero__inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 56px;
+  align-items: center;
+}
+
+.hero__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-dim);
+  margin-bottom: 18px;
+}
+.hero__badge-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 0 4px rgba(16,185,129,0.18);
+  animation: hero-pulse 1.8s ease-in-out infinite;
+}
+@keyframes hero-pulse {
+  0%, 100% { box-shadow: 0 0 0 4px rgba(16,185,129,0.18); }
+  50%      { box-shadow: 0 0 0 6px rgba(16,185,129,0.30); }
+}
+
+.hero--v2 .hero__title {
+  font-size: clamp(2rem, 4.2vw, 3.4rem);
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+  margin: 0 0 18px;
+}
+.hero--v2 .hero__accent {
+  background: linear-gradient(120deg, #6366f1 0%, #ec4899 55%, #f59e0b 100%);
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent;
+}
+.hero--v2 .hero__lead {
+  max-width: 560px;
+  color: var(--text-dim);
+  font-size: clamp(1rem, 1.3vw, 1.1rem);
+  margin: 0 0 24px;
+  line-height: 1.65;
+}
+.hero--v2 .hero__cta { display: flex; gap: 10px; flex-wrap: wrap; }
+
+.hero__points {
+  list-style: none;
+  padding: 0; margin: 22px 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+.hero__points li { font-weight: 500; }
+
+/* 우측 콜라주 (2개 미리보기 + 2개 stat card) */
+.hero__collage {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 180px 140px;
+  gap: 14px;
+  perspective: 800px;
+}
+.hero__tile {
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  box-shadow: 0 16px 40px rgba(15,23,42,0.14);
+  transition: transform 0.4s ease;
+}
+.hero__tile:hover { transform: translateY(-4px); }
+.hero__tile img {
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+}
+.hero__tile--1 {
+  grid-row: 1 / 3;
+  transform: rotateY(2deg);
+}
+.hero__tile--2 {
+  grid-row: 1;
+  transform: rotateY(-2deg);
+}
+.hero__tile--3 {
+  grid-row: 2;
+  background: none;
+  border: 0;
+  box-shadow: none;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  gap: 10px;
+  overflow: visible;
+}
+.hero__stat-card {
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
+  color: #fff;
+  border-radius: 14px;
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: 0 10px 24px rgba(99,102,241,0.30);
+}
+.hero__stat-card--alt {
+  background: linear-gradient(135deg, #ec4899, #db2777);
+  box-shadow: 0 10px 24px rgba(236,72,153,0.30);
+}
+.hero__stat-num {
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+.hero__stat-label {
+  font-size: 0.78rem;
+  opacity: 0.92;
+  margin-top: 4px;
+  font-weight: 600;
+}
+
+@media (max-width: 960px) {
+  .hero__inner { grid-template-columns: 1fr; gap: 36px; }
+  .hero__collage {
+    grid-template-rows: 200px 120px;
+    max-width: 480px;
+  }
+}
+@media (max-width: 560px) {
+  .hero--v2 { padding: 48px 0 40px; }
+  .hero__points { gap: 8px; font-size: 0.78rem; }
+  .hero__collage { grid-template-rows: 160px 100px; }
+}
+
+/* Featured 갤러리 — inline section-head + 더 보기 CTA */
+.section-head--inline {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  text-align: left;
+  max-width: none;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.section-head--inline .section-eyebrow { display: inline-block; }
+.section-head--inline .section-title { margin-top: 4px; }
+.section-head--inline .section-lead { max-width: 560px; margin-bottom: 0; }
+.gallery__see-all { white-space: nowrap; }
+.gallery__more {
+  display: flex; justify-content: center;
+  margin-top: 36px;
+}
+@media (max-width: 640px) {
+  .section-head--inline { flex-direction: column; align-items: flex-start; }
+}
