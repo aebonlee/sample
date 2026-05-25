@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Link, useParams, useSearchParams } from 'react-router-dom';
+import { Link, useParams, useSearchParams, useLocation } from 'react-router-dom';
 import { Highlight, themes, type Language } from 'prism-react-renderer';
 import JSZip from 'jszip';
-import { PROJECT_DATA } from '../data/projectDetails';
+import { resolveProjectSet } from '../data/projectSets';
 import { getProjectMockup, type SharedFile } from '../data/projectMockups';
 
 type ViewMode = 'preview' | 'html' | 'css' | 'js';
@@ -121,8 +121,10 @@ function cleanedHtml(html: string): string {
 export default function ProjectBuild() {
   const { id } = useParams<{ id: string }>();
   const [search, setSearch] = useSearchParams();
+  const location = useLocation();
+  const set = resolveProjectSet(location.pathname);
   const projectId = Number(id ?? '1');
-  const project = PROJECT_DATA.find((p) => p.id === projectId);
+  const project = set.data.find((p) => p.id === projectId);
   const mockup = getProjectMockup(projectId);
 
   // 선택 상태: 'page:<id>' 또는 'shared:<filename>'
@@ -210,11 +212,35 @@ export default function ProjectBuild() {
     try { await navigator.clipboard.writeText(text); } catch {}
   }
 
-  if (!project || !mockup) {
+  if (!project) {
     return (
       <section className="container empty-state" style={{ marginTop: 40 }}>
         <h3>프로젝트를 찾을 수 없습니다.</h3>
-        <p><Link to="/projects">← 프로젝트 목록</Link></p>
+        <p><Link to={set.basePath}>← 프로젝트 목록</Link></p>
+      </section>
+    );
+  }
+
+  // 한기대 프로젝트는 가이드(아키텍처/파이프라인/Solar API 등)만 제공하고
+  // 구현 페이지(HTML/CSS/JS 목업)는 추후 추가 예정
+  if (set.key === 'koreatech' || !mockup) {
+    return (
+      <section className="container empty-state" style={{ marginTop: 40, textAlign: 'center', padding: '64px 16px' }}>
+        <div style={{ fontSize: '3rem', marginBottom: 16 }}>🚧</div>
+        <h3 style={{ marginBottom: 12 }}>구현 페이지 준비 중입니다</h3>
+        <p style={{ color: 'var(--text-dim, #6B7280)', maxWidth: 520, margin: '0 auto 24px' }}>
+          {set.key === 'koreatech'
+            ? '한기대 프로젝트는 현재 아키텍처·Solar API·프롬프트 가이드까지 제공되며, HTML/CSS/JS 목업과 React 소스 다운로드는 추후 단계적으로 공개될 예정입니다.'
+            : '이 프로젝트의 구현 목업은 아직 준비되지 않았습니다.'}
+        </p>
+        <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
+          <Link to={`${set.basePath}/${project.id}`} className="btn btn--primary btn--sm">
+            ← 가이드로 돌아가기
+          </Link>
+          <Link to={set.basePath} className="btn btn--ghost btn--sm">
+            프로젝트 목록
+          </Link>
+        </div>
       </section>
     );
   }
@@ -222,9 +248,9 @@ export default function ProjectBuild() {
   return (
     <div className="container pb-page">
       <nav className="breadcrumb">
-        <Link to="/projects">프로젝트 샘플</Link>
+        <Link to={set.basePath}>{set.navLabel}</Link>
         <span>›</span>
-        <Link to={`/projects/${project.id}`}>{project.title}</Link>
+        <Link to={`${set.basePath}/${project.id}`}>{project.title}</Link>
         <span>›</span>
         <span aria-current="page">구현 페이지</span>
       </nav>
@@ -250,7 +276,7 @@ export default function ProjectBuild() {
           >
             📦 ZIP 다운로드
           </button>
-          <Link to={`/projects/${project.id}`} className="btn btn--ghost btn--sm">
+          <Link to={`${set.basePath}/${project.id}`} className="btn btn--ghost btn--sm">
             ← 가이드
           </Link>
         </div>

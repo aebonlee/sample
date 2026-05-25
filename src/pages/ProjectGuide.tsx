@@ -1,6 +1,7 @@
 import { useEffect, type ReactElement } from 'react';
-import { Link, useParams, useNavigate } from 'react-router-dom';
-import { PROJECT_DATA, type ProjectData } from '../data/projectDetails';
+import { Link, useParams, useNavigate, useLocation } from 'react-router-dom';
+import { type ProjectData } from '../data/projectDetails';
+import { resolveProjectSet } from '../data/projectSets';
 import FlowDiagram from '../components/FlowDiagram';
 
 const Section = ({ icon, title, children }: { icon: string; title: string; children: React.ReactNode }) => (
@@ -129,15 +130,17 @@ const ProjectDetail = ({ project }: { project: ProjectData }): ReactElement => (
 export default function ProjectGuide(): ReactElement {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const location = useLocation();
+  const set = resolveProjectSet(location.pathname);
   const selectedId = id ? Number(id) : 1;
-  const project = PROJECT_DATA.find((p) => p.id === selectedId) || PROJECT_DATA[0];
+  const project = set.data.find((p) => p.id === selectedId) || set.data[0];
 
   useEffect(() => {
-    document.title = `${project.title} — 프로젝트 안내`;
-  }, [project]);
+    document.title = `${project.title} — ${set.pageTitle}`;
+  }, [project, set]);
 
   const handleSelect = (projectId: number) => {
-    navigate(`/projects/${projectId}`);
+    navigate(`${set.basePath}/${projectId}`);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -146,16 +149,16 @@ export default function ProjectGuide(): ReactElement {
       <nav className="breadcrumb">
         <Link to="/">샘플</Link>
         <span>›</span>
-        <Link to="/projects">프로젝트 샘플</Link>
+        <Link to={set.basePath}>{set.navLabel}</Link>
         <span>›</span>
         <span aria-current="page">{project.title}</span>
       </nav>
 
       <div className="pgd-layout">
         <aside className="pgd-sidebar">
-          <h4 className="pgd-sidebar__h">7가지 프로젝트</h4>
+          <h4 className="pgd-sidebar__h">{set.sidebarHeader}</h4>
           <nav className="pgd-sidebar__nav">
-            {PROJECT_DATA.map((p) => (
+            {set.data.map((p) => (
               <button
                 key={p.id}
                 className={`pgd-sidebar__item ${p.id === selectedId ? 'is-active' : ''}`}
@@ -180,13 +183,15 @@ export default function ProjectGuide(): ReactElement {
                 ))}
               </div>
             </div>
-            <Link
-              to={`/projects/${project.id}/build`}
-              className="btn btn--primary btn--sm"
-              style={{ marginLeft: 'auto', whiteSpace: 'nowrap' }}
-            >
-              🎨 구현 페이지 보기 →
-            </Link>
+            {set.key === 'neet' && (
+              <Link
+                to={`${set.basePath}/${project.id}/build`}
+                className="btn btn--primary btn--sm"
+                style={{ marginLeft: 'auto', whiteSpace: 'nowrap' }}
+              >
+                🎨 구현 페이지 보기 →
+              </Link>
+            )}
           </div>
 
           <ProjectDetail project={project} />
