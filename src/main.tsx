@@ -12,6 +12,7 @@ import ProjectGuide from './pages/ProjectGuide';
 import ProjectBuild from './pages/ProjectBuild';
 import KoreatechProjects from './pages/KoreatechProjects';
 import KoreatechProjectBuild from './pages/KoreatechProjectBuild';
+import Learning from './pages/Learning';
 import Preview from './pages/Preview';
 import { AuthProvider } from './contexts/AuthContext';
 import './styles/global.css';
@@ -34,6 +35,7 @@ const router = createHashRouter([
       { path: 'projects-koreatech', element: <KoreatechProjects /> },
       { path: 'projects-koreatech/:id', element: <KoreatechProjects /> },
       { path: 'projects-koreatech/:id/build', element: <KoreatechProjectBuild /> },
+      { path: 'learning', element: <Learning /> },
       { path: 'community', element: <Community /> },
       { path: 'samples/:id', element: <SampleDetail /> },
     ],
