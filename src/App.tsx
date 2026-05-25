@@ -40,10 +40,11 @@ export default function App() {
                 to={`/platform/${p}`}
                 onClick={() => setMobileNavOpen(false)}
               >
-                {platformLabels[p]} 샘플
+                {platformLabels[p]}
               </NavLink>
             ))}
-            <NavLink to="/projects" onClick={() => setMobileNavOpen(false)}>프로젝트 샘플</NavLink>
+            <NavLink to="/projects" onClick={() => setMobileNavOpen(false)}>쉬었음 청년 프로젝트</NavLink>
+            <NavLink to="/projects-koreatech" onClick={() => setMobileNavOpen(false)}>한기대 프로젝트</NavLink>
             <NavLink to="/community" onClick={() => setMobileNavOpen(false)}>커뮤니티</NavLink>
           </nav>
 
@@ -107,12 +108,13 @@ export default function App() {
             <h4>사이트</h4>
             <ul>
               <li><Link to="/about">About</Link></li>
-              <li><Link to="/platform/web">웹개발 샘플</Link></li>
-              <li><Link to="/platform/app">앱개발 샘플</Link></li>
-              <li><Link to="/platform/ai">AI 샘플</Link></li>
-              <li><Link to="/platform/data">데이터 샘플</Link></li>
-              <li><Link to="/platform/game">게임 샘플</Link></li>
-              <li><Link to="/projects">프로젝트 샘플</Link></li>
+              <li><Link to="/platform/web">웹개발</Link></li>
+              <li><Link to="/platform/app">앱개발</Link></li>
+              <li><Link to="/platform/ai">AI</Link></li>
+              <li><Link to="/platform/data">데이터</Link></li>
+              <li><Link to="/platform/game">게임</Link></li>
+              <li><Link to="/projects">쉬었음 청년 프로젝트</Link></li>
+              <li><Link to="/projects-koreatech">한기대 프로젝트</Link></li>
               <li><Link to="/community">커뮤니티</Link></li>
             </ul>
           </div>
