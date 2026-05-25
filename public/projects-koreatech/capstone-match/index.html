@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>캡스톤 디자인 팀 매칭 — 데모</title>
+<link rel="stylesheet" href="../_shared/style.css"/>
+</head>
+<body>
+<div class="container">
+  <header class="demo-hero">
+    <span class="demo-hero__eyebrow">PROJECT 01 · 한기대</span>
+    <h1>🎓 캡스톤 디자인 팀 매칭 시스템</h1>
+    <p>학생 프로필(전공·기술·GPA)을 기반으로 팀 평균 GPA·기술 다양성이 균형 잡히도록 자동 매칭하는 데모입니다.</p>
+  </header>
+
+  <section class="panel">
+    <h2>① 학생 프로필 입력 <span class="pill">INPUT</span></h2>
+    <p style="margin:0 0 12px; color:var(--text-dim); font-size:.85rem;">샘플 데이터가 미리 입력되어 있습니다. 필요 시 수정 후 <b>매칭 실행</b>을 눌러보세요.</p>
+    <textarea id="studentsInput">S01,CSE,Python|AI,4.2
+S02,EE,PCB|C,3.8
+S03,ME,CAD|3D,4.0
+S04,CSE,Web|DB,3.5
+S05,ID,UX|Figma,4.1
+S06,EE,IoT|Python,3.9
+S07,CSE,Java|Spring,3.7
+S08,ME,Robotics|C++,4.3
+S09,ID,Branding|UX,3.6</textarea>
+    <p style="margin:8px 0 12px; color:var(--text-mute); font-size:.78rem;">형식: <code>ID,전공,기술1|기술2|...,GPA</code></p>
+    <div class="row">
+      <label class="field">팀 크기
+        <input id="teamSize" type="number" min="2" max="6" value="3"/>
+      </label>
+      <button class="btn btn--primary" onclick="runMatch()">🎯 매칭 실행</button>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>② 매칭 결과 <span class="pill">OUTPUT</span></h2>
+    <div id="teams"></div>
+  </section>
+
+  <section class="panel">
+    <h2>③ 실행 로그 (콘솔)</h2>
+    <pre class="output" id="log"></pre>
+  </section>
+</div>
+
+<script>
+function parseStudents(text) {
+  return text.trim().split("\n").map(line => {
+    const [id, major, skillsStr, gpa] = line.split(",");
+    return { id, major, skills: new Set(skillsStr.split("|")), gpa: parseFloat(gpa) };
+  });
+}
+function techDiversity(team) {
+  const all = new Set();
+  team.forEach(s => s.skills.forEach(sk => all.add(sk)));
+  return all.size;
+}
+function matchTeams(students, size) {
+  const sorted = [...students].sort((a, b) => b.gpa - a.gpa);
+  const n = Math.floor(students.length / size);
+  const teams = Array.from({ length: n }, () => []);
+  sorted.forEach((s, i) => teams[i % n].push(s));
+  return teams;
+}
+function runMatch() {
+  const text = document.getElementById("studentsInput").value;
+  const size = parseInt(document.getElementById("teamSize").value, 10);
+  const log = [];
+  try {
+    const students = parseStudents(text);
+    log.push(`[입력] 학생 ${students.length}명, 팀 크기 ${size}`);
+    const teams = matchTeams(students, size);
+    log.push(`[매칭] ${teams.length}개 팀 생성 완료`);
+
+    const out = document.getElementById("teams");
+    out.innerHTML = "";
+    teams.forEach((team, i) => {
+      const avgGpa = (team.reduce((s, x) => s + x.gpa, 0) / team.length).toFixed(2);
+      const div = techDiversity(team);
+      log.push(`  Team ${i + 1}: 평균 GPA ${avgGpa} | 기술수 ${div} | ${team.map(s => s.id).join(", ")}`);
+
+      const card = document.createElement("div");
+      card.className = "panel";
+      card.style.marginBottom = "10px";
+      card.style.padding = "14px 16px";
+      card.innerHTML = `
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+          <b>Team ${i + 1}</b>
+          <span>
+            <span class="badge badge--info">평균 GPA ${avgGpa}</span>
+            <span class="badge badge--ok" style="margin-left:6px;">기술 ${div}종</span>
+          </span>
+        </div>
+        <table class="t"><thead><tr><th>학생</th><th>전공</th><th>기술 스택</th><th>GPA</th></tr></thead>
+        <tbody>${team.map(s => `
+          <tr><td><b>${s.id}</b></td><td>${s.major}</td><td>${[...s.skills].join(", ")}</td><td>${s.gpa.toFixed(2)}</td></tr>
+        `).join("")}</tbody></table>`;
+      out.appendChild(card);
+    });
+
+    document.getElementById("log").textContent = log.join("\n");
+  } catch (e) {
+    document.getElementById("log").textContent = "[오류] " + e.message;
+  }
+}
+runMatch();
+</script>
+</body>
+</html>

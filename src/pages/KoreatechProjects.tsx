@@ -180,10 +180,17 @@ const ProjectDetailView = ({ project, projectIdx }: { project: CTProjectData; pr
         <span className="ktp-detail-hero-icon" style={{ color: project.color }}>
           {project.emoji}
         </span>
-        <div>
+        <div style={{ flex: 1 }}>
           <span className="ktp-detail-num">PROJECT {String(projectIdx + 1).padStart(2, '0')}</span>
           <h3 className="ktp-detail-title">{project.title}</h3>
         </div>
+        <Link
+          to={`/projects-koreatech/${project.id}/build`}
+          className="ktp-build-btn"
+          style={{ background: project.color }}
+        >
+          🎨 구현 페이지 보기 →
+        </Link>
       </div>
 
       {CT_STEPS.map((step) => {
