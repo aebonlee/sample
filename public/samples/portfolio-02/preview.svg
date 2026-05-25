@@ -49,7 +49,7 @@
     </g>
   </g>
 
-  <!-- 갤러리 그리드 (마사니식) - 7개 -->
+  <!-- 갤러리 그리드 (메이슨리식) - 9컷 -->
   <g>
     <!-- 1: 큰 풍경 (좌상) -->
     <g transform="translate(80,180)">
@@ -192,6 +192,6 @@
   <!-- 푸터 -->
   <g font-family="-apple-system, 'Segoe UI', system-ui, sans-serif">
     <line x1="80" y1="800" x2="1360" y2="800" stroke="#1e293b"/>
-    <text x="80" y="845" fill="#64748b" font-size="14">© photographer · 마사니식 컴럼 갤러리 + 카테고리 필터 + 라이트박스</text>
+    <text x="80" y="845" fill="#64748b" font-size="14">© photographer · 메이슨리식 컬럼 갤러리 + 카테고리 필터 + 라이트박스</text>
   </g>
 </svg>

@@ -111,13 +111,13 @@ export const samples: Sample[] = [
     difficulty: 'beginner',
     files: ['index.html', 'style.css', 'script.js'],
     guide:
-      '편집형 블로그를 위한 템플릿입니다. 본문은 산세리프, 제목은 세리프(Playfair Display + Noto Serif KR)로 대비를 줬습니다. JS에서 검색, 좋아요(localStorage), 스크롤 리블 애니메이션을 처리합니다.',
+      '편집형 블로그를 위한 템플릿입니다. 본문은 산세리프, 제목은 세리프(Playfair Display + Noto Serif KR)로 대비를 줬습니다. JS에서 검색, 좋아요(localStorage), 스크롤 리빌 애니메이션을 처리합니다.',
   },
   {
     id: 'landing-01',
     title: 'SaaS 마케팅 랜딩',
     description:
-      'Hero → 기능 → 가격(월/연 토글) → FAQ → CTA. 부드러운 스크롤, 리블 애니메이션 포함.',
+      'Hero → 기능 → 가격(월/연 토글) → FAQ → CTA. 부드러운 스크롤, 리빌 애니메이션 포함.',
     platform: 'web',
     category: 'landing',
     tags: ['마케팅', '가격표', '가격토글', 'FAQ'],
@@ -125,7 +125,7 @@ export const samples: Sample[] = [
     difficulty: 'intermediate',
     files: ['index.html', 'style.css', 'script.js'],
     guide:
-      'SaaS 제품 랜딩의 표준 흐름(Hero → Social Proof → Features → Pricing → FAQ → CTA → Footer)을 그대로 따릅니다. JS에서 부드러운 앵컬 스크롤, 가격 월/연 토글(20% 할인 시뮬레이션), FAQ 아코디언(동적 추가), 스크롤 리블을 처리합니다.',
+      'SaaS 제품 랜딩의 표준 흐름(Hero → Social Proof → Features → Pricing → FAQ → CTA → Footer)을 그대로 따릅니다. JS에서 부드러운 앵커 스크롤, 가격 월/연 토글(20% 할인 시뮬레이션), FAQ 아코디언(동적 추가), 스크롤 리빌을 처리합니다.',
   },
   {
     id: 'app-01',
@@ -139,7 +139,7 @@ export const samples: Sample[] = [
     difficulty: 'intermediate',
     files: ['index.html', 'style.css', 'script.js'],
     guide:
-      '모바일 앱의 핵심 UI 패턴(상단바, FAB, 바툅 탭, 모달, 진행률)을 모두 담은 샘플입니다. 폰 프레임은 CSS box-shadow 두 줄로 표현했습니다. 데이터는 localStorage에 저장되어 새로고침에도 유지됩니다.',
+      '모바일 앱의 핵심 UI 패턴(상단바, FAB, 바텀 탭, 모달, 진행률)을 모두 담은 샘플입니다. 폰 프레임은 CSS box-shadow 두 줄로 표현했습니다. 데이터는 localStorage에 저장되어 새로고침에도 유지됩니다.',
   },
   {
     id: 'ai-01',
@@ -201,15 +201,15 @@ export const samples: Sample[] = [
     id: 'ai-02',
     title: 'AI 이미지 생성 갤러리 (Mirage)',
     description:
-      '프롬프트 입력 → 4장 이미지 생성(가짜) → 마사니식 갤러리. 진행률 모달과 상세 모달 포함.',
+      '프롬프트 입력 → 4장 이미지 생성(가짜) → 메이슨리식 갤러리. 진행률 모달과 상세 모달 포함.',
     platform: 'ai',
     category: 'media',
-    tags: ['이미지생성', '마사니', '모달', '프롬프트'],
+    tags: ['이미지생성', '메이슨리', '모달', '프롬프트'],
     stack: ['HTML', 'CSS', 'JavaScript'],
     difficulty: 'intermediate',
     files: ['index.html', 'style.css', 'script.js'],
     guide:
-      'Midjourney/DALL·E 류 이미지 생성 UI의 표준 흐름입니다. 실제 이미지는 그라데이션으로 대체하고 가짜 진행률(0→100%)을 보여줍니다. CSS column-count로 마사니식 그리드를 단순하게 구현했고, 비율(1:1, 16:9, 9:16, 3:4)에 따라 타일 높이가 달라집니다.',
+      'Midjourney/DALL·E 류 이미지 생성 UI의 표준 흐름입니다. 실제 이미지는 그라데이션으로 대체하고 가짜 진행률(0→100%)을 보여줍니다. CSS column-count로 메이슨리식 그리드를 단순하게 구현했고, 비율(1:1, 16:9, 9:16, 3:4)에 따라 타일 높이가 달라집니다.',
   },
   {
     id: 'data-02',
@@ -265,7 +265,7 @@ export const samples: Sample[] = [
     difficulty: 'intermediate',
     files: ['index.html', 'style.css'],
     guide:
-      '작업물(works)이 가장 크게 보이도록 설계된 갤러리형 포트폴리오입니다. `card--wide` 클래스를 섞어 마사니식 리듬을 만들고, 상단 칩으로 카테고리 필터(자바스크립트 한 줄)로 동작합니다.',
+      '작업물(works)이 가장 크게 보이도록 설계된 갤러리형 포트폴리오입니다. `card--wide` 클래스를 섞어 메이슨리식 리듬을 만들고, 상단 칩으로 카테고리 필터(자바스크립트 한 줄)로 동작합니다.',
   },
   {
     id: 'personal-02',
@@ -355,10 +355,10 @@ export const samples: Sample[] = [
     id: 'app-03',
     title: '금융 지갑 앱 (Wallet)',
     description:
-      '폰 프레임 안의 핀테크 앱. 그라데이션 카드 + 빠른 액션 + 지출 분석 바차트 + 거래 내역 + 바툅탭.',
+      '폰 프레임 안의 핀테크 앱. 그라데이션 카드 + 빠른 액션 + 지출 분석 바차트 + 거래 내역 + 바텀 탭.',
     platform: 'app',
     category: 'utility',
-    tags: ['핀테크', '폰프레임', '카드', '바툅탭'],
+    tags: ['핀테크', '폰프레임', '카드', '바텀탭'],
     stack: ['HTML', 'CSS', 'JavaScript'],
     difficulty: 'intermediate',
     files: ['index.html', 'style.css', 'script.js'],
@@ -411,7 +411,7 @@ export const samples: Sample[] = [
     id: 'portfolio-02',
     title: '사진작가 포트폴리오',
     description:
-      '큰 그림이 주인공인 사진작가용 포트폴리오. 마사니식 컴럼 갤러리 + 카테고리 필터 + 라이트박스.',
+      '큰 그림이 주인공인 사진작가용 포트폴리오. 메이슨리식 컬럼 갤러리 + 카테고리 필터 + 라이트박스.',
     platform: 'web',
     category: 'portfolio',
     tags: ['갤러리', '필터', '라이트박스', '사진'],
@@ -419,7 +419,7 @@ export const samples: Sample[] = [
     difficulty: 'intermediate',
     files: ['index.html', 'style.css', 'script.js'],
     guide:
-      '사진/일러스트/그래픽 작가용 포트폴리오 템플릿입니다. CSS columns로 마사니식 그리드를 만들고, 이미지 자리는 그라데이션으로 대체했습니다. 실제로는 `aspect-ratio`를 유지한 채 `<img>` 태그로 교체하고, Next.js의 next/image 또는 Cloudinary 같은 이미지 CDN을 사용해 성능을 챙기세요.',
+      '사진/일러스트/그래픽 작가용 포트폴리오 템플릿입니다. CSS columns로 메이슨리식 그리드를 만들고, 이미지 자리는 그라데이션으로 대체했습니다. 실제로는 `aspect-ratio`를 유지한 채 `<img>` 태그로 교체하고, Next.js의 next/image 또는 Cloudinary 같은 이미지 CDN을 사용해 성능을 챙기세요.',
   },
   {
     id: 'company-03',
@@ -565,7 +565,7 @@ export const samples: Sample[] = [
     id: 'personal-04',
     title: '취업 준비 이력 포트폴리오',
     description:
-      '자기소개·경력·핵심강점·스킬·활동·연락처를 담은 한 페이지 자기홍보·취업 준비 사이트. 그라데이션 히어로, 통계 카운트업, 다크 모드, 스크롤 리블 포함.',
+      '자기소개·경력·핵심강점·스킬·활동·연락처를 담은 한 페이지 자기홍보·취업 준비 사이트. 그라데이션 히어로, 통계 카운트업, 다크 모드, 스크롤 리빌 포함.',
     platform: 'web',
     category: 'personal',
     tags: ['취준', '이력서', '경력', '다크모드', '카운트업'],
@@ -573,7 +573,7 @@ export const samples: Sample[] = [
     difficulty: 'intermediate',
     files: ['index.html', 'style.css', 'script.js'],
     guide:
-      '공공기관·일반 기업 지원을 준비하는 대학생 · 신입 지원자를 위한 종합 자기홍보 사이트 템플릿입니다. wonjunjang.dreamitbiz.com의 구조를 참고해 히어·자기소개(통계 카운트업)·경력 타임라인·6개 핵심강점 그리드·스킬/자격 4칸·수상·인턴·대외활동 배지 목록·프로필·회사 관점 포함. 자기 콘텐츠로 교체하려면 `index.html`의 텍스트 부분을 수정하고, 프로필 이니셜 · 자소개 인용문 · 고우메텍 쪽의 이메일/전화만 바꾸면 바로 쓸 수 있게 되어 있습니다. 한국어 폰트는 시스템 기본을 사용해 외부 자원 의존이 없습니다.',
+      '공공기관·일반 기업 지원을 준비하는 대학생·신입 지원자를 위한 종합 자기홍보 사이트 템플릿입니다. wonjunjang.dreamitbiz.com의 구조를 참고해 히어로·자기소개(통계 카운트업)·경력 타임라인·6개 핵심강점 그리드·스킬/자격 4칸·수상·인턴·대외활동 배지 목록·프로필·회사가 보는 관점까지 포함합니다. 자기 콘텐츠로 교체하려면 `index.html`의 텍스트 부분을 수정하고, 프로필 이니셜·자기소개 인용문·푸터 연락처(이메일·전화)만 바꾸면 바로 쓸 수 있게 되어 있습니다. 한국어 폰트는 시스템 기본을 사용해 외부 자원 의존이 없습니다.',
   },
   {
     id: 'landing-03',
