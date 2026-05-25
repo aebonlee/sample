@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>실험실 안전 점검 — 데모</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/joungkyun/font-d2coding/d2coding.css"/>
-<link rel="stylesheet" href="../_shared/style.css"/>
+<link rel="stylesheet" href="style.css"/>
 </head>
 <body>
 <div class="container">
@@ -35,80 +35,6 @@
   </section>
 </div>
 
-<script>
-const STATES = ["OK", "WARN", "FAIL"];
-const labs = {
-  "기계실습실": [
-    { item: "환기 시스템", lastH: 2, status: "OK", freq: 8 },
-    { item: "비상정지 버튼", lastH: 10, status: "OK", freq: 8 },
-    { item: "절단기 칼날", lastH: 1, status: "WARN", freq: 24 },
-    { item: "용접 마스크", lastH: 6, status: "OK", freq: 12 },
-  ],
-  "전기실습실": [
-    { item: "누전 차단기", lastH: 3, status: "OK", freq: 12 },
-    { item: "절연 장갑", lastH: 20, status: "FAIL", freq: 24 },
-    { item: "접지선", lastH: 5, status: "OK", freq: 24 },
-  ],
-  "생산실습장": [
-    { item: "컴베이어 정지센서", lastH: 4, status: "OK", freq: 8 },
-    { item: "PLC 펌웨어", lastH: 16, status: "WARN", freq: 24 },
-    { item: "비상 샤워", lastH: 30, status: "OK", freq: 24 },
-  ],
-};
-
-function setupSelect() {
-  const sel = document.getElementById("lab");
-  sel.innerHTML = Object.keys(labs).map(n => `<option>${n}</option>`).join("");
-}
-function randomize() {
-  Object.values(labs).flat().forEach(it => {
-    it.status = STATES[Math.floor(Math.random() * 3)];
-    it.lastH = Math.floor(Math.random() * 40);
-  });
-  inspect();
-}
-function inspect() {
-  const name = document.getElementById("lab").value;
-  const checks = labs[name];
-  let fail = 0, warn = 0, miss = 0;
-  const rows = checks.map(c => {
-    let status, badge;
-    if (c.lastH > c.freq) { miss++; status = "미점검"; badge = "badge--danger"; }
-    else if (c.status === "FAIL") { fail++; status = "불량"; badge = "badge--danger"; }
-    else if (c.status === "WARN") { warn++; status = "주의"; badge = "badge--warn"; }
-    else { status = "정상"; badge = "badge--ok"; }
-    return `<tr>
-      <td><b>${c.item}</b></td>
-      <td>${c.lastH}h 전</td>
-      <td>${c.freq}h</td>
-      <td><span class="badge ${badge}">${status}</span></td>
-    </tr>`;
-  });
-  const level = (fail || miss) ? "위험" : (warn >= 2 ? "주의" : "정상");
-  const levelBadge = (fail || miss) ? "badge--danger" : (warn >= 2 ? "badge--warn" : "badge--ok");
-
-  document.getElementById("report").innerHTML = `
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
-      <h3 style="margin:0;">${name}</h3>
-      <span class="badge ${levelBadge}" style="font-size:.85rem; padding:6px 14px;">종합 위험도: ${level}</span>
-    </div>
-    <table class="t"><thead><tr><th>점검 항목</th><th>마지막 점검</th><th>점검 주기</th><th>판정</th></tr></thead>
-    <tbody>${rows.join("")}</tbody></table>
-    <div style="margin-top:10px; font-size:.85rem; color:var(--text-dim);">
-      불량 ${fail} · 주의 ${warn} · 미점검 ${miss}
-    </div>
-  `;
-
-  const log = [`[${name}] 점검 완료 → 위험도 [${level}]`];
-  checks.forEach(c => {
-    const tag = c.lastH > c.freq ? "MISS" : c.status;
-    log.push(`  ${c.item.padEnd(14)} ${c.lastH}h ago | freq ${c.freq}h | ${tag}`);
-  });
-  document.getElementById("log").textContent = log.join("\n");
-}
-
-setupSelect();
-inspect();
-</script>
+<script src="script.js"></script>
 </body>
 </html>

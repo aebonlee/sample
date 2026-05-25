@@ -5,13 +5,15 @@ import JSZip from 'jszip';
 import { KOREATECH_PROJECTS } from '../data/koreatechProjects';
 import { getKoreatechMockup } from '../data/koreatechMockups';
 
-type Tab = 'preview' | 'python' | 'output' | 'html';
+type Tab = 'preview' | 'html' | 'css' | 'js' | 'python' | 'output';
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'preview', label: '👁 미리보기' },
+  { id: 'html',    label: 'HTML' },
+  { id: 'css',     label: 'CSS' },
+  { id: 'js',      label: 'JS' },
   { id: 'python',  label: 'Python' },
   { id: 'output',  label: '예상 출력' },
-  { id: 'html',    label: 'HTML 소스' },
 ];
 
 async function downloadZip(baseUrl: string, projectTitle: string, files: string[]) {
@@ -35,6 +37,8 @@ async function downloadZip(baseUrl: string, projectTitle: string, files: string[
       '## 파일\n\n' +
       '```\n' +
       'index.html     # 인터랙티브 알고리즘 데모 (브라우저에서 바로 실행)\n' +
+      'style.css      # 데모 스타일\n' +
+      'script.js      # 데모 동작 스크립트\n' +
       'main.py        # 파이썬 알고리즘 원본 코드\n' +
       'README.md      # 이 파일\n' +
       '```\n\n' +
@@ -60,31 +64,26 @@ export default function KoreatechProjectBuild() {
   const mockup = id ? getKoreatechMockup(id) : undefined;
 
   const [tab, setTab] = useState<Tab>('preview');
-  const [pyText, setPyText] = useState<string>('');
-  const [pyState, setPyState] = useState<'idle' | 'loading' | 'ready' | 'error'>('idle');
-  const [htmlText, setHtmlText] = useState<string>('');
-  const [htmlState, setHtmlState] = useState<'idle' | 'loading' | 'ready' | 'error'>('idle');
+
+  // 소스 파일별 캐시 상태 (각 탭이 처음 열릴 때만 fetch)
+  type FetchState = 'idle' | 'loading' | 'ready' | 'error';
+  const [htmlText, setHtmlText] = useState(''); const [htmlState, setHtmlState] = useState<FetchState>('idle');
+  const [cssText, setCssText]   = useState(''); const [cssState, setCssState]   = useState<FetchState>('idle');
+  const [jsText, setJsText]     = useState(''); const [jsState, setJsState]     = useState<FetchState>('idle');
+  const [pyText, setPyText]     = useState(''); const [pyState, setPyState]     = useState<FetchState>('idle');
 
   const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   const previewUrl = mockup ? `${base}${mockup.baseDir}/${mockup.demoFile}` : '';
-  const pyUrl = mockup ? `${base}${mockup.baseDir}/${mockup.pyFile}` : '';
+  const cssUrl     = mockup ? `${base}${mockup.baseDir}/${mockup.cssFile}`  : '';
+  const jsUrl      = mockup ? `${base}${mockup.baseDir}/${mockup.jsFile}`   : '';
+  const pyUrl      = mockup ? `${base}${mockup.baseDir}/${mockup.pyFile}`   : '';
 
   useEffect(() => {
     if (!project) return;
     document.title = `${project.title} — 구현 페이지`;
   }, [project]);
 
-  // Python 소스 lazy fetch
-  useEffect(() => {
-    if (tab !== 'python' || !pyUrl || pyState !== 'idle') return;
-    setPyState('loading');
-    fetch(pyUrl)
-      .then((r) => { if (!r.ok) throw new Error(); return r.text(); })
-      .then((t) => { setPyText(t); setPyState('ready'); })
-      .catch(() => setPyState('error'));
-  }, [tab, pyUrl, pyState]);
-
-  // HTML 소스 lazy fetch
+  // 탭별 lazy fetch (탭이 처음 열릴 때만 1회 페치)
   useEffect(() => {
     if (tab !== 'html' || !previewUrl || htmlState !== 'idle') return;
     setHtmlState('loading');
@@ -94,12 +93,41 @@ export default function KoreatechProjectBuild() {
       .catch(() => setHtmlState('error'));
   }, [tab, previewUrl, htmlState]);
 
+  useEffect(() => {
+    if (tab !== 'css' || !cssUrl || cssState !== 'idle') return;
+    setCssState('loading');
+    fetch(cssUrl)
+      .then((r) => { if (!r.ok) throw new Error(); return r.text(); })
+      .then((t) => { setCssText(t); setCssState('ready'); })
+      .catch(() => setCssState('error'));
+  }, [tab, cssUrl, cssState]);
+
+  useEffect(() => {
+    if (tab !== 'js' || !jsUrl || jsState !== 'idle') return;
+    setJsState('loading');
+    fetch(jsUrl)
+      .then((r) => { if (!r.ok) throw new Error(); return r.text(); })
+      .then((t) => { setJsText(t); setJsState('ready'); })
+      .catch(() => setJsState('error'));
+  }, [tab, jsUrl, jsState]);
+
+  useEffect(() => {
+    if (tab !== 'python' || !pyUrl || pyState !== 'idle') return;
+    setPyState('loading');
+    fetch(pyUrl)
+      .then((r) => { if (!r.ok) throw new Error(); return r.text(); })
+      .then((t) => { setPyText(t); setPyState('ready'); })
+      .catch(() => setPyState('error'));
+  }, [tab, pyUrl, pyState]);
+
   const code = useMemo(() => {
-    if (tab === 'python')  return { text: pyText, lang: 'python' as Language, state: pyState };
-    if (tab === 'html')    return { text: htmlText, lang: 'markup' as Language, state: htmlState };
-    if (tab === 'output')  return { text: mockup?.expectedOutput ?? '', lang: 'shell' as Language, state: 'ready' as const };
-    return { text: '', lang: 'markup' as Language, state: 'ready' as const };
-  }, [tab, pyText, htmlText, pyState, htmlState, mockup]);
+    if (tab === 'html')    return { text: htmlText, lang: 'markup'     as Language, state: htmlState };
+    if (tab === 'css')     return { text: cssText,  lang: 'css'        as Language, state: cssState };
+    if (tab === 'js')      return { text: jsText,   lang: 'javascript' as Language, state: jsState };
+    if (tab === 'python')  return { text: pyText,   lang: 'python'     as Language, state: pyState };
+    if (tab === 'output')  return { text: mockup?.expectedOutput ?? '', lang: 'shell' as Language, state: 'ready' as FetchState };
+    return { text: '', lang: 'markup' as Language, state: 'ready' as FetchState };
+  }, [tab, htmlText, cssText, jsText, pyText, htmlState, cssState, jsState, pyState, mockup]);
 
   if (!project || !mockup) {
     return (
@@ -132,7 +160,11 @@ export default function KoreatechProjectBuild() {
           <button
             type="button"
             className="btn btn--primary btn--sm"
-            onClick={() => downloadZip(`${base}${mockup.baseDir}`, project.title, [mockup.demoFile, mockup.pyFile])}
+            onClick={() => downloadZip(
+              `${base}${mockup.baseDir}`,
+              project.title,
+              [mockup.demoFile, mockup.cssFile, mockup.jsFile, mockup.pyFile],
+            )}
           >
             📦 ZIP 다운로드
           </button>
@@ -179,8 +211,16 @@ export default function KoreatechProjectBuild() {
             {code.state === 'ready' && (
               <button
                 type="button"
-                className="btn btn--ghost btn--sm"
-                style={{ position: 'absolute', top: 10, right: 12, zIndex: 2 }}
+                className="btn btn--sm"
+                // 코드 블록(다크) 위에 떠 있는 버튼이므로 라이트/다크 테마 양쪽에서
+                // 항상 보이도록 색을 직접 고정한다.
+                style={{
+                  position: 'absolute', top: 10, right: 12, zIndex: 2,
+                  background: 'rgba(255,255,255,0.12)',
+                  color: '#fff',
+                  border: '1px solid rgba(255,255,255,0.25)',
+                  backdropFilter: 'blur(4px)',
+                }}
                 onClick={() => navigator.clipboard?.writeText(code.text)}
               >
                 📋 복사
@@ -198,16 +238,21 @@ export default function KoreatechProjectBuild() {
                       fontSize: '0.82rem',
                       lineHeight: 1.7,
                       letterSpacing: 0,
+                      wordSpacing: 0,
                       tabSize: 2,
+                      // Fira Code 의 프로그래밍 합자(`<=`, `=>`, `</`, `/>` 등)가
+                      // HTML 소스에서 토큰을 시각적으로 붙여 보이게 만들어 간격이
+                      // 어색해지는 문제 → 합자 완전 비활성화
+                      fontVariantLigatures: 'none',
+                      fontFeatureSettings: '"liga" 0, "calt" 0, "dlig" 0',
                       overflowX: 'auto',
                       margin: 0,
                       maxHeight: 720,
                       overflowY: 'auto',
-                      // 한글 monospace 폰트(D2Coding, Apple SD Gothic Neo, Noto Sans Mono CJK KR)를
-                      // Western monospace 와 함께 묶어, 한글 fallback 시 글자 폭이 어색하게
-                      // 벌어지는 문제를 해결한다.
+                      // D2Coding 을 최우선으로 두고, 합자가 없는 일반 monospace 가
+                      // 영어/한글 모두 안정적으로 fallback 되도록 구성
                       fontFamily:
-                        "'Fira Code', 'JetBrains Mono', 'D2Coding', 'Sarasa Mono K', 'Apple SD Gothic Neo', 'Noto Sans Mono CJK KR', Consolas, monospace",
+                        "'D2Coding', 'Sarasa Mono K', 'Apple SD Gothic Neo', 'Noto Sans Mono CJK KR', 'JetBrains Mono', Consolas, 'Courier New', monospace",
                     }}
                   >
                     {tokens.map((line, i) => (
