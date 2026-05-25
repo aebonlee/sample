@@ -1,3 +1,7 @@
+/* ============ SVG Icons ============ */
+.ico { display: inline-block; width: 1em; height: 1em; flex-shrink: 0; vertical-align: middle; fill: none; }
+.ico-inline { width: 18px; height: 18px; margin-right: 6px; vertical-align: -4px; }
+
 /* ============ Reset & Tokens ============ */
 *, *::before, *::after { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
@@ -120,7 +124,8 @@ button { font: inherit; cursor: pointer; border: 0; background: transparent; col
 .about-card { position: relative; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; box-shadow: var(--shadow-sm); transition: transform .2s ease, box-shadow .2s ease; }
 .about-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
 .about-card::before { content: attr(data-num); position: absolute; top: 18px; right: 22px; font-size: 32px; font-weight: 800; color: var(--primary-soft); }
-.card-icon { font-size: 28px; margin-bottom: 14px; }
+.card-icon { width: 44px; height: 44px; margin-bottom: 14px; color: var(--primary); display: inline-flex; align-items: center; justify-content: center; background: var(--primary-soft); border-radius: 12px; }
+.card-icon .ico { width: 24px; height: 24px; }
 .about-card h4 { font-size: 17px; margin: 0 0 14px; font-weight: 700; }
 .about-card ul li { font-size: 13.5px; color: var(--text-dim); padding: 5px 0; border-bottom: 1px dashed var(--border); }
 .about-card ul li:last-child { border-bottom: 0; }
@@ -141,7 +146,8 @@ button { font: inherit; cursor: pointer; border: 0; background: transparent; col
 .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 .feature-card { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); backdrop-filter: blur(10px); border-radius: var(--radius); padding: 28px; transition: transform .2s ease, background .2s ease; }
 .feature-card:hover { transform: translateY(-4px); background: rgba(255,255,255,.07); }
-.feature-icon { font-size: 32px; margin-bottom: 14px; display: inline-block; }
+.feature-icon { width: 48px; height: 48px; margin-bottom: 14px; color: var(--primary); display: inline-flex; align-items: center; justify-content: center; background: rgba(111,155,255,.14); border-radius: 12px; }
+.feature-icon .ico { width: 26px; height: 26px; }
 .feature-card h3 { color: #fff; font-size: 17px; margin: 0 0 10px; font-weight: 700; }
 .feature-card p { color: #aeaeb4; font-size: 13.5px; margin: 0; line-height: 1.7; }
 
@@ -152,7 +158,9 @@ button { font: inherit; cursor: pointer; border: 0; background: transparent; col
 .program-category h3 { font-size: 19px; margin: 0 0 22px; font-weight: 700; }
 .program-item { display: flex; align-items: flex-start; gap: 14px; padding: 14px 0; border-top: 1px solid var(--border); }
 .program-item:first-of-type { border-top: 0; }
-.prog-ico { width: 38px; height: 38px; flex-shrink: 0; background: var(--primary-soft); color: var(--primary); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+.prog-ico { width: 38px; height: 38px; flex-shrink: 0; background: var(--primary-soft); color: var(--primary); border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+.prog-ico .ico { width: 20px; height: 20px; }
+.prog-ico-ok { background: rgba(34,197,94,.14); color: #16a34a; }
 .program-item h4 { font-size: 14.5px; margin: 0 0 3px; font-weight: 700; }
 .program-item p { font-size: 13px; color: var(--text-dim); margin: 0; }
 
@@ -192,7 +200,8 @@ button { font: inherit; cursor: pointer; border: 0; background: transparent; col
 .footer-bottom p { margin: 0; }
 
 /* ============ Back to top ============ */
-.back-to-top { position: fixed; bottom: 24px; right: 24px; width: 44px; height: 44px; border-radius: 50%; background: var(--primary); color: #fff; box-shadow: 0 8px 18px rgba(47,109,241,.4); opacity: 0; pointer-events: none; transform: translateY(8px); transition: opacity .2s ease, transform .2s ease; font-size: 18px; font-weight: 700; }
+.back-to-top { position: fixed; bottom: 24px; right: 24px; width: 44px; height: 44px; border-radius: 50%; background: var(--primary); color: #fff; box-shadow: 0 8px 18px rgba(47,109,241,.4); opacity: 0; pointer-events: none; transform: translateY(8px); transition: opacity .2s ease, transform .2s ease; display: inline-flex; align-items: center; justify-content: center; }
+.back-to-top .ico { width: 20px; height: 20px; }
 .back-to-top.visible { opacity: 1; pointer-events: auto; transform: translateY(0); }
 
 /* ============ Fade-up reveal ============ */
