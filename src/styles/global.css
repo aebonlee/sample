@@ -2326,3 +2326,70 @@ code {
 @media (max-width: 640px) {
   .section-head--inline { flex-direction: column; align-items: flex-start; }
 }
+
+/* Learning 페이지 — 카테고리 칩 active 상태 + 카테고리 인포 + 뱃지 */
+.learning-cat-chip {
+  cursor: pointer;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  font-family: inherit;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+.learning-cat-chip:hover { color: var(--text); border-color: var(--border-strong); }
+.learning-cat-chip.is-active {
+  background: var(--bg-card);
+  font-weight: 700;
+  border-color: var(--text);
+  color: var(--text);
+}
+
+.learning-cat-info {
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 18px;
+}
+.learning-cat-info h2 { margin: 0 0 4px; font-size: 1.05rem; }
+.learning-cat-info p { margin: 0; color: var(--text-dim); font-size: 0.88rem; }
+
+.learning-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: center;
+}
+.badge-pill {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+.badge-pill--free {
+  background: rgba(16,185,129,0.16);
+  color: #059669;
+}
+:root[data-theme='dark'] .badge-pill--free {
+  background: rgba(52,211,153,0.18);
+  color: #6ee7b7;
+}
+.badge-pill--paid {
+  background: rgba(245,158,11,0.16);
+  color: #b45309;
+}
+:root[data-theme='dark'] .badge-pill--paid {
+  background: rgba(251,191,36,0.18);
+  color: #fcd34d;
+}
+.badge-pill--neutral {
+  background: var(--bg-elev);
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+}
+
+.learning-card__foot {
+  align-items: flex-end !important;
+  gap: 8px;
+}
+.learning-cta strong { color: var(--text); margin-right: 4px; }
