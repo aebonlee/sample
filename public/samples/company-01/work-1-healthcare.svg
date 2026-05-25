@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400" role="img" aria-label="Lumen Health 헬스케어 SaaS 케이스">
+  <defs>
+    <linearGradient id="hbg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0c4a6e"/>
+      <stop offset="1" stop-color="#082f49"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="400" fill="url(#hbg)"/>
+
+  <!-- 디바이스 프레임 (랩탑) -->
+  <g transform="translate(60 70)">
+    <rect x="0" y="0" width="480" height="240" rx="8" fill="#0f172a" stroke="#1e293b" stroke-width="2"/>
+    <!-- 화면 -->
+    <rect x="14" y="14" width="452" height="212" rx="4" fill="#f8fafc"/>
+
+    <!-- 헤더 -->
+    <rect x="14" y="14" width="452" height="30" fill="#0ea5e9"/>
+    <circle cx="34" cy="29" r="6" fill="#fff" opacity="0.9"/>
+    <path d="M 34 26 L 34 32 M 31 29 L 37 29" stroke="#0ea5e9" stroke-width="1.5"/>
+    <text x="48" y="33" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Lumen Health</text>
+
+    <!-- 사이드바 -->
+    <rect x="14" y="44" width="80" height="182" fill="#f1f5f9"/>
+    <rect x="22" y="56" width="64" height="8" rx="2" fill="#0ea5e9"/>
+    <rect x="22" y="72" width="50" height="6" rx="2" fill="#cbd5e1"/>
+    <rect x="22" y="84" width="60" height="6" rx="2" fill="#cbd5e1"/>
+    <rect x="22" y="96" width="44" height="6" rx="2" fill="#cbd5e1"/>
+    <rect x="22" y="108" width="56" height="6" rx="2" fill="#cbd5e1"/>
+
+    <!-- 환자 차트 -->
+    <text x="106" y="60" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#0f172a">환자 일일 모니터링</text>
+
+    <!-- 그래프 -->
+    <g transform="translate(106 70)">
+      <polyline points="0,80 30,60 60,70 90,40 120,55 150,30 180,45 210,25 240,40 270,15 300,30 330,20"
+                stroke="#0ea5e9" stroke-width="2.5" fill="none"/>
+      <polyline points="0,80 30,60 60,70 90,40 120,55 150,30 180,45 210,25 240,40 270,15 300,30 330,20 330,90 0,90 Z"
+                fill="#0ea5e9" opacity="0.18"/>
+      <line x1="0" y1="90" x2="330" y2="90" stroke="#cbd5e1" stroke-width="1"/>
+    </g>
+
+    <!-- 통계 카드 -->
+    <g transform="translate(106 180)">
+      <rect x="0" y="0" width="100" height="36" rx="4" fill="#dbeafe"/>
+      <text x="8" y="14" font-family="-apple-system,sans-serif" font-size="8" fill="#1e40af" font-weight="700">처방 시간</text>
+      <text x="8" y="30" font-family="-apple-system,sans-serif" font-size="14" fill="#1e3a8a" font-weight="800">-38%</text>
+
+      <rect x="112" y="0" width="100" height="36" rx="4" fill="#d1fae5"/>
+      <text x="120" y="14" font-family="-apple-system,sans-serif" font-size="8" fill="#065f46" font-weight="700">오류 감소</text>
+      <text x="120" y="30" font-family="-apple-system,sans-serif" font-size="14" fill="#064e3b" font-weight="800">-54%</text>
+
+      <rect x="224" y="0" width="120" height="36" rx="4" fill="#ede9fe"/>
+      <text x="232" y="14" font-family="-apple-system,sans-serif" font-size="8" fill="#5b21b6" font-weight="700">의사 만족도</text>
+      <text x="232" y="30" font-family="-apple-system,sans-serif" font-size="14" fill="#4c1d95" font-weight="800">⭐ 4.8/5</text>
+    </g>
+  </g>
+
+  <!-- 라벨 -->
+  <text x="60" y="50" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#7dd3fc" letter-spacing="2">CASE 01 · HEALTHCARE</text>
+  <text x="60" y="350" font-family="-apple-system,sans-serif" font-size="14" font-weight="800" fill="#fff">처방 입력 시간 38% 단축</text>
+</svg>

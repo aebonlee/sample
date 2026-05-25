@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400" role="img" aria-label="Northpeak Coffee D2C 커머스 케이스">
+  <defs>
+    <linearGradient id="cbg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7c2d12"/>
+      <stop offset="1" stop-color="#451a03"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="400" fill="url(#cbg)"/>
+
+  <!-- 모바일 + 데스크탑 콜라주 -->
+  <g>
+    <!-- 데스크탑 (뒤) -->
+    <g transform="translate(60 70)">
+      <rect x="0" y="0" width="380" height="240" rx="6" fill="#fafaf9" stroke="#1c1917"/>
+      <rect x="0" y="0" width="380" height="24" fill="#7c2d12"/>
+      <text x="10" y="17" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#fef3c7">NORTHPEAK</text>
+
+      <!-- 상품 그리드 -->
+      <g transform="translate(20 40)">
+        <!-- card 1 -->
+        <rect x="0" y="0" width="100" height="100" rx="4" fill="#fde68a"/>
+        <circle cx="50" cy="50" r="28" fill="#7c2d12"/>
+        <rect x="0" y="106" width="100" height="6" rx="2" fill="#1c1917"/>
+        <rect x="0" y="118" width="60" height="5" rx="2" fill="#92400e"/>
+        <!-- card 2 -->
+        <rect x="115" y="0" width="100" height="100" rx="4" fill="#fed7aa"/>
+        <circle cx="165" cy="50" r="28" fill="#5c2510"/>
+        <rect x="115" y="106" width="100" height="6" rx="2" fill="#1c1917"/>
+        <rect x="115" y="118" width="60" height="5" rx="2" fill="#92400e"/>
+        <!-- card 3 -->
+        <rect x="230" y="0" width="100" height="100" rx="4" fill="#fcd34d"/>
+        <circle cx="280" cy="50" r="28" fill="#92400e"/>
+        <rect x="230" y="106" width="100" height="6" rx="2" fill="#1c1917"/>
+        <rect x="230" y="118" width="60" height="5" rx="2" fill="#92400e"/>
+      </g>
+
+      <!-- 구독 배너 -->
+      <g transform="translate(20 180)">
+        <rect width="340" height="36" rx="6" fill="#92400e"/>
+        <text x="14" y="22" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#fff">📦 매월 새 원두 구독 — 20% 할인</text>
+      </g>
+    </g>
+
+    <!-- 모바일 (앞) -->
+    <g transform="translate(420 100)">
+      <rect x="0" y="0" width="120" height="240" rx="16" fill="#0c0a09" stroke="#1c1917" stroke-width="3"/>
+      <rect x="6" y="6" width="108" height="228" rx="12" fill="#fafaf9"/>
+      <rect x="6" y="6" width="108" height="22" fill="#7c2d12"/>
+      <text x="60" y="20" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" font-weight="700" fill="#fef3c7">CART</text>
+
+      <!-- 카트 항목 -->
+      <g transform="translate(14 38)">
+        <rect width="92" height="34" rx="4" fill="#fed7aa"/>
+        <circle cx="18" cy="17" r="10" fill="#7c2d12"/>
+        <rect x="34" y="8" width="50" height="5" rx="1" fill="#1c1917"/>
+        <rect x="34" y="17" width="36" height="4" rx="1" fill="#92400e"/>
+        <text x="74" y="26" font-family="-apple-system,sans-serif" font-size="6" font-weight="700" fill="#7c2d12">×2</text>
+      </g>
+      <g transform="translate(14 78)">
+        <rect width="92" height="34" rx="4" fill="#fef3c7"/>
+        <circle cx="18" cy="17" r="10" fill="#92400e"/>
+        <rect x="34" y="8" width="50" height="5" rx="1" fill="#1c1917"/>
+        <rect x="34" y="17" width="36" height="4" rx="1" fill="#92400e"/>
+        <text x="74" y="26" font-family="-apple-system,sans-serif" font-size="6" font-weight="700" fill="#7c2d12">×1</text>
+      </g>
+
+      <!-- 결제 버튼 -->
+      <g transform="translate(14 200)">
+        <rect width="92" height="20" rx="10" fill="#92400e"/>
+        <text x="46" y="14" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="7" font-weight="800" fill="#fff">주문하기 →</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- 통계 -->
+  <text x="60" y="50" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fed7aa" letter-spacing="2">CASE 02 · D2C COMMERCE</text>
+  <text x="60" y="370" font-family="-apple-system,sans-serif" font-size="14" font-weight="800" fill="#fff">재구매율 2.4배 · 구독 플로우 신설</text>
+</svg>

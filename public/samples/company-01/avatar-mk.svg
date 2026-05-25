@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="김민준 — 디자인 리드">
+  <defs>
+    <linearGradient id="bg-mk" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6366f1"/>
+      <stop offset="1" stop-color="#8b5cf6"/>
+    </linearGradient>
+  </defs>
+  <circle cx="100" cy="100" r="100" fill="url(#bg-mk)"/>
+
+  <!-- 몸 (후드티) -->
+  <path d="M 30 200 Q 30 140 100 130 Q 170 140 170 200 Z" fill="#312e81"/>
+  <!-- 후드 끈 -->
+  <line x1="92" y1="135" x2="92" y2="160" stroke="#f1f5f9" stroke-width="2.5"/>
+  <line x1="108" y1="135" x2="108" y2="160" stroke="#f1f5f9" stroke-width="2.5"/>
+  <circle cx="92" cy="162" r="2.5" fill="#f1f5f9"/>
+  <circle cx="108" cy="162" r="2.5" fill="#f1f5f9"/>
+
+  <!-- 얼굴 -->
+  <ellipse cx="100" cy="98" rx="34" ry="38" fill="#f5d0b0"/>
+
+  <!-- 안경 -->
+  <g stroke="#0f172a" stroke-width="2.5" fill="none">
+    <circle cx="86" cy="98" r="10"/>
+    <circle cx="114" cy="98" r="10"/>
+    <line x1="96" y1="98" x2="104" y2="98"/>
+  </g>
+
+  <!-- 머리 (짧은) -->
+  <path d="M 66 88 Q 70 60 100 56 Q 130 60 134 88 Q 130 78 100 76 Q 70 78 66 88 Z" fill="#1c1917"/>
+
+  <!-- 눈 (안경 안) -->
+  <circle cx="86" cy="98" r="1.5" fill="#1c1917"/>
+  <circle cx="114" cy="98" r="1.5" fill="#1c1917"/>
+
+  <!-- 입 -->
+  <line x1="92" y1="118" x2="108" y2="118" stroke="#7c2d12" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- 살짝 수염 -->
+  <path d="M 86 122 q 14 4 28 0" stroke="#1c1917" stroke-width="1" fill="none" opacity="0.4"/>
+</svg>

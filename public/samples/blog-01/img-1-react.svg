@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 480" width="800" height="480" role="img" aria-label="React 컴포넌트 설계">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1e1b4b"/>
+      <stop offset="1" stop-color="#0c0a09"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="480" fill="url(#bg)"/>
+
+  <!-- React 원자 로고 -->
+  <g transform="translate(400 240)" stroke="#22d3ee" stroke-width="3" fill="none">
+    <circle r="22" fill="#22d3ee"/>
+    <ellipse rx="110" ry="42"/>
+    <ellipse rx="110" ry="42" transform="rotate(60)"/>
+    <ellipse rx="110" ry="42" transform="rotate(120)"/>
+  </g>
+
+  <!-- 노란 점 점 점 (별/노이즈) -->
+  <g fill="#fef3c7" opacity="0.7">
+    <circle cx="80" cy="80" r="2"/>
+    <circle cx="720" cy="100" r="2"/>
+    <circle cx="120" cy="400" r="2"/>
+    <circle cx="680" cy="380" r="2"/>
+    <circle cx="200" cy="60" r="1.5"/>
+    <circle cx="600" cy="60" r="1.5"/>
+  </g>
+
+  <!-- 컴포넌트 박스들 (좌하 / 우상) -->
+  <g opacity="0.85" font-family="ui-monospace, monospace" font-size="11" fill="#94a3b8">
+    <rect x="40" y="370" width="160" height="80" rx="10" fill="#1e293b" stroke="#334155"/>
+    <text x="56" y="395">&lt;Card/&gt;</text>
+    <rect x="56" y="406" width="40" height="14" rx="3" fill="#475569"/>
+    <rect x="100" y="406" width="60" height="14" rx="3" fill="#475569"/>
+    <rect x="56" y="424" width="120" height="14" rx="3" fill="#334155"/>
+
+    <rect x="620" y="50" width="160" height="80" rx="10" fill="#1e293b" stroke="#334155"/>
+    <text x="636" y="75">&lt;Button/&gt;</text>
+    <rect x="636" y="86" width="100" height="22" rx="4" fill="#6366f1"/>
+    <text x="686" y="101" text-anchor="middle" fill="#fff" font-weight="700">Click me</text>
+  </g>
+
+  <!-- 제목 -->
+  <text x="400" y="60" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="22" font-weight="800" fill="#fff">REACT 컴포넌트 설계</text>
+  <text x="400" y="84" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" fill="#94a3b8">결국 가장 중요한 건 "경계"다</text>
+</svg>

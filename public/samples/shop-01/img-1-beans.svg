@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600" role="img" aria-label="원두 커피 — 메인 제품 사진">
+  <defs>
+    <radialGradient id="bgGrad" cx="50%" cy="40%" r="70%">
+      <stop offset="0" stop-color="#7c2d12"/>
+      <stop offset="1" stop-color="#1c0a04"/>
+    </radialGradient>
+    <linearGradient id="beanGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#92400e"/>
+      <stop offset="0.5" stop-color="#5c2510"/>
+      <stop offset="1" stop-color="#2a1108"/>
+    </linearGradient>
+    <linearGradient id="beanShine" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="rgba(252,211,77,0.45)"/>
+      <stop offset="1" stop-color="transparent"/>
+    </linearGradient>
+    <radialGradient id="vignette" cx="50%" cy="50%" r="70%">
+      <stop offset="0.55" stop-color="transparent"/>
+      <stop offset="1" stop-color="rgba(0,0,0,0.55)"/>
+    </radialGradient>
+    <!-- 한 알의 원두 (재사용) -->
+    <symbol id="bean" viewBox="-40 -25 80 50">
+      <g>
+        <ellipse cx="0" cy="0" rx="38" ry="22" fill="url(#beanGrad)"/>
+        <path d="M -28 0 Q 0 -6 28 0 Q 0 6 -28 0 Z" fill="#1a0904" opacity="0.85"/>
+        <path d="M -25 -2 Q 0 -8 25 -2" stroke="#0c0502" stroke-width="1.5" fill="none" opacity="0.6"/>
+        <ellipse cx="-12" cy="-10" rx="14" ry="6" fill="url(#beanShine)" opacity="0.7"/>
+      </g>
+    </symbol>
+  </defs>
+
+  <!-- 배경 -->
+  <rect width="600" height="600" fill="url(#bgGrad)"/>
+
+  <!-- 원두 더미 (수십 알) -->
+  <g>
+    <!-- 뒤줄 (작고 흐릿) -->
+    <g opacity="0.55">
+      <use href="#bean" x="80" y="180" transform="rotate(15 80 180)" width="60" height="38"/>
+      <use href="#bean" x="160" y="160" transform="rotate(-25 160 160)" width="60" height="38"/>
+      <use href="#bean" x="240" y="170" transform="rotate(8 240 170)" width="60" height="38"/>
+      <use href="#bean" x="320" y="155" transform="rotate(-12 320 155)" width="60" height="38"/>
+      <use href="#bean" x="400" y="170" transform="rotate(20 400 170)" width="60" height="38"/>
+      <use href="#bean" x="480" y="175" transform="rotate(-8 480 175)" width="60" height="38"/>
+    </g>
+
+    <!-- 가운데 줄 -->
+    <g opacity="0.8">
+      <use href="#bean" x="60" y="250" transform="rotate(-18 60 250)" width="80" height="50"/>
+      <use href="#bean" x="170" y="240" transform="rotate(22 170 240)" width="80" height="50"/>
+      <use href="#bean" x="290" y="245" transform="rotate(-5 290 245)" width="80" height="50"/>
+      <use href="#bean" x="400" y="240" transform="rotate(14 400 240)" width="80" height="50"/>
+      <use href="#bean" x="500" y="255" transform="rotate(-22 500 255)" width="80" height="50"/>
+    </g>
+
+    <!-- 앞줄 (크고 선명) -->
+    <use href="#bean" x="40"  y="350" transform="rotate(8 40 350)"   width="110" height="68"/>
+    <use href="#bean" x="170" y="340" transform="rotate(-15 170 340)" width="110" height="68"/>
+    <use href="#bean" x="290" y="345" transform="rotate(25 290 345)" width="110" height="68"/>
+    <use href="#bean" x="410" y="350" transform="rotate(-10 410 350)" width="110" height="68"/>
+    <use href="#bean" x="525" y="345" transform="rotate(20 525 345)" width="110" height="68"/>
+
+    <!-- 가장 앞 (큰 클로즈업) -->
+    <use href="#bean" x="100" y="450" transform="rotate(-20 100 450)" width="150" height="92"/>
+    <use href="#bean" x="270" y="460" transform="rotate(12 270 460)"  width="160" height="98"/>
+    <use href="#bean" x="450" y="450" transform="rotate(-8 450 450)"  width="150" height="92"/>
+  </g>
+
+  <!-- 비네팅 -->
+  <rect width="600" height="600" fill="url(#vignette)" pointer-events="none"/>
+
+  <!-- 좌상단 빛 효과 -->
+  <circle cx="120" cy="100" r="180" fill="rgba(252,211,77,0.10)" filter="blur(1px)"/>
+</svg>
