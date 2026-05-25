@@ -196,12 +196,18 @@ export default function KoreatechProjectBuild() {
                       padding: '20px 20px 16px',
                       borderRadius: 12,
                       fontSize: '0.82rem',
-                      lineHeight: 1.65,
+                      lineHeight: 1.7,
+                      letterSpacing: 0,
+                      tabSize: 2,
                       overflowX: 'auto',
                       margin: 0,
                       maxHeight: 720,
                       overflowY: 'auto',
-                      fontFamily: "'Fira Code', 'Consolas', monospace",
+                      // 한글 monospace 폰트(D2Coding, Apple SD Gothic Neo, Noto Sans Mono CJK KR)를
+                      // Western monospace 와 함께 묶어, 한글 fallback 시 글자 폭이 어색하게
+                      // 벌어지는 문제를 해결한다.
+                      fontFamily:
+                        "'Fira Code', 'JetBrains Mono', 'D2Coding', 'Sarasa Mono K', 'Apple SD Gothic Neo', 'Noto Sans Mono CJK KR', Consolas, monospace",
                     }}
                   >
                     {tokens.map((line, i) => (

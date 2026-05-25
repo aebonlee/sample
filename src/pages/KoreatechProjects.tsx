@@ -61,9 +61,12 @@ const CodeBlock = ({ code }: { code: string }) => {
               borderRadius: 10,
               fontSize: '0.82rem',
               lineHeight: 1.7,
+              letterSpacing: 0,
+              tabSize: 2,
               overflowX: 'auto',
               margin: 0,
-              fontFamily: "'Fira Code', 'Consolas', monospace",
+              fontFamily:
+                "'Fira Code', 'JetBrains Mono', 'D2Coding', 'Sarasa Mono K', 'Apple SD Gothic Neo', 'Noto Sans Mono CJK KR', Consolas, monospace",
             }}
           >
             {tokens.map((line, i) => (

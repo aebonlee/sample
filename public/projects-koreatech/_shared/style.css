@@ -106,7 +106,7 @@ input:focus, select:focus, textarea:focus {
   border-color: var(--accent-2);
   box-shadow: 0 0 0 3px rgba(37,99,235,0.2);
 }
-textarea { min-height: 80px; resize: vertical; font-family: "Fira Code", Consolas, monospace; }
+textarea { min-height: 80px; resize: vertical; font-family: "Fira Code", "JetBrains Mono", "D2Coding", "Sarasa Mono K", "Apple SD Gothic Neo", "Noto Sans Mono CJK KR", Consolas, monospace; letter-spacing: 0; }
 
 .btn {
   display: inline-flex;
@@ -137,7 +137,7 @@ textarea { min-height: 80px; resize: vertical; font-family: "Fira Code", Consola
   border: 1px solid var(--border);
   border-radius: 8px;
   padding: 14px 16px;
-  font-family: "Fira Code", Consolas, monospace;
+  font-family: "Fira Code", "JetBrains Mono", "D2Coding", "Sarasa Mono K", "Apple SD Gothic Neo", "Noto Sans Mono CJK KR", Consolas, monospace; letter-spacing: 0;
   font-size: 0.82rem;
   color: #e2e8f0;
   white-space: pre-wrap;
