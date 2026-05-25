@@ -26,7 +26,7 @@ export const platformDescriptions: Record<Platform, string> = {
   app: '모바일 앱(React Native, Flutter, 네이티브) UI/구조 샘플들입니다. 곧 추가될 예정입니다.',
   ai: 'LLM 기반 챗봇, 이미지 생성, 음성 인식 등 AI 기능이 포함된 샘플들입니다. 곧 추가될 예정입니다.',
   data: '대시보드, 차트, 데이터 시각화 중심 샘플들입니다. 곧 추가될 예정입니다.',
-  game: '브라우저 게임, 인터랙티브 비주얼 샘플들입니다. 곧 추가될 예정입니다.',
+  game: '브라우저 게임, 인터렉티브 비주얼 샘플들입니다. 곧 추가될 예정입니다.',
 };
 
 export const categoryLabels: Record<SampleCategory, string> = {
@@ -111,13 +111,13 @@ export const samples: Sample[] = [
     difficulty: 'beginner',
     files: ['index.html', 'style.css', 'script.js'],
     guide:
-      '편집형 블로그를 위한 템플릿입니다. 본문은 산세리프, 제목은 세리프(Playfair Display + Noto Serif KR)로 대비를 줬습니다. JS에서 검색, 좋아요(localStorage), 스크롤 리빌 애니메이션을 처리합니다.',
+      '편집형 블로그를 위한 템플릿입니다. 본문은 산세리프, 제목은 세리프(Playfair Display + Noto Serif KR)로 대비를 줬습니다. JS에서 검색, 좋아요(localStorage), 스크롤 리블 애니메이션을 처리합니다.',
   },
   {
     id: 'landing-01',
     title: 'SaaS 마케팅 랜딩',
     description:
-      'Hero → 기능 → 가격(월/연 토글) → FAQ → CTA. 부드러운 스크롤, 리빌 애니메이션 포함.',
+      'Hero → 기능 → 가격(월/연 토글) → FAQ → CTA. 부드러운 스크롤, 리블 애니메이션 포함.',
     platform: 'web',
     category: 'landing',
     tags: ['마케팅', '가격표', '가격토글', 'FAQ'],
@@ -125,7 +125,7 @@ export const samples: Sample[] = [
     difficulty: 'intermediate',
     files: ['index.html', 'style.css', 'script.js'],
     guide:
-      'SaaS 제품 랜딩의 표준 흐름(Hero → Social Proof → Features → Pricing → FAQ → CTA → Footer)을 그대로 따릅니다. JS에서 부드러운 앵커 스크롤, 가격 월/연 토글(20% 할인 시뮬레이션), FAQ 아코디언(동적 추가), 스크롤 리빌을 처리합니다.',
+      'SaaS 제품 랜딩의 표준 흐름(Hero → Social Proof → Features → Pricing → FAQ → CTA → Footer)을 그대로 따릅니다. JS에서 부드러운 앵컬 스크롤, 가격 월/연 토글(20% 할인 시뮬레이션), FAQ 아코디언(동적 추가), 스크롤 리블을 처리합니다.',
   },
   {
     id: 'app-01',
@@ -139,7 +139,7 @@ export const samples: Sample[] = [
     difficulty: 'intermediate',
     files: ['index.html', 'style.css', 'script.js'],
     guide:
-      '모바일 앱의 핵심 UI 패턴(상단바, FAB, 바텀 탭, 모달, 진행률)을 모두 담은 샘플입니다. 폰 프레임은 CSS box-shadow 두 줄로 표현했습니다. 데이터는 localStorage에 저장되어 새로고침에도 유지됩니다.',
+      '모바일 앱의 핵심 UI 패턴(상단바, FAB, 바툅 탭, 모달, 진행률)을 모두 담은 샘플입니다. 폰 프레임은 CSS box-shadow 두 줄로 표현했습니다. 데이터는 localStorage에 저장되어 새로고침에도 유지됩니다.',
   },
   {
     id: 'ai-01',
@@ -299,7 +299,7 @@ export const samples: Sample[] = [
     id: 'learning-02',
     title: '비디오 강의 플레이어',
     description:
-      '온라인 강의 사이트의 강의 페이지. 가짜 비디오 플레이어 + 커리큘럼 사이드바 + 학습 노트 + Q&A 탭.',
+      '온라인 강의 사이트의 강의 페이지. 가짜 비디오 플레이어 + 커리큐럼 사이드바 + 학습 노트 + Q&A 탭.',
     platform: 'web',
     category: 'learning',
     tags: ['LMS', '비디오', '진도', '노트'],
@@ -335,7 +335,7 @@ export const samples: Sample[] = [
     difficulty: 'intermediate',
     files: ['index.html', 'style.css', 'script.js'],
     guide:
-      'iOS/Android 앱 출시용 랜딩 페이지 템플릿입니다. 폰 목업 두 대를 겹쳐 배치해 입체감을 만들고, 그라데이션 텍스트로 핵심 메시지를 강조합니다. 다운로드 버튼은 실제 앱스토어/플레이스토어 URL로 교체하세요. FAQ는 `<details>` 태그라 JS 없이도 동작합니다.',
+      'iOS/Android 앱 출시용 랜딩 페이지 템플릿입니다. 폰 목업 두 대를 겹철 배치해 입체감을 만들고, 그라데이션 텍스트로 핵심 메시지를 강조합니다. 다운로드 버튼은 실제 앱스토어/플레이스토어 URL로 교체하세요. FAQ는 `<details>` 태그라 JS 없이도 동작합니다.',
   },
   {
     id: 'shop-02',
@@ -355,10 +355,10 @@ export const samples: Sample[] = [
     id: 'app-03',
     title: '금융 지갑 앱 (Wallet)',
     description:
-      '폰 프레임 안의 핀테크 앱. 그라데이션 카드 + 빠른 액션 + 지출 분석 바차트 + 거래 내역 + 바텀탭.',
+      '폰 프레임 안의 핀테크 앱. 그라데이션 카드 + 빠른 액션 + 지출 분석 바차트 + 거래 내역 + 바툅탭.',
     platform: 'app',
     category: 'utility',
-    tags: ['핀테크', '폰프레임', '카드', '바텀탭'],
+    tags: ['핀테크', '폰프레임', '카드', '바툅탭'],
     stack: ['HTML', 'CSS', 'JavaScript'],
     difficulty: 'intermediate',
     files: ['index.html', 'style.css', 'script.js'],
@@ -411,7 +411,7 @@ export const samples: Sample[] = [
     id: 'portfolio-02',
     title: '사진작가 포트폴리오',
     description:
-      '큰 그림이 주인공인 사진작가용 포트폴리오. 마사니식 컬럼 갤러리 + 카테고리 필터 + 라이트박스.',
+      '큰 그림이 주인공인 사진작가용 포트폴리오. 마사니식 컴럼 갤러리 + 카테고리 필터 + 라이트박스.',
     platform: 'web',
     category: 'portfolio',
     tags: ['갤러리', '필터', '라이트박스', '사진'],
@@ -517,7 +517,7 @@ export const samples: Sample[] = [
     difficulty: 'intermediate',
     files: ['index.html', 'style.css', 'script.js'],
     guide:
-      '애플 건강/삼성 헬스 류의 종합 건강 대시보드입니다. SVG 원형 진행 링은 stroke-dashoffset으로 애니메이션을 구현했고, 수면 차트는 깊은 수면/얕은 수면을 stacked bar로 표현합니다. 실제로는 Apple HealthKit, Google Fit, 또는 Fitbit/Garmin API에서 데이터를 가져와 표시합니다.',
+      '애플 건강/삼성 헬스 류의 종합 건강 대시보드입니다. SVG 원형 진행 링은 stroke-dashoffset으로 애니메이션을 구현했고, 수면 차트는 깊은 수면/얇은 수면을 stacked bar로 표현합니다. 실제로는 Apple HealthKit, Google Fit, 또는 Fitbit/Garmin API에서 데이터를 가져와 표시합니다.',
   },
   {
     id: 'game-04',
@@ -559,7 +559,21 @@ export const samples: Sample[] = [
     difficulty: 'beginner',
     files: ['index.html', 'style.css', 'script.js'],
     guide:
-      'Linktree/Beacons 류 인플루언서 링크 페이지 템플릿입니다. CSS 그라데이션 배경 + backdrop-filter로 글래스모피즘을 구현했고, 클릭 횟수와 테마 설정은 localStorage에 저장됩니다. 실제로는 각 링크에 실제 URL을 넣고 NEW 뱃지를 동적으로 관리하면 됩니다.',
+      'Linktree/Beacons 류 인플루언서 링크 페이지 템플릿입니다. CSS 그라데이션 배경 + backdrop-filter로 글래스모피즘을 구현했고, 클릭 횟수와 테마 설정은 localStorage에 저장됩니다. 실제로는 각 링크에 실제 URL을 넣고 NEW 배지를 동적으로 관리하면 됩니다.',
+  },
+  {
+    id: 'personal-04',
+    title: '취업 준비 이력 포트폴리오',
+    description:
+      '자기소개·경력·핵심강점·스킬·활동·연락처를 담은 한 페이지 자기홍보·취업 준비 사이트. 그라데이션 히어로, 통계 카운트업, 다크 모드, 스크롤 리블 포함.',
+    platform: 'web',
+    category: 'personal',
+    tags: ['취준', '이력서', '경력', '다크모드', '카운트업'],
+    stack: ['HTML', 'CSS', 'JavaScript'],
+    difficulty: 'intermediate',
+    files: ['index.html', 'style.css', 'script.js'],
+    guide:
+      '공공기관·일반 기업 지원을 준비하는 대학생 · 신입 지원자를 위한 종합 자기홍보 사이트 템플릿입니다. wonjunjang.dreamitbiz.com의 구조를 참고해 히어·자기소개(통계 카운트업)·경력 타임라인·6개 핵심강점 그리드·스킬/자격 4칸·수상·인턴·대외활동 배지 목록·프로필·회사 관점 포함. 자기 콘텐츠로 교체하려면 `index.html`의 텍스트 부분을 수정하고, 프로필 이니셜 · 자소개 인용문 · 고우메텍 쪽의 이메일/전화만 바꾸면 바로 쓸 수 있게 되어 있습니다. 한국어 폰트는 시스템 기본을 사용해 외부 자원 의존이 없습니다.',
   },
   {
     id: 'landing-03',
@@ -573,7 +587,7 @@ export const samples: Sample[] = [
     difficulty: 'intermediate',
     files: ['index.html', 'style.css', 'script.js'],
     guide:
-      '음악 페스티벌/콘서트/이벤트용 랜딩 페이지입니다. 네온 컬러와 큰 타이포로 페스티벌 분위기를 극대화했습니다. 카운트다운은 `setInterval`로 1초마다 갱신되고, target 날짜만 바꾸면 다른 이벤트에 재사용 가능합니다. 라인업은 폰트 사이즈에 따라 헤드라이너→서브로 위계를 만듭니다.',
+      '음악 페스티벌/콘서트/이벤트용 랜딩 페이지입니다. 네온 컴러와 큰 타이포로 페스티벌 분위기를 극대화했습니다. 카운트다운은 `setInterval`로 1초마다 갱신되고, target 날짜만 바꾸면 다른 이벤트에 재사용 가능합니다. 라인업은 폰트 사이즈에 따라 헤드라이너→서브로 위계를 만듭니다.',
   },
   {
     id: 'app-06',
@@ -643,7 +657,7 @@ export const samples: Sample[] = [
     difficulty: 'intermediate',
     files: ['index.html', 'style.css', 'script.js'],
     guide:
-      '업비트/빗썸 류 암호화폐 거래소의 대시보드 페이지입니다. 6개 가짜 코인 데이터를 사용하며, 3초마다 ±0.3% 가격 흔들기로 실시간 시세 변화를 시뮬레이션합니다. 코인 선택 시 가격 차트가 동적으로 갱신됩니다. 실제 데이터는 Upbit Open API, CoinGecko API, Binance WebSocket으로 연결합니다.',
+      '업비트/빗썰 류 암호화폐 거래소의 대시보드 페이지입니다. 6개 가짜 코인 데이터를 사용하며, 3초마다 ±0.3% 가격 흔들기로 실시간 시세 변화를 시뮬레이션합니다. 코인 선택 시 가격 차트가 동적으로 갱신됩니다. 실제 데이터는 Upbit Open API, CoinGecko API, Binance WebSocket으로 연결합니다.',
   },
   {
     id: 'data-07',
@@ -661,7 +675,7 @@ export const samples: Sample[] = [
   },
   {
     id: 'game-06',
-    title: 'PONG — 클래식 핑퐁',
+    title: 'PONG — 클래식 핑폵',
     description:
       '1972년 아타리 PONG의 충실한 클론. 마우스/터치/키보드 조작 + 3단계 AI + 5점 선득점 + 레트로 룩.',
     platform: 'game',
