@@ -1,12 +1,15 @@
 /**
  * 한기대 프로젝트 구현 페이지(mockup)용 메타데이터.
  * - 각 프로젝트는 public/projects-koreatech/<id>/ 에
- *   index.html (인터랙티브 데모) + main.py (파이썬 소스) 를 가진다.
+ *   index.html (인터랙티브 데모) + style.css + script.js +
+ *   main.py (파이썬 소스) 를 갖는다 (자기 완결 구조).
  */
 export interface KTMockup {
   projectId: string;       // KOREATECH_PROJECTS 의 id
   baseDir: string;         // /projects-koreatech/<id>
   demoFile: string;        // index.html
+  cssFile: string;         // style.css
+  jsFile: string;          // script.js
   pyFile: string;          // main.py
   demoTitle: string;
   expectedOutput: string;  // 파이썬 실행 시 예상 콘솔 출력
@@ -17,6 +20,8 @@ export const KOREATECH_MOCKUPS: KTMockup[] = [
     projectId: 'capstone-match',
     baseDir: '/projects-koreatech/capstone-match',
     demoFile: 'index.html',
+    cssFile: 'style.css',
+    jsFile: 'script.js',
     pyFile: 'main.py',
     demoTitle: '팀 매칭 인터랙티브',
     expectedOutput:
@@ -34,6 +39,8 @@ Team 3: GPA평균 3.90 | 기술수 4
     projectId: '3d-printer-queue',
     baseDir: '/projects-koreatech/3d-printer-queue',
     demoFile: 'index.html',
+    cssFile: 'style.css',
+    jsFile: 'script.js',
     pyFile: 'main.py',
     demoTitle: '출력 큐 디스패치',
     expectedOutput:
@@ -48,6 +55,8 @@ Team 3: GPA평균 3.90 | 기술수 4
     projectId: 'lab-safety',
     baseDir: '/projects-koreatech/lab-safety',
     demoFile: 'index.html',
+    cssFile: 'style.css',
+    jsFile: 'script.js',
     pyFile: 'main.py',
     demoTitle: '실험실 점검 자동화',
     expectedOutput:
@@ -66,6 +75,8 @@ Team 3: GPA평균 3.90 | 기술수 4
     projectId: 'classroom-util',
     baseDir: '/projects-koreatech/classroom-util',
     demoFile: 'index.html',
+    cssFile: 'style.css',
+    jsFile: 'script.js',
     pyFile: 'main.py',
     demoTitle: '강의실 활용도 분석',
     expectedOutput:
@@ -78,6 +89,8 @@ Team 3: GPA평균 3.90 | 기술수 4
     projectId: 'iot-energy',
     baseDir: '/projects-koreatech/iot-energy',
     demoFile: 'index.html',
+    cssFile: 'style.css',
+    jsFile: 'script.js',
     pyFile: 'main.py',
     demoTitle: 'IoT 에너지 실시간 모니터',
     expectedOutput:
@@ -91,6 +104,8 @@ o [기숙사] 9시: 85kW (베이스 80kW, +6%) 정상`,
     projectId: 'auto-grader',
     baseDir: '/projects-koreatech/auto-grader',
     demoFile: 'index.html',
+    cssFile: 'style.css',
+    jsFile: 'script.js',
     pyFile: 'main.py',
     demoTitle: '코딩 과제 자동 채점',
     expectedOutput:
@@ -104,6 +119,8 @@ o [기숙사] 9시: 85kW (베이스 80kW, +6%) 정상`,
     projectId: 'gpa-sim',
     baseDir: '/projects-koreatech/gpa-sim',
     demoFile: 'index.html',
+    cssFile: 'style.css',
+    jsFile: 'script.js',
     pyFile: 'main.py',
     demoTitle: 'GPA 시뮬레이션',
     expectedOutput:
@@ -115,6 +132,8 @@ o [기숙사] 9시: 85kW (베이스 80kW, +6%) 정상`,
     projectId: 'internship-match',
     baseDir: '/projects-koreatech/internship-match',
     demoFile: 'index.html',
+    cssFile: 'style.css',
+    jsFile: 'script.js',
     pyFile: 'main.py',
     demoTitle: '산학협력 매칭',
     expectedOutput:
@@ -133,6 +152,8 @@ o [기숙사] 9시: 85kW (베이스 80kW, +6%) 정상`,
     projectId: 'factory-sensor',
     baseDir: '/projects-koreatech/factory-sensor',
     demoFile: 'index.html',
+    cssFile: 'style.css',
+    jsFile: 'script.js',
     pyFile: 'main.py',
     demoTitle: '스마트팩토리 센서 분석',
     expectedOutput:

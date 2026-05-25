@@ -62,11 +62,14 @@ const CodeBlock = ({ code }: { code: string }) => {
               fontSize: '0.82rem',
               lineHeight: 1.7,
               letterSpacing: 0,
+              wordSpacing: 0,
               tabSize: 2,
+              fontVariantLigatures: 'none',
+              fontFeatureSettings: '"liga" 0, "calt" 0, "dlig" 0',
               overflowX: 'auto',
               margin: 0,
               fontFamily:
-                "'Fira Code', 'JetBrains Mono', 'D2Coding', 'Sarasa Mono K', 'Apple SD Gothic Neo', 'Noto Sans Mono CJK KR', Consolas, monospace",
+                "'D2Coding', 'Sarasa Mono K', 'Apple SD Gothic Neo', 'Noto Sans Mono CJK KR', 'JetBrains Mono', Consolas, 'Courier New', monospace",
             }}
           >
             {tokens.map((line, i) => (

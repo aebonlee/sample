@@ -198,3 +198,8 @@ table.t tbody tr:hover { background: rgba(37,99,235,0.06); }
   .grid-2, .grid-3 { grid-template-columns: 1fr; }
   .demo-hero h1 { font-size: 1.4rem; }
 }
+
+/* ── classroom-util 데모 전용 추가 스타일 ── */
+.heatmap { display: grid; grid-template-columns: 60px repeat(10, 1fr); gap: 3px; font-size:.72rem; }
+.heatmap .cell { height: 28px; border-radius: 3px; display:flex; align-items:center; justify-content:center; color:#fff; }
+.heatmap .hd { color: var(--text-dim); font-weight:700; }
